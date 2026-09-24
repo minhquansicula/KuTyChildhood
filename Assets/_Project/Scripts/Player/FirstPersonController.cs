@@ -46,6 +46,22 @@ public class FirstPersonController : MonoBehaviour
     /// </summary>
     public bool IsMovementLocked { get; set; } = false;
 
+    /// <summary>
+    /// Khi true, chỉ khóa di chuyển WASD và trọng lực, vẫn cho phép xoay camera nhìn quanh (khi ngồi ghế).
+    /// </summary>
+    public bool LockWalkingOnly { get; set; } = false;
+
+    public Transform PlayerCamera => playerCamera;
+
+    public void ResetCameraVerticalRotation(float angle = 0f)
+    {
+        xRotation = angle;
+        if (playerCamera != null)
+        {
+            playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        }
+    }
+
     // ========== LIFECYCLE ==========
     private void Awake()
     {
@@ -68,9 +84,12 @@ public class FirstPersonController : MonoBehaviour
         if (IsMovementLocked || (GameManager.Instance != null && GameManager.Instance.InputBlocked)) return;
 
         HandleGroundCheck();
-        HandleMovement();
+        if (!LockWalkingOnly)
+        {
+            HandleMovement();
+            HandleGravity();
+        }
         HandleMouseLook();
-        HandleGravity();
     }
 
     // ========== MOVEMENT ==========

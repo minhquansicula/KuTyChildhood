@@ -26,6 +26,7 @@ public class PlayerInteraction : MonoBehaviour
 
     // ========== STATE ==========
     private IInteractable currentTarget = null;
+    private string currentPromptText = "";
     private Camera mainCamera;
 
     /// <summary>
@@ -54,6 +55,7 @@ public class PlayerInteraction : MonoBehaviour
             if (currentTarget != null)
             {
                 currentTarget = null;
+                currentPromptText = "";
                 HUDController.Instance?.HideInteractPrompt();
                 HUDController.Instance?.SetCrosshairHighlight(false);
             }
@@ -84,13 +86,12 @@ public class PlayerInteraction : MonoBehaviour
 
             if (interactable != null && !string.IsNullOrEmpty(interactable.GetPromptText()))
             {
-                // Có target mới
-                if (currentTarget != interactable)
+                string promptText = interactable.GetPromptText();
+                if (currentTarget != interactable || currentPromptText != promptText)
                 {
                     currentTarget = interactable;
+                    currentPromptText = promptText;
 
-                    // Hiện prompt trên HUD
-                    string promptText = interactable.GetPromptText();
                     HUDController.Instance?.ShowInteractPrompt(promptText);
                     HUDController.Instance?.SetCrosshairHighlight(true);
                 }
@@ -102,6 +103,7 @@ public class PlayerInteraction : MonoBehaviour
         if (currentTarget != null)
         {
             currentTarget = null;
+            currentPromptText = "";
             HUDController.Instance?.HideInteractPrompt();
             HUDController.Instance?.SetCrosshairHighlight(false);
         }
@@ -115,6 +117,7 @@ public class PlayerInteraction : MonoBehaviour
             Debug.Log($"[PlayerInteraction] Interacting with: {currentTarget.GetPromptText()}");
             currentTarget.Interact();
             currentTarget = null;
+            currentPromptText = "";
             HUDController.Instance?.HideInteractPrompt();
             HUDController.Instance?.SetCrosshairHighlight(false);
         }
