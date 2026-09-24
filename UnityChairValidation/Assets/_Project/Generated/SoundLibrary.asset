@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa79351613ae9f948884b2d7a451a02d, type: 3}
+  m_Name: SoundLibrary
+  m_EditorClassIdentifier: 
+  bgmMainMenu: {fileID: 0}
+  bgmAct1: {fileID: 0}
+  bgmAct2: {fileID: 0}
+  bgmAct3: {fileID: 0}
+  sfxWaterSplash: {fileID: 0}
+  sfxDishClean: {fileID: 8300000, guid: 0ac9348509c312242ba2b85c6032944b, type: 3}
+  sfxMarbleShoot: {fileID: 8300000, guid: ba2d63395deaff8429e65ebbcf701146, type: 3}
+  sfxMarbleHit: {fileID: 0}
+  sfxMarbleRoll: {fileID: 0}
+  sfxPurchase: {fileID: 8300000, guid: 100e8218658ef9e419a91fceda2d31c0, type: 3}
+  sfxPurchaseFail: {fileID: 8300000, guid: abcfd5f47c3f08f47ad5f12b4911afad, type: 3}
+  sfxMemoryCollected: {fileID: 8300000, guid: c2995b821dde011479c26f5ef3060bbe, type: 3}
+  sfxAllMemoriesComplete: {fileID: 8300000, guid: a918281e6d7ed424ba7ac18b56a6b4fa, type: 3}
+  sfxButtonClick: {fileID: 0}
+  sfxButtonHover: {fileID: 0}
+  ambBirds: {fileID: 0}
+  ambWindChime: {fileID: 0}
+  ambKitchen: {fileID: 0}
