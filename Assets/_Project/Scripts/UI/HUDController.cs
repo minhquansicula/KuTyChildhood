@@ -38,7 +38,8 @@ public class HUDController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI moneyText;
 
     [Header("Memory Pieces")]
-    [SerializeField] private Image[] memoryIcons;   // 3 icons, thứ tự: Mother, Friends, SimpleJoy
+    [SerializeField] private Image[] memoryIcons;   // Hiếu thảo, niềm vui, tự do
+    [SerializeField] private TextMeshProUGUI objectiveText;
     [SerializeField] private Color memoryCollectedColor = new Color(1f, 0.9f, 0.3f);  // Vàng sáng
     [SerializeField] private Color memoryUncollectedColor = new Color(0.3f, 0.3f, 0.3f, 0.5f); // Xám mờ
 
@@ -63,11 +64,16 @@ public class HUDController : MonoBehaviour
             CurrencyManager.Instance.OnMoneyChanged += UpdateMoneyDisplay;
 
         if (MemoryCollectionManager.Instance != null)
+        {
             MemoryCollectionManager.Instance.OnMemoryCollected += OnMemoryCollected;
+            MemoryCollectionManager.Instance.OnMemoriesReset += ResetMemoryIcons;
+        }
+        if (QuestManager.Instance != null) QuestManager.Instance.OnQuestChanged += QuestChanged;
 
         // Khởi tạo hiển thị
         UpdateMoneyDisplay(CurrencyManager.Instance?.CurrentMoney ?? 0);
         ResetMemoryIcons();
+        QuestChanged(QuestManager.Instance != null ? QuestManager.Instance.CurrentStep : QuestStep.Ending);
     }
 
     private void OnDestroy()
@@ -77,7 +83,12 @@ public class HUDController : MonoBehaviour
             CurrencyManager.Instance.OnMoneyChanged -= UpdateMoneyDisplay;
 
         if (MemoryCollectionManager.Instance != null)
+        {
             MemoryCollectionManager.Instance.OnMemoryCollected -= OnMemoryCollected;
+            MemoryCollectionManager.Instance.OnMemoriesReset -= ResetMemoryIcons;
+        }
+        if (QuestManager.Instance != null) QuestManager.Instance.OnQuestChanged -= QuestChanged;
+        if (Instance == this) Instance = null;
     }
 
     // ========== CROSSHAIR ==========
@@ -130,6 +141,11 @@ public class HUDController : MonoBehaviour
             moneyText.text = $"{amount} đồng";
         }
     }
+    private void QuestChanged(QuestStep step)
+    {
+        if (objectiveText != null) objectiveText.text = QuestManager.Instance != null
+            ? "Nhiệm vụ: " + QuestManager.Instance.ObjectiveText : "";
+    }
 
     // ========== MEMORY PIECES ==========
 
@@ -141,14 +157,16 @@ public class HUDController : MonoBehaviour
         {
             if (memoryIcons[i] != null)
             {
-                memoryIcons[i].color = memoryUncollectedColor;
+                memoryIcons[i].color = MemoryCollectionManager.Instance != null &&
+                    MemoryCollectionManager.Instance.HasCollected((MemoryType)i)
+                    ? memoryCollectedColor : memoryUncollectedColor;
             }
         }
     }
 
     private void OnMemoryCollected(MemoryType type, int totalCollected)
     {
-        int index = (int)type; // Mother=0, Friends=1, SimpleJoy=2
+        int index = (int)type;
 
         if (memoryIcons != null && index < memoryIcons.Length && memoryIcons[index] != null)
         {

@@ -95,4 +95,5 @@ public class CurrencyManager : MonoBehaviour
         OnMoneyChanged?.Invoke(currentMoney);
         Debug.Log("[CurrencyManager] Reset currency.");
     }
+    private void OnDestroy() { if (Instance == this) Instance = null; }
 }

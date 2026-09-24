@@ -1,4 +1,5 @@
 # 📖 GAME DESIGN DOCUMENT
+> Tài liệu ý tưởng cũ, chưa phản ánh cốt truyện ba hồi mới. Xem [hướng dẫn triển khai hiện tại](implementation-guide.md) để gắn asset và xem luồng code đang chạy.
 ## "CHÌA KHÓA KÝ ỨC" (tên tạm)
 
 ---

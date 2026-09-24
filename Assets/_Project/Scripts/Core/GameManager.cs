@@ -1,150 +1,86 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// GameManager — Singleton quản lý trạng thái game xuyên suốt.
-/// Tồn tại qua các scene nhờ DontDestroyOnLoad.
-/// 
-/// Chức năng:
-/// - Theo dõi GameState hiện tại (MainMenu, Act1, Act2, Act3)
-/// - Quản lý tiền (currency) thông qua CurrencyManager
-/// - Điều phối chuyển scene
-/// - Cung cấp truy cập global qua Instance
-/// </summary>
 public class GameManager : MonoBehaviour
 {
-    // ========== SINGLETON ==========
     public static GameManager Instance { get; private set; }
-
-    // ========== STATE ==========
-    [Header("Game State")]
     [SerializeField] private GameState currentState = GameState.MainMenu;
     public GameState CurrentState => currentState;
-
-    // ========== EVENTS ==========
-    /// <summary>Gọi khi GameState thay đổi. Param: newState</summary>
-    public System.Action<GameState> OnGameStateChanged;
-
-    // ========== LIFECYCLE ==========
+    public event System.Action<GameState> OnGameStateChanged;
+    private readonly HashSet<Object> inputOwners = new HashSet<Object>();
+    public bool IsPaused { get; private set; }
+    public bool InputBlocked => IsPaused || inputOwners.Count > 0 ||
+        (SceneLoader.Instance != null && SceneLoader.Instance.IsLoading);
     private void Awake()
     {
-        // Singleton pattern: chỉ giữ 1 instance duy nhất
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        // Khởi tạo cursor cho menu
-        SetCursorState(true);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
-
-    // ========== PUBLIC METHODS ==========
-
-    /// <summary>
-    /// Thay đổi trạng thái game và thông báo cho tất cả listeners.
-    /// </summary>
-    public void SetGameState(GameState newState)
+    private void OnDestroy()
     {
-        if (currentState == newState) return;
-
-        currentState = newState;
-        Debug.Log($"[GameManager] State changed to: {newState}");
-
-        // Cấu hình cursor theo state
-        switch (newState)
-        {
-            case GameState.MainMenu:
-                SetCursorState(true); // Hiện cursor ở menu
-                break;
-            case GameState.Act1_RealWorld:
-            case GameState.Act2_MemoryWorld:
-                SetCursorState(false); // Ẩn cursor khi chơi (FPS)
-                break;
-            case GameState.Act3_Ending:
-                SetCursorState(true); // Hiện cursor ở ending
-                break;
-        }
-
-        OnGameStateChanged?.Invoke(newState);
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        if (Instance == this) Instance = null;
     }
-
-    /// <summary>
-    /// Bắt đầu game mới — reset dữ liệu và load Act1.
-    /// </summary>
-    public void StartNewGame()
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Reset tất cả hệ thống
-        if (CurrencyManager.Instance != null)
-            CurrencyManager.Instance.ResetCurrency();
-
-        if (MemoryCollectionManager.Instance != null)
-            MemoryCollectionManager.Instance.ResetMemories();
-
-        SetGameState(GameState.Act1_RealWorld);
-        SceneLoader.Instance?.LoadScene("Act1_RealWorld");
+        inputOwners.Clear();
+        IsPaused = false;
+        Time.timeScale = 1f;
+        SetGameState(scene.name == SceneNames.Act1 ? GameState.Act1_RealWorld :
+            scene.name == SceneNames.Act2 ? GameState.Act2_MemoryWorld :
+            scene.name == SceneNames.Act3 ? GameState.Act3_Ending : GameState.MainMenu);
+        RefreshCursor();
     }
-
-    /// <summary>
-    /// Chuyển sang Act2 (thế giới ký ức) — gọi khi chạm vật kỷ niệm ở Act1.
-    /// </summary>
-    public void EnterMemoryWorld()
+    public void SetGameState(GameState state)
     {
-        SetGameState(GameState.Act2_MemoryWorld);
-        SceneLoader.Instance?.LoadScene("Act2_MemoryWorld");
+        bool changed = currentState != state;
+        currentState = state;
+        RefreshCursor();
+        if (changed) OnGameStateChanged?.Invoke(state);
     }
-
-    /// <summary>
-    /// Chuyển sang Act3 (kết thúc) — gọi khi thu thập đủ 3/3 mảnh ký ức.
-    /// </summary>
-    public void EnterEnding()
+    // Closing one modal cannot unlock another modal.
+    public void AcquireInput(Object owner)
     {
-        SetGameState(GameState.Act3_Ending);
-        SceneLoader.Instance?.LoadScene("Act3_Ending");
+        if (owner != null) inputOwners.Add(owner);
+        RefreshCursor();
     }
-
-    /// <summary>
-    /// Quay về Main Menu.
-    /// </summary>
-    public void ReturnToMainMenu()
+    public void ReleaseInput(Object owner) { inputOwners.Remove(owner); RefreshCursor(); }
+    public void RefreshCursor()
     {
-        SetGameState(GameState.MainMenu);
-        SceneLoader.Instance?.LoadScene("MainMenu");
+        inputOwners.RemoveWhere(owner => owner == null);
+        SetCursorState(InputBlocked || currentState == GameState.MainMenu || currentState == GameState.Act3_Ending);
     }
-
-    /// <summary>
-    /// Thoát game.
-    /// </summary>
-    public void QuitGame()
-    {
-        Debug.Log("[GameManager] Quitting game...");
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
-
-    // ========== HELPER METHODS ==========
-
-    /// <summary>
-    /// Bật/tắt cursor (ẩn + khóa khi chơi FPS, hiện khi ở menu/UI).
-    /// </summary>
     public void SetCursorState(bool visible)
     {
         Cursor.visible = visible;
         Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
     }
-
-    /// <summary>
-    /// Tạm dừng/tiếp tục game (dùng cho pause menu nếu có).
-    /// </summary>
+    public void StartNewGame() => Navigate(SceneNames.Act1);
+    public void EnterMemoryWorld() => Navigate(SceneNames.Act2);
+    public void EnterEnding() => Navigate(SceneNames.Act3);
+    public void ReturnToMainMenu() => Navigate(SceneNames.MainMenu);
+    private void Navigate(string scene)
+    {
+        // Act2 owns currency, inventory and memories; loading it creates a fresh session.
+        if (SceneLoader.Instance == null) { Debug.LogError("SceneLoader is missing."); return; }
+        SceneLoader.Instance.LoadScene(scene);
+    }
     public void SetPaused(bool paused)
     {
+        IsPaused = paused;
         Time.timeScale = paused ? 0f : 1f;
-        SetCursorState(paused);
+        RefreshCursor();
+    }
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

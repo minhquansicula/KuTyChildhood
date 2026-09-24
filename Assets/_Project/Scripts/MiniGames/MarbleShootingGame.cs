@@ -1,414 +1,239 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-/// <summary>
-/// MarbleShootingGame — Mini-game bắn bi.
-/// 
-/// Cách chơi:
-/// - Camera chuyển sang góc top-down nhìn xuống sân bi
-/// - Kéo chuột từ bi → hiện hướng + thanh lực
-/// - Thả chuột → bi bay theo vật lý (Rigidbody.AddForce)
-/// - Đẩy bi đối thủ ra ngoài vòng tròn
-/// 
-/// Setup trong Unity:
-/// 1. Tạo sân bi (Plane với Physics Material smooth)
-/// 2. Đặt bi người chơi (Sphere + Rigidbody + MarbleTag)
-/// 3. Đặt 5 bi mục tiêu (Sphere + Rigidbody)
-/// 4. Tạo vòng tròn (Cylinder collider, isTrigger = true)
-/// 5. Gán references
-/// </summary>
 public class MarbleShootingGame : MonoBehaviour
 {
-    // ========== SETTINGS ==========
-    [Header("Game Settings")]
-    [SerializeField] private int targetMarblesToKnock = 3;  // Cần đẩy 3/5 bi ra ngoài
-    [SerializeField] private int maxShots = 5;              // Giới hạn lượt bắn
-    [SerializeField] private float minForce = 3f;
-    [SerializeField] private float maxForce = 15f;
+    public enum PlayState { Inactive, Aiming, Simulating, ShowingResult, Retrying, Completed }
+    public PlayState State { get; private set; }
+    public bool IsCompleted => State == PlayState.Completed;
+    [SerializeField] private int targetMarblesToKnock = 3;
+    [SerializeField] private int maxShots = 5;
+    [SerializeField] private float minForce = 0.5f;
+    [SerializeField] private float maxForce = 3f;
+    [SerializeField] private float minimumDrag = 0.08f;
+    [SerializeField] private float simulationTimeout = 8f;
+    [SerializeField] private Rigidbody playerMarble;
+    [SerializeField] private List<Rigidbody> targetMarbles = new List<Rigidbody>();
+    [SerializeField] private Transform shootPosition;
+    [SerializeField] private Collider ringCollider;
+    [SerializeField] private Transform gameCameraPosition;
+    [SerializeField] private Transform gameCameraLookAt;
+    [SerializeField] private LineRenderer aimLine;
+    private readonly Dictionary<Rigidbody, Pose> originalPoses = new Dictionary<Rigidbody, Pose>();
+    private readonly HashSet<Rigidbody> knocked = new HashSet<Rigidbody>();
+    private Camera gameCamera;
+    private Transform cameraParent;
+    private Vector3 cameraPosition;
+    private Quaternion cameraRotation;
+    private bool cameraSaved;
+    private bool dragging;
+    private Vector3 dragStart;
+    private int shots;
+    private float simulationTime;
+    private float settledTime;
+    public event System.Action<int, int> OnShotFired;
+    public event System.Action<int, int> OnMarbleKnocked;
+    public event System.Action<bool> OnGameEnded;
 
-    [Header("References")]
-    [SerializeField] private Rigidbody playerMarble;        // Bi người chơi
-    [SerializeField] private List<Rigidbody> targetMarbles; // 5 bi mục tiêu
-    [SerializeField] private Transform shootPosition;        // Vị trí đặt bi bắn
-    [SerializeField] private Collider ringCollider;          // Vòng tròn (isTrigger)
-
-    [Header("Camera")]
-    [SerializeField] private Transform gameCameraPosition;   // Vị trí camera top-down
-    [SerializeField] private Transform gameCameraLookAt;     // Điểm camera nhìn vào
-
-    [Header("Aim Visual")]
-    [SerializeField] private LineRenderer aimLine;           // Đường chỉ hướng bắn
-
-    [Header("Player Reference")]
-    [SerializeField] private FirstPersonController playerController;
-    [SerializeField] private PlayerInteraction playerInteraction;
-
-    // ========== STATE ==========
-    private bool isPlaying = false;
-    private bool isAiming = false;
-    private bool waitingForMarblesToStop = false;
-    private int currentShot = 0;
-    private int marblesKnocked = 0;
-    private Vector3 dragStartPos;
-    private Camera mainCamera;
-
-    // Lưu camera transform ban đầu để restore
-    private Vector3 originalCameraPos;
-    private Quaternion originalCameraRot;
-    private Transform originalCameraParent;
-
-    // Track bi nào đã ra ngoài
-    private HashSet<Rigidbody> knockedMarbles = new HashSet<Rigidbody>();
-
-    // ========== EVENTS ==========
-    public System.Action<int, int> OnShotFired;          // currentShot, maxShots
-    public System.Action<int, int> OnMarbleKnocked;      // marblesKnocked, targetNeeded
-    public System.Action<bool> OnGameEnded;              // won?
-
-    // ========== PUBLIC METHODS ==========
-
-    /// <summary>
-    /// Bắt đầu mini-game. Gọi bởi MarbleInteractable.
-    /// </summary>
+    private void Awake()
+    {
+        foreach (var marble in targetMarbles)
+            if (marble != null) originalPoses[marble] = new Pose(marble.position, marble.rotation);
+        if (aimLine != null) { aimLine.positionCount = 2; aimLine.enabled = false; }
+    }
     public void StartGame()
     {
-        if (isPlaying) return;
-
-        isPlaying = true;
-        currentShot = 0;
-        marblesKnocked = 0;
-        knockedMarbles.Clear();
-
-        mainCamera = Camera.main;
-
-        // Lock player
-        if (playerController == null)
-            playerController = FindObjectOfType<FirstPersonController>();
-        if (playerInteraction == null)
-            playerInteraction = FindObjectOfType<PlayerInteraction>();
-
-        if (playerController != null) playerController.LockMovement(true);
-        if (playerInteraction != null) playerInteraction.LockInteraction(true);
-
-        // Chuyển camera sang top-down view
-        SetupGameCamera();
-
-        // Hiện cursor
-        GameManager.Instance?.SetCursorState(true);
-
-        // Reset bi player về vị trí bắn
-        ResetPlayerMarble();
-
-        // Update UI
-        if (MarbleAimUI.Instance != null)
-        {
-            MarbleAimUI.Instance.Show(currentShot, maxShots, marblesKnocked, targetMarblesToKnock);
-        }
-
-        Debug.Log("[MarbleGame] Bắt đầu! Kéo chuột để nhắm, thả để bắn.");
+        if (State != PlayState.Inactive) return;
+        if (QuestManager.Instance != null && !QuestManager.Instance.CanPlayMarbles) return;
+        gameCamera = Camera.main;
+        if (playerMarble == null || shootPosition == null || ringCollider == null ||
+            gameCameraPosition == null || gameCamera == null || originalPoses.Count < targetMarblesToKnock ||
+            targetMarblesToKnock <= 0 || maxShots <= 0 || maxForce <= minForce)
+        { Debug.LogError("Marble game setup is incomplete.", this); return; }
+        GameManager.Instance?.AcquireInput(this);
+        cameraParent = gameCamera.transform.parent;
+        cameraPosition = gameCamera.transform.localPosition;
+        cameraRotation = gameCamera.transform.localRotation;
+        cameraSaved = true;
+        gameCamera.transform.SetParent(null);
+        gameCamera.transform.SetPositionAndRotation(gameCameraPosition.position, gameCameraPosition.rotation);
+        if (gameCameraLookAt != null) gameCamera.transform.LookAt(gameCameraLookAt);
+        ResetAllMarbles();
+        State = PlayState.Aiming;
     }
-
-    // ========== LIFECYCLE ==========
     private void Update()
     {
-        if (!isPlaying) return;
-
-        if (waitingForMarblesToStop)
+        if (State == PlayState.Inactive || State == PlayState.Completed) return;
+        if (GameManager.Instance != null && GameManager.Instance.IsPaused) return;
+        if (Input.GetKeyDown(KeyCode.Escape)) { CancelGame(); return; }
+        if (State == PlayState.Aiming) HandleAiming();
+        else if (State == PlayState.Simulating)
         {
-            // Chờ tất cả bi dừng hẳn
-            if (AllMarblesStopped())
+            simulationTime += Time.deltaTime;
+            settledTime = AllStopped() ? settledTime + Time.deltaTime : 0f;
+            if ((simulationTime > 0.2f && settledTime >= 0.35f) || simulationTime >= simulationTimeout)
             {
-                waitingForMarblesToStop = false;
-                OnAllMarblesStopped();
+                StopBodies();
+                EvaluateShot();
             }
-            return;
-        }
-
-        HandleAiming();
-    }
-
-    // ========== AIMING & SHOOTING ==========
-
-    private void HandleAiming()
-    {
-        // Bắt đầu kéo
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            Plane groundPlane = new Plane(Vector3.up, playerMarble.transform.position);
-
-            if (groundPlane.Raycast(ray, out float distance))
-            {
-                dragStartPos = ray.GetPoint(distance);
-                isAiming = true;
-
-                if (aimLine != null)
-                    aimLine.enabled = true;
-            }
-        }
-
-        // Đang kéo — update aim visual
-        if (isAiming && Input.GetMouseButton(0))
-        {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            Plane groundPlane = new Plane(Vector3.up, playerMarble.transform.position);
-
-            if (groundPlane.Raycast(ray, out float distance))
-            {
-                Vector3 currentDragPos = ray.GetPoint(distance);
-                Vector3 dragVector = dragStartPos - currentDragPos;
-
-                // Hướng bắn = ngược hướng kéo
-                Vector3 shootDirection = dragVector.normalized;
-                float forceMagnitude = Mathf.Clamp(dragVector.magnitude * 3f, minForce, maxForce);
-
-                // Update aim line
-                if (aimLine != null)
-                {
-                    aimLine.SetPosition(0, playerMarble.transform.position);
-                    aimLine.SetPosition(1, playerMarble.transform.position + shootDirection * (forceMagnitude / maxForce) * 2f);
-                }
-
-                // Update UI lực
-                float forcePercent = (forceMagnitude - minForce) / (maxForce - minForce);
-                if (MarbleAimUI.Instance != null)
-                    MarbleAimUI.Instance.UpdateForceIndicator(forcePercent);
-            }
-        }
-
-        // Thả chuột — bắn!
-        if (isAiming && Input.GetMouseButtonUp(0))
-        {
-            isAiming = false;
-
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            Plane groundPlane = new Plane(Vector3.up, playerMarble.transform.position);
-
-            if (groundPlane.Raycast(ray, out float distance))
-            {
-                Vector3 currentDragPos = ray.GetPoint(distance);
-                Vector3 dragVector = dragStartPos - currentDragPos;
-
-                Vector3 shootDirection = new Vector3(dragVector.x, 0f, dragVector.z).normalized;
-                float forceMagnitude = Mathf.Clamp(dragVector.magnitude * 3f, minForce, maxForce);
-
-                // Bắn!
-                Shoot(shootDirection, forceMagnitude);
-            }
-
-            // Ẩn aim line
-            if (aimLine != null)
-                aimLine.enabled = false;
         }
     }
-
-    private void Shoot(Vector3 direction, float force)
+    private bool MouseOnPlane(out Vector3 point)
     {
-        currentShot++;
-
-        // Apply force
-        playerMarble.AddForce(direction * force, ForceMode.Impulse);
-
-        // Play SFX
-        // AudioManager.Instance?.PlaySFX("marble_shoot");
-
-        OnShotFired?.Invoke(currentShot, maxShots);
-        Debug.Log($"[MarbleGame] Bắn lượt {currentShot}/{maxShots}, lực: {force:F1}");
-
-        // Chờ bi dừng
-        waitingForMarblesToStop = true;
-
-        // Update UI
-        if (MarbleAimUI.Instance != null)
-            MarbleAimUI.Instance.UpdateShots(currentShot, maxShots);
-    }
-
-    // ========== MARBLE PHYSICS ==========
-
-    private bool AllMarblesStopped()
-    {
-        float threshold = 0.05f;
-
-        if (playerMarble.velocity.magnitude > threshold) return false;
-
-        foreach (var marble in targetMarbles)
-        {
-            if (marble != null && marble.velocity.magnitude > threshold) return false;
-        }
-
+        point = Vector3.zero;
+        if (gameCamera == null || playerMarble == null) return false;
+        Ray ray = gameCamera.ScreenPointToRay(Input.mousePosition);
+        var plane = new Plane(Vector3.up, playerMarble.position);
+        if (!plane.Raycast(ray, out float distance)) return false;
+        point = ray.GetPoint(distance);
         return true;
     }
-
-    private void OnAllMarblesStopped()
+    private void HandleAiming()
     {
-        // Check bi nào đã ra ngoài vòng
-        CheckKnockedMarbles();
-
-        // Update UI
-        if (MarbleAimUI.Instance != null)
-            MarbleAimUI.Instance.UpdateKnocked(marblesKnocked, targetMarblesToKnock);
-
-        // Kiểm tra kết quả
-        if (marblesKnocked >= targetMarblesToKnock)
+        if (Input.GetMouseButtonDown(0) &&
+            (EventSystem.current == null || !EventSystem.current.IsPointerOverGameObject()) &&
+            MouseOnPlane(out Vector3 start) && Vector3.Distance(start, playerMarble.position) < 0.65f)
+        { dragging = true; dragStart = start; }
+        if (!dragging) return;
+        if (Input.GetMouseButton(1)) { ClearAim(); return; }
+        if (!MouseOnPlane(out Vector3 point))
         {
-            // THẮNG!
-            WinGame();
+            if (Input.GetMouseButtonUp(0)) ClearAim();
             return;
         }
-
-        if (currentShot >= maxShots)
+        Vector3 drag = dragStart - point;
+        drag.y = 0;
+        float force = Mathf.Lerp(minForce, maxForce, Mathf.Clamp01(drag.magnitude / 2.5f));
+        if (aimLine != null)
         {
-            // Hết lượt — THUA
-            LoseGame();
-            return;
+            aimLine.enabled = drag.magnitude >= minimumDrag;
+            aimLine.SetPosition(0, playerMarble.position);
+            aimLine.SetPosition(1, playerMarble.position + drag.normalized * force);
         }
-
-        // Còn lượt → reset bi player
-        ResetPlayerMarble();
+        MarbleAimUI.Instance?.UpdateForceIndicator(Mathf.InverseLerp(minForce, maxForce, force));
+        if (!Input.GetMouseButtonUp(0)) return;
+        ClearAim();
+        if (drag.magnitude < minimumDrag) return;
+        Shoot(drag.normalized, force);
     }
-
-    private void CheckKnockedMarbles()
+    private void Shoot(Vector3 direction, float force)
     {
-        foreach (var marble in targetMarbles)
+        if (State != PlayState.Aiming) return;
+        shots++;
+        simulationTime = settledTime = 0;
+        State = PlayState.Simulating;
+        playerMarble.WakeUp();
+        playerMarble.AddForce(direction * force, ForceMode.Impulse);
+        AudioManager.Instance?.PlaySFX("marble_shoot");
+        OnShotFired?.Invoke(shots, maxShots);
+        MarbleAimUI.Instance?.UpdateShots(shots, maxShots);
+    }
+    private bool AllStopped()
+    {
+        if (playerMarble.velocity.sqrMagnitude > 0.0025f) return false;
+        foreach (var body in targetMarbles)
+            if (body != null && body.velocity.sqrMagnitude > 0.0025f) return false;
+        return true;
+    }
+    private void EvaluateShot()
+    {
+        Vector3 center = ringCollider.bounds.center;
+        float radius = Mathf.Min(ringCollider.bounds.extents.x, ringCollider.bounds.extents.z);
+        foreach (var body in targetMarbles)
         {
-            if (marble == null) continue;
-            if (knockedMarbles.Contains(marble)) continue;
-
-            // Check bi có nằm ngoài vòng tròn không
-            // Đơn giản: dùng khoảng cách từ tâm vòng
-            if (ringCollider != null)
+            if (body == null || knocked.Contains(body)) continue;
+            Vector3 offset = body.position - center;
+            bool fellOff = offset.y < -1f;
+            offset.y = 0;
+            if (offset.magnitude > radius || fellOff)
             {
-                Vector3 ringCenter = ringCollider.bounds.center;
-                float ringRadius = ringCollider.bounds.extents.x;
-                float distFromCenter = Vector3.Distance(
-                    new Vector3(marble.transform.position.x, 0, marble.transform.position.z),
-                    new Vector3(ringCenter.x, 0, ringCenter.z)
-                );
-
-                if (distFromCenter > ringRadius)
-                {
-                    knockedMarbles.Add(marble);
-                    marblesKnocked++;
-                    OnMarbleKnocked?.Invoke(marblesKnocked, targetMarblesToKnock);
-                    Debug.Log($"[MarbleGame] 🎯 Bi bị đẩy ra! ({marblesKnocked}/{targetMarblesToKnock})");
-                }
+                knocked.Add(body);
+                OnMarbleKnocked?.Invoke(knocked.Count, targetMarblesToKnock);
             }
         }
-    }
-
-    private void ResetPlayerMarble()
-    {
-        if (playerMarble == null || shootPosition == null) return;
-
-        playerMarble.velocity = Vector3.zero;
-        playerMarble.angularVelocity = Vector3.zero;
-        playerMarble.transform.position = shootPosition.position;
-    }
-
-    // ========== GAME END ==========
-
-    private void WinGame()
-    {
-        Debug.Log("[MarbleGame] 🎉 THẮNG! Nhận mảnh ký ức về Bạn bè!");
-
-        OnGameEnded?.Invoke(true);
-
-        // Thu thập mảnh ký ức
-        if (MemoryCollectionManager.Instance != null)
+        MarbleAimUI.Instance?.UpdateKnocked(knocked.Count, targetMarblesToKnock);
+        if (knocked.Count >= targetMarblesToKnock)
         {
-            MemoryCollectionManager.Instance.CollectMemory(MemoryType.Friends);
+            State = PlayState.ShowingResult;
+            Finish(true);
         }
-
-        // Hiện dialogue
-        if (DialogueUI.Instance != null)
+        else if (shots >= maxShots)
         {
-            DialogueUI.Instance.ShowDialogue(
-                MemoryCollectionManager.GetMemoryName(MemoryType.Friends),
-                MemoryCollectionManager.GetMemoryDescription(MemoryType.Friends),
-                3f
-            );
+            State = PlayState.Retrying;
+            OnGameEnded?.Invoke(false);
+            StartCoroutine(Retry());
         }
-
-        StartCoroutine(EndGameCoroutine());
+        else { ResetPlayer(); State = PlayState.Aiming; }
     }
-
-    private void LoseGame()
+    private IEnumerator Retry()
     {
-        Debug.Log("[MarbleGame] Chưa đủ bi! Chơi lại nhé.");
-
-        OnGameEnded?.Invoke(false);
-
-        // Reset và cho chơi lại (không penalty)
-        StartCoroutine(RetryCoroutine());
+        // State changes before waiting, so extra input cannot spend another shot.
+        yield return new WaitForSeconds(1.2f);
+        ResetAllMarbles();
+        State = PlayState.Aiming;
     }
-
-    private IEnumerator RetryCoroutine()
+    public void ResetAllMarbles()
     {
-        yield return new WaitForSeconds(1.5f);
-
-        // Reset tất cả bi về vị trí ban đầu
-        currentShot = 0;
-        marblesKnocked = 0;
-        knockedMarbles.Clear();
-
-        ResetPlayerMarble();
-        // TODO: Reset target marbles về vị trí ban đầu (cần lưu positions lúc Start)
-
-        if (MarbleAimUI.Instance != null)
-            MarbleAimUI.Instance.Show(currentShot, maxShots, marblesKnocked, targetMarblesToKnock);
-
-        Debug.Log("[MarbleGame] Chơi lại!");
+        ClearAim();
+        shots = 0;
+        knocked.Clear();
+        foreach (var entry in originalPoses)
+        {
+            if (entry.Key == null) continue;
+            StopBody(entry.Key);
+            entry.Key.position = entry.Value.position;
+            entry.Key.rotation = entry.Value.rotation;
+        }
+        ResetPlayer();
+        MarbleAimUI.Instance?.Show(shots, maxShots, 0, targetMarblesToKnock);
     }
-
-    private IEnumerator EndGameCoroutine()
+    private void ResetPlayer()
     {
-        yield return new WaitForSeconds(2f);
-
-        isPlaying = false;
-
-        // Ẩn UI
-        if (MarbleAimUI.Instance != null)
-            MarbleAimUI.Instance.Hide();
-
-        // Restore camera về FPS
+        StopBody(playerMarble);
+        playerMarble.position = shootPosition.position;
+        playerMarble.rotation = shootPosition.rotation;
+    }
+    private static void StopBody(Rigidbody body)
+    {
+        if (body == null) return;
+        body.velocity = body.angularVelocity = Vector3.zero;
+        body.Sleep();
+    }
+    private void StopBodies()
+    {
+        StopBody(playerMarble);
+        foreach (var body in targetMarbles) StopBody(body);
+    }
+    private void ClearAim()
+    {
+        dragging = false;
+        if (aimLine != null) aimLine.enabled = false;
+        MarbleAimUI.Instance?.UpdateForceIndicator(0);
+    }
+    private void Finish(bool won)
+    {
+        StopAllCoroutines();
+        ClearAim();
+        StopBodies();
         RestoreCamera();
-
-        // Unlock player
-        if (playerController != null) playerController.LockMovement(false);
-        if (playerInteraction != null) playerInteraction.LockInteraction(false);
-
-        GameManager.Instance?.SetCursorState(false);
+        MarbleAimUI.Instance?.Hide();
+        State = won ? PlayState.Completed : PlayState.Inactive;
+        GameManager.Instance?.ReleaseInput(this);
+        if (won)
+        {
+            OnGameEnded?.Invoke(true);
+        }
     }
-
-    // ========== CAMERA ==========
-
-    private void SetupGameCamera()
-    {
-        if (mainCamera == null || gameCameraPosition == null) return;
-
-        // Lưu vị trí ban đầu
-        originalCameraParent = mainCamera.transform.parent;
-        originalCameraPos = mainCamera.transform.localPosition;
-        originalCameraRot = mainCamera.transform.localRotation;
-
-        // Detach camera và di chuyển đến vị trí top-down
-        mainCamera.transform.SetParent(null);
-        mainCamera.transform.position = gameCameraPosition.position;
-
-        if (gameCameraLookAt != null)
-            mainCamera.transform.LookAt(gameCameraLookAt);
-        else
-            mainCamera.transform.rotation = gameCameraPosition.rotation;
-    }
-
+    public void CancelGame() { if (State != PlayState.Inactive && State != PlayState.Completed) Finish(false); }
     private void RestoreCamera()
     {
-        if (mainCamera == null) return;
-
-        // Gắn lại camera về player
-        mainCamera.transform.SetParent(originalCameraParent);
-        mainCamera.transform.localPosition = originalCameraPos;
-        mainCamera.transform.localRotation = originalCameraRot;
+        if (!cameraSaved || gameCamera == null) return;
+        gameCamera.transform.SetParent(cameraParent);
+        gameCamera.transform.localPosition = cameraPosition;
+        gameCamera.transform.localRotation = cameraRotation;
+        cameraSaved = false;
     }
+    private void OnDisable() { CancelGame(); }
 }

@@ -19,7 +19,7 @@ public class EndingUI : MonoBehaviour
     [Header("Message")]
     [SerializeField]
     [TextArea(3, 6)]
-    private string endingMessage = "Tuổi thơ giản dị, gia đình, và những ước mơ nhỏ bé\nlà \"chìa khóa\" giúp con người tìm lại chính mình\ngiữa cuộc sống hiện đại đầy áp lực.";
+    private string endingMessage = "Thế giới của người lớn luôn đầy những cơn bão.\nNhưng đứa trẻ bên trong bạn, cùng những ký ức tươi đẹp này,\nsẽ luôn là nơi trú ẩn an toàn nhất.\nNgày mai trời lại sáng.";
 
     // ========== LIFECYCLE ==========
     private void Start()

@@ -43,11 +43,12 @@ public class PlayerInteraction : MonoBehaviour
         {
             raycastOrigin = mainCamera.transform;
         }
+        if (raycastOrigin == null) { Debug.LogError("PlayerInteraction requires a camera.", this); enabled = false; }
     }
 
     private void Update()
     {
-        if (IsInteractionLocked)
+        if (IsInteractionLocked || (GameManager.Instance != null && GameManager.Instance.InputBlocked))
         {
             // Ẩn prompt khi bị lock
             if (currentTarget != null)
@@ -68,7 +69,9 @@ public class PlayerInteraction : MonoBehaviour
     {
         Ray ray = new Ray(raycastOrigin.position, raycastOrigin.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, interactableLayer))
+        // Cast against walls too, so an interactable cannot be used through a wall.
+        if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, ~0, QueryTriggerInteraction.Ignore)
+            && (interactableLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
         {
             // Tìm IInteractable trên vật bị trúng
             IInteractable interactable = hit.collider.GetComponent<IInteractable>();
@@ -79,7 +82,7 @@ public class PlayerInteraction : MonoBehaviour
                 interactable = hit.collider.GetComponentInParent<IInteractable>();
             }
 
-            if (interactable != null)
+            if (interactable != null && !string.IsNullOrEmpty(interactable.GetPromptText()))
             {
                 // Có target mới
                 if (currentTarget != interactable)
@@ -111,6 +114,9 @@ public class PlayerInteraction : MonoBehaviour
         {
             Debug.Log($"[PlayerInteraction] Interacting with: {currentTarget.GetPromptText()}");
             currentTarget.Interact();
+            currentTarget = null;
+            HUDController.Instance?.HideInteractPrompt();
+            HUDController.Instance?.SetCrosshairHighlight(false);
         }
     }
 

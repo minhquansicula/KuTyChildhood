@@ -47,7 +47,7 @@ public class FirstPersonController : MonoBehaviour
     public bool IsMovementLocked { get; set; } = false;
 
     // ========== LIFECYCLE ==========
-    private void Start()
+    private void Awake()
     {
         characterController = GetComponent<CharacterController>();
 
@@ -58,13 +58,14 @@ public class FirstPersonController : MonoBehaviour
             if (playerCamera == null)
             {
                 Debug.LogError("[FirstPersonController] Không tìm thấy Camera! Hãy gán playerCamera.");
+                enabled = false;
             }
         }
     }
 
     private void Update()
     {
-        if (IsMovementLocked) return;
+        if (IsMovementLocked || (GameManager.Instance != null && GameManager.Instance.InputBlocked)) return;
 
         HandleGroundCheck();
         HandleMovement();
@@ -81,6 +82,7 @@ public class FirstPersonController : MonoBehaviour
 
         // Tính hướng di chuyển theo hướng nhìn của player
         Vector3 moveDirection = transform.right * horizontal + transform.forward * vertical;
+        moveDirection = Vector3.ClampMagnitude(moveDirection, 1f);
 
         // Chạy nhanh khi giữ Shift
         float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
@@ -93,8 +95,8 @@ public class FirstPersonController : MonoBehaviour
     private void HandleMouseLook()
     {
         // Lấy input chuột
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * 0.02f;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * 0.02f;
 
         // Xoay dọc (nhìn lên/xuống) — xoay camera, KHÔNG xoay body
         xRotation -= mouseY;
@@ -120,10 +122,11 @@ public class FirstPersonController : MonoBehaviour
     // ========== GROUND CHECK ==========
     private void HandleGroundCheck()
     {
+        if (characterController.isGrounded) { isGrounded = true; return; }
         // SphereCast xuống để check mặt đất
         isGrounded = Physics.SphereCast(
-            transform.position,
-            characterController.radius,
+            transform.position + Vector3.up * (characterController.radius + 0.05f),
+            characterController.radius * 0.9f,
             Vector3.down,
             out _,
             groundCheckDistance + characterController.skinWidth,
@@ -140,6 +143,7 @@ public class FirstPersonController : MonoBehaviour
     public void LockMovement(bool locked)
     {
         IsMovementLocked = locked;
+        if (locked) velocity = Vector3.zero;
     }
 
     /// <summary>
@@ -147,6 +151,9 @@ public class FirstPersonController : MonoBehaviour
     /// </summary>
     public void TeleportTo(Vector3 position, Quaternion rotation)
     {
+        if (characterController == null) characterController = GetComponent<CharacterController>();
+        velocity = Vector3.zero;
+        xRotation = 0f;
         characterController.enabled = false;
         transform.position = position;
         transform.rotation = rotation;

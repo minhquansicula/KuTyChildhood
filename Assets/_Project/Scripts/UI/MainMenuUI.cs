@@ -25,7 +25,7 @@ public class MainMenuUI : MonoBehaviour
         else
         {
             // Fallback nếu chưa có GameManager
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Act1_RealWorld");
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneNames.Act1);
         }
     }
 

@@ -15,6 +15,7 @@ public class ProgressBarUI : MonoBehaviour
 {
     // ========== SINGLETON ==========
     public static ProgressBarUI Instance { get; private set; }
+    private void OnDestroy() { if (Instance == this) Instance = null; }
 
     // ========== UI REFERENCES ==========
     [Header("References")]

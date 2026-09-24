@@ -60,9 +60,7 @@ crashlytics-build.properties
 # Packed Addressables
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
-# TextMeshPro generated files
-[Aa]ssets/[Tt]ext[Mm]esh[Pp]ro/[Rr]esources/[Ff]onts & [Mm]aterials/*.[Aa]sset
-[Aa]ssets/[Tt]ext[Mm]esh[Pp]ro/[Rr]esources/[Ss]prite [Aa]ssets/[Dd]efault*.[Aa]sset
+# Keep TMP Essential Resources and their .meta files for reproducible clones.
 
 # OS generated
 .DS_Store
@@ -76,3 +74,14 @@ Thumbs.db
 # IDE
 .idea/
 .vscode/
+
+# Isolated Unity compile/build checks
+/.unity-validation/
+
+# Test output & root screenshots
+smoke-results.txt
+office-view.png
+
+# Raw downloads/drafts & Agent workspace tools
+dumb/
+.agents/

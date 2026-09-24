@@ -14,6 +14,7 @@ public class MarbleAimUI : MonoBehaviour
 {
     // ========== SINGLETON ==========
     public static MarbleAimUI Instance { get; private set; }
+    private void OnDestroy() { if (Instance == this) Instance = null; }
 
     // ========== UI REFERENCES ==========
     [Header("References")]

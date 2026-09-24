@@ -22,7 +22,7 @@ public abstract class InteractableBase : MonoBehaviour, IInteractable
 
     // ========== IInteractable IMPLEMENTATION ==========
 
-    public string GetPromptText()
+    public virtual string GetPromptText()
     {
         if (isOneTimeUse && hasBeenUsed)
             return ""; // Không hiện prompt nếu đã dùng rồi

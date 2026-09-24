@@ -1,4 +1,5 @@
 # 🎮 KẾ HOẠCH PHÁT TRIỂN — "CHÌA KHÓA KÝ ỨC"
+> Kế hoạch tham khảo cũ; giá tiền/vật phẩm và luồng nhiệm vụ trong tài liệu này đã được thay bằng [nền code cốt truyện hiện tại](implementation-guide.md).
 
 > **Team**: 3-4 người | **Thời gian**: 5 tuần | **Engine**: Unity 2022.3 LTS / URP  
 > **Trình độ**: Mới với Unity, được hỗ trợ bởi AI tools + tự học Blender

@@ -42,7 +42,7 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     public void AddItem(ItemData item)
     {
-        if (item == null)
+        if (item == null || ownedItems.Contains(item))
         {
             Debug.LogWarning("[InventoryManager] Thêm item null, bỏ qua.");
             return;
@@ -82,7 +82,7 @@ public class InventoryManager : MonoBehaviour
     {
         foreach (var item in ownedItems)
         {
-            if (item.isSpecialItem) return true;
+            if (item != null && item.isSpecialItem) return true;
         }
         return false;
     }
@@ -95,4 +95,5 @@ public class InventoryManager : MonoBehaviour
         ownedItems.Clear();
         Debug.Log("[InventoryManager] Đã xóa toàn bộ túi đồ.");
     }
+    private void OnDestroy() { if (Instance == this) Instance = null; }
 }

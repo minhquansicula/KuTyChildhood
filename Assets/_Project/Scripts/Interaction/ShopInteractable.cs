@@ -16,6 +16,7 @@ public class ShopInteractable : InteractableBase
 
     protected override void OnInteract()
     {
+        if (QuestManager.Instance != null && !QuestManager.Instance.CanShop) return;
         Debug.Log("[ShopInteractable] Mở tiệm tạp hóa!");
 
         if (ShopUI.Instance != null)
@@ -27,4 +28,6 @@ public class ShopInteractable : InteractableBase
             Debug.LogError("[ShopInteractable] Không tìm thấy ShopUI!");
         }
     }
+    public override string GetPromptText() => QuestManager.Instance != null && !QuestManager.Instance.CanShop
+        ? "" : base.GetPromptText();
 }

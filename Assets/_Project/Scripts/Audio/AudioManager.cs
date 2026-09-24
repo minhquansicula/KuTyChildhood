@@ -32,6 +32,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private float bgmVolume = 0.4f;
     [SerializeField] private float sfxVolume = 0.7f;
     [SerializeField] private float fadeDuration = 1.5f;
+    private Coroutine musicRoutine;
 
     // ========== LIFECYCLE ==========
     private void Awake()
@@ -64,11 +65,13 @@ public class AudioManager : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
+            OnGameStateChanged(GameManager.Instance.CurrentState);
         }
     }
 
     private void OnDestroy()
     {
+        if (Instance == this) Instance = null;
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnGameStateChanged -= OnGameStateChanged;
@@ -84,14 +87,16 @@ public class AudioManager : MonoBehaviour
 
         if (bgmSource.clip == clip && bgmSource.isPlaying) return; // Đang play rồi
 
-        StartCoroutine(CrossFadeBGM(clip));
+        if (musicRoutine != null) StopCoroutine(musicRoutine);
+        musicRoutine = StartCoroutine(CrossFadeBGM(clip));
     }
 
     /// <summary>Dừng nhạc nền với fade out.</summary>
     public void StopBGM()
     {
         if (bgmSource == null) return;
-        StartCoroutine(FadeOutBGM());
+        if (musicRoutine != null) StopCoroutine(musicRoutine);
+        musicRoutine = StartCoroutine(FadeOutBGM());
     }
 
     /// <summary>Play sound effect (1 lần).</summary>
