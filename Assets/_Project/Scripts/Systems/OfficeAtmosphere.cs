@@ -64,10 +64,14 @@ public class OfficeAtmosphere : MonoBehaviour
         if (keyPress == null && generatedKey == null) generatedKey = MakeKey();
         keyboardSource.PlayOneShot(keyPress != null ? keyPress : generatedKey);
     }
-    public void PlayBoss(bool second)
+    public float PlayBoss(bool second)
     {
         var clip = second ? bossSecondLine : bossFirstLine;
-        if (bossSource != null && clip != null) bossSource.PlayOneShot(clip);
+        if (bossSource == null || clip == null) return 0f;
+
+        bossSource.Stop();
+        bossSource.PlayOneShot(clip);
+        return clip.length;
     }
     private static AudioClip Create(string name, float seconds, System.Func<int, float> sample)
     {

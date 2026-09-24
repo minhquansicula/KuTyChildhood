@@ -14,10 +14,11 @@ public class OfficeSceneController : MonoBehaviour
     [SerializeField] private GameObject subtitlePanel;
     [SerializeField] private TextMeshPro screenWarning;
     [SerializeField] private OfficeAtmosphere atmosphere;
+    [SerializeField] private OfficeReportMiniGame reportMiniGame;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform chairAnchor;
     [SerializeField] private float chairUseDistance = 1.5f;
-    [SerializeField] private float workSeconds = 4f;
+    [SerializeField, Min(0.1f)] private float chairStandDistance = 0.45f;
     [SerializeField] private float bossReminderSeconds = 19f;
     [SerializeField] private Color dreamFade = new Color(1f, .84f, .47f);
     [SerializeField] private float seatedCamY = 0.9f;
@@ -30,7 +31,6 @@ public class OfficeSceneController : MonoBehaviour
     private Coroutine seatRoutine;
     private float standingCamY = 1.55f;
     private float reminderTimer;
-    private float typingTimer;
     private bool nearChair;
 
     private void Awake()
@@ -57,8 +57,29 @@ public class OfficeSceneController : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.2f);
         if (Phase == OfficePhase.ReadScreen)
         {
-            atmosphere?.PlayBoss(false);
-            ShowSubtitle("SẾP", "Báo cáo làm thế này à? Cậu có biết dùng não không? Làm lại ngay!", 5f);
+            float voiceSeconds = atmosphere != null ? atmosphere.PlayBoss(false) : 0f;
+            yield return ShowOpeningBossSubtitles(voiceSeconds > 0.1f ? voiceSeconds : 6f);
+        }
+    }
+
+    private IEnumerator ShowOpeningBossSubtitles(float totalSeconds)
+    {
+        string[] lines =
+        {
+            "BÁO CÁO ĐÂU RỒI?!",
+            "TÔI ĐÃ NÓI VỚI CẬU BAO NHIÊU LẦN RỒI?!",
+            "CÁI NÀY MÀ CŨNG LÀM SAI ĐƯỢC ÀAAA?!",
+            "CẢ PHÒNG ĐANG CHỜ MỖI MÌNH CẬU ĐẤY!",
+            "HÔM NAY KHÔNG XONG THÌ ĐỪNG CÓ VỀ!",
+            "LÀM LẠI NGAY CHO TÔI!"
+        };
+        float[] timingWeights = { 0.12f, 0.17f, 0.17f, 0.18f, 0.20f, 0.16f };
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            float lineSeconds = totalSeconds * timingWeights[i];
+            ShowSubtitle("SẾP", lines[i], lineSeconds + 0.05f);
+            yield return new WaitForSecondsRealtime(lineSeconds);
         }
     }
     private void Update()
@@ -66,7 +87,6 @@ public class OfficeSceneController : MonoBehaviour
         if (IsWorking)
         {
             if (Input.GetKeyDown(KeyCode.Escape)) { CancelWork(); return; }
-            if (Input.GetMouseButton(0)) WorkFor(Time.deltaTime);
             return;
         }
 
@@ -207,10 +227,8 @@ public class OfficeSceneController : MonoBehaviour
                 standingCamY = fpc.PlayerCamera.localPosition.y;
         }
 
-        Vector3 targetPos = new Vector3(chairAnchor.position.x, playerTransform.position.y, chairAnchor.position.z);
-        Vector3 forward = chairAnchor.forward;
-        forward.y = 0;
-        Quaternion targetRot = forward.sqrMagnitude > 0.001f ? Quaternion.LookRotation(forward) : Quaternion.identity;
+        Vector3 targetPos = ChairPositionAtPlayerHeight();
+        Quaternion targetRot = Quaternion.LookRotation(GetChairForward());
 
         if (seatRoutine != null) StopCoroutine(seatRoutine);
         if (instant)
@@ -240,7 +258,9 @@ public class OfficeSceneController : MonoBehaviour
         if (!IsSeated || playerTransform == null) return;
         IsSeated = false;
 
-        Vector3 targetPos = new Vector3(chairAnchor.position.x, playerTransform.position.y, chairAnchor.position.z + 0.35f);
+        // Move behind the chair in its own facing space instead of assuming world +Z.
+        // This keeps standing-up correct when the model is rotated or the desk is rearranged.
+        Vector3 targetPos = ChairPositionAtPlayerHeight() - GetChairForward() * chairStandDistance;
 
         if (seatRoutine != null) StopCoroutine(seatRoutine);
         if (instant)
@@ -267,6 +287,24 @@ public class OfficeSceneController : MonoBehaviour
         {
             seatRoutine = StartCoroutine(TransitionSeat(targetPos, playerTransform.rotation, standingCamY, false));
         }
+    }
+
+    private Vector3 ChairPositionAtPlayerHeight()
+    {
+        return new Vector3(chairAnchor.position.x, playerTransform.position.y, chairAnchor.position.z);
+    }
+
+    private Vector3 GetChairForward()
+    {
+        // The imported office chair uses X = -90 degrees, so Transform.forward points
+        // vertically. In that case its horizontal facing direction is -Transform.up.
+        Vector3 forward = Vector3.ProjectOnPlane(chairAnchor.forward, Vector3.up);
+        if (forward.sqrMagnitude < 0.001f)
+            forward = Vector3.ProjectOnPlane(-chairAnchor.up, Vector3.up);
+        if (forward.sqrMagnitude < 0.001f)
+            forward = Vector3.ProjectOnPlane(chairAnchor.right, Vector3.up);
+
+        return forward.sqrMagnitude > 0.001f ? forward.normalized : Vector3.forward;
     }
     private IEnumerator TransitionSeat(Vector3 targetPos, Quaternion targetRot, float targetCamY, bool isSittingDown)
     {
@@ -357,18 +395,28 @@ public class OfficeSceneController : MonoBehaviour
         if (IsWorking) return;
         IsWorking = true;
         GameManager.Instance?.AcquireInput(this);
-        ProgressBarUI.Instance?.Show("Giữ chuột trái để sửa báo cáo · Esc: dừng");
-        ProgressBarUI.Instance?.SetProgress(WorkProgress);
+        if (reportMiniGame != null && reportMiniGame.Open(this)) return;
+
+        IsWorking = false;
+        GameManager.Instance?.ReleaseInput(this);
+        ShowSubtitle("HỆ THỐNG", "Giao diện sửa báo cáo chưa được thiết lập.", 3f);
     }
-    public void WorkFor(float seconds)
+
+    public void UpdateReportMiniGameProgress(float progress)
     {
-        if (!IsWorking || Phase != OfficePhase.RewriteReport || seconds <= 0 || GameManager.Instance?.IsPaused == true) return;
-        WorkProgress = Mathf.Clamp01(WorkProgress + seconds / Mathf.Max(.1f, workSeconds));
-        ProgressBarUI.Instance?.SetProgress(WorkProgress);
-        typingTimer += seconds;
-        if (typingTimer >= .13f) { atmosphere?.PlayTyping(); typingTimer = 0; }
-        if (WorkProgress < 1f) return;
-        CancelWork();
+        if (!IsWorking || Phase != OfficePhase.RewriteReport) return;
+        WorkProgress = Mathf.Clamp01(progress);
+    }
+
+    public void PlayReportTypingFeedback() => atmosphere?.PlayTyping();
+
+    public void CompleteReportMiniGame()
+    {
+        if (!IsWorking || Phase != OfficePhase.RewriteReport) return;
+        WorkProgress = 1f;
+        IsWorking = false;
+        reportMiniGame?.ClosePanel();
+        GameManager.Instance?.ReleaseInput(this);
         SetPhase(OfficePhase.Rest);
         atmosphere?.PlayBoss(true);
         ShowSubtitle("SẾP", "Cuối cùng cũng xong. Lần sau tập trung hơn đi!", 4f);
@@ -376,7 +424,7 @@ public class OfficeSceneController : MonoBehaviour
     public void CancelWork()
     {
         IsWorking = false;
-        ProgressBarUI.Instance?.Hide();
+        reportMiniGame?.ClosePanel();
         GameManager.Instance?.ReleaseInput(this);
     }
     private IEnumerator LeaveOffice()

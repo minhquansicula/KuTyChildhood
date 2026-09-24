@@ -39,9 +39,12 @@ public class KuTyStoryRunner : MonoBehaviour
     private int assertions;
     private bool finished;
     private float started;
+    private bool previousRunInBackground;
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        previousRunInBackground = Application.runInBackground;
+        Application.runInBackground = true;
         started = Time.realtimeSinceStartup;
         Application.logMessageReceived += Log;
         StartCoroutine(Execute());
@@ -98,13 +101,14 @@ public class KuTyStoryRunner : MonoBehaviour
                      "BossArmPlaceholder" })
             Check(GameObject.Find(demoVisual) == null, "Demo visual was not removed: " + demoVisual);
         Check(Get<Transform>(office, "playerTransform") == FindObjectOfType<FirstPersonController>().transform &&
-              Get<Transform>(office, "chairAnchor") == GameObject.Find("OfficeChair").transform,
-            "Office chair proximity anchors are not wired");
+              Get<Transform>(office, "chairAnchor") == GameObject.Find("office-chair-main-character").transform,
+            "The sitting anchor is not wired to office-chair-main-character");
         Check(!GameObject.Find("UI").GetComponent<StoryPrologueController>().enabled,
             "Old black-screen prologue remains active");
         var ambience = FindObjectOfType<OfficeAtmosphere>();
         Check(Get<AudioSource>(ambience, "streetSource").clip != null &&
               Get<AudioSource>(ambience, "fluorescentSource").clip != null, "Office ambient placeholders missing");
+        Check(Get<AudioClip>(ambience, "bossFirstLine") != null, "Boss opening voice is not assigned");
         var interactions = FindObjectsOfType<OfficeInteractable>();
         Func<OfficeInteractionKind, OfficeInteractable> find = kind =>
             interactions.First(o => Get<OfficeInteractionKind>(o, "kind") == kind);
@@ -134,17 +138,30 @@ public class KuTyStoryRunner : MonoBehaviour
         find(OfficeInteractionKind.Boss).Interact();
         Check(!GameManager.Instance.InputBlocked, "Boss inspection should keep exploration free");
         workDesk.Interact();
+        yield return new WaitForSecondsRealtime(.5f);
+        workDesk.Interact();
         Check(office.Phase == OfficePhase.InspectDocuments, "Laptop did not reveal the rejected report");
         workDesk.Interact();
         Check(office.Phase == OfficePhase.RewriteReport, "Documents did not advance task");
         workDesk.Interact();
         Check(office.IsWorking && GameManager.Instance.InputBlocked, "Report rewriting did not start");
-        office.WorkFor(1.5f);
+        var reportGame = FindObjectOfType<OfficeReportMiniGame>();
+        Check(reportGame != null && reportGame.IsOpen, "Report mini-game UI did not open");
+        reportGame.ChooseOption(0);
+        Check(reportGame.CurrentStep == 0, "Wrong data answer advanced the report task");
         office.CancelWork();
-        Check(!office.IsWorking && !GameManager.Instance.InputBlocked && office.WorkProgress > 0f,
-            "Report work cancellation failed");
+        Check(!office.IsWorking && !GameManager.Instance.InputBlocked && !reportGame.IsOpen,
+            "Report mini-game cancellation failed");
         workDesk.Interact();
-        office.WorkFor(4f);
+        reportGame.ChooseOption(2);
+        yield return new WaitForSecondsRealtime(.7f);
+        reportGame.ChooseOption(1);
+        yield return new WaitForSecondsRealtime(.7f);
+        reportGame.ChooseOption(0);
+        reportGame.ChooseOption(1);
+        reportGame.ChooseOption(2);
+        reportGame.ChooseOption(3);
+        yield return new WaitForSecondsRealtime(.8f);
         Check(office.Phase == OfficePhase.Rest && !GameManager.Instance.InputBlocked,
             "Report completion did not unlock the chair");
         find(OfficeInteractionKind.Chair).Interact();
@@ -236,6 +253,7 @@ public class KuTyStoryRunner : MonoBehaviour
         if (finished) return;
         finished = true;
         Application.logMessageReceived -= Log;
+        Application.runInBackground = previousRunInBackground;
         File.WriteAllText("smoke-results.txt", (success ? "PASS" : "FAIL") + " (" + assertions + " assertions)\n" + reason);
         if (Application.isBatchMode) EditorApplication.Exit(success ? 0 : 1);
         else { Debug.Log(reason); EditorApplication.isPlaying = false; }
