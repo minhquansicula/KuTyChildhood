@@ -20,6 +20,7 @@ public sealed class OfficeSceneController : MonoBehaviour
     [Header("Scene systems")]
     [SerializeField] private OfficeAtmosphere atmosphere;
     [SerializeField] private OfficeReportMiniGame reportMiniGame;
+    [SerializeField] private OfficeOpeningSequence openingSequence;
     [SerializeField] private OfficeExhaustionSequence exhaustionSequence;
     [SerializeField] private Light afternoonLight;
 
@@ -61,6 +62,7 @@ public sealed class OfficeSceneController : MonoBehaviour
     {
         CacheStandingCameraY();
         SetPhase(OfficePhase.Opening);
+        if (openingSequence != null && openingSequence.Play(this)) return;
         GameManager.Instance?.AcquireInput(this);
         openingRoutine = StartCoroutine(OpeningSequence());
     }
@@ -460,6 +462,28 @@ public sealed class OfficeSceneController : MonoBehaviour
         subtitleRoutine = StartCoroutine(Subtitle(speaker, line, seconds));
     }
 
+    public void ShowCinematicSubtitle(string speaker, string line, float seconds) =>
+        ShowSubtitle(speaker, line, seconds);
+
+    public void HideCinematicSubtitle()
+    {
+        if (subtitleRoutine != null) StopCoroutine(subtitleRoutine);
+        subtitleRoutine = null;
+        if (subtitlePanel != null) subtitlePanel.SetActive(false);
+    }
+
+    public void CompleteOpeningControlReturn(bool revealObjective)
+    {
+        if (Phase != OfficePhase.Opening) return;
+        SetPhase(OfficePhase.ReturnToDesk, revealObjective);
+        GameManager.Instance?.ReleaseInput(this);
+    }
+
+    public void RevealOpeningObjective()
+    {
+        if (Phase == OfficePhase.ReturnToDesk) RefreshObjective();
+    }
+
     private IEnumerator Subtitle(string speaker, string line, float seconds)
     {
         if (subtitleText != null) subtitleText.text = "<b>" + speaker + ":</b> " + line;
@@ -472,6 +496,7 @@ public sealed class OfficeSceneController : MonoBehaviour
 #if UNITY_EDITOR
     public void SkipOpeningForTests()
     {
+        openingSequence?.SkipImmediately();
         if (openingRoutine != null) StopCoroutine(openingRoutine);
         openingRoutine = null;
         if (subtitleRoutine != null) StopCoroutine(subtitleRoutine);

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,11 +31,13 @@ public class OfficeAtmosphere : MonoBehaviour
     [SerializeField] private AudioClip cupSetDown;
     [SerializeField] private AudioClip tiredSigh;
     [SerializeField] private AudioClip childhoodBridge;
+    [SerializeField, Min(0f)] private float bossVoiceAfterSlamDelay = .35f;
 
     [Header("Fluorescent lights")]
     [SerializeField] private Light[] ceilingLights;
     [SerializeField, Min(0.1f)] private float normalLightIntensity = 0.7f;
     [SerializeField, Min(0f)] private float flickerLightIntensity = 0.16f;
+    [SerializeField] private bool deferAmbienceToOpening;
 
     private readonly List<AudioClip> generatedClips = new List<AudioClip>();
     private readonly List<AudioLowPassFilter> officeFilters = new List<AudioLowPassFilter>();
@@ -47,11 +50,12 @@ public class OfficeAtmosphere : MonoBehaviour
     private AudioClip generatedSigh;
     private AudioClip generatedChildhood;
     private float flickerTimer;
+    private Coroutine bossSequenceRoutine;
 
     private void Start()
     {
-        ConfigureLoop(streetSource, streetTraffic != null ? streetTraffic : GenerateTraffic(), 0.68f, 0.82f, 5f, 26f);
-        ConfigureLoop(fluorescentSource, fluorescentHum != null ? fluorescentHum : GenerateHum(), 0.24f, 0.62f, 3f, 14f);
+        ConfigureLoop(streetSource, streetTraffic != null ? streetTraffic : GenerateTraffic(), deferAmbienceToOpening ? 0f : 0.68f, 0.82f, 5f, 26f);
+        ConfigureLoop(fluorescentSource, fluorescentHum != null ? fluorescentHum : GenerateHum(), deferAmbienceToOpening ? 0f : 0.24f, 0.62f, 3f, 14f);
         ConfigureOneShotSource(keyboardSource, 0.34f, 0.8f, 2f, 8f);
         ConfigureOneShotSource(propSource, 0.72f, 0.68f, 2f, 12f);
         ConfigureOneShotSource(memorySource, 0.48f, 0f, 1f, 500f);
@@ -86,10 +90,30 @@ public class OfficeAtmosphere : MonoBehaviour
     {
         AudioClip clip = reminder ? bossSecondLine : bossFirstLine;
         if (bossSource == null || clip == null) return 0f;
+
+        if (bossSequenceRoutine != null)
+        {
+            StopCoroutine(bossSequenceRoutine);
+            bossSequenceRoutine = null;
+        }
         bossSource.Stop();
-        bossSource.PlayOneShot(clip);
-        if (!reminder && deskSlam != null) Invoke(nameof(PlayDeskSlam), Mathf.Max(0.1f, clip.length - 0.35f));
-        return clip.length;
+
+        if (reminder || deskSlam == null)
+        {
+            bossSource.PlayOneShot(clip);
+            return clip.length;
+        }
+
+        PlayDeskSlam();
+        bossSequenceRoutine = StartCoroutine(PlayBossAfterDeskSlam(clip));
+        return bossVoiceAfterSlamDelay + clip.length;
+    }
+
+    private IEnumerator PlayBossAfterDeskSlam(AudioClip clip)
+    {
+        yield return new WaitForSecondsRealtime(bossVoiceAfterSlamDelay);
+        if (bossSource != null && clip != null) bossSource.PlayOneShot(clip);
+        bossSequenceRoutine = null;
     }
 
     public float PlayPlayerReply()

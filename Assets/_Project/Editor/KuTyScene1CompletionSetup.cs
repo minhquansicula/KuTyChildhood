@@ -46,7 +46,6 @@ public static class KuTyScene1CompletionSetup
         Material paper = MaterialAsset("OfficeNarrativePaper", new Color(.89f, .91f, .87f));
         Material coffee = MaterialAsset("OfficeColdCoffee", new Color(.19f, .09f, .045f));
         Material blue = MaterialAsset("OfficeWaterGlass", new Color(.19f, .52f, .72f, .7f));
-        Material marble = MaterialAsset("OfficeMemoryMarble", new Color(.95f, .63f, .12f));
         Material silhouette = MaterialAsset("OfficeStreetSilhouette", new Color(.08f, .11f, .16f));
         TMP_FontAsset font = GameObject.Find("OfficeObjective")?.GetComponent<TextMeshProUGUI>()?.font ?? TMP_Settings.defaultFontAsset;
 
@@ -68,10 +67,6 @@ public static class KuTyScene1CompletionSetup
         GameObject coffeeProp = Primitive("ColdCoffeeInteraction", PrimitiveType.Cylinder, props.transform,
             new Vector3(2.13f, 1.70f, .40f), new Vector3(.075f, .11f, .075f), coffee);
         AddMicro(coffeeProp, controller, OfficeMicroInteractionKind.ColdCoffee, false);
-        GameObject marbleProp = Primitive("ChildhoodMarbleInteraction", PrimitiveType.Sphere, props.transform,
-            new Vector3(.45f, 1.68f, .36f), Vector3.one * .055f, marble);
-        AddMicro(marbleProp, controller, OfficeMicroInteractionKind.ChildhoodMarble, true);
-
         TextMeshPro laptopScreen = BuildLaptopScreen(controller, font);
         Light[] ceilingLights = BuildMoodLights(props.transform);
         BuildMovingStreet(officeRoot.transform, silhouette);
@@ -106,6 +101,8 @@ public static class KuTyScene1CompletionSetup
         Set(controller, "clockText", clock);
         Set(controller, "exhaustionSequence", exhaustion);
         Set(controller, "afternoonLight", afternoon);
+
+        KuTyOfficeOpeningSetup.BuildInActiveScene(false);
 
         CharacterController cc = player.GetComponent<CharacterController>();
         if (cc != null) cc.enabled = false;

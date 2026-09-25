@@ -88,9 +88,12 @@ public class KuTyStoryRunner : MonoBehaviour
                      "OfficeChair", "StreetBackdrop2D", "BossSilhouette", "FluorescentFixture",
                      "PlayerDeskAfternoonLight", "BossGlassInteriorGlow", "Scene1NarrativeProps",
                      "OfficeClockText", "PrinterPaperInteraction", "WaterCupInteraction",
-                     "ColdCoffeeInteraction", "ChildhoodMarbleInteraction", "OfficeMoodVolume",
-                     "OfficeExhaustionFade", "LaptopStatusText" })
+                     "ColdCoffeeInteraction", "OfficeMoodVolume",
+                     "OfficeExhaustionFade", "LaptopStatusText", "OfficeOpening", "OfficeOpeningFade",
+                     "KeyboardDistant", "BossDeskSlam", "PlayerOpeningVoice" })
             Check(GameObject.Find(objectName) != null, "Missing office asset slot: " + objectName);
+        Check(GameObject.Find("ChildhoodMarbleInteraction") == null,
+            "The childhood marble should not be present in Scene 1");
         Check(GameObject.Find("OfficeDesk").GetComponent<BoxCollider>() == null,
             "The old invisible desk blocker was not removed");
         var playerDesk = GameObject.Find("OfficeDesk_New");
@@ -108,7 +111,8 @@ public class KuTyStoryRunner : MonoBehaviour
             "The sitting anchor is not wired to office-chair-main-character");
         Check(Get<TMPro.TextMeshPro>(office, "screenWarning") != null &&
               Get<TMPro.TextMeshPro>(office, "clockText") != null &&
-              Get<OfficeExhaustionSequence>(office, "exhaustionSequence") != null,
+              Get<OfficeExhaustionSequence>(office, "exhaustionSequence") != null &&
+              Get<OfficeOpeningSequence>(office, "openingSequence") != null,
             "Scene 1 narrative references are incomplete");
         Check(!GameObject.Find("UI").GetComponent<StoryPrologueController>().enabled,
             "Old black-screen prologue remains active");
@@ -116,15 +120,29 @@ public class KuTyStoryRunner : MonoBehaviour
         Check(Get<AudioSource>(ambience, "streetSource").clip != null &&
               Get<AudioSource>(ambience, "fluorescentSource").clip != null, "Office ambient placeholders missing");
         Check(Get<AudioClip>(ambience, "bossFirstLine") != null, "Boss opening voice is not assigned");
+        var opening = FindObjectOfType<OfficeOpeningSequence>();
+        Check(opening != null && Get<AudioClip>(opening, "keyboardClip") != null &&
+              Get<AudioClip>(opening, "trafficClip") != null && Get<AudioClip>(opening, "deskSlamClip") != null,
+            "Opening audio from Dumb Assets is not connected");
         var interactions = FindObjectsOfType<OfficeInteractable>();
         Func<OfficeInteractionKind, OfficeInteractable> find = kind =>
             interactions.First(o => Get<OfficeInteractionKind>(o, "kind") == kind);
         yield return new WaitForSecondsRealtime(1.3f);
-        Check(Get<GameObject>(office, "subtitlePanel").activeSelf && GameManager.Instance.InputBlocked,
-            "Boss reprimand did not start as a focused opening beat");
-        office.SkipOpeningForTests();
-        Check(office.Phase == OfficePhase.ReturnToDesk && !GameManager.Instance.InputBlocked,
-            "Opening did not return control to the player");
+        Check(GameManager.Instance.InputBlocked && Get<CanvasGroup>(opening, "blackFade").alpha > .99f &&
+              !Get<GameObject>(office, "subtitlePanel").activeSelf,
+            "Opening did not begin on a locked, UI-free black screen");
+        float openingWaitStarted = Time.realtimeSinceStartup;
+        while (!opening.IsComplete)
+        {
+            if (Time.realtimeSinceStartup - openingWaitStarted > 30f)
+                throw new TimeoutException("Office opening did not complete");
+            yield return null;
+        }
+        Check(office.Phase == OfficePhase.ReturnToDesk && !GameManager.Instance.InputBlocked &&
+              !FindObjectOfType<FirstPersonController>().IsMovementLocked &&
+              !FindObjectOfType<PlayerInteraction>().IsInteractionLocked &&
+              Get<CanvasGroup>(opening, "objectiveCanvasGroup").alpha > .99f,
+            "Opening did not restore control and fade in the objective");
         Capture("office-view.png");
         var player = FindObjectOfType<FirstPersonController>().transform;
         var eye = Camera.main.transform;
