@@ -302,7 +302,7 @@ public sealed class OfficeSceneController : MonoBehaviour
 
     private void LoadMemoryWorld()
     {
-        if (SceneLoader.Instance != null) SceneLoader.Instance.LoadSceneWithColor(SceneNames.Act2, dreamFade, 1.8f);
+        if (SceneLoader.Instance != null) SceneLoader.Instance.LoadSceneWithColor(SceneNames.Act2_Home, dreamFade, 1.8f);
         GameManager.Instance?.ReleaseInput(this);
     }
 

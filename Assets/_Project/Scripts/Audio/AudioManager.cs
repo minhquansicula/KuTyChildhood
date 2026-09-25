@@ -148,11 +148,12 @@ public class AudioManager : MonoBehaviour
             case GameState.Act1_RealWorld:
                 PlayBGM(soundLibrary.bgmAct1);
                 break;
-            case GameState.Act2_MemoryWorld:
+            case GameState.Act2_MemoryWorld_Home:
+            case GameState.Act3_MemoryWorld_OutSide:
                 PlayBGM(soundLibrary.bgmAct2);
                 PlayAmbient(soundLibrary.ambBirds);
                 break;
-            case GameState.Act3_Ending:
+            case GameState.Act_Ending:
                 PlayBGM(soundLibrary.bgmAct3);
                 StopAmbient();
                 break;

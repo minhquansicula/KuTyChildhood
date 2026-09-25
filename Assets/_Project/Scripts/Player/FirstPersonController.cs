@@ -178,4 +178,13 @@ public class FirstPersonController : MonoBehaviour
         transform.rotation = rotation;
         characterController.enabled = true;
     }
+
+    public void SetPitch(float pitch)
+    {
+        xRotation = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
+        if (playerCamera != null)
+        {
+            playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        }
+    }
 }

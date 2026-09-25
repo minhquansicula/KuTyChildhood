@@ -146,7 +146,7 @@ public static class KuTyStorySetup
     }
     private static void UpgradeAct2()
     {
-        EditorSceneManager.OpenScene(Path(SceneNames.Act2));
+        EditorSceneManager.OpenScene(Path(SceneNames.Act2_Home));
         ReplaceWorldSign("Con diều tuổi thơ", "Kẹo mút và hũ bi ve");
         if (GameObject.Find("Journal") != null) { EditorSceneManager.SaveScene(SceneManager.GetActiveScene()); return; }
         var systems = GameObject.Find("Act2 Systems");
@@ -219,7 +219,7 @@ public static class KuTyStorySetup
     }
     private static void UpgradeAct3()
     {
-        EditorSceneManager.OpenScene(Path(SceneNames.Act3));
+        EditorSceneManager.OpenScene(Path(SceneNames.Act_Ending));
         var ending = Require<EndingUI>("UI");
         String(ending, "endingMessage", "Thế giới của người lớn luôn đầy những cơn bão.\nNhưng đứa trẻ bên trong bạn, cùng những ký ức tươi đẹp này,\nsẽ luôn là nơi trú ẩn an toàn nhất.\nNgày mai trời lại sáng.");
         var labels = ending.GetComponentsInChildren<TextMeshProUGUI>(true);

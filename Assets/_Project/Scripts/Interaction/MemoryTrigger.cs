@@ -17,7 +17,7 @@ public class MemoryTrigger : InteractableBase
     }
     private void Transition()
     {
-        SceneLoader.Instance?.LoadSceneWithColor(SceneNames.Act2, fadeColor, fadeDuration);
+        SceneLoader.Instance?.LoadSceneWithColor(SceneNames.Act2_Home, fadeColor, fadeDuration);
         GameManager.Instance?.ReleaseInput(this);
     }
 }
