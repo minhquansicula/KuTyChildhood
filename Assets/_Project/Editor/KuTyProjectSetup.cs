@@ -40,7 +40,7 @@ public static class KuTyProjectSetup
         Debug.LogError(error);
         if (batchSetup) EditorApplication.Exit(1);
     }
-    private static readonly string[] Scenes = { SceneNames.MainMenu, SceneNames.Act1, SceneNames.Act2, SceneNames.Act3 };
+    private static readonly string[] Scenes = { SceneNames.MainMenu, SceneNames.Act1, SceneNames.Act2_Home, SceneNames.Act3_OutSide, SceneNames.Act_Ending };
 
     [MenuItem("KuTy/Setup/Create playable prototype")]
     public static void Generate()
@@ -385,7 +385,7 @@ public static class KuTyProjectSetup
             UnityEventTools.AddPersistentListener(quit.onClick, ui.OnQuitButtonClicked);
         }
         Text(canvas.transform, "Bản prototype — WASD: di chuyển · Chuột: nhìn · E: tương tác", new Vector2(1150, 50), new Vector2(0, -300), 20);
-        EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), ScenePath(ending ? SceneNames.Act3 : SceneNames.MainMenu));
+        EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), ScenePath(ending ? SceneNames.Act_Ending : SceneNames.MainMenu));
     }
     private static void World()
     {
@@ -467,7 +467,7 @@ public static class KuTyProjectSetup
         CreateMarbles(canvas);
         CreateShop(canvas, shopManager);
         DialogueAndPause(canvas);
-        EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), ScenePath(SceneNames.Act2));
+        EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), ScenePath(SceneNames.Act2_Home));
     }
     private static void CreateDishes(Canvas canvas)
     {

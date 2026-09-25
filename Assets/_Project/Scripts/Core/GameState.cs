@@ -7,7 +7,8 @@ using UnityEngine;
 public enum GameState
 {
     MainMenu,
-    Act1_RealWorld,     // Hồi 1: Thế giới hiện thực (căn nhà cũ)
-    Act2_MemoryWorld,   // Hồi 2: Thế giới ký ức (gameplay chính)
-    Act3_Ending         // Hồi 3: Kết thúc (thức tỉnh)
+    Act1_RealWorld,             // Hồi 1: Văn phòng
+    Act2_MemoryWorld_Home,      // Hồi 2: Trong nhà
+    Act3_MemoryWorld_OutSide,   // Hồi 3: Ngoài trời
+    Act_Ending                  // Kết thúc
 }

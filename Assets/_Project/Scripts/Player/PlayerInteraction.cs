@@ -72,7 +72,7 @@ public class PlayerInteraction : MonoBehaviour
         Ray ray = new Ray(raycastOrigin.position, raycastOrigin.forward);
 
         // Cast against walls too, so an interactable cannot be used through a wall.
-        if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, ~0, QueryTriggerInteraction.Ignore)
+        if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, ~0, QueryTriggerInteraction.Collide)
             && (interactableLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
         {
             // Tìm IInteractable trên vật bị trúng

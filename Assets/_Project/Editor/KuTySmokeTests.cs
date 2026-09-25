@@ -150,7 +150,7 @@ public class KuTyStoryRunner : MonoBehaviour
         find(OfficeInteractionKind.Chair).Interact();
         Check(office.Phase == OfficePhase.Leaving && GameManager.Instance.InputBlocked,
             "Chair did not start exhausted transition");
-        yield return SceneReady(SceneNames.Act2);
+        yield return SceneReady(SceneNames.Act2_Home);
 
         var quests = QuestManager.Instance;
         var memories = MemoryCollectionManager.Instance;
@@ -204,7 +204,7 @@ public class KuTyStoryRunner : MonoBehaviour
         Call(marbles, "EvaluateShot");
         Check(marbles.IsCompleted && quests.CurrentStep == QuestStep.ReturnToJournal, "Marble win did not advance quest");
         Check(memories.HasCollected(MemoryType.Freedom) && memories.CollectedCount == 3, "Memory #3 missing");
-        Check(SceneManager.GetActiveScene().name == SceneNames.Act2, "Three memories skipped key crafting");
+        Check(SceneManager.GetActiveScene().name == SceneNames.Act2_Home, "Three memories skipped key crafting");
         DialogueUI.Instance.HideDialogue();
         journal.Interact();
         DialogueUI.Instance.HideDialogue();
@@ -218,14 +218,14 @@ public class KuTyStoryRunner : MonoBehaviour
         var chained = FindObjectOfType<ChainedDoorInteractable>();
         chained.Interact();
         Check(quests.CurrentStep == QuestStep.Ending, "Chained door did not unlock");
-        yield return SceneReady(SceneNames.Act3);
+        yield return SceneReady(SceneNames.Act_Ending);
         Check(FindObjectOfType<EndingUI>() != null, "Ending scene missing");
         FindObjectOfType<EndingUI>().OnPlayAgainClicked();
         yield return SceneReady(SceneNames.MainMenu);
         FindObjectOfType<MainMenuUI>().OnPlayButtonClicked();
         yield return SceneReady(SceneNames.Act1);
         GameManager.Instance.EnterMemoryWorld();
-        yield return SceneReady(SceneNames.Act2);
+        yield return SceneReady(SceneNames.Act2_Home);
         Check(CurrencyManager.Instance.CurrentMoney == 0 && InventoryManager.Instance.OwnedItems.Count == 0 &&
             MemoryCollectionManager.Instance.CollectedCount == 0 && QuestManager.Instance.CurrentStep == QuestStep.ReadJournal,
             "Replay retained old progress");

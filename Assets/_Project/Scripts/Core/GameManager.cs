@@ -31,8 +31,9 @@ public class GameManager : MonoBehaviour
         IsPaused = false;
         Time.timeScale = 1f;
         SetGameState(scene.name == SceneNames.Act1 ? GameState.Act1_RealWorld :
-            scene.name == SceneNames.Act2 ? GameState.Act2_MemoryWorld :
-            scene.name == SceneNames.Act3 ? GameState.Act3_Ending : GameState.MainMenu);
+            scene.name == SceneNames.Act2_Home ? GameState.Act2_MemoryWorld_Home :
+            scene.name == SceneNames.Act3_OutSide ? GameState.Act3_MemoryWorld_OutSide :
+            scene.name == SceneNames.Act_Ending ? GameState.Act_Ending : GameState.MainMenu);
         RefreshCursor();
     }
     public void SetGameState(GameState state)
@@ -52,7 +53,7 @@ public class GameManager : MonoBehaviour
     public void RefreshCursor()
     {
         inputOwners.RemoveWhere(owner => owner == null);
-        SetCursorState(InputBlocked || currentState == GameState.MainMenu || currentState == GameState.Act3_Ending);
+        SetCursorState(InputBlocked || currentState == GameState.MainMenu || currentState == GameState.Act_Ending);
     }
     public void SetCursorState(bool visible)
     {
@@ -60,8 +61,9 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
     }
     public void StartNewGame() => Navigate(SceneNames.Act1);
-    public void EnterMemoryWorld() => Navigate(SceneNames.Act2);
-    public void EnterEnding() => Navigate(SceneNames.Act3);
+    public void EnterMemoryWorld() => Navigate(SceneNames.Act2_Home);
+    public void EnterMemoryWorldOutSide() => Navigate(SceneNames.Act3_OutSide);
+    public void EnterEnding() => Navigate(SceneNames.Act_Ending);
     public void ReturnToMainMenu() => Navigate(SceneNames.MainMenu);
     private void Navigate(string scene)
     {

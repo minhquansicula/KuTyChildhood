@@ -382,7 +382,7 @@ public class OfficeSceneController : MonoBehaviour
     private IEnumerator LeaveOffice()
     {
         yield return new WaitForSecondsRealtime(3f);
-        if (SceneLoader.Instance != null) SceneLoader.Instance.LoadSceneWithColor(SceneNames.Act2, dreamFade, 1.8f);
+        if (SceneLoader.Instance != null) SceneLoader.Instance.LoadSceneWithColor(SceneNames.Act2_Home, dreamFade, 1.8f);
         GameManager.Instance?.ReleaseInput(this);
     }
     private void ShowSubtitle(string speaker, string line, float seconds)
