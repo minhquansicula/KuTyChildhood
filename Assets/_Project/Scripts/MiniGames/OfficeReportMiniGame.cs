@@ -3,13 +3,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum OfficeWorkTask { Emails, Documents, Report }
+
 /// <summary>
-/// Three short office tasks that replace the old hold-to-fill report interaction.
-/// The component lives on the scene Canvas while its panel can be hidden safely.
+/// Three-part work sequence described by the Scene 1 design document:
+/// email triage, document sorting, then report correction and submission.
+/// Each part can be closed and resumed without losing progress.
 /// </summary>
 public sealed class OfficeReportMiniGame : MonoBehaviour
 {
-    private const int TotalSteps = 3;
+    private const int TotalTasks = 3;
 
     [Header("Panel")]
     [SerializeField] private GameObject panel;
@@ -35,10 +38,13 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
     [SerializeField] private Color hintTextColor = new Color(0.72f, 0.78f, 0.88f, 1f);
 
     public bool IsOpen { get; private set; }
-    public int CurrentStep { get; private set; }
-    public float Progress => Mathf.Clamp01(CurrentStep / (float)TotalSteps);
+    public OfficeWorkTask CurrentTask { get; private set; }
+    public int ItemIndex => CurrentItemIndex();
+    public int CurrentStep => (int)CurrentTask;
+    public float Progress => ((int)CurrentTask + LocalProgress()) / TotalTasks;
 
-    private readonly bool[] checklist = new bool[3];
+    private readonly int[] itemIndices = new int[TotalTasks];
+    private readonly bool[] finalChecklist = new bool[3];
     private OfficeSceneController owner;
     private bool transitioning;
 
@@ -64,22 +70,26 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
             if (optionButtons[i] != null) optionButtons[i].onClick.RemoveAllListeners();
     }
 
-    public bool Open(OfficeSceneController controller)
+    public bool Open(OfficeSceneController controller, OfficeWorkTask task)
     {
         if (panel == null || optionButtons.Length < 4 || optionLabels.Length < 4)
         {
-            Debug.LogError("Office report mini-game UI is not fully configured.", this);
+            Debug.LogError("Office work mini-game UI is not fully configured.", this);
             return false;
         }
 
         owner = controller;
+        CurrentTask = task;
         IsOpen = true;
         transitioning = false;
         panel.SetActive(true);
         panel.transform.SetAsLastSibling();
-        RefreshStep();
+        RefreshTask();
         return true;
     }
+
+    // Preview entry point used by the Editor menu.
+    public bool Open(OfficeSceneController controller) => Open(controller, OfficeWorkTask.Emails);
 
     public void ClosePanel()
     {
@@ -89,55 +99,66 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
         if (panel != null) panel.SetActive(false);
     }
 
-    private void RequestClose()
-    {
-        owner?.CancelWork();
-    }
+    private void RequestClose() => owner?.CancelWork();
 
     public void ChooseOption(int index)
     {
         if (!IsOpen || transitioning || index < 0 || index >= optionButtons.Length) return;
 
-        switch (CurrentStep)
+        switch (CurrentTask)
         {
-            case 0: CheckSingleAnswer(index, 2, "Đúng. Tỷ lệ 87% không khớp số liệu gốc 78%."); break;
-            case 1: CheckSingleAnswer(index, 1, "Đúng. Câu mới nêu rõ người nhận, hành động và thời hạn."); break;
-            case 2: HandleChecklist(index); break;
+            case OfficeWorkTask.Emails: HandleEmail(index); break;
+            case OfficeWorkTask.Documents: HandleDocument(index); break;
+            case OfficeWorkTask.Report: HandleReport(index); break;
         }
     }
 
-    private void CheckSingleAnswer(int selectedIndex, int correctIndex, string successMessage)
+    private void HandleEmail(int selected)
     {
-        if (selectedIndex != correctIndex)
+        int[] correct = { 1, 2, 0 };
+        string[] success =
         {
-            SetFeedback("Chưa đúng — hãy đối chiếu lại tài liệu bên trái.", errorTextColor);
-            SetOptionColor(selectedIndex, errorOptionColor);
+            "Đã đánh dấu ưu tiên và mở file dữ liệu tháng 8.",
+            "Đã đính kèm lại file và phản hồi khách hàng rõ ràng.",
+            "Đã xác nhận lịch họp mới với HR."
+        };
+        CheckAnswer(selected, correct[itemIndices[0]], success[itemIndices[0]], 3);
+    }
+
+    private void HandleDocument(int selected)
+    {
+        int[] correct = { 0, 1, 2, 2 };
+        string[] success =
+        {
+            "Báo cáo đã được đặt vào khay REPORT.",
+            "Hóa đơn đã được đặt vào khay INVOICE.",
+            "Biên bản họp đã được lưu vào ARCHIVE.",
+            "Hợp đồng cũ đã được lưu vào ARCHIVE."
+        };
+        CheckAnswer(selected, correct[itemIndices[1]], success[itemIndices[1]], 4);
+    }
+
+    private void HandleReport(int selected)
+    {
+        int item = itemIndices[2];
+        if (item < 3)
+        {
+            int[] correct = { 2, 1, 3 };
+            string[] success =
+            {
+                "Đúng. Doanh thu tháng 8 là 128.",
+                "Đúng. Tổng số đơn hàng là 46.",
+                "Đúng. Có 7 khiếu nại trong tháng 8."
+            };
+            CheckAnswer(selected, correct[item], success[item], 4);
             return;
         }
 
-        SetOptionColor(selectedIndex, selectedOptionColor);
-        SetFeedback(successMessage, successTextColor);
-        owner?.PlayReportTypingFeedback();
-        transitioning = true;
-        StartCoroutine(AdvanceAfterFeedback());
-    }
-
-    private IEnumerator AdvanceAfterFeedback()
-    {
-        yield return new WaitForSecondsRealtime(0.65f);
-        CurrentStep = Mathf.Min(CurrentStep + 1, TotalSteps - 1);
-        owner?.UpdateReportMiniGameProgress(CurrentStep / (float)TotalSteps);
-        transitioning = false;
-        RefreshStep();
-    }
-
-    private void HandleChecklist(int index)
-    {
-        if (index < checklist.Length)
+        if (selected < finalChecklist.Length)
         {
-            checklist[index] = !checklist[index];
+            finalChecklist[selected] = !finalChecklist[selected];
             owner?.PlayReportTypingFeedback();
-            RefreshChecklist();
+            RefreshReportChecklist();
             return;
         }
 
@@ -148,105 +169,213 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
         }
 
         transitioning = true;
-        SetFeedback("Đã kiểm tra xong. Đang gửi báo cáo...", successTextColor);
+        SetFeedback("SENDING REPORT...", successTextColor);
         if (progressFill != null) progressFill.fillAmount = 1f;
         owner?.UpdateReportMiniGameProgress(1f);
-        StartCoroutine(CompleteAfterFeedback());
+        StartCoroutine(CompleteTaskAfterDelay(0.9f));
     }
 
-    private IEnumerator CompleteAfterFeedback()
+    private void CheckAnswer(int selected, int correct, string success, int itemCount)
     {
-        yield return new WaitForSecondsRealtime(0.75f);
-        owner?.CompleteReportMiniGame();
-    }
-
-    private bool ChecklistComplete => checklist[0] && checklist[1] && checklist[2];
-
-    private void RefreshStep()
-    {
-        if (stepText != null) stepText.text = $"BƯỚC {CurrentStep + 1} / {TotalSteps}";
-        if (progressFill != null) progressFill.fillAmount = CurrentStep / (float)TotalSteps;
-        ResetOptions();
-
-        switch (CurrentStep)
+        if (selected != correct)
         {
-            case 0: ShowDataCheck(); break;
-            case 1: ShowEmailRewrite(); break;
-            default: ShowFinalChecklist(); break;
+            SetFeedback("Chưa đúng — hãy đọc lại nội dung bên trái.", errorTextColor);
+            SetOptionColor(selected, errorOptionColor);
+            return;
+        }
+
+        SetOptionColor(selected, selectedOptionColor);
+        SetFeedback(success, successTextColor);
+        owner?.PlayReportTypingFeedback();
+        transitioning = true;
+        StartCoroutine(AdvanceAfterFeedback(itemCount));
+    }
+
+    private IEnumerator AdvanceAfterFeedback(int itemCount)
+    {
+        yield return new WaitForSecondsRealtime(0.55f);
+        int taskIndex = (int)CurrentTask;
+        itemIndices[taskIndex]++;
+        owner?.UpdateReportMiniGameProgress(Progress);
+        transitioning = false;
+
+        if (CurrentTask != OfficeWorkTask.Report && itemIndices[taskIndex] >= itemCount)
+        {
+            yield return CompleteTaskAfterDelay(0.25f);
+            yield break;
+        }
+
+        RefreshTask();
+    }
+
+    private IEnumerator CompleteTaskAfterDelay(float delay)
+    {
+        if (delay > 0f) yield return new WaitForSecondsRealtime(delay);
+        OfficeWorkTask completed = CurrentTask;
+        ClosePanel();
+        owner?.CompleteWorkTask(completed);
+    }
+
+    private int CurrentItemIndex() => itemIndices[Mathf.Clamp((int)CurrentTask, 0, TotalTasks - 1)];
+
+    private float LocalProgress()
+    {
+        switch (CurrentTask)
+        {
+            case OfficeWorkTask.Emails: return Mathf.Clamp01(itemIndices[0] / 3f);
+            case OfficeWorkTask.Documents: return Mathf.Clamp01(itemIndices[1] / 4f);
+            default: return Mathf.Clamp01(itemIndices[2] / 4f);
         }
     }
 
-    private void ShowDataCheck()
+    private bool ChecklistComplete => finalChecklist[0] && finalChecklist[1] && finalChecklist[2];
+
+    private void RefreshTask()
     {
-        SetHeader("REPORT_Q3_FINAL_v7.xlsx", "ĐỐI CHIẾU SỐ LIỆU",
-            "Bảng tổng hợp gốc ghi tỷ lệ hoàn tất là 78%. Chọn dòng đang bị nhập sai.");
-        if (documentText != null)
-            documentText.text =
-                "<b>BÁO CÁO KẾT QUẢ QUÝ III</b>\n\n" +
-                "Doanh thu thuần                42,8 triệu\n" +
-                "Đơn hàng hoàn tất             17 đơn\n" +
-                "Tỷ lệ hoàn tất                <color=#FF8B78>87%</color>\n" +
-                "Chi phí vận hành              12,4 triệu\n\n" +
-                "<color=#8EA6C8>NGUỒN ĐỐI CHIẾU\nTỷ lệ hoàn tất gốc             78%</color>";
-
-        SetOption(0, "Doanh thu — 42,8 triệu", true);
-        SetOption(1, "Đơn hoàn tất — 17 đơn", true);
-        SetOption(2, "Tỷ lệ hoàn tất — 87%", true);
-        SetOption(3, "Chi phí — 12,4 triệu", true);
-        SetFeedback("Chọn một dòng để đánh dấu lỗi.", hintTextColor);
-    }
-
-    private void ShowEmailRewrite()
-    {
-        SetHeader("EMAIL_GIAI_TRINH.txt", "SỬA NỘI DUNG EMAIL",
-            "Chọn cách viết rõ ràng và chuyên nghiệp nhất trước khi gửi kèm báo cáo.");
-        if (documentText != null)
-            documentText.text =
-                "<b>KÍNH GỬI PHÒNG KẾ TOÁN,</b>\n\n" +
-                "Tôi gửi báo cáo quý III.\n" +
-                "<color=#FF8B78>Mọi người xem rồi phản hồi sớm.</color>\n\n" +
-                "Quân";
-
-        SetOption(0, "Mọi người xem giúp nhé.", true);
-        SetOption(1, "Nhờ phòng Kế toán kiểm tra và phản hồi trước 17:00 hôm nay.", true);
-        SetOption(2, "Có gì sai thì báo lại.", true);
-        SetOption(3, "Gửi gấp. Đừng để trễ.", true);
-        SetFeedback("Một câu tốt cần có hành động và thời hạn cụ thể.", hintTextColor);
-    }
-
-    private void ShowFinalChecklist()
-    {
-        SetHeader("REPORT_Q3_FINAL_v8.xlsx", "KIỂM TRA TRƯỚC KHI GỬI",
-            "Xác nhận từng mục. Nút gửi chỉ mở khi báo cáo đã sẵn sàng.");
-        if (documentText != null)
-            documentText.text =
-                "<b>THAY ĐỔI ĐÃ THỰC HIỆN</b>\n\n" +
-                "<color=#62D89A>✓</color> Tỷ lệ hoàn tất: 87% → 78%\n" +
-                "<color=#62D89A>✓</color> Email đã bổ sung hạn phản hồi\n" +
-                "<color=#62D89A>✓</color> Tên tệp nâng lên phiên bản v8\n\n" +
-                "<color=#8EA6C8>Trạng thái: Chờ xác nhận cuối</color>";
-        RefreshChecklist();
-    }
-
-    private void RefreshChecklist()
-    {
-        string[] labels =
+        ResetOptions();
+        if (progressFill != null) progressFill.fillAmount = Progress;
+        switch (CurrentTask)
         {
-            "Số liệu đã đối chiếu",
-            "Nội dung đã sửa",
-            "Tệp đính kèm đúng phiên bản"
+            case OfficeWorkTask.Emails: ShowEmail(); break;
+            case OfficeWorkTask.Documents: ShowDocumentSort(); break;
+            case OfficeWorkTask.Report: ShowReport(); break;
+        }
+    }
+
+    private void ShowEmail()
+    {
+        int item = Mathf.Clamp(itemIndices[0], 0, 2);
+        string[] senders = { "MANAGER", "CLIENT – AN PHÚ", "HR" };
+        string[] subjects = { "Báo cáo doanh thu", "Thiếu file đính kèm", "Đổi giờ họp" };
+        string[] bodies =
+        {
+            "File hiện tại thiếu dữ liệu tháng 8.\nCập nhật và gửi lại trước 18:00.",
+            "Chào Quân, email trước chưa có tài liệu đính kèm.\nVui lòng gửi lại giúp chúng tôi.",
+            "Lịch họp ngày mai đổi từ 09:00 sang 08:30.\nVui lòng xác nhận đã nhận thông tin."
         };
 
-        for (int i = 0; i < checklist.Length; i++)
+        SetHeader("INBOX · 3 EMAIL KHẨN", "XỬ LÝ EMAIL",
+            "Chọn hành động phù hợp và chuyên nghiệp nhất.");
+        if (stepText != null) stepText.text = $"EMAIL {item + 1} / 3";
+        if (documentText != null)
+            documentText.text = $"<color=#8EA6C8>FROM:</color> {senders[item]}\n" +
+                                $"<color=#8EA6C8>SUBJECT:</color> {subjects[item]}\n\n{bodies[item]}";
+
+        if (item == 0)
         {
-            SetOption(i, (checklist[i] ? "✓  " : "□  ") + labels[i], true);
-            SetOptionColor(i, checklist[i] ? selectedOptionColor : normalOptionColor);
+            SetOption(0, "Để lại xử lý sau", true);
+            SetOption(1, "Đánh dấu ưu tiên và kiểm tra file dữ liệu", true);
+            SetOption(2, "Trả lời rằng báo cáo không thuộc trách nhiệm", true);
+            SetOption(3, "Chuyển tiếp cho toàn bộ công ty", true);
+        }
+        else if (item == 1)
+        {
+            SetOption(0, "Gửi lại email cũ không kèm file", true);
+            SetOption(1, "Không phản hồi", true);
+            SetOption(2, "Xin lỗi và gửi lại đúng file đính kèm", true);
+            SetOption(3, "Yêu cầu khách hàng tự tìm file", true);
+        }
+        else
+        {
+            SetOption(0, "Xác nhận đã nhận lịch họp mới", true);
+            SetOption(1, "Xóa email", true);
+            SetOption(2, "Giữ lịch cũ", true);
+            SetOption(3, "Chuyển lịch sang tuần sau", true);
+        }
+        SetFeedback("Công việc vừa xong thì email khác lại tới.", hintTextColor);
+    }
+
+    private void ShowDocumentSort()
+    {
+        int item = Mathf.Clamp(itemIndices[1], 0, 3);
+        string[] names = { "REPORT_Q3_DRAFT", "INVOICE_0918", "MEETING_NOTES", "CLIENT_CONTRACT_OLD" };
+        string[] descriptions =
+        {
+            "Bản nháp báo cáo kết quả quý III.",
+            "Hóa đơn dịch vụ tháng 9 – chờ đối chiếu.",
+            "Biên bản cuộc họp tuần trước – đã hoàn tất.",
+            "Hợp đồng khách hàng phiên bản cũ – chỉ dùng lưu trữ."
+        };
+        SetHeader("KHAY TÀI LIỆU TRÊN BÀN", "SẮP XẾP GIẤY TỜ",
+            "Đặt từng tài liệu vào đúng khay.");
+        if (stepText != null) stepText.text = $"TÀI LIỆU {item + 1} / 4";
+        if (documentText != null)
+            documentText.text = $"<b>{names[item]}</b>\n\n{descriptions[item]}\n\n" +
+                                "<color=#8EA6C8>Điện thoại rung. Máy in phía xa lại bắt đầu chạy...</color>";
+        SetOption(0, "KHAY REPORT", true);
+        SetOption(1, "KHAY INVOICE", true);
+        SetOption(2, "KHAY ARCHIVE", true);
+        SetOption(3, string.Empty, false);
+        SetFeedback("Chọn đúng khay cho tài liệu đang cầm.", hintTextColor);
+    }
+
+    private void ShowReport()
+    {
+        int item = itemIndices[2];
+        SetHeader("REPORT_Q3_FINAL.xlsx", "SỬA BÁO CÁO CHO SẾP",
+            item < 3 ? "Đối chiếu tài liệu và chọn số liệu đúng." : "Kiểm tra lần cuối trước khi gửi.");
+
+        if (item >= 3)
+        {
+            if (stepText != null) stepText.text = "KIỂM TRA CUỐI";
+            if (documentText != null)
+                documentText.text = "<b>BÁO CÁO QUÝ III</b>\n\n" +
+                                    "June Revenue                 120\n" +
+                                    "July Revenue                  135\n" +
+                                    "August Revenue             <color=#62D89A>128</color>\n" +
+                                    "September Revenue          142\n\n" +
+                                    "Orders                            <color=#62D89A>46</color>\n" +
+                                    "Complaints                       <color=#62D89A>7</color>";
+            RefreshReportChecklist();
+            return;
         }
 
-        SetOption(3, ChecklistComplete ? "GỬI BÁO CÁO" : "HOÀN TẤT CHECKLIST ĐỂ GỬI", ChecklistComplete);
-        SetFeedback(ChecklistComplete
-            ? "Tất cả đã sẵn sàng. Có thể gửi báo cáo."
-            : "Đánh dấu đủ ba mục kiểm tra.", ChecklistComplete ? successTextColor : hintTextColor);
+        string[] fieldNames = { "AUGUST REVENUE", "ORDERS", "COMPLAINTS" };
+        string[] sourceLines =
+        {
+            "TÀI LIỆU NGUỒN\nAugust Revenue: 128\nOrders: 46\nComplaints: 7",
+            "TÀI LIỆU NGUỒN\nAugust Revenue: 128\nOrders: 46\nComplaints: 7",
+            "TÀI LIỆU NGUỒN\nAugust Revenue: 128\nOrders: 46\nComplaints: 7"
+        };
+        if (stepText != null) stepText.text = $"TRƯỜNG {item + 1} / 3";
+        if (taskTitleText != null) taskTitleText.text = "ĐIỀN " + fieldNames[item];
+        if (documentText != null)
+            documentText.text = "<b>BÁO CÁO ĐANG SỬA</b>\n\n" +
+                                "June Revenue                 120\n" +
+                                "July Revenue                  135\n" +
+                                "August Revenue             <color=#FF8B78>???</color>\n" +
+                                "September Revenue          142\n\n" +
+                                $"<color=#8EA6C8>{sourceLines[item]}</color>";
+
+        if (item == 0)
+        {
+            SetOption(0, "118", true); SetOption(1, "125", true);
+            SetOption(2, "128", true); SetOption(3, "138", true);
+        }
+        else if (item == 1)
+        {
+            SetOption(0, "42", true); SetOption(1, "46", true);
+            SetOption(2, "64", true); SetOption(3, "76", true);
+        }
+        else
+        {
+            SetOption(0, "3", true); SetOption(1, "4", true);
+            SetOption(2, "6", true); SetOption(3, "7", true);
+        }
+        SetFeedback("Sếp đang chờ. Hãy đối chiếu cẩn thận.", hintTextColor);
+    }
+
+    private void RefreshReportChecklist()
+    {
+        string[] labels = { "Số liệu đã đối chiếu", "File đính kèm đúng", "Tên file đúng phiên bản" };
+        for (int i = 0; i < finalChecklist.Length; i++)
+        {
+            SetOption(i, (finalChecklist[i] ? "✓  " : "□  ") + labels[i], true);
+            SetOptionColor(i, finalChecklist[i] ? selectedOptionColor : normalOptionColor);
+        }
+        SetOption(3, ChecklistComplete ? "SUBMIT REPORT" : "HOÀN TẤT CHECKLIST ĐỂ GỬI", ChecklistComplete);
+        SetFeedback(ChecklistComplete ? "Report đã sẵn sàng để gửi." : "Xác nhận đủ ba mục kiểm tra.",
+            ChecklistComplete ? successTextColor : hintTextColor);
     }
 
     private void SetHeader(string fileName, string title, string instruction)
@@ -270,7 +399,7 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
         if (index < 0 || index >= optionButtons.Length) return;
         if (optionButtons[index] != null)
         {
-            optionButtons[index].gameObject.SetActive(true);
+            optionButtons[index].gameObject.SetActive(!string.IsNullOrEmpty(label));
             optionButtons[index].interactable = interactable;
         }
         if (index < optionLabels.Length && optionLabels[index] != null) optionLabels[index].text = label;

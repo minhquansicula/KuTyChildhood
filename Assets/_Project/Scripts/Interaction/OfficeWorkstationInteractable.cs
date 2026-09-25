@@ -10,10 +10,9 @@ public sealed class OfficeWorkstationInteractable : InteractableBase
 
     private OfficeSceneController Office => office != null ? office : OfficeSceneController.Instance;
 
-    private OfficeInteractionKind CurrentKind =>
-        Office != null && Office.Phase == OfficePhase.InspectDocuments
-            ? OfficeInteractionKind.Documents
-            : OfficeInteractionKind.Laptop;
+    // The real desk is the single main workstation. The controller selects the
+    // relevant task from the current narrative phase.
+    private OfficeInteractionKind CurrentKind => OfficeInteractionKind.Laptop;
 
     private void Reset() => isOneTimeUse = false;
 

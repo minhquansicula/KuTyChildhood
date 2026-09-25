@@ -70,11 +70,11 @@ public static class KuTyOfficeReportMiniGameSetup
         TopStretch(accent.GetComponent<RectTransform>(), 0f, 0f, 7f);
 
         TextMeshProUGUI eyebrow = CreateText("UrgentLabel", workspace.transform,
-            "YÊU CẦU KHẨN · 23:32", 17f, new Color(1f, 0.45f, 0.4f), font, FontStyles.Bold);
+            "CÔNG VIỆC CÒN LẠI · 17:42", 17f, new Color(1f, 0.45f, 0.4f), font, FontStyles.Bold);
         TopLeft(eyebrow.rectTransform, 36f, 25f, 420f, 24f);
 
         TextMeshProUGUI header = CreateText("ReportHeader", workspace.transform,
-            "BÁO CÁO BỊ TRẢ VỀ", 32f, new Color(0.96f, 0.97f, 1f), font, FontStyles.Bold);
+            "CA LÀM VIỆC CUỐI NGÀY", 32f, new Color(0.96f, 0.97f, 1f), font, FontStyles.Bold);
         TopLeft(header.rectTransform, 36f, 50f, 630f, 45f);
 
         TextMeshProUGUI fileName = CreateText("ReportFileName", workspace.transform,

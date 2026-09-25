@@ -81,12 +81,15 @@ public class KuTyStoryRunner : MonoBehaviour
         FindObjectOfType<MainMenuUI>().OnPlayButtonClicked();
         yield return SceneReady(SceneNames.Act1);
         var office = FindObjectOfType<OfficeSceneController>();
-        Check(office != null && office.Phase == OfficePhase.ReadScreen, "Office scene did not start at laptop");
-        Check(!GameManager.Instance.InputBlocked && FindObjectOfType<FirstPersonController>() != null,
-            "Office should allow free movement and looking");
+        Check(office != null && office.Phase == OfficePhase.Opening, "Office scene did not start at the meeting room opening");
+        Check(GameManager.Instance.InputBlocked && FindObjectOfType<FirstPersonController>() != null,
+            "The opening reprimand should briefly lock movement");
         foreach (string objectName in new[] { "OfficeDesk", "OfficeDesk_New", "OfficeInterior_New",
                      "OfficeChair", "StreetBackdrop2D", "BossSilhouette", "FluorescentFixture",
-                     "PlayerDeskAfternoonLight", "BossGlassInteriorGlow" })
+                     "PlayerDeskAfternoonLight", "BossGlassInteriorGlow", "Scene1NarrativeProps",
+                     "OfficeClockText", "PrinterPaperInteraction", "WaterCupInteraction",
+                     "ColdCoffeeInteraction", "ChildhoodMarbleInteraction", "OfficeMoodVolume",
+                     "OfficeExhaustionFade", "LaptopStatusText" })
             Check(GameObject.Find(objectName) != null, "Missing office asset slot: " + objectName);
         Check(GameObject.Find("OfficeDesk").GetComponent<BoxCollider>() == null,
             "The old invisible desk blocker was not removed");
@@ -103,6 +106,10 @@ public class KuTyStoryRunner : MonoBehaviour
         Check(Get<Transform>(office, "playerTransform") == FindObjectOfType<FirstPersonController>().transform &&
               Get<Transform>(office, "chairAnchor") == GameObject.Find("office-chair-main-character").transform,
             "The sitting anchor is not wired to office-chair-main-character");
+        Check(Get<TMPro.TextMeshPro>(office, "screenWarning") != null &&
+              Get<TMPro.TextMeshPro>(office, "clockText") != null &&
+              Get<OfficeExhaustionSequence>(office, "exhaustionSequence") != null,
+            "Scene 1 narrative references are incomplete");
         Check(!GameObject.Find("UI").GetComponent<StoryPrologueController>().enabled,
             "Old black-screen prologue remains active");
         var ambience = FindObjectOfType<OfficeAtmosphere>();
@@ -113,8 +120,11 @@ public class KuTyStoryRunner : MonoBehaviour
         Func<OfficeInteractionKind, OfficeInteractable> find = kind =>
             interactions.First(o => Get<OfficeInteractionKind>(o, "kind") == kind);
         yield return new WaitForSecondsRealtime(1.3f);
-        Check(Get<GameObject>(office, "subtitlePanel").activeSelf && !GameManager.Instance.InputBlocked,
-            "Boss shouting should not freeze the player");
+        Check(Get<GameObject>(office, "subtitlePanel").activeSelf && GameManager.Instance.InputBlocked,
+            "Boss reprimand did not start as a focused opening beat");
+        office.SkipOpeningForTests();
+        Check(office.Phase == OfficePhase.ReturnToDesk && !GameManager.Instance.InputBlocked,
+            "Opening did not return control to the player");
         Capture("office-view.png");
         var player = FindObjectOfType<FirstPersonController>().transform;
         var eye = Camera.main.transform;
@@ -140,30 +150,59 @@ public class KuTyStoryRunner : MonoBehaviour
         workDesk.Interact();
         yield return new WaitForSecondsRealtime(.5f);
         workDesk.Interact();
-        Check(office.Phase == OfficePhase.InspectDocuments, "Laptop did not reveal the rejected report");
-        workDesk.Interact();
-        Check(office.Phase == OfficePhase.RewriteReport, "Documents did not advance task");
-        workDesk.Interact();
-        Check(office.IsWorking && GameManager.Instance.InputBlocked, "Report rewriting did not start");
+        Check(office.Phase == OfficePhase.ProcessEmails && office.IsWorking && GameManager.Instance.InputBlocked,
+            "Email task did not start");
         var reportGame = FindObjectOfType<OfficeReportMiniGame>();
         Check(reportGame != null && reportGame.IsOpen, "Report mini-game UI did not open");
         reportGame.ChooseOption(0);
-        Check(reportGame.CurrentStep == 0, "Wrong data answer advanced the report task");
+        Check(reportGame.CurrentTask == OfficeWorkTask.Emails && reportGame.ItemIndex == 0,
+            "Wrong email choice advanced the work task");
         office.CancelWork();
         Check(!office.IsWorking && !GameManager.Instance.InputBlocked && !reportGame.IsOpen,
             "Report mini-game cancellation failed");
+
         workDesk.Interact();
+        reportGame.ChooseOption(1);
+        yield return new WaitForSecondsRealtime(.7f);
+        reportGame.ChooseOption(2);
+        yield return new WaitForSecondsRealtime(.7f);
+        reportGame.ChooseOption(0);
+        yield return new WaitForSecondsRealtime(.9f);
+        Check(office.Phase == OfficePhase.SortDocuments && !office.IsWorking,
+            "Email processing did not advance to document sorting");
+
+        workDesk.Interact();
+        Check(reportGame.CurrentTask == OfficeWorkTask.Documents && reportGame.IsOpen,
+            "Document sorting did not open");
+        reportGame.ChooseOption(0);
+        yield return new WaitForSecondsRealtime(.7f);
+        reportGame.ChooseOption(1);
+        yield return new WaitForSecondsRealtime(.7f);
+        reportGame.ChooseOption(2);
+        yield return new WaitForSecondsRealtime(.7f);
+        reportGame.ChooseOption(2);
+        yield return new WaitForSecondsRealtime(.9f);
+        Check(office.Phase == OfficePhase.FixReport && !office.IsWorking,
+            "Document sorting did not advance to report correction");
+
+        workDesk.Interact();
+        Check(reportGame.CurrentTask == OfficeWorkTask.Report && reportGame.IsOpen,
+            "Report correction did not open");
         reportGame.ChooseOption(2);
         yield return new WaitForSecondsRealtime(.7f);
         reportGame.ChooseOption(1);
+        yield return new WaitForSecondsRealtime(.7f);
+        reportGame.ChooseOption(3);
         yield return new WaitForSecondsRealtime(.7f);
         reportGame.ChooseOption(0);
         reportGame.ChooseOption(1);
         reportGame.ChooseOption(2);
         reportGame.ChooseOption(3);
-        yield return new WaitForSecondsRealtime(.8f);
-        Check(office.Phase == OfficePhase.Rest && !GameManager.Instance.InputBlocked,
-            "Report completion did not unlock the chair");
+        yield return new WaitForSecondsRealtime(1.1f);
+        Check(office.Phase == OfficePhase.AfterWork && !GameManager.Instance.InputBlocked,
+            "Report completion did not start the free-roam aftermath");
+        office.MakeRestAvailableForTests();
+        Check(office.Phase == OfficePhase.Rest, "Exhaustion objective did not become available");
         find(OfficeInteractionKind.Chair).Interact();
         Check(office.Phase == OfficePhase.Leaving && GameManager.Instance.InputBlocked,
             "Chair did not start exhausted transition");
