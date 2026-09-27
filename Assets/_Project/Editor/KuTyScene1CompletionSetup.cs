@@ -75,8 +75,10 @@ public static class KuTyScene1CompletionSetup
         AudioSource memoryAudio = CreateAudioSource("OfficeMemoryAudio", props.transform, playerCamera.transform.position);
         Volume moodVolume = BuildMoodVolume(props.transform);
         Image blackout = BuildBlackout(ui.transform);
+        Transform deskCollapseTarget = BuildDeskCollapseTarget();
         OfficeExhaustionSequence exhaustion = props.gameObject.AddComponent<OfficeExhaustionSequence>();
         Set(exhaustion, "cameraTransform", playerCamera.transform);
+        Set(exhaustion, "deskCollapseTarget", deskCollapseTarget);
         Set(exhaustion, "blackout", blackout);
         Set(exhaustion, "moodVolume", moodVolume);
         Set(exhaustion, "atmosphere", atmosphere);
@@ -115,6 +117,36 @@ public static class KuTyScene1CompletionSetup
         EditorSceneManager.SaveScene(scene);
         Selection.activeGameObject = props;
         Debug.Log("[KuTy] Scene 1 completed: opening position, interactions, work UI, moving street, mood lighting and exhaustion transition.");
+    }
+
+    private static Transform BuildDeskCollapseTarget()
+    {
+        GameObject desk = GameObject.Find("OfficeDesk_New");
+        GameObject chair = GameObject.Find("office-chair-main-character");
+        if (desk == null) return null;
+
+        Transform old = desk.transform.Find("DeskCollapseTarget");
+        if (old != null) Object.DestroyImmediate(old.gameObject);
+
+        GameObject targetObject = new GameObject("DeskCollapseTarget");
+        Transform target = targetObject.transform;
+        Renderer renderer = desk.GetComponentInChildren<Renderer>();
+        Bounds bounds = renderer != null
+            ? renderer.bounds
+            : new Bounds(desk.transform.position + Vector3.up, new Vector3(1.8f, 1.2f, 1.1f));
+
+        Vector3 chairPosition = chair != null ? chair.transform.position : bounds.center + Vector3.back;
+        Vector3 towardDesk = Vector3.ProjectOnPlane(bounds.center - chairPosition, Vector3.up).normalized;
+        if (towardDesk.sqrMagnitude < .01f) towardDesk = desk.transform.forward;
+
+        Vector3 collapsePosition = bounds.center - towardDesk * Mathf.Min(.42f, bounds.extents.magnitude * .3f);
+        collapsePosition.y = Mathf.Lerp(bounds.min.y, bounds.max.y, .48f) + .06f;
+        Vector3 lookDirection = (towardDesk * .28f + Vector3.down).normalized;
+
+        target.SetPositionAndRotation(collapsePosition,
+            Quaternion.LookRotation(lookDirection, Vector3.up) * Quaternion.Euler(0f, 0f, 8f));
+        target.SetParent(desk.transform, true);
+        return target;
     }
 
     private static void RemoveLegacyOfficeUI(Transform ui)

@@ -74,8 +74,13 @@ public static class KuTyOfficeOpeningSetup
         if (airSource == null) airSource = CreateAudioSource("AirConditioner", openingObject.transform, new Vector3(0f, 2.7f, 0f));
         if (bossSource == null) bossSource = CreateAudioSource("BossVoice", openingObject.transform, new Vector3(0f, 1.35f, -3.72f));
 
-        AudioSource keyboardSource = CreateAudioSource("KeyboardDistant", openingObject.transform, new Vector3(2.7f, 1.05f, -.65f));
+        AudioSource keyboardSource = CreateAudioSource("KeyboardDistant", openingObject.transform, new Vector3(1.4f, 1.05f, .4f));
         AudioSource deskSlamSource = CreateAudioSource("BossDeskSlam", openingObject.transform, bossSource.transform.position);
+        for (int i = player.transform.childCount - 1; i >= 0; i--)
+        {
+            Transform child = player.transform.GetChild(i);
+            if (child.name == "PlayerOpeningVoice") Object.DestroyImmediate(child.gameObject);
+        }
         AudioSource playerSource = CreateAudioSource("PlayerOpeningVoice", player.transform, Vector3.zero, true);
 
         ConfigureSpatial(trafficSource, .88f, 3f, 24f);
@@ -121,13 +126,14 @@ public static class KuTyOfficeOpeningSetup
         Set(opening, "playerVoice", playerSource);
         Set(opening, "deskSlamSource", deskSlamSource);
         Set(opening, "trafficClip", traffic);
-        Set(opening, "keyboardClip", keyboard);
         Set(opening, "bossDialogueClip", bossClip);
         Set(opening, "playerResponseClip", playerClip);
         Set(opening, "deskSlamClip", slam);
 
         Set(controller, "openingSequence", opening);
         Set(atmosphere, "streetTraffic", traffic);
+        Set(atmosphere, "keyboardSource", keyboardSource);
+        Set(atmosphere, "keyPress", keyboard);
         Set(atmosphere, "deskSlam", slam);
         SetBool(atmosphere, "deferAmbienceToOpening", true);
 

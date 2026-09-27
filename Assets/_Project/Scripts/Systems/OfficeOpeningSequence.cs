@@ -27,7 +27,6 @@ public sealed class OfficeOpeningSequence : MonoBehaviour
     [SerializeField] private AudioClip officeAmbientClip;
     [SerializeField] private AudioClip airConditionerClip;
     [SerializeField] private AudioClip trafficClip;
-    [SerializeField] private AudioClip keyboardClip;
 
     [Header("Dialogue")]
     [SerializeField] private AudioSource bossVoice;
@@ -43,7 +42,9 @@ public sealed class OfficeOpeningSequence : MonoBehaviour
     [SerializeField, Min(3f)] private float blackScreenDuration = 4f;
     [SerializeField, Min(.1f)] private float fadeDuration = 2.1f;
     [SerializeField, Min(0f)] private float bossStartDelay = .75f;
+    [SerializeField, Min(.05f)] private float deskSlamInterval = .45f;
     [SerializeField, Min(0f)] private float deskSlamLeadSeconds = .35f;
+    [SerializeField, Min(.05f)] private float trafficFadeOutDuration = 1.2f;
     [SerializeField, Min(0f)] private float dialoguePause = .18f;
     [SerializeField, Min(0f)] private float playerResponseDelay = .7f;
     [SerializeField, Min(0f)] private float controlReturnDelay = 1.25f;
@@ -54,7 +55,6 @@ public sealed class OfficeOpeningSequence : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float officeAmbientVolume = .12f;
     [SerializeField, Range(0f, 1f)] private float airConditionerVolume = .2f;
     [SerializeField, Range(0f, 1f)] private float trafficVolume = .34f;
-    [SerializeField, Range(0f, 1f)] private float keyboardVolume = .1f;
     [SerializeField, Range(0f, 1f)] private float bossVolume = 1f;
     [SerializeField, Range(0f, 1f)] private float playerVolume = .55f;
 
@@ -97,6 +97,7 @@ public sealed class OfficeOpeningSequence : MonoBehaviour
         if (sequenceRoutine != null) StopCoroutine(sequenceRoutine);
         StopAllCoroutines();
         sequenceRoutine = null;
+        StopTraffic();
         SetBlack(0f);
         SetOpeningHudVisible(true);
         SetObjectiveAlpha(1f);
@@ -112,7 +113,7 @@ public sealed class OfficeOpeningSequence : MonoBehaviour
         PrepareLoop(officeAmbient, officeAmbientClip);
         PrepareLoop(airConditioner, airConditionerClip);
         PrepareLoop(trafficOutside, trafficClip);
-        PrepareLoop(keyboardDistant, keyboardClip);
+        StopOpeningKeyboard();
         PrepareDialogueSources();
 
         StartLoop(officeAmbient);
@@ -125,15 +126,13 @@ public sealed class OfficeOpeningSequence : MonoBehaviour
         StartCoroutine(FadeAudio(trafficOutside, trafficVolume, 1.4f));
 
         yield return new WaitForSecondsRealtime(1f);
-        StartLoop(keyboardDistant);
-        StartCoroutine(FadeAudio(keyboardDistant, keyboardVolume, 1.2f));
-
         yield return new WaitForSecondsRealtime(Mathf.Max(0f, blackScreenDuration - 2f));
         yield return FadeOfficeIntoView();
+        yield return FadeAudioAndStop(trafficOutside, trafficFadeOutDuration);
         yield return new WaitForSecondsRealtime(bossStartDelay);
 
-        if (deskSlamSource != null && deskSlamClip != null) deskSlamSource.PlayOneShot(deskSlamClip);
         TriggerBossGesture();
+        yield return PlayTwoDeskSlams();
         yield return new WaitForSecondsRealtime(deskSlamLeadSeconds);
         yield return PlayBossDialogue();
 
@@ -202,6 +201,15 @@ public sealed class OfficeOpeningSequence : MonoBehaviour
             officeController.ShowCinematicSubtitle("SẾP", lines[i], seconds + dialoguePause);
             yield return new WaitForSecondsRealtime(seconds + dialoguePause);
         }
+    }
+
+    private IEnumerator PlayTwoDeskSlams()
+    {
+        if (deskSlamSource == null || deskSlamClip == null) yield break;
+
+        deskSlamSource.PlayOneShot(deskSlamClip);
+        yield return new WaitForSecondsRealtime(deskSlamInterval);
+        deskSlamSource.PlayOneShot(deskSlamClip);
     }
 
     private IEnumerator LowerCameraDuringSilence(float seconds)
@@ -290,6 +298,28 @@ public sealed class OfficeOpeningSequence : MonoBehaviour
         source.volume = target;
     }
 
+    private static IEnumerator FadeAudioAndStop(AudioSource source, float seconds)
+    {
+        if (source == null) yield break;
+        yield return FadeAudio(source, 0f, seconds);
+        source.Stop();
+    }
+
+    private void StopTraffic()
+    {
+        if (trafficOutside == null) return;
+        trafficOutside.volume = 0f;
+        trafficOutside.Stop();
+    }
+
+    private void StopOpeningKeyboard()
+    {
+        if (keyboardDistant == null) return;
+        keyboardDistant.Stop();
+        keyboardDistant.loop = false;
+        keyboardDistant.volume = 0f;
+    }
+
     private static IEnumerator FadeCanvasGroup(CanvasGroup group, float from, float to, float seconds)
     {
         if (group == null) yield break;
@@ -333,6 +363,7 @@ public sealed class OfficeOpeningSequence : MonoBehaviour
 
     private void OnDestroy()
     {
+        StopTraffic();
         if (IsRunning) RestoreControl();
     }
 }

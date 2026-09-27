@@ -31,6 +31,8 @@ public class OfficeAtmosphere : MonoBehaviour
     [SerializeField] private AudioClip cupSetDown;
     [SerializeField] private AudioClip tiredSigh;
     [SerializeField] private AudioClip childhoodBridge;
+    [SerializeField, Range(0f, 1f)] private float workTypingVolume = .18f;
+    [SerializeField, Min(.05f)] private float bossDeskSlamInterval = .45f;
     [SerializeField, Min(0f)] private float bossVoiceAfterSlamDelay = .35f;
 
     [Header("Fluorescent lights")]
@@ -84,7 +86,32 @@ public class OfficeAtmosphere : MonoBehaviour
             if (ceilingLights[i] != null) ceilingLights[i].intensity = intensity;
     }
 
-    public void PlayTyping() => Play(keyboardSource, keyPress != null ? keyPress : generatedKey ?? (generatedKey = GenerateKey()));
+    public void StartWorkTyping()
+    {
+        if (keyboardSource == null) return;
+        AudioClip clip = keyPress != null ? keyPress : generatedKey ?? (generatedKey = GenerateKey());
+        if (clip == null) return;
+
+        keyboardSource.Stop();
+        keyboardSource.clip = clip;
+        keyboardSource.loop = true;
+        keyboardSource.playOnAwake = false;
+        keyboardSource.volume = workTypingVolume;
+        keyboardSource.Play();
+    }
+
+    public void StopWorkTyping()
+    {
+        if (keyboardSource == null) return;
+        keyboardSource.Stop();
+        keyboardSource.loop = false;
+    }
+
+    public void PlayTyping()
+    {
+        if (keyboardSource != null && keyboardSource.loop && keyboardSource.isPlaying) return;
+        Play(keyboardSource, keyPress != null ? keyPress : generatedKey ?? (generatedKey = GenerateKey()));
+    }
 
     public float PlayBoss(bool reminder)
     {
@@ -104,13 +131,15 @@ public class OfficeAtmosphere : MonoBehaviour
             return clip.length;
         }
 
-        PlayDeskSlam();
-        bossSequenceRoutine = StartCoroutine(PlayBossAfterDeskSlam(clip));
-        return bossVoiceAfterSlamDelay + clip.length;
+        bossSequenceRoutine = StartCoroutine(PlayBossAfterTwoDeskSlams(clip));
+        return bossDeskSlamInterval + bossVoiceAfterSlamDelay + clip.length;
     }
 
-    private IEnumerator PlayBossAfterDeskSlam(AudioClip clip)
+    private IEnumerator PlayBossAfterTwoDeskSlams(AudioClip clip)
     {
+        PlayDeskSlam();
+        yield return new WaitForSecondsRealtime(bossDeskSlamInterval);
+        PlayDeskSlam();
         yield return new WaitForSecondsRealtime(bossVoiceAfterSlamDelay);
         if (bossSource != null && clip != null) bossSource.PlayOneShot(clip);
         bossSequenceRoutine = null;

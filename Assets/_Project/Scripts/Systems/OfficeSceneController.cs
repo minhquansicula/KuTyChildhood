@@ -225,8 +225,13 @@ public sealed class OfficeSceneController : MonoBehaviour
         if (IsWorking) return;
         IsWorking = true;
         GameManager.Instance?.AcquireInput(this);
-        if (reportMiniGame != null && reportMiniGame.Open(this, task)) return;
+        if (reportMiniGame != null && reportMiniGame.Open(this, task))
+        {
+            atmosphere?.StartWorkTyping();
+            return;
+        }
         IsWorking = false;
+        atmosphere?.StopWorkTyping();
         GameManager.Instance?.ReleaseInput(this);
         ShowSubtitle("HỆ THỐNG", "Giao diện công việc chưa được thiết lập.", 3f);
     }
@@ -234,6 +239,7 @@ public sealed class OfficeSceneController : MonoBehaviour
     public void CompleteWorkTask(OfficeWorkTask completed)
     {
         IsWorking = false;
+        atmosphere?.StopWorkTyping();
         reportMiniGame?.ClosePanel();
         GameManager.Instance?.ReleaseInput(this);
         switch (completed)
@@ -265,6 +271,7 @@ public sealed class OfficeSceneController : MonoBehaviour
     public void CancelWork()
     {
         IsWorking = false;
+        atmosphere?.StopWorkTyping();
         reportMiniGame?.ClosePanel();
         GameManager.Instance?.ReleaseInput(this);
         RefreshObjective();

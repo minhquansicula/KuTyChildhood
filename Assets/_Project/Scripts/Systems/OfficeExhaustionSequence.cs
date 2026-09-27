@@ -12,6 +12,7 @@ using UnityEngine.UI;
 public sealed class OfficeExhaustionSequence : MonoBehaviour
 {
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Transform deskCollapseTarget;
     [SerializeField] private Image blackout;
     [SerializeField] private Volume moodVolume;
     [SerializeField] private OfficeAtmosphere atmosphere;
@@ -41,23 +42,28 @@ public sealed class OfficeExhaustionSequence : MonoBehaviour
     private IEnumerator Collapse(Action onReadyForMemoryWorld)
     {
         IsRunning = true;
-        Vector3 startPosition = cameraTransform.localPosition;
-        Quaternion startRotation = cameraTransform.localRotation;
-        Vector3 targetPosition = startPosition + new Vector3(0.08f, -0.62f, 0.34f);
-        Quaternion targetRotation = startRotation * Quaternion.Euler(25f, 0f, 8f);
+        Vector3 startPosition = cameraTransform.position;
+        Quaternion startRotation = cameraTransform.rotation;
+        Vector3 targetPosition = deskCollapseTarget != null
+            ? deskCollapseTarget.position
+            : startPosition + cameraTransform.TransformDirection(new Vector3(0.08f, -0.62f, 0.34f));
+        Quaternion targetRotation = deskCollapseTarget != null
+            ? deskCollapseTarget.rotation
+            : startRotation * Quaternion.Euler(25f, 0f, 8f);
 
         for (float elapsed = 0f; elapsed < collapseSeconds; elapsed += Time.unscaledDeltaTime)
         {
             float t = Mathf.Clamp01(elapsed / collapseSeconds);
             float eased = Mathf.SmoothStep(0f, 1f, t);
-            cameraTransform.localPosition = Vector3.Lerp(startPosition, targetPosition, eased);
-            cameraTransform.localRotation = Quaternion.Slerp(startRotation, targetRotation, eased);
+            cameraTransform.position = Vector3.Lerp(startPosition, targetPosition, eased);
+            cameraTransform.rotation = Quaternion.Slerp(startRotation, targetRotation, eased);
             ApplyMood(t);
             atmosphere?.SetMuffle(t);
             SetBlackout(Mathf.InverseLerp(0.68f, 1f, t));
             yield return null;
         }
 
+        cameraTransform.SetPositionAndRotation(targetPosition, targetRotation);
         SetBlackout(1f);
         atmosphere?.StopOfficeAmbience();
         yield return new WaitForSecondsRealtime(silentBlackSeconds);

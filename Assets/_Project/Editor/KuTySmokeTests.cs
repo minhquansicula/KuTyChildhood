@@ -90,7 +90,7 @@ public class KuTyStoryRunner : MonoBehaviour
                      "OfficeClockText", "PrinterPaperInteraction", "WaterCupInteraction",
                      "ColdCoffeeInteraction", "OfficeMoodVolume",
                      "OfficeExhaustionFade", "LaptopStatusText", "OfficeOpening", "OfficeOpeningFade",
-                     "KeyboardDistant", "BossDeskSlam", "PlayerOpeningVoice" })
+                     "KeyboardDistant", "BossDeskSlam", "PlayerOpeningVoice", "DeskCollapseTarget" })
             Check(GameObject.Find(objectName) != null, "Missing office asset slot: " + objectName);
         Check(GameObject.Find("ChildhoodMarbleInteraction") == null,
             "The childhood marble should not be present in Scene 1");
@@ -109,6 +109,9 @@ public class KuTyStoryRunner : MonoBehaviour
         Check(Get<Transform>(office, "playerTransform") == FindObjectOfType<FirstPersonController>().transform &&
               Get<Transform>(office, "chairAnchor") == GameObject.Find("office-chair-main-character").transform,
             "The sitting anchor is not wired to office-chair-main-character");
+        Check(Get<Transform>(FindObjectOfType<OfficeExhaustionSequence>(), "deskCollapseTarget") ==
+              GameObject.Find("DeskCollapseTarget").transform,
+            "The exhaustion camera is not wired to the player desk collapse target");
         Check(Get<TMPro.TextMeshPro>(office, "screenWarning") != null &&
               Get<TMPro.TextMeshPro>(office, "clockText") != null &&
               Get<OfficeExhaustionSequence>(office, "exhaustionSequence") != null &&
@@ -120,9 +123,11 @@ public class KuTyStoryRunner : MonoBehaviour
         Check(Get<AudioSource>(ambience, "streetSource").clip != null &&
               Get<AudioSource>(ambience, "fluorescentSource").clip != null, "Office ambient placeholders missing");
         Check(Get<AudioClip>(ambience, "bossFirstLine") != null, "Boss opening voice is not assigned");
+        Check(Get<AudioClip>(ambience, "keyPress") != null,
+            "Workstation typing audio is not assigned to the office atmosphere");
         var opening = FindObjectOfType<OfficeOpeningSequence>();
-        Check(opening != null && Get<AudioClip>(opening, "keyboardClip") != null &&
-              Get<AudioClip>(opening, "trafficClip") != null && Get<AudioClip>(opening, "deskSlamClip") != null,
+        Check(opening != null && Get<AudioClip>(opening, "trafficClip") != null &&
+              Get<AudioClip>(opening, "deskSlamClip") != null,
             "Opening audio from Dumb Assets is not connected");
         var interactions = FindObjectsOfType<OfficeInteractable>();
         Func<OfficeInteractionKind, OfficeInteractable> find = kind =>
@@ -131,6 +136,8 @@ public class KuTyStoryRunner : MonoBehaviour
         Check(GameManager.Instance.InputBlocked && Get<CanvasGroup>(opening, "blackFade").alpha > .99f &&
               !Get<GameObject>(office, "subtitlePanel").activeSelf,
             "Opening did not begin on a locked, UI-free black screen");
+        Check(!Get<AudioSource>(ambience, "keyboardSource").isPlaying,
+            "Keyboard audio should stay silent before the player starts working");
         float openingWaitStarted = Time.realtimeSinceStartup;
         while (!opening.IsComplete)
         {
@@ -143,6 +150,9 @@ public class KuTyStoryRunner : MonoBehaviour
               !FindObjectOfType<PlayerInteraction>().IsInteractionLocked &&
               Get<CanvasGroup>(opening, "objectiveCanvasGroup").alpha > .99f,
             "Opening did not restore control and fade in the objective");
+        Check(!Get<AudioSource>(ambience, "streetSource").isPlaying &&
+              Get<AudioSource>(ambience, "fluorescentSource").isPlaying,
+            "Traffic should stop after the opening while office room tone continues");
         Capture("office-view.png");
         var player = FindObjectOfType<FirstPersonController>().transform;
         var eye = Camera.main.transform;
@@ -170,6 +180,9 @@ public class KuTyStoryRunner : MonoBehaviour
         workDesk.Interact();
         Check(office.Phase == OfficePhase.ProcessEmails && office.IsWorking && GameManager.Instance.InputBlocked,
             "Email task did not start");
+        Check(Get<AudioSource>(ambience, "keyboardSource").isPlaying &&
+              Get<AudioSource>(ambience, "keyboardSource").loop,
+            "Keyboard audio did not start with the work task");
         var reportGame = FindObjectOfType<OfficeReportMiniGame>();
         Check(reportGame != null && reportGame.IsOpen, "Report mini-game UI did not open");
         reportGame.ChooseOption(0);
@@ -178,6 +191,8 @@ public class KuTyStoryRunner : MonoBehaviour
         office.CancelWork();
         Check(!office.IsWorking && !GameManager.Instance.InputBlocked && !reportGame.IsOpen,
             "Report mini-game cancellation failed");
+        Check(!Get<AudioSource>(ambience, "keyboardSource").isPlaying,
+            "Keyboard audio continued after cancelling the work task");
 
         workDesk.Interact();
         reportGame.ChooseOption(1);
