@@ -24,7 +24,7 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private ShopManager shop;
     [SerializeField] private MemoryCollectionManager memories;
     [SerializeField] private InventoryManager inventory;
-    [SerializeField] private QuestStep currentStep = QuestStep.ReadJournal;
+    [SerializeField] private QuestStep currentStep = QuestStep.WashDishes;
     public QuestStep CurrentStep => currentStep;
     public ItemData Candy => candy;
     public ItemData MarbleJar => marbleJar;
@@ -39,6 +39,12 @@ public class QuestManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+        
+        // Bỏ qua bước ReadJournal, ép buộc bắt đầu từ WashDishes luôn
+        if (currentStep == QuestStep.ReadJournal)
+        {
+            currentStep = QuestStep.WashDishes;
+        }
     }
     private void Start()
     {

@@ -33,12 +33,12 @@ public class BedWakeUpController : MonoBehaviour
             // Lock movement & input
             GameManager.Instance?.AcquireInput(this);
             
-            // If not initial, teleport player to bed position
-            if (!isInitial)
+            // Teleport player to bed position dynamically
+            GameObject bed = GameObject.Find("BedBlock");
+            if (bed != null)
             {
-                // The BedBlock is at (0, 0.25, -5) with scale (2, 0.5, 2.5)
-                // Player standing on top would be at y = 0.55
-                playerController.TeleportTo(new Vector3(0, 0.55f, -5), Quaternion.identity);
+                Vector3 bedPos = bed.transform.position;
+                playerController.TeleportTo(new Vector3(bedPos.x, bedPos.y + 0.3f, bedPos.z), Quaternion.identity);
             }
 
             // Look up at the ceiling
@@ -86,11 +86,19 @@ public class BedWakeUpController : MonoBehaviour
             playerController.SetPitch(0f);
             
             // Teleport slightly to the side of the bed so they don't get stuck interacting immediately
-            playerController.TeleportTo(new Vector3(-2f, 0.05f, -5f), Quaternion.identity);
+            GameObject bed = GameObject.Find("BedBlock");
+            if (bed != null)
+            {
+                Vector3 bedPos = bed.transform.position;
+                playerController.TeleportTo(new Vector3(bedPos.x + 1.5f, 0.05f, bedPos.z), Quaternion.identity);
+            }
         }
 
         // Restore input
         GameManager.Instance?.ReleaseInput(this);
+
+        // Hiển thị Checklist
+        KitchenFlowManager.Instance?.ShowChecklist();
 
         // We don't disable the GameObject anymore, because they might want to use it again!
     }
