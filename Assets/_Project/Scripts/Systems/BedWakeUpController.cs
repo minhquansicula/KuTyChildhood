@@ -7,6 +7,14 @@ public class BedWakeUpController : MonoBehaviour
     [Header("UI References")]
     public TextMeshProUGUI promptText;
 
+    [Header("Bed Exit")]
+    [Tooltip("Scene marker used for getting out of bed. Move this object to move the exit location.")]
+    [SerializeField] private Transform bedExitPoint;
+    [Tooltip("World-space offset from the marker, keeping the player beside its collider.")]
+    [SerializeField] private Vector3 bedExitOffset = new Vector3(0.55f, 0f, 0f);
+    [Tooltip("Fallback distance to the right of the bed when no exit marker is assigned.")]
+    [SerializeField, Min(0f)] private float exitRightDistance = 1.55f;
+
     private FirstPersonController playerController;
     private bool canWakeUp = false;
 
@@ -18,6 +26,7 @@ public class BedWakeUpController : MonoBehaviour
 
     public void GetOnBed(bool isInitial)
     {
+        canWakeUp = false;
         // Ensure prompt is hidden
         if (promptText != null) promptText.gameObject.SetActive(false);
 
@@ -85,12 +94,19 @@ public class BedWakeUpController : MonoBehaviour
         {
             playerController.SetPitch(0f);
             
-            // Teleport slightly to the side of the bed so they don't get stuck interacting immediately
-            GameObject bed = GameObject.Find("BedBlock");
-            if (bed != null)
+            // Read the marker's current position each time so moving it also moves the exit.
+            if (bedExitPoint != null)
             {
-                Vector3 bedPos = bed.transform.position;
-                playerController.TeleportTo(new Vector3(bedPos.x + 1.5f, 0.05f, bedPos.z), Quaternion.identity);
+                playerController.TeleportTo(bedExitPoint.position + bedExitOffset, Quaternion.identity);
+            }
+            else
+            {
+                GameObject bed = GameObject.Find("BedBlock");
+                if (bed != null)
+                {
+                    Vector3 bedPos = bed.transform.position;
+                    playerController.TeleportTo(new Vector3(bedPos.x + exitRightDistance, 0.05f, bedPos.z), Quaternion.identity);
+                }
             }
         }
 
