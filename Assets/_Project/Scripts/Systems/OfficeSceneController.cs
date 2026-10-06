@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public enum OfficePhase { Opening, ReturnToDesk, ProcessEmails, SortDocuments, FixReport, AfterWork, Rest, Leaving }
+public enum OfficePhase { Opening, ReturnToDesk, ProcessEmails, SortDocuments, FixReport, ExcelAuditing, AfterWork, Rest, Leaving }
 public enum OfficeInteractionKind { Laptop, Documents, Chair, Window, Boss }
 
 /// <summary>Coordinates the complete Scene 1 narrative and work flow.</summary>
@@ -20,6 +20,7 @@ public sealed class OfficeSceneController : MonoBehaviour
     [Header("Scene systems")]
     [SerializeField] private OfficeAtmosphere atmosphere;
     [SerializeField] private OfficeReportMiniGame reportMiniGame;
+    [SerializeField] private ExcelDataAuditorGame excelMiniGame;
     [SerializeField] private OfficeOpeningSequence openingSequence;
     [SerializeField] private OfficeExhaustionSequence exhaustionSequence;
     [SerializeField] private Light afternoonLight;
@@ -141,6 +142,7 @@ public sealed class OfficeSceneController : MonoBehaviour
             case OfficePhase.ProcessEmails: return "[E] Tiếp tục xử lý email";
             case OfficePhase.SortDocuments: return "[E] Sắp xếp tài liệu trên bàn";
             case OfficePhase.FixReport: return "[E] Sửa báo cáo cho sếp";
+            case OfficePhase.ExcelAuditing: return "[E] Kiểm toán dữ liệu cuối cùng";
             case OfficePhase.AfterWork: return "[E] Xem thông báo mới";
             case OfficePhase.Rest: return "[E] Nghỉ một chút";
             default: return string.Empty;
@@ -169,6 +171,7 @@ public sealed class OfficeSceneController : MonoBehaviour
             case OfficePhase.ProcessEmails: StartWork(OfficeWorkTask.Emails); break;
             case OfficePhase.SortDocuments: StartWork(OfficeWorkTask.Documents); break;
             case OfficePhase.FixReport: StartWork(OfficeWorkTask.Report); break;
+            case OfficePhase.ExcelAuditing: StartExcelWork(); break;
             case OfficePhase.AfterWork:
                 atmosphere?.PlayEmailNotification();
                 ShowSubtitle("MÀN HÌNH", "3 email mới. Nhưng hôm nay mình không còn sức nữa...", 4f);
@@ -236,6 +239,23 @@ public sealed class OfficeSceneController : MonoBehaviour
         ShowSubtitle("HỆ THỐNG", "Giao diện công việc chưa được thiết lập.", 3f);
     }
 
+    private void StartExcelWork()
+    {
+        if (IsWorking) return;
+        IsWorking = true;
+        GameManager.Instance?.AcquireInput(this);
+        if (excelMiniGame != null)
+        {
+            excelMiniGame.Open(this);
+            atmosphere?.StartWorkTyping();
+            return;
+        }
+        IsWorking = false;
+        atmosphere?.StopWorkTyping();
+        GameManager.Instance?.ReleaseInput(this);
+        ShowSubtitle("HỆ THỐNG", "Giao diện kiểm toán Excel chưa được thiết lập.", 3f);
+    }
+
     public void CompleteWorkTask(OfficeWorkTask completed)
     {
         IsWorking = false;
@@ -255,14 +275,26 @@ public sealed class OfficeSceneController : MonoBehaviour
                 ShowSubtitle("QUÂN", "Giấy tờ đã đúng khay. Giờ chỉ còn bản báo cáo.", 3.2f);
                 break;
             case OfficeWorkTask.Report:
-                WorkProgress = 1f;
-                SetPhase(OfficePhase.AfterWork);
-                atmosphere?.PlayEmailNotification();
-                if (afternoonLight != null) afternoonLight.intensity *= .62f;
-                if (afterWorkRoutine != null) StopCoroutine(afterWorkRoutine);
-                afterWorkRoutine = StartCoroutine(AfterWorkBeat());
+                SetPhase(OfficePhase.ExcelAuditing);
+                atmosphere?.PlayPrinter();
+                ShowSubtitle("QUÂN", "Báo cáo đã sửa. Giờ phải làm nốt cái bảng dữ liệu Excel này...", 3.2f);
                 break;
         }
+    }
+
+    public void CompleteExcelTask()
+    {
+        IsWorking = false;
+        atmosphere?.StopWorkTyping();
+        excelMiniGame?.ClosePanel();
+        GameManager.Instance?.ReleaseInput(this);
+        
+        WorkProgress = 1f;
+        SetPhase(OfficePhase.AfterWork);
+        atmosphere?.PlayEmailNotification();
+        if (afternoonLight != null) afternoonLight.intensity *= .62f;
+        if (afterWorkRoutine != null) StopCoroutine(afterWorkRoutine);
+        afterWorkRoutine = StartCoroutine(AfterWorkBeat());
     }
 
     public void UpdateReportMiniGameProgress(float progress) => WorkProgress = Mathf.Clamp01(progress);
@@ -273,6 +305,7 @@ public sealed class OfficeSceneController : MonoBehaviour
         IsWorking = false;
         atmosphere?.StopWorkTyping();
         reportMiniGame?.ClosePanel();
+        if (excelMiniGame != null) excelMiniGame.ClosePanel();
         GameManager.Instance?.ReleaseInput(this);
         RefreshObjective();
     }
@@ -322,8 +355,9 @@ public sealed class OfficeSceneController : MonoBehaviour
             case OfficePhase.ReturnToDesk: ObjectiveText = "Quay lại bàn làm việc."; break;
             case OfficePhase.ProcessEmails: ObjectiveText = "Xử lý 3 email khẩn."; break;
             case OfficePhase.SortDocuments: ObjectiveText = "Sắp xếp tài liệu vào đúng khay."; break;
-            case OfficePhase.FixReport: ObjectiveText = "Đối chiếu số liệu và gửi lại báo cáo."; break;
-            case OfficePhase.AfterWork: ObjectiveText = "Công việc đã gửi. Có thể nhìn quanh một chút."; break;
+            case OfficePhase.FixReport: ObjectiveText = "Đối chiếu số liệu và cập nhật báo cáo."; break;
+            case OfficePhase.ExcelAuditing: ObjectiveText = "Kiểm toán lại tài liệu Excel."; break;
+            case OfficePhase.AfterWork: ObjectiveText = "Công việc đã xong. Có thể nhìn quanh một chút."; break;
             case OfficePhase.Rest:
                 ObjectiveText = IsSeated ? "Nghỉ một chút." : "Quay lại ghế và nghỉ một chút.";
                 nearChair = false;
@@ -461,7 +495,7 @@ public sealed class OfficeSceneController : MonoBehaviour
     }
 
     private static bool IsWorkPhase(OfficePhase phase) =>
-        phase == OfficePhase.ProcessEmails || phase == OfficePhase.SortDocuments || phase == OfficePhase.FixReport;
+        phase == OfficePhase.ProcessEmails || phase == OfficePhase.SortDocuments || phase == OfficePhase.FixReport || phase == OfficePhase.ExcelAuditing;
 
     private void ShowSubtitle(string speaker, string line, float seconds)
     {
