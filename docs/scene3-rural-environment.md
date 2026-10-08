@@ -1,5 +1,13 @@
 # Scene 3 — Đường làng, ruộng lúa và tiệm tạp hóa
 
+## Bố cục làng quê hiện tại (05/10/2026)
+
+Nhóm `LangQue_BoCucMoi` trong scene 3 là bố cục đang dùng. Năm nhà được chuyển ra nền đất khô ở hai mép ngoài ruộng, lần lượt tại X/Z `(-56,-9)`, `(56,10)`, `(-56,33)`, `(56,66)`, `(-56,92)`. Mỗi sân rộng 23×20 m có một cây ổi low-poly, một bàn và hai ghế gỗ; lối đất rộng 3,2 m nối ra đường. Khuôn viên nhà cách mặt nước/ruộng gần nhất ít nhất 5 m. Nhóm nhà cũ được giữ nhưng tắt để có thể so sánh hoặc phục hồi.
+
+Lúa cũ và các mặt nước ruộng cũ được tắt, không xoá. Tám mảng ruộng mới hiện có 310 cụm lúa nhẹ, mỗi cụm gồm 9 cây (2.790 cây tổng cộng), lấy từ mẫu lúa mới khoảng 5.986 tam giác/cây. Prefab `CayLuaNhe_Cum3x3` xoay phần mesh đúng trục để cây đứng thẳng, đưa điểm thấp nhất của rễ về mặt đất; các instance chỉ xoay ngẫu nhiên quanh trục Y nên không bị nằm ngang. Có thể cập nhật bằng menu Unity **KuTy → Scene 3 → Plant new light rice across fields**; script bỏ qua cụm đã tồn tại. `caylua.fbx` gốc và 30 cụm cũ vẫn được giữ nhưng không hiển thị. Đường đất đến các sân chừa khe khô trong lúa và mặt nước. Bãi bi nằm trên dải đất khô phía trái, thay ba ô ruộng cũ tại Z=27/46/65, với nền chơi 24×22 m, không có ruộng hay nước ngay quanh sân. Gameplay bắn bi vẫn giữ các object/component cũ.
+
+Dựng lại bằng menu Unity **KuTy → Scene 3 → Rebuild village, rice fields and marble clearing** trên bản scene chưa có nhóm mới. Bản scene trước khi đổi bố cục được lưu tại `Tools/Scene3/Act3_MemoryWorld_OutSide.before-village-layout.unity`. Các mô tả bên dưới ghi lại bố cục trước đợt chỉnh này.
+
 Cập nhật 27/09/2026, bản sửa bố cục đất trống và hoàng hôn. Scene: `Assets/_Project/Scenes/Act3_MemoryWorld_OutSide.unity`.
 
 ## Phạm vi và căn cứ
@@ -22,6 +30,8 @@ Tuyến hình ảnh: **đường làng → tiệm tạp hóa → đi tiếp → 
 Đường kéo dài từ Z=-15 tới Z=105. Có mương, bờ ruộng và cầu ván vào tiệm/sân bi. Lúa được cắt khỏi hai bãi đất và lối vào, mặt nước được chia nhỏ để không nằm dưới bãi; không chỉ che ruộng bằng một lớp nền. Ground khoảng 180×210m. Đây là một không gian mở trong một scene, chưa có streaming thế giới.
 
 ## Hierarchy và tài nguyên
+
+Năm nhà dân mới được đặt xen kẽ hai bên đường trong nhóm `Scene3_DuongLang_RuongLua/NhaDan_XenGiuaRuongLua`. Mỗi nhà có nền đất và lối vào; năm ô lúa được chừa đúng diện tích sân nhà và lối đi. Prefab nhà, mesh lúa đã chừa và cách dựng lại nằm trong `Tools/Scene3/README.md`. Tiệm, sân bi và đường làng giữ vị trí cũ.
 
 - `Scene3_DuongLang_RuongLua`: cảnh quan mới, chia thành nhóm kiến trúc, ruộng/cây/mương và đường/sân/bạn bè.
 - `ShopCounter/TiemTapHoa_Visual`: hình ảnh tiệm làm con quầy tương tác gốc.
