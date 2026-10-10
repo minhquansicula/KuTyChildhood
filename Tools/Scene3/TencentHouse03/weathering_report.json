@@ -1,0 +1,8 @@
+{
+  "saturation": 0.72,
+  "brightness_multiplier": 0.88,
+  "roughness_floor": 0.72,
+  "metallic_multiplier": 0.5,
+  "ground_stain_height_m": 1.2,
+  "method": "Blender procedural material, baked to independent LOD PBR atlases; no geometry or source image changes"
+}

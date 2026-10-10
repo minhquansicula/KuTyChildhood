@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "original_obj_crc_matches_download": true,
+  "scene_saved": true,
+  "house_path": "Scene3_DuongLang_RuongLua/LangQue_VietNam_Gon/NhaDan_VaSanVuon/SanNha_Gon_01/Nha01_NgoiDo_HienTon",
+  "materials": [
+    "Nha01_Tencent_PBR"
+  ],
+  "LOD_triangles": [
+    30000,
+    12000,
+    3000
+  ],
+  "snapshot_house_bounds": {
+    "x": 7.358368873596191,
+    "y": 5.078545570373535,
+    "z": 7.223799705505371
+  }
+}

@@ -1,0 +1,23 @@
+D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\prepare_tencent_house04.py:25: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  material=bpy.data.materials.new('Nha04_Original_PBR');material.use_nodes=True
+Candidate {"LOD": 0, "triangles": 40000, "samples": 49770, "max_surface_error_m": 0.008921750821173191, "p99_surface_error_m": 0.0046231394214555615, "mean_surface_error_m": 0.0012268532143341682, "bounds_error_m": 0.0006978511810302734}
+Candidate {"LOD": 1, "triangles": 16000, "samples": 37770, "max_surface_error_m": 0.026892904192209244, "p99_surface_error_m": 0.011267718523740764, "mean_surface_error_m": 0.002694997439472045, "bounds_error_m": 0.006352424621582031}
+Candidate {"LOD": 2, "triangles": 5000, "samples": 32270, "max_surface_error_m": 0.09475822746753693, "p99_surface_error_m": 0.040040132962167414, "mean_surface_error_m": 0.008554573516599625, "bounds_error_m": 0.03620600700378418}
+Candidate {"LOD": 2, "triangles": 8000, "samples": 33770, "max_surface_error_m": 0.048368848860263824, "p99_surface_error_m": 0.023383643068373185, "mean_surface_error_m": 0.005244171242215211, "bounds_error_m": 0.022867918014526367}
+D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\prepare_tencent_house04.py:70: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  scene.world=bpy.data.worlds.new('Neutral');scene.world.use_nodes=True;scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value=.75
+01:55.047  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\Source_Front.png'
+02:01.031  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\Source_Back.png'
+02:06.968  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\Source_Right.png'
+02:12.843  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\Source_Left.png'
+Info: Saved as "NhaQue_04_Prepare.blend"
+PREPARED {"source_sha256": "04cb02b36b40d9d4b556efb06c5b0137956728a3a5437d8eadfa0f4d216a0d5b", "source_assets_sha256": {"2f79e2974f1488051a3e23b79cf6144f.obj": "04cb02b36b40d9d4b556efb06c5b0137956728a3a5437d8eadfa0f4d216a0d5b", "material.mtl": "9850ae5248d6dbf106daf4d0ba88a74ecfab339015525940460521a52d6c17f9", "texture_pbr_20250901.png": "24735c5953d1e41fccd1ef9f0537126a74305b1f9d9d5ec55dbfb70912b2aa96", "texture_pbr_20250901_metallic.png": "b4f028bfcfce4c7540438263d8c20e09f72bfc53d8d95f337bf8b70dfdc43f76", "texture_pbr_20250901_normal.png": "deeab996b43e2773312fc6d47f45460f47a68f823bc2a923f8375cee66236ff1", "texture_pbr_20250901_roughness.png": "935346764badf04db2d0c7a5c66c6989ce7873c24a8897c0855990cf07b37421"}, "source_triangles": 1499650, "dimensions_metres": [7.800000190734863, 4.9527130126953125, 3.922184705734253], "uniform_scale": 7.88366174697876, "lods": [{"LOD": 0, "triangles": 40000, "samples": 49770, "max_surface_error_m": 0.008921750821173191, "p99_surface_error_m": 0.0046231394214555615, "mean_surface_error_m": 0.0012268532143341682, "bounds_error_m": 0.0006978511810302734}, {"LOD": 1, "triangles": 16000, "samples": 37770, "max_surface_error_m": 0.026892904192209244, "p99_surface_error_m": 0.011267718523740764, "mean_surface_error_m": 0.002694997439472045, "bounds_error_m": 0.006352424621582031}, {"LOD": 2, "triangles": 8000, "samples": 33770, "max_surface_error_m": 0.048368848860263824, "p99_surface_error_m": 0.023383643068373185, "mean_surface_error_m": 0.005244171242215211, "bounds_error_m": 0.022867918014526367}], "geometry_policy": "Only conservative edge collapse; no remeshing, vertex smoothing or wall flattening. Bidirectional sampled surface comparison."}
+Exception ignored in: <function ImagePreviewCollection.__del__ at 0x0000020AD3C46D40>
+Traceback (most recent call last):
+  File "C:\Program Files\Blender Foundation\5.2\scripts\modules\bpy\utils\previews.py", line 63, in __del__
+    raise ResourceWarning(
+ResourceWarning: <ImagePreviewCollection id=0x20ad3c30500[4], <super: <class 'ImagePreviewCollection'>, <ImagePreviewCollection object>>>: left open, remove with 'bpy.utils.previews.remove()'
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:37:04)
+OBJ import of '2f79e2974f1488051a3e23b79cf6144f.obj' took 1199.38 ms
+
+Blender quit

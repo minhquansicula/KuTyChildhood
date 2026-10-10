@@ -1,0 +1,89 @@
+[
+  {
+    "LOD": 0,
+    "triangles": 30000,
+    "atlas_size": 2048,
+    "wall_planes": [
+      {
+        "axis": 0,
+        "plane": -3.038,
+        "vertices": 485
+      },
+      {
+        "axis": 0,
+        "plane": 3.138,
+        "vertices": 200
+      },
+      {
+        "axis": 1,
+        "plane": -1.762,
+        "vertices": 906
+      },
+      {
+        "axis": 1,
+        "plane": 2.938,
+        "vertices": 41
+      }
+    ],
+    "flat_wall_faces": 1480,
+    "max_wall_planarity_error_m": 1.0681152362579382e-07
+  },
+  {
+    "LOD": 1,
+    "triangles": 12000,
+    "atlas_size": 1024,
+    "wall_planes": [
+      {
+        "axis": 0,
+        "plane": -3.038,
+        "vertices": 173
+      },
+      {
+        "axis": 0,
+        "plane": 3.138,
+        "vertices": 82
+      },
+      {
+        "axis": 1,
+        "plane": -1.762,
+        "vertices": 426
+      },
+      {
+        "axis": 1,
+        "plane": 2.938,
+        "vertices": 6
+      }
+    ],
+    "flat_wall_faces": 649,
+    "max_wall_planarity_error_m": 1.0681152362579382e-07
+  },
+  {
+    "LOD": 2,
+    "triangles": 3000,
+    "atlas_size": 512,
+    "wall_planes": [
+      {
+        "axis": 0,
+        "plane": -3.038,
+        "vertices": 57
+      },
+      {
+        "axis": 0,
+        "plane": 3.138,
+        "vertices": 20
+      },
+      {
+        "axis": 1,
+        "plane": -1.762,
+        "vertices": 146
+      },
+      {
+        "axis": 1,
+        "plane": 2.938,
+        "vertices": 4
+      }
+    ],
+    "flat_wall_faces": 246,
+    "max_wall_planarity_error_m": 1.0681152362579382e-07
+  }
+]

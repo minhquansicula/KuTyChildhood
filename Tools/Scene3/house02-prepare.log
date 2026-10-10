@@ -1,0 +1,22 @@
+D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\prepare_tencent_house02.py:25: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  material=bpy.data.materials.new('Nha02_Original_PBR');material.use_nodes=True
+Candidate {"LOD": 0, "triangles": 40000, "samples": 49970, "max_surface_error_m": 0.005033710040152073, "p99_surface_error_m": 0.0029190147295594213, "mean_surface_error_m": 0.0007524479729164416, "bounds_error_m": 0.0023560523986816406}
+Candidate {"LOD": 1, "triangles": 16000, "samples": 37970, "max_surface_error_m": 0.012065131217241287, "p99_surface_error_m": 0.006004314399324356, "mean_surface_error_m": 0.001422521645972229, "bounds_error_m": 0.00391387939453125}
+Candidate {"LOD": 2, "triangles": 5000, "samples": 32470, "max_surface_error_m": 0.05737072229385376, "p99_surface_error_m": 0.025860231406986713, "mean_surface_error_m": 0.005108933497702297, "bounds_error_m": 0.013813018798828125}
+D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\prepare_tencent_house02.py:69: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  scene.world=bpy.data.worlds.new('Neutral');scene.world.use_nodes=True;scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value=.75
+02:04.563  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Source_Front.png'
+02:13.469  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Source_Back.png'
+02:36.938  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Source_Right.png'
+03:00.219  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Source_Left.png'
+Info: Saved as "NhaQue_L_Prepare.blend"
+PREPARED {"source_sha256": "65056a034a0205cf1427be4695a06ec1ffb2bd1f81799464f3e102bbb08527c5", "source_triangles": 1499748, "dimensions_metres": [7.799999713897705, 6.252241134643555, 4.451150417327881], "uniform_scale": 8.441000938415527, "lods": [{"LOD": 0, "triangles": 40000, "samples": 49970, "max_surface_error_m": 0.005033710040152073, "p99_surface_error_m": 0.0029190147295594213, "mean_surface_error_m": 0.0007524479729164416, "bounds_error_m": 0.0023560523986816406}, {"LOD": 1, "triangles": 16000, "samples": 37970, "max_surface_error_m": 0.012065131217241287, "p99_surface_error_m": 0.006004314399324356, "mean_surface_error_m": 0.001422521645972229, "bounds_error_m": 0.00391387939453125}, {"LOD": 2, "triangles": 5000, "samples": 32470, "max_surface_error_m": 0.05737072229385376, "p99_surface_error_m": 0.025860231406986713, "mean_surface_error_m": 0.005108933497702297, "bounds_error_m": 0.013813018798828125}], "geometry_policy": "Only conservative edge collapse; no remeshing, vertex smoothing or wall flattening. Bidirectional sampled surface comparison."}
+Exception ignored in: <function ImagePreviewCollection.__del__ at 0x0000018FAD9F6D40>
+Traceback (most recent call last):
+  File "C:\Program Files\Blender Foundation\5.2\scripts\modules\bpy\utils\previews.py", line 63, in __del__
+    raise ResourceWarning(
+ResourceWarning: <ImagePreviewCollection id=0x18fad9dc3c0[4], <super: <class 'ImagePreviewCollection'>, <ImagePreviewCollection object>>>: left open, remove with 'bpy.utils.previews.remove()'
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:37:04)
+OBJ import of 'bf81dc6ffe8a6a79404b6ecf30e0dfa3.obj' took 1035.81 ms
+
+Blender quit

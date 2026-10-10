@@ -1,0 +1,10 @@
+PASS
+Third house at (-25, 0.1, 27), facade towards the road.
+LOD triangles: 40000 / 16000 / 12000
+House dimensions: (6.30, 5.19, 7.00)
+Uniform scale only; independently baked 2048 / 1024 / 512 PBR atlases.
+Low-LOD static mesh collider.
+Original gameplay components preserved: 39
+Village layout and walking tests passed; bank grass remains removed.
+Muted colours, ground damp stains, sparse moss, rain streaks and weathered metal baked into PBR maps. Original source OBJ unchanged; see geometry_report.json for sampled surface errors.
+Far atlas reprojected from clean LOD0; LOD2 uses mesh normals to avoid fine-detail aliasing. Geometry unchanged.

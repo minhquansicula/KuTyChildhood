@@ -1,0 +1,28 @@
+00:02.531  blend            | Read blend: "D:\FPT-ki7\PRU\Project_PRu\BLENDER\NhaQue_L\NhaQue_L_Game.blend"
+D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\verify_house02_silhouette.py:12: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  material=bpy.data.materials.new('Silhouette');material.use_nodes=True
+00:05.047  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\Original_Front.png'
+00:05.250  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\LOD0_Front.png'
+00:05.422  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\LOD1_Front.png'
+00:05.562  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\LOD2_Front.png'
+00:07.515  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\Original_Back.png'
+00:07.703  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\LOD0_Back.png'
+00:07.859  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\LOD1_Back.png'
+00:08.015  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\LOD2_Back.png'
+00:09.968  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\Original_Right.png'
+00:10.156  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\LOD0_Right.png'
+00:10.312  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\LOD1_Right.png'
+00:10.453  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\LOD2_Right.png'
+00:12.422  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\Original_Left.png'
+00:12.609  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\LOD0_Left.png'
+00:12.765  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\LOD1_Left.png'
+00:12.906  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse02\Silhouettes\LOD2_Left.png'
+SILHOUETTE PASS [{"view": "Front", "LOD": 0, "silhouette_intersection_over_union": 0.9995543466940517, "changed_pixels": 184}, {"view": "Front", "LOD": 1, "silhouette_intersection_over_union": 0.9988742855344481, "changed_pixels": 465}, {"view": "Front", "LOD": 2, "silhouette_intersection_over_union": 0.9968479879334017, "changed_pixels": 1304}, {"view": "Back", "LOD": 0, "silhouette_intersection_over_union": 0.9995536662617043, "changed_pixels": 187}, {"view": "Back", "LOD": 1, "silhouette_intersection_over_union": 0.9990098631941098, "changed_pixels": 415}, {"view": "Back", "LOD": 2, "silhouette_intersection_over_union": 0.9966322428214851, "changed_pixels": 1414}, {"view": "Right", "LOD": 0, "silhouette_intersection_over_union": 0.999699400680106, "changed_pixels": 80}, {"view": "Right", "LOD": 1, "silhouette_intersection_over_union": 0.9989592647976014, "changed_pixels": 277}, {"view": "Right", "LOD": 2, "silhouette_intersection_over_union": 0.99745876594371, "changed_pixels": 677}, {"view": "Left", "LOD": 0, "silhouette_intersection_over_union": 0.9997235352166217, "changed_pixels": 72}, {"view": "Left", "LOD": 1, "silhouette_intersection_over_union": 0.9991745532029256, "changed_pixels": 215}, {"view": "Left", "LOD": 2, "silhouette_intersection_over_union": 0.9970778959316795, "changed_pixels": 762}]
+Exception ignored in: <function ImagePreviewCollection.__del__ at 0x00000236650F6D40>
+Traceback (most recent call last):
+  File "C:\Program Files\Blender Foundation\5.2\scripts\modules\bpy\utils\previews.py", line 63, in __del__
+    raise ResourceWarning(
+ResourceWarning: <ImagePreviewCollection id=0x236650e0460[4], <super: <class 'ImagePreviewCollection'>, <ImagePreviewCollection object>>>: left open, remove with 'bpy.utils.previews.remove()'
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:37:04)
+
+Blender quit

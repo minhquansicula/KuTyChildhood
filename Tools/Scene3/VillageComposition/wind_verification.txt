@@ -1,0 +1,5 @@
+PASS: Shader compiled after rendering 49 wind frames.
+All sixteen fields share the gust material.
+LOD thresholds remain 6/25 metres.
+Preview time restored to -1 for live animation.
+No per-plant objects or physics were added.

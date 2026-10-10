@@ -1,0 +1,111 @@
+{
+    "unityVersion": "2022.3.62f3",
+    "passed": true,
+    "models": [
+        {
+            "name": "CayLua_LOD0",
+            "triangles": 5986,
+            "vertices": 16458,
+            "submeshes": 1,
+            "materials": 1,
+            "boundsMin": {
+                "x": -1.0384925603866578,
+                "y": 0.0,
+                "z": -0.9967257976531982
+            },
+            "boundsMax": {
+                "x": 0.8962172269821167,
+                "y": 2.008863925933838,
+                "z": 0.8779430389404297
+            },
+            "rootEuler": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rootScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "windMin": 0.0,
+            "windMax": 1.0,
+            "maximumHeightMaskError": 0.0019577741622924806,
+            "uv0": true,
+            "uv1": true,
+            "rootAtGround": true,
+            "upright": true,
+            "rootIdentity": true
+        },
+        {
+            "name": "CayLua_LOD1",
+            "triangles": 380,
+            "vertices": 662,
+            "submeshes": 1,
+            "materials": 1,
+            "boundsMin": {
+                "x": -1.0384925603866578,
+                "y": 0.0,
+                "z": -0.9967257976531982
+            },
+            "boundsMax": {
+                "x": 0.8962172269821167,
+                "y": 2.011427640914917,
+                "z": 0.8779430389404297
+            },
+            "rootEuler": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rootScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "windMin": 0.0,
+            "windMax": 1.0,
+            "maximumHeightMaskError": 0.0019513964653015137,
+            "uv0": true,
+            "uv1": true,
+            "rootAtGround": true,
+            "upright": true,
+            "rootIdentity": true
+        },
+        {
+            "name": "CayLua_LOD2",
+            "triangles": 48,
+            "vertices": 88,
+            "submeshes": 1,
+            "materials": 1,
+            "boundsMin": {
+                "x": -0.8031175136566162,
+                "y": 0.0,
+                "z": -0.9763921499252319
+            },
+            "boundsMax": {
+                "x": 0.8334789276123047,
+                "y": 2.016083240509033,
+                "z": 0.7824804782867432
+            },
+            "rootEuler": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rootScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "windMin": 0.0,
+            "windMax": 1.0,
+            "maximumHeightMaskError": 0.0019178390502929688,
+            "uv0": true,
+            "uv1": true,
+            "rootAtGround": true,
+            "upright": true,
+            "rootIdentity": true
+        }
+    ]
+}

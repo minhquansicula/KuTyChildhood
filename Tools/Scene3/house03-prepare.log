@@ -1,0 +1,24 @@
+D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\prepare_tencent_house03.py:25: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  material=bpy.data.materials.new('Nha03_Original_PBR');material.use_nodes=True
+Candidate {"LOD": 0, "triangles": 40000, "samples": 49946, "max_surface_error_m": 0.028826504945755005, "p99_surface_error_m": 0.002528342965524647, "mean_surface_error_m": 0.0006675159079050286, "bounds_error_m": 0.0009763240814208984}
+Candidate {"LOD": 1, "triangles": 16000, "samples": 37946, "max_surface_error_m": 0.041680481284856796, "p99_surface_error_m": 0.0048898321110755405, "mean_surface_error_m": 0.0011162742418494773, "bounds_error_m": 0.0021638870239257812}
+Candidate {"LOD": 2, "triangles": 5000, "samples": 32446, "max_surface_error_m": 0.10445333272218704, "p99_surface_error_m": 0.02455085078254342, "mean_surface_error_m": 0.004645511226816338, "bounds_error_m": 0.003856182098388672}
+Candidate {"LOD": 2, "triangles": 8000, "samples": 33946, "max_surface_error_m": 0.09281197190284729, "p99_surface_error_m": 0.01207770351320507, "mean_surface_error_m": 0.002390375419206259, "bounds_error_m": 0.00353240966796875}
+Candidate {"LOD": 2, "triangles": 12000, "samples": 35946, "max_surface_error_m": 0.041680481284856796, "p99_surface_error_m": 0.006890843552537262, "mean_surface_error_m": 0.0014544268566838905, "bounds_error_m": 0.00353240966796875}
+D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\prepare_tencent_house03.py:69: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  scene.world=bpy.data.worlds.new('Neutral');scene.world.use_nodes=True;scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value=.75
+03:31.109  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse03\Source_Front.png'
+03:37.015  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse03\Source_Back.png'
+03:42.656  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse03\Source_Right.png'
+03:48.343  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse03\Source_Left.png'
+Info: Saved as "NhaQue_03_Prepare.blend"
+PREPARED {"source_sha256": "890927cda7e3a54c9275807a3a83b975ae4bbd1a72372035e1599b22a4522623", "source_triangles": 1500008, "dimensions_metres": [7.0, 6.292972564697266, 5.190028667449951], "uniform_scale": 8.327563285827637, "lods": [{"LOD": 0, "triangles": 40000, "samples": 49946, "max_surface_error_m": 0.028826504945755005, "p99_surface_error_m": 0.002528342965524647, "mean_surface_error_m": 0.0006675159079050286, "bounds_error_m": 0.0009763240814208984}, {"LOD": 1, "triangles": 16000, "samples": 37946, "max_surface_error_m": 0.041680481284856796, "p99_surface_error_m": 0.0048898321110755405, "mean_surface_error_m": 0.0011162742418494773, "bounds_error_m": 0.0021638870239257812}, {"LOD": 2, "triangles": 12000, "samples": 35946, "max_surface_error_m": 0.041680481284856796, "p99_surface_error_m": 0.006890843552537262, "mean_surface_error_m": 0.0014544268566838905, "bounds_error_m": 0.00353240966796875}], "geometry_policy": "Only conservative edge collapse; no remeshing, vertex smoothing or wall flattening. Bidirectional sampled surface comparison."}
+Exception ignored in: <function ImagePreviewCollection.__del__ at 0x000001A9280D98A0>
+Traceback (most recent call last):
+  File "C:\Program Files\Blender Foundation\5.2\scripts\modules\bpy\utils\previews.py", line 63, in __del__
+    raise ResourceWarning(
+ResourceWarning: <ImagePreviewCollection id=0x1a9280d15e0[4], <super: <class 'ImagePreviewCollection'>, <ImagePreviewCollection object>>>: left open, remove with 'bpy.utils.previews.remove()'
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:37:04)
+OBJ import of '71df8728df7b6501c041c2a53af8b2c4.obj' took 825.91 ms
+
+Blender quit

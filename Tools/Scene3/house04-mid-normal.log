@@ -1,0 +1,18 @@
+00:06.859  blend            | Read blend: "D:\FPT-ki7\PRU\Project_PRu\BLENDER\Nhaque4\NhaQue_04_Game.blend"
+D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\repair_house04_mid_normals.py:75: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  scene.world=bpy.data.worlds.new('Neutral');scene.world.use_nodes=True;scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value=.75
+00:43.187  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\LOD1_Corrected_Front.png'
+Info: Baking map saved to internal image, save it externally or pack it
+
+FBX export starting... 'D:\\FPT-ki7\\PRU\\Project_PRu\\KuTyChildhood\\Tools\\Scene3\\TencentHouse04\\Staging\\NhaQue_Tencent_04.fbx'
+export finished in 0.2730 sec.
+Info: Saved as "NhaQue_04_Game.blend"
+MID NORMAL REPAIR PASS; GEOMETRY UNCHANGED
+Exception ignored in: <function ImagePreviewCollection.__del__ at 0x0000025727DBAD40>
+Traceback (most recent call last):
+  File "C:\Program Files\Blender Foundation\5.2\scripts\modules\bpy\utils\previews.py", line 63, in __del__
+    raise ResourceWarning(
+ResourceWarning: <ImagePreviewCollection id=0x25727d9c2d0[4], <super: <class 'ImagePreviewCollection'>, <ImagePreviewCollection object>>>: left open, remove with 'bpy.utils.previews.remove()'
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:37:04)
+
+Blender quit

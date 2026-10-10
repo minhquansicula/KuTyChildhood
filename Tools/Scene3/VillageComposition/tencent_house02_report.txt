@@ -1,0 +1,9 @@
+PASS
+Second house at (18, 0.1, 44), facade towards the road.
+LOD triangles: 40000 / 16000 / 5000
+House dimensions: (6.28, 4.45, 7.80)
+Uniform scale only; independently baked 2048 / 1024 / 512 PBR atlases.
+Low-LOD static mesh collider.
+Original gameplay components preserved: 39
+Village layout and walking tests passed; bank grass remains removed.
+Original source OBJ unchanged; see geometry_report.json for sampled surface errors.

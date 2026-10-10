@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "scene": "Assets/_Project/Scenes/Act3_MemoryWorld_OutSide.unity",
+  "backup": "Tools/Scene3/VillageComposition/Act3_MemoryWorld_OutSide.before-compact-village.unity",
+  "fields": 16,
+  "plants": 3641,
+  "tiles": 82,
+  "gameplayComponentsPreserved": 23,
+  "activeRenderers": 950,
+  "groundWidth": 88.0,
+  "groundLength": 102.0,
+  "riceArea": 2899.0,
+  "checks": [
+    "Rice rectangles are non-overlapping and avoid house yards and marble clearing",
+    "Six modelled homes/shop connected to the road by dry paths and bridges",
+    "Four collision boundaries lie inside bamboo/earth perimeter",
+    "All five homes stand upright; their trees and furniture lie within the village boundary",
+    "Player start, main road, shop entry, marble clearing and canal bridges have walkable surfaces",
+    "Rice shader has no compiler errors and four boundary colliders are active",
+    "CharacterController traverses canal bridges to shop and marble clearing, and stays inside all four boundaries"
+  ]
+}

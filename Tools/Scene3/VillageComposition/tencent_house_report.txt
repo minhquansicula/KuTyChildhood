@@ -1,0 +1,8 @@
+PASS
+Replaced first house at (-18, 0.1, 4), facing the main road.
+LOD triangles: 30000 / 12000 / 3000
+House dimensions: (7.36, 5.08, 7.22)
+Corrected UVs, planar plaster normals, individual baked URP/Lit atlases: 2048 / 1024 / 512.
+Medium-mesh static collider, 39 original gameplay components preserved: 39
+Village layout and walking validation passed.
+Original house kept disabled; original downloaded OBJ unchanged.

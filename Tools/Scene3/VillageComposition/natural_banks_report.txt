@@ -1,0 +1,7 @@
+PASS
+Earth banks: 68
+Combined grass meshes: 17
+Grass blades: 46730
+Original gameplay components unchanged: 39
+CharacterController bridge/shop/marble routes and map boundaries passed.
+Matte diffuse shading: no specular highlight or environment reflection term.

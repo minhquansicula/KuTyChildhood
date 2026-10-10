@@ -1,0 +1,21 @@
+D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\import_tencent_house.py:50: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  material.use_nodes = True
+Reducing original 1500012 triangles to 30000
+D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\import_tencent_house.py:122: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  scene.world=bpy.data.worlds.new('Neutral preview');scene.world.use_nodes=True
+01:45.156  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse01\Preview_Front.png'
+01:50.781  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse01\Preview_Back.png'
+
+FBX export starting... 'D:\\FPT-ki7\\PRU\\Project_PRu\\KuTyChildhood\\Assets\\_Project\\Art\\Models\\Scene3\\TencentHouse01\\NhaQue_Tencent_01.fbx'
+export finished in 0.0870 sec.
+Info: Saved as "NhaQue_Tencent_01_ToiUu.blend"
+{"source_triangles": 1500012, "lod_triangles": [30000, 12000, 3000], "dimensions_metres": [7.198524475097656, 7.341153144836426, 5.0743865966796875], "width_metres": 7.2, "fbx": "D:\\FPT-ki7\\PRU\\Project_PRu\\KuTyChildhood\\Assets\\_Project\\Art\\Models\\Scene3\\TencentHouse01\\NhaQue_Tencent_01.fbx", "source_unchanged": "D:\\FPT-ki7\\PRU\\Project_PRu\\BLENDER\\531c2c5d7c5e6e14567ea9087e4e6b2b.obj"}
+Exception ignored in: <function ImagePreviewCollection.__del__ at 0x000001A99A276D40>
+Traceback (most recent call last):
+  File "C:\Program Files\Blender Foundation\5.2\scripts\modules\bpy\utils\previews.py", line 63, in __del__
+    raise ResourceWarning(
+ResourceWarning: <ImagePreviewCollection id=0x1a99a25c3c0[4], <super: <class 'ImagePreviewCollection'>, <ImagePreviewCollection object>>>: left open, remove with 'bpy.utils.previews.remove()'
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:37:04)
+OBJ import of '531c2c5d7c5e6e14567ea9087e4e6b2b.obj' took 2247.27 ms
+
+Blender quit

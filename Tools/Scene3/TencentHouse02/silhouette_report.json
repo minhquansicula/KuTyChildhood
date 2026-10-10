@@ -1,0 +1,74 @@
+[
+  {
+    "view": "Front",
+    "LOD": 0,
+    "silhouette_intersection_over_union": 0.9995543466940517,
+    "changed_pixels": 184
+  },
+  {
+    "view": "Front",
+    "LOD": 1,
+    "silhouette_intersection_over_union": 0.9988742855344481,
+    "changed_pixels": 465
+  },
+  {
+    "view": "Front",
+    "LOD": 2,
+    "silhouette_intersection_over_union": 0.9968479879334017,
+    "changed_pixels": 1304
+  },
+  {
+    "view": "Back",
+    "LOD": 0,
+    "silhouette_intersection_over_union": 0.9995536662617043,
+    "changed_pixels": 187
+  },
+  {
+    "view": "Back",
+    "LOD": 1,
+    "silhouette_intersection_over_union": 0.9990098631941098,
+    "changed_pixels": 415
+  },
+  {
+    "view": "Back",
+    "LOD": 2,
+    "silhouette_intersection_over_union": 0.9966322428214851,
+    "changed_pixels": 1414
+  },
+  {
+    "view": "Right",
+    "LOD": 0,
+    "silhouette_intersection_over_union": 0.999699400680106,
+    "changed_pixels": 80
+  },
+  {
+    "view": "Right",
+    "LOD": 1,
+    "silhouette_intersection_over_union": 0.9989592647976014,
+    "changed_pixels": 277
+  },
+  {
+    "view": "Right",
+    "LOD": 2,
+    "silhouette_intersection_over_union": 0.99745876594371,
+    "changed_pixels": 677
+  },
+  {
+    "view": "Left",
+    "LOD": 0,
+    "silhouette_intersection_over_union": 0.9997235352166217,
+    "changed_pixels": 72
+  },
+  {
+    "view": "Left",
+    "LOD": 1,
+    "silhouette_intersection_over_union": 0.9991745532029256,
+    "changed_pixels": 215
+  },
+  {
+    "view": "Left",
+    "LOD": 2,
+    "silhouette_intersection_over_union": 0.9970778959316795,
+    "changed_pixels": 762
+  }
+]

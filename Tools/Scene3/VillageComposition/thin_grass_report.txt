@@ -1,0 +1,8 @@
+PASS
+Combined meshes: 17
+Grass blades before / after: 46730 / 9346
+Grass triangles before / after: 140190 / 28038
+Remaining blade height: 65%
+Original gameplay components preserved: 39
+Earth banks, colliders, rice, houses and village layout unchanged.
+No FPS improvement asserted; main-thread timing needs profiling at the same camera.

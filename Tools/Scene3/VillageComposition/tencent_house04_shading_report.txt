@@ -1,0 +1,6 @@
+PASS
+Mid/far use geometry normals; no normal-map projection artifacts.
+Near uses baked normal map.
+Gameplay components preserved: 39
+Walking/layout validation passed.
+Scene saved.

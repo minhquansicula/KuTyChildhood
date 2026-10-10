@@ -1,0 +1,17 @@
+00:11.750  blend            | Read blend: "D:\FPT-ki7\PRU\Project_PRu\BLENDER\NhaQue_Tencent_01_ToiUu.blend"
+Nha01_LOD0 {"0": [[3.137, 13.76], [-3.038, 13.46], [3.162, 0.63], [-3.313, 0.32], [3.437, 0.29], [0.587, 0.27], [0.762, 0.19], [3.037, 0.17]], "1": [[2.937, 17.1], [-1.763, 11.64], [-1.713, 3.12], [-2.388, 0.5], [-2.838, 0.42], [3.487, 0.42], [-2.288, 0.41], [-3.188, 0.39]]}
+D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\diagnose_house_walls.py:21: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  scene.view_settings.view_transform='Standard';scene.world=bpy.data.worlds.new('Neutral');scene.world.use_nodes=True;scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value=.7
+00:19.234  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse01\Repair\Before_Low_Wall.png'
+node_0 {"0": [[-3.038, 12.98], [3.137, 12.41], [3.162, 1.15], [-3.313, 0.29], [3.437, 0.29], [0.587, 0.25], [0.762, 0.21], [3.037, 0.15]], "1": [[2.937, 16.78], [-1.763, 10.99], [-1.713, 2.98], [-1.788, 0.61], [-2.288, 0.46], [3.487, 0.45], [-2.388, 0.44], [-2.838, 0.42]]}
+00:36.843  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse01\Repair\Source_High_Wall.png'
+DONE
+Exception ignored in: <function ImagePreviewCollection.__del__ at 0x000002A12A4AD8A0>
+Traceback (most recent call last):
+  File "C:\Program Files\Blender Foundation\5.2\scripts\modules\bpy\utils\previews.py", line 63, in __del__
+    raise ResourceWarning(
+ResourceWarning: <ImagePreviewCollection id=0x2a12a4a5680[4], <super: <class 'ImagePreviewCollection'>, <ImagePreviewCollection object>>>: left open, remove with 'bpy.utils.previews.remove()'
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:37:04)
+OBJ import of '531c2c5d7c5e6e14567ea9087e4e6b2b.obj' took 1467.58 ms
+
+Blender quit

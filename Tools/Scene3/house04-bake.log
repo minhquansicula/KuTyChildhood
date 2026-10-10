@@ -1,0 +1,48 @@
+00:02.391  blend            | Read blend: "D:\FPT-ki7\PRU\Project_PRu\BLENDER\Nhaque4\NhaQue_04_Prepare.blend"
+D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\bake_tencent_house04.py:39: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  material=bpy.data.materials.new(obj.name+'_PBR');material.use_nodes=True
+Bake Nha04_LOD0 BaseColor 2048
+Info: Baking map saved to internal image, save it externally or pack it
+Bake Nha04_LOD0 Normal 2048
+Info: Baking map saved to internal image, save it externally or pack it
+Bake Nha04_LOD0 MetallicSmoothness 2048
+Info: Baking map saved to internal image, save it externally or pack it
+Bake Nha04_LOD1 BaseColor 1024
+Info: Baking map saved to internal image, save it externally or pack it
+Bake Nha04_LOD1 Normal 1024
+Info: Baking map saved to internal image, save it externally or pack it
+Bake Nha04_LOD1 MetallicSmoothness 1024
+Info: Baking map saved to internal image, save it externally or pack it
+Bake Nha04_LOD2 BaseColor 512
+Info: Baking map saved to internal image, save it externally or pack it
+Bake Nha04_LOD2 Normal 512
+Info: Baking map saved to internal image, save it externally or pack it
+Bake Nha04_LOD2 MetallicSmoothness 512
+D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\bake_tencent_house04.py:82: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  scene.world=bpy.data.worlds.new('Neutral');scene.world.use_nodes=True;scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value=.75
+00:59.359  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\LOD0_Front.png'
+01:16.922  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\LOD1_Front.png'
+01:33.594  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\LOD2_Front.png'
+01:50.156  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\LOD0_Back.png'
+02:06.406  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\LOD1_Back.png'
+02:25.172  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\LOD2_Back.png'
+02:43.094  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\LOD0_Right.png'
+03:01.891  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\LOD1_Right.png'
+03:20.250  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\LOD2_Right.png'
+03:43.781  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\LOD0_Left.png'
+04:09.906  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\LOD1_Left.png'
+04:22.750  render           | Saved: 'D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\LOD2_Left.png'
+Info: Baking map saved to internal image, save it externally or pack it
+
+FBX export starting... 'D:\\FPT-ki7\\PRU\\Project_PRu\\KuTyChildhood\\Tools\\Scene3\\TencentHouse04\\Staging\\NhaQue_Tencent_04.fbx'
+export finished in 0.1924 sec.
+Info: Saved as "NhaQue_04_Game.blend"
+BAKED AND EXPORTED D:\FPT-ki7\PRU\Project_PRu\KuTyChildhood\Tools\Scene3\TencentHouse04\Staging\NhaQue_Tencent_04.fbx
+Exception ignored in: <function ImagePreviewCollection.__del__ at 0x000001B389A1D8A0>
+Traceback (most recent call last):
+  File "C:\Program Files\Blender Foundation\5.2\scripts\modules\bpy\utils\previews.py", line 63, in __del__
+    raise ResourceWarning(
+ResourceWarning: <ImagePreviewCollection id=0x1b389a15720[4], <super: <class 'ImagePreviewCollection'>, <ImagePreviewCollection object>>>: left open, remove with 'bpy.utils.previews.remove()'
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:37:04)
+
+Blender quit

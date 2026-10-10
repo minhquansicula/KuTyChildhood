@@ -1,0 +1,40 @@
+{
+  "source_sha256": "890927cda7e3a54c9275807a3a83b975ae4bbd1a72372035e1599b22a4522623",
+  "source_triangles": 1500008,
+  "dimensions_metres": [
+    7.0,
+    6.292972564697266,
+    5.190028667449951
+  ],
+  "uniform_scale": 8.327563285827637,
+  "lods": [
+    {
+      "LOD": 0,
+      "triangles": 40000,
+      "samples": 49946,
+      "max_surface_error_m": 0.028826504945755005,
+      "p99_surface_error_m": 0.002528342965524647,
+      "mean_surface_error_m": 0.0006675159079050286,
+      "bounds_error_m": 0.0009763240814208984
+    },
+    {
+      "LOD": 1,
+      "triangles": 16000,
+      "samples": 37946,
+      "max_surface_error_m": 0.041680481284856796,
+      "p99_surface_error_m": 0.0048898321110755405,
+      "mean_surface_error_m": 0.0011162742418494773,
+      "bounds_error_m": 0.0021638870239257812
+    },
+    {
+      "LOD": 2,
+      "triangles": 12000,
+      "samples": 35946,
+      "max_surface_error_m": 0.041680481284856796,
+      "p99_surface_error_m": 0.006890843552537262,
+      "mean_surface_error_m": 0.0014544268566838905,
+      "bounds_error_m": 0.00353240966796875
+    }
+  ],
+  "geometry_policy": "Only conservative edge collapse; no remeshing, vertex smoothing or wall flattening. Bidirectional sampled surface comparison."
+}
