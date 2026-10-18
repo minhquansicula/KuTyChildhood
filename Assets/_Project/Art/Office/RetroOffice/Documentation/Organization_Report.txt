@@ -1,0 +1,3 @@
+GUIDs preserved: 442
+Prefabs checked: 141
+Renderers with valid mesh/material: 218

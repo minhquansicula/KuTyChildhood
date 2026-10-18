@@ -82,6 +82,27 @@ Thumbs.db
 smoke-results.txt
 office-view.png
 
+# Generated previews, reports, and temporary scene safety copies
+/Assets/Screenshots/
+/Assets/Screenshots.meta
+/Assets/_Project/Scenes/Backups/
+/Assets/_Project/Scenes/Backups.meta
+
+# Disposable validation projects and local automation output
+/UnityChairValidation/
+*.log
+/cene 3 rural environment and sunset*
+
+# Local build output created by Addressables
+/ServerData/
+/Assets/StreamingAssets/aa/
+/Assets/StreamingAssets/aa.meta
+
+# Blender backup/autosave files (keep the main .blend sources)
+*.blend1
+*.blend2
+*.blend@
+
 # Raw downloads/drafts & Agent workspace tools
 dumb/
 .agents/

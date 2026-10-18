@@ -56,4 +56,4 @@ Các mục này được ghi nhận để cập nhật status, chưa sửa ngoà
 - Trước khi chuyển sang marker: kiểm tra runtime có chờ prompt, lần xuống giường đầu và lần lên lại/xuống tiếp đều đạt. Đích teleport khi đó là `(11.84, 0.05, 2.11)`, camera local Y = `1.5`, input được trả lại và checklist xuất hiện. Kiểm tra gọi trực tiếp cùng handler mà phím E sử dụng, không mô phỏng bàn phím vật lý.
 - Cập nhật marker `godownbed`: đã biên dịch và kiểm tra reference/offset được lưu trong scene. Chưa chạy lại Play Mode cho điểm xuống mới.
 - Hai lần kiểm tra thủ công ban đầu bị ảnh hưởng bởi trạng thái Pause/Edit Mode; đã chạy lại hai chu kỳ tự động với chờ prompt và cả hai đều đạt. Phiên chạy lại không có log Error.
-- Chưa chạy lại toàn bộ story smoke test, build Windows hoặc các mini-game bếp trong lượt này. Các kết quả build/smoke cũ ở `verification-results.md` là lịch sử, không phải kết quả xác nhận cho bản hiện tại.
+- Chưa chạy lại toàn bộ story smoke test, build Windows hoặc các mini-game bếp trong lượt này. Bản ghi kiểm chứng office cũ đã được xóa khi thay kế hoạch Scene 1 ngày 17/10/2026; chưa có kết quả kiểm chứng cho [bản dựng mới](scene1-office-plan.md).

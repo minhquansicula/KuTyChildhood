@@ -9,8 +9,8 @@ Nếu Editor đang mở từ trước khi setup, đóng/mở lại project để
 Prototype cốt truyện có đủ luồng. **Cảnh 1 hiện được ưu tiên:** văn phòng tương tác với sếp, laptop, hồ sơ và cửa sổ nhìn ra phố; các cảnh tiếp theo vẫn là bản mẫu.
 
 - [Hướng dẫn chạy, kiến trúc và nơi gắn asset](docs/implementation-guide.md)
-- [Cảnh văn phòng: tương tác và vị trí gắn 9 asset](docs/office-scene.md)
-- [Kết quả kiểm chứng](docs/verification-results.md)
+- [Plan Scene 1 mới: từ phòng sếp về bàn làm việc](docs/scene1-office-plan.md)
+- [Map office khối mẫu: đi thử và thay asset](docs/office-blockout-guide.md)
 - [Thiết kế và kế hoạch cũ — chỉ để tham khảo](docs/game-design-document.md)
 
 Menu **KuTy** trong Unity có công cụ tạo prototype, nâng cấp scene mẫu, kiểm tra cấu hình và build Windows.

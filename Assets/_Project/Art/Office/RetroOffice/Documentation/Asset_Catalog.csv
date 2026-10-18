@@ -1,0 +1,142 @@
+Prefab,SourceObject,SizeMetres,Notes
+PF_Office_Binder_01,Binder 2.004_27,"(0.25, 0.07, 0.35)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Binder_02,Binder 3.001_28,"(0.25, 0.07, 0.35)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Binder_03,Binder.001_26,"(0.25, 0.07, 0.35)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_DeskLamp_Black_01,Black Lamp.002_22,"(0.40, 0.52, 0.18)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Bottle_01,Bottle.002_50,"(0.31, 0.53, 0.31)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Drawer_Bottom_01,Bottom_Drawer.003_18,"(0.41, 0.32, 0.66)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Cubicle_CenterPiece_01,Center Piece.001_101,"(0.02, 0.01, 0.02)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_OfficeChair_01,Chair 1.001_65,"(0.69, 1.04, 0.66)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_OfficeChair_02,Chair 1.002_99,"(0.71, 1.04, 0.72)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_OfficeChair_03,Chair 1.003_100,"(0.71, 1.04, 0.72)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_WallClock_Body_01,Clock.001_102,"(0.37, 0.04, 0.37)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_WaterCooler_01,Cooler.003_25,"(0.34, 0.88, 0.36)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_DeskLamp_Cream_01,Creme Lamp.001_24,"(0.40, 0.52, 0.18)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_CubiclePartition_01,Cubicle_Wall.003_64,"(0.88, 1.41, 0.08)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_CubiclePartition_02,Cubicle_Wall.004_97,"(2.64, 1.41, 0.08)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_CubiclePartition_03,Cubicle_Wall.005_98,"(0.08, 1.41, 2.64)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_OfficeDesk_01,Desk.004_19,"(1.29, 0.73, 0.70)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_DeskFan_Blades_01,Fan Blades_232,"(0.36, 0.36, 0.06)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_DeskFan_Body_01,Fan Body_233,"(0.43, 0.64, 0.43)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_DeskFan_Head_01,Fan Head_234,"(0.42, 0.55, 0.23)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ArchiveBox_01,File Box 1.001_83,"(0.26, 0.04, 0.36)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ArchiveBox_02,File Box 1.005_41,"(0.25, 0.20, 0.35)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ArchiveBox_Lid_01,File Box 2 Lid.001_84,"(0.25, 0.04, 0.36)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ArchiveBox_Lid_02,File Box 2 Lid.004_42,"(0.25, 0.20, 0.35)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_DocumentFolders_01,Files.004_43,"(0.24, 0.18, 0.30)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_FilingCabinet_01,Filing Cainet Base.005_15,"(0.11, 0.02, 0.13)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_FilingCabinet_02,Filing Cainet Base.006_85,"(0.32, 0.31, 0.46)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_FilingCabinet_03,Filing Cainet Base.007_86,"(0.32, 0.32, 0.46)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_FilingCabinet_04,Filing Cainet Base.008_87,"(0.32, 0.31, 0.46)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_FilingCabinet_05,Filing Cainet Base.015_45,"(0.36, 1.00, 0.45)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_WallClock_HourHand_01,Hour Arm.001_103,"(0.03, 0.00, 0.07)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Keyboard_01,KeyBoard_002.001_12,"(0.43, 0.04, 0.17)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Keyboard_02,KeyBoard_002.005_52,"(0.43, 0.04, 0.17)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Keyboard_03,KeyBoard_002.006_56,"(0.43, 0.04, 0.17)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Keyboard_04,KeyBoard_002.007_62,"(0.43, 0.04, 0.17)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_WallClock_MinuteHand_01,Minute Arm.001_104,"(0.12, 0.00, 0.02)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_WallClock_MinuteHand_02,Minute Arm.002_14,"(0.12, 0.02, 0.00)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Monitor_CRT_01,Monitor.001_60,"(0.41, 0.42, 0.35)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Monitor_CRT_02,Monitor.002_94,"(0.41, 0.42, 0.35)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Monitor_CRT_03,Monitor_002.001_93,"(0.41, 0.42, 0.35)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Monitor_CRT_04,Monitor_002.007_53,"(0.41, 0.42, 0.35)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Monitor_CRT_05,Monitor_002.009_57,"(0.41, 0.42, 0.35)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ComputerMouse_01,Mouse_001.005_54,"(0.07, 0.04, 0.10)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ComputerMouse_02,Mouse_001.006_58,"(0.07, 0.04, 0.10)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ComputerMouse_03,Mouse_001.007_63,"(0.07, 0.04, 0.10)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_CoffeeMug_01,Mug 1.001_66,"(0.13, 0.11, 0.09)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_CoffeeMug_02,Mug 2.001_67,"(0.14, 0.10, 0.10)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_CoffeeMug_03,Mug 3.001_68,"(0.11, 0.10, 0.09)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_CoffeeMug_04,Mug 4.001_69,"(0.12, 0.09, 0.09)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_CoffeeMug_05,Mug 4.002_13,"(0.12, 0.09, 0.09)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_MeshPart_Table_01,Node_21_107,"(1.04, 0.32, 1.87)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Table_02,Node_22_110,"(1.23, 0.73, 1.59)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Table_03,Node_23_113,"(1.04, 0.16, 1.81)",Unidentified source part; inspect preview
+PF_Office_MeshPart_material_01,Node_24_115,"(0.43, 0.69, 0.37)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Black_Lamp_01,Node_25_117,"(0.33, 0.52, 0.28)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Creme_Lamp_01,Node_26_119,"(0.27, 0.52, 0.34)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Cooler_01,Node_27_121,"(0.36, 0.88, 0.34)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Binder_red_01,Node_28_123,"(0.35, 0.08, 0.25)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Binder_Blue_01,Node_29_126,"(1.00, 0.56, 1.25)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Binder_Black_01,Node_30_128,"(0.35, 0.09, 0.25)",Unidentified source part; inspect preview
+PF_Office_MeshPart_paper_01,Node_31_131,"(1.47, 0.45, 0.78)",Unidentified source part; inspect preview
+PF_Office_MeshPart_paper_02,Node_32_134,"(0.17, 0.18, 1.52)",Unidentified source part; inspect preview
+PF_Office_MeshPart_paper_2_01,Node_33_137,"(0.29, 0.33, 0.42)",Unidentified source part; inspect preview
+PF_Office_MeshPart_paper_3_01,Node_34_141,"(1.72, 0.49, 1.69)",Unidentified source part; inspect preview
+PF_Office_MeshPart_paper_2_02,Node_35_143,"(0.31, 0.04, 0.35)",Unidentified source part; inspect preview
+PF_Office_MeshPart_paper_2_03,Node_36_146,"(0.24, 0.17, 1.49)",Unidentified source part; inspect preview
+PF_Office_MeshPart_paper_3_02,Node_37_149,"(0.19, 0.16, 1.49)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Cardboard_Box_01,Node_38_152,"(0.42, 0.60, 0.74)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Files_01,Node_39_155,"(0.37, 0.59, 0.72)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Trash_can_01,Node_40_158,"(0.42, 0.39, 1.73)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Cabinet_Metal_01,Node_41_161,"(0.36, 1.00, 1.11)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Printer_Screen_01,Node_42_163,"(0.82, 0.79, 0.75)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Printer_Top_White_01,Node_43_165,"(0.62, 0.55, 0.63)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Transparent_blue_plastic_procedural_01,Node_44_167,"(0.31, 0.53, 0.31)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Phone_01,Node_45_170,"(0.80, 0.11, 1.46)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Keyboard_White_0_01,Node_46_172,"(0.43, 0.04, 0.17)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Mouse_White_01,Node_48_175,"(0.07, 0.04, 0.10)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Mouse_Black_001_01,Node_52_180,"(0.07, 0.04, 0.10)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Mug_3_01,Node_55_184,"(0.11, 0.10, 0.09)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Clock_face_01,Node_56_186,"(0.37, 0.37, 0.04)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Black_01,Node_57_188,"(0.03, 0.07, 0.00)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Black_001_01,Node_58_190,"(0.02, 0.02, 0.01)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Trash_can_02,Node_59_192,"(0.13, 0.13, 0.13)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Pc_Feet_01,Node_60_195,"(0.45, 0.04, 1.25)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Pc_Feet_02,Node_61_198,"(1.06, 0.04, 1.23)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Pc_Feet_03,Node_62_201,"(0.83, 0.22, 0.42)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Pc_Feet_04,Node_63_204,"(0.64, 0.22, 0.42)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Cardboard_Box_02,Node_65_208,"(0.43, 0.63, 0.75)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Cardboard_Box_White_01,Node_66_212,"(0.39, 0.41, 0.52)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Cardboard_Box_White_02,Node_67_216,"(0.40, 0.24, 0.52)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Cabinet_Metal_02,Node_68_219,"(0.32, 0.31, 1.38)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Cabinet_Metal_03,Node_69_222,"(0.32, 0.32, 1.42)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Cabinet_Metal_04,Node_70_225,"(0.32, 0.31, 1.28)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Fan_Metal_001_01,Node_71_227,"(0.25, 0.36, 0.26)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Fan_Metal_01,Node_72_229,"(0.43, 0.64, 0.43)",Unidentified source part; inspect preview
+PF_Office_MeshPart_Fan_Metal_02,Node_73_231,"(0.31, 0.55, 0.32)",Unidentified source part; inspect preview
+PF_Office_Cable_01,NurbsPath.012_71,"(0.22, 0.04, 0.57)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Cable_02,NurbsPath.013_72,"(0.29, 0.03, 0.55)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Cable_03,NurbsPath.014_73,"(0.29, 0.03, 0.55)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Cable_04,NurbsPath.015_74,"(0.29, 0.03, 0.55)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Cable_05,NurbsPath.016_75,"(0.22, 0.04, 0.57)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Cable_06,NurbsPath.017_76,"(0.22, 0.04, 0.57)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Cable_07,NurbsPath.018_77,"(0.17, 0.22, 0.18)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Cable_08,NurbsPath.019_78,"(0.16, 0.22, 0.19)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Cable_09,NurbsPath.020_79,"(0.17, 0.22, 0.18)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Cable_10,NurbsPath.021_80,"(0.16, 0.22, 0.19)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Cable_11,NurbsPath.022_81,"(0.17, 0.22, 0.18)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Cable_12,NurbsPath.023_82,"(0.16, 0.22, 0.19)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_PaperSheet_01,paper.022_29,"(0.21, 0.00, 0.30)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_PaperSheet_02,paper.023_30,"(0.21, 0.05, 0.30)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_PaperSheet_03,paper.024_31,"(0.21, 0.11, 0.30)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_PaperSheet_04,paper.025_32,"(0.15, 0.14, 0.18)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_PaperSheet_05,paper.026_33,"(0.21, 0.11, 0.30)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_PaperSheet_06,paper.027_34,"(0.22, 0.11, 0.30)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_PaperSheet_07,paper.028_35,"(0.21, 0.00, 0.30)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_PaperSheet_08,paper.029_36,"(0.21, 0.00, 0.30)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_PaperSheet_09,paper.030_37,"(0.23, 0.04, 0.31)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_PaperSheet_10,paper.031_38,"(0.21, 0.05, 0.30)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_PaperSheet_11,paper.032_39,"(0.15, 0.14, 0.18)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_PaperSheet_12,paper.033_40,"(0.15, 0.14, 0.18)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ComputerTower_01,PC.001_61,"(0.42, 0.14, 0.40)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ComputerTower_02,PC.002_95,"(0.42, 0.14, 0.40)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ComputerTower_03,PC_004.001_91,"(0.42, 0.14, 0.40)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ComputerTower_04,PC_004.002_92,"(0.42, 0.14, 0.05)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ComputerTower_05,PC_004.003_96,"(0.42, 0.14, 0.05)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ComputerTower_06,PC_004.004_88,"(0.42, 0.14, 0.05)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ComputerTower_07,PC_004.005_89,"(0.42, 0.14, 0.05)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ComputerTower_08,PC_004.007_55,"(0.42, 0.14, 0.41)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ComputerTower_09,PC_004.009_59,"(0.42, 0.14, 0.40)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_ComputerTower_10,PC_004.011_90,"(0.42, 0.14, 0.05)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_PenHolder_01,Pen Holder.001_70,"(0.13, 0.13, 0.13)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_DeskPhone_01,Phone.002_51,"(0.18, 0.11, 0.44)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_MeshPart_Floor_01,Plane_0,"(22.11, 0.00, 22.11)",Unidentified source part; inspect preview
+PF_Office_PlantPot_01,Pot.002_21,"(0.43, 0.69, 0.37)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Printer_Base_01,Printer Base.003_46,"(0.75, 0.79, 0.82)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Printer_Base_02,Printer Base.004_48,"(0.75, 0.79, 0.82)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Printer_Top_01,Printer Top.003_47,"(0.75, 0.18, 0.62)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Printer_Top_02,Printer Top.004_49,"(0.75, 0.18, 0.62)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_Drawer_Top_01,Top_Drawer.003_20,"(0.41, 0.16, 0.66)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_WasteBin_01,Trash can.003_44,"(0.40, 0.39, 0.40)",Original dimensions; bottom-centre pivot; no collider
+PF_Office_DeskLamp_White_01,White Lamp.002_23,"(0.40, 0.52, 0.18)",Original dimensions; bottom-centre pivot; no collider
