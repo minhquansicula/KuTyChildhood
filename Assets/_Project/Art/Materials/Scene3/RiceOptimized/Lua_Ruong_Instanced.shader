@@ -7,6 +7,8 @@ Shader "KuTy/Village/Rice Instanced Wind"
         [MainColor] _BaseColor("Tint", Color) = (1,1,1,1)
         _Cutoff("Alpha cutoff", Range(0,1)) = .3
         _NormalStrength("Normal strength", Range(0,1)) = .55
+        _Saturation("Earthy colour saturation",Range(0,1))=.6
+        _Brightness("Rice brightness",Range(.3,1))=.85
         _WindAmplitude("Wind amplitude (metres)", Range(0,.3)) = .075
         _WindSpeed("Wind speed", Range(0,3)) = .8
         _WindDirection("Wind direction (XZ)", Vector) = (.8,.6,0,0)
@@ -24,15 +26,28 @@ Shader "KuTy/Village/Rice Instanced Wind"
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        #include "../VillageAtmosphere.hlsl"
         TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
         TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap);
         CBUFFER_START(UnityPerMaterial)
         float4 _BaseMap_ST, _BaseColor;
-        float _Cutoff, _NormalStrength, _WindAmplitude, _WindSpeed;
+        float _Cutoff, _NormalStrength, _WindAmplitude, _WindSpeed,_Saturation,_Brightness;
         float4 _WindDirection;
         float _GustAmplitude, _GustInterval, _GustTravelSpeed, _GustWidth, _WindPreviewTime;
         CBUFFER_END
         float4 _VillageRiceInteractor;
+        #if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
+        struct RiceInstance {float4x4 objectToWorld;float4x4 worldToObject;float4 sphere;};
+        StructuredBuffer<RiceInstance> _RiceInstances;
+        StructuredBuffer<uint> _RiceVisible;
+        #endif
+        void SetupRiceInstance()
+        {
+            #if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
+            RiceInstance data=_RiceInstances[_RiceVisible[unity_InstanceID]];
+            unity_ObjectToWorld=data.objectToWorld;unity_WorldToObject=data.worldToObject;
+            #endif
+        }
         struct Attributes
         {
             float4 positionOS : POSITION;
@@ -93,7 +108,9 @@ Shader "KuTy/Village/Rice Instanced Wind"
             HLSLPROGRAM
             #pragma vertex RiceVertex
             #pragma fragment RiceFragment
+            #pragma target 4.5
             #pragma multi_compile_instancing
+            #pragma instancing_options procedural:SetupRiceInstance
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile_fragment _ _SHADOWS_SOFT
             #pragma multi_compile_fog
@@ -128,6 +145,8 @@ Shader "KuTy/Village/Rice Instanced Wind"
                 UNITY_SETUP_INSTANCE_ID(input);
                 half4 albedo = SAMPLE_TEXTURE2D(_BaseMap,sampler_BaseMap,input.uv) * _BaseColor;
                 clip(albedo.a - _Cutoff);
+                half luminance=dot(albedo.rgb,half3(.2126,.7152,.0722));
+                albedo.rgb=lerp(luminance.xxx,albedo.rgb,_Saturation)*_Brightness;
                 half3 normalTS = UnpackNormalScale(SAMPLE_TEXTURE2D(_BumpMap,sampler_BumpMap,input.uv),_NormalStrength);
                 half3 normal = normalize(input.normalWS);
                 half3 tangent = input.tangentWS.xyz;
@@ -140,7 +159,7 @@ Shader "KuTy/Village/Rice Instanced Wind"
                 float3 origin = TransformObjectToWorld(float3(0,0,0));
                 half variation = .94h + .10h * frac(sin(dot(origin.xz,float2(12.9898,78.233))) * 43758.5453);
                 half3 color = albedo.rgb * max(lighting,.16h) * variation;
-                return half4(MixFog(color,input.fog),1);
+                return half4(lerp(MixFog(color,input.fog),VillageHeightFog(color,input.positionWS),_VillageFogParameters.w),1);
             }
             ENDHLSL
         }
@@ -152,7 +171,9 @@ Shader "KuTy/Village/Rice Instanced Wind"
             HLSLPROGRAM
             #pragma vertex DepthVertex
             #pragma fragment DepthFragment
+            #pragma target 4.5
             #pragma multi_compile_instancing
+            #pragma instancing_options procedural:SetupRiceInstance
             struct DepthVaryings { float4 positionCS : SV_POSITION; float2 uv : TEXCOORD0; };
             DepthVaryings DepthVertex(Attributes input)
             {

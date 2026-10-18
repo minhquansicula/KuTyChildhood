@@ -299,8 +299,14 @@ public static partial class Scene3VillageComposition
             if(Mathf.Min(a.y,b.y)>Mathf.Max(a.x,b.x) && Mathf.Min(a.w,b.w)>Mathf.Max(a.z,b.z))
                 throw new Exception("Rice fields overlap: "+i+", "+j);
         }
-        var marble=Find("MarbleLookAt").transform.position;
-        if(Vector2.Distance(new Vector2(marble.x,marble.z),new Vector2(-15,44))>.01f) throw new Exception("Marble anchors not moved together.");
+        var marbleArea=Find(VillageName).transform.Find("BaiBanBi_VaNhomTre");
+        var ring=marbleArea.Find("ScoringRing").GetComponent<Collider>().bounds;
+        var marble=marbleArea.Find("MarbleLookAt").position;
+        var ringCenter=new Vector2(ring.center.x,ring.center.z);
+        if(Vector2.Distance(ringCenter,new Vector2(-15,44))>.01f ||
+            Vector2.Distance(new Vector2(marble.x,marble.z),ringCenter)>Mathf.Min(ring.extents.x,ring.extents.z)+.01f ||
+            Vector3.Distance(marbleArea.Find("ShootPosition").position,marbleArea.Find("PlayerMarble").position)>.001f)
+            throw new Exception("Marble scoring/aim/start anchors do not align.");
         foreach(var rect in FieldRects)
         {
             if(rect.x < -43 || rect.y > 43 || rect.z < -12 || rect.w > 85) throw new Exception("Field outside village boundary.");

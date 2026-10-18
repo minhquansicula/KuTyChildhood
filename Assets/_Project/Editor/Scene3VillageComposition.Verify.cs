@@ -127,6 +127,7 @@ public static partial class Scene3VillageComposition
 
     public static void ValidateScene()
     {
+        if(Find(MemoryRoot)) {ValidateMemoryVillage();return;}
         var village = Find(VillageName); if(!village) throw new Exception("Compact village missing.");
         var report = new LayoutReport { scene = ScenePath, fields = FieldRects.Length, groundWidth = 88, groundLength = 102 };
         ValidateLayout(report);

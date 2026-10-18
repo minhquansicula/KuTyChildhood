@@ -33,16 +33,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Brightness: 0.9
     - _Cutoff: 0.3
     - _GustAmplitude: 0.28
     - _GustInterval: 24
     - _GustTravelSpeed: 14
     - _GustWidth: 10
-    - _NormalStrength: 0.55
+    - _NormalStrength: 0.3
+    - _Saturation: 0.58
     - _WindAmplitude: 0.075
     - _WindPreviewTime: -1
     - _WindSpeed: 0.8
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.83137256, g: 0.6862745, b: 0.21568628, a: 1}
     - _WindDirection: {r: 0.8, g: 0.6, b: 0, a: 0}
   m_BuildTextureStacks: []

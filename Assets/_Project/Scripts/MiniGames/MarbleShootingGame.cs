@@ -14,6 +14,16 @@ public class MarbleShootingGame : MonoBehaviour
     [SerializeField] private float maxForce = 3f;
     [SerializeField] private float minimumDrag = 0.08f;
     [SerializeField] private float simulationTimeout = 8f;
+    [SerializeField, Min(0.001f)] private float aimPickRadius = 0.65f;
+    [SerializeField, Min(0.001f)] private float fullPowerDragDistance = 2.5f;
+    [SerializeField, Min(0.001f)] private float aimPreviewLength = 3f;
+    [SerializeField, Min(0.0001f)] private float settledSpeed = 0.05f;
+    [SerializeField, Min(0.01f)] private float fallDistance = 1f;
+    // Zero keeps the gameplay camera's existing lens for other scenes.
+    [SerializeField] private float gameFieldOfView;
+    [SerializeField] private float gameNearClip;
+    [SerializeField] private float marbleContactOffset;
+    [SerializeField] private Collider marbleGround;
     [SerializeField] private Rigidbody playerMarble;
     [SerializeField] private List<Rigidbody> targetMarbles = new List<Rigidbody>();
     [SerializeField] private Transform shootPosition;
@@ -27,6 +37,8 @@ public class MarbleShootingGame : MonoBehaviour
     private Transform cameraParent;
     private Vector3 cameraPosition;
     private Quaternion cameraRotation;
+    private float savedFieldOfView;
+    private float savedNearClip;
     private bool cameraSaved;
     private bool dragging;
     private Vector3 dragStart;
@@ -39,9 +51,26 @@ public class MarbleShootingGame : MonoBehaviour
 
     private void Awake()
     {
+        // These native Rigidbody/Collider settings do not survive scene serialization.
+        // Apply local contact/spin limits for centimetre-scale spheres on every load.
+        if (marbleContactOffset > 0)
+        {
+            ConfigureSmallMarble(playerMarble);
+            foreach (var marble in targetMarbles) ConfigureSmallMarble(marble);
+            if (marbleGround != null) marbleGround.contactOffset = marbleContactOffset;
+        }
         foreach (var marble in targetMarbles)
             if (marble != null) originalPoses[marble] = new Pose(marble.position, marble.rotation);
         if (aimLine != null) { aimLine.positionCount = 2; aimLine.enabled = false; }
+    }
+    private void ConfigureSmallMarble(Rigidbody body)
+    {
+        if (body == null) return;
+        body.maxAngularVelocity = 200f;
+        body.maxDepenetrationVelocity = 0.5f;
+        body.sleepThreshold = 0.000001f;
+        var collider = body.GetComponent<SphereCollider>();
+        if (collider != null) collider.contactOffset = marbleContactOffset;
     }
     public void StartGame()
     {
@@ -56,10 +85,14 @@ public class MarbleShootingGame : MonoBehaviour
         cameraParent = gameCamera.transform.parent;
         cameraPosition = gameCamera.transform.localPosition;
         cameraRotation = gameCamera.transform.localRotation;
+        savedFieldOfView = gameCamera.fieldOfView;
+        savedNearClip = gameCamera.nearClipPlane;
         cameraSaved = true;
         gameCamera.transform.SetParent(null);
         gameCamera.transform.SetPositionAndRotation(gameCameraPosition.position, gameCameraPosition.rotation);
         if (gameCameraLookAt != null) gameCamera.transform.LookAt(gameCameraLookAt);
+        if (gameFieldOfView > 0) gameCamera.fieldOfView = gameFieldOfView;
+        if (gameNearClip > 0) gameCamera.nearClipPlane = gameNearClip;
         ResetAllMarbles();
         State = PlayState.Aiming;
     }
@@ -94,7 +127,7 @@ public class MarbleShootingGame : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) &&
             (EventSystem.current == null || !EventSystem.current.IsPointerOverGameObject()) &&
-            MouseOnPlane(out Vector3 start) && Vector3.Distance(start, playerMarble.position) < 0.65f)
+            MouseOnPlane(out Vector3 start) && Vector3.Distance(start, playerMarble.position) < aimPickRadius)
         { dragging = true; dragStart = start; }
         if (!dragging) return;
         if (Input.GetMouseButton(1)) { ClearAim(); return; }
@@ -105,12 +138,14 @@ public class MarbleShootingGame : MonoBehaviour
         }
         Vector3 drag = dragStart - point;
         drag.y = 0;
-        float force = Mathf.Lerp(minForce, maxForce, Mathf.Clamp01(drag.magnitude / 2.5f));
+        float power = Mathf.Clamp01(drag.magnitude / fullPowerDragDistance);
+        float force = Mathf.Lerp(minForce, maxForce, power);
         if (aimLine != null)
         {
             aimLine.enabled = drag.magnitude >= minimumDrag;
             aimLine.SetPosition(0, playerMarble.position);
-            aimLine.SetPosition(1, playerMarble.position + drag.normalized * force);
+            float length = aimPreviewLength * Mathf.Lerp(minForce / maxForce, 1f, power);
+            aimLine.SetPosition(1, playerMarble.position + drag.normalized * length);
         }
         MarbleAimUI.Instance?.UpdateForceIndicator(Mathf.InverseLerp(minForce, maxForce, force));
         if (!Input.GetMouseButtonUp(0)) return;
@@ -132,9 +167,9 @@ public class MarbleShootingGame : MonoBehaviour
     }
     private bool AllStopped()
     {
-        if (playerMarble.velocity.sqrMagnitude > 0.0025f) return false;
+        if (playerMarble.velocity.sqrMagnitude > settledSpeed * settledSpeed) return false;
         foreach (var body in targetMarbles)
-            if (body != null && body.velocity.sqrMagnitude > 0.0025f) return false;
+            if (body != null && body.velocity.sqrMagnitude > settledSpeed * settledSpeed) return false;
         return true;
     }
     private void EvaluateShot()
@@ -145,7 +180,7 @@ public class MarbleShootingGame : MonoBehaviour
         {
             if (body == null || knocked.Contains(body)) continue;
             Vector3 offset = body.position - center;
-            bool fellOff = offset.y < -1f;
+            bool fellOff = offset.y < -fallDistance;
             offset.y = 0;
             if (offset.magnitude > radius || fellOff)
             {
@@ -233,6 +268,8 @@ public class MarbleShootingGame : MonoBehaviour
         gameCamera.transform.SetParent(cameraParent);
         gameCamera.transform.localPosition = cameraPosition;
         gameCamera.transform.localRotation = cameraRotation;
+        gameCamera.fieldOfView = savedFieldOfView;
+        gameCamera.nearClipPlane = savedNearClip;
         cameraSaved = false;
     }
     private void OnDisable() { CancelGame(); }

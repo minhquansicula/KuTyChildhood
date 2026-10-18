@@ -9,6 +9,8 @@ Shader "KuTy/Village/Matte Grass Earth"
         _UseVertexCoverage("Use bank grass mask",Float)=0
         _SoilScale("Earth scale in world metres",Float)=.7
         _GrassBend("Grass blade wind",Range(0,.1))=0
+        _BrickPattern("Old courtyard bricks",Float)=0
+        _ReferenceFieldMask("World-space paddy coverage",Float)=0
     }
     SubShader
     {
@@ -26,10 +28,11 @@ Shader "KuTy/Village/Matte Grass Earth"
             #pragma multi_compile_fog
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #include "../VillageAtmosphere.hlsl"
             TEXTURE2D(_SoilMap); SAMPLER(sampler_SoilMap);
             CBUFFER_START(UnityPerMaterial)
             float4 _GrassColor,_SoilColor;
-            float _GrassCoverage,_UseVertexCoverage,_SoilScale,_GrassBend;
+            float _GrassCoverage,_UseVertexCoverage,_SoilScale,_GrassBend,_BrickPattern,_ReferenceFieldMask;
             CBUFFER_END
             struct A {float4 p:POSITION;float3 n:NORMAL;float4 color:COLOR;UNITY_VERTEX_INPUT_INSTANCE_ID};
             struct V {float4 p:SV_POSITION;float3 world:TEXCOORD0;float3 normal:TEXCOORD1;float mask:TEXCOORD2;float fog:TEXCOORD3;float2 blade:TEXCOORD4;};
@@ -61,14 +64,26 @@ Shader "KuTy/Village/Matte Grass Earth"
                 float bladeMaterial=step(.001,_GrassBend);
                 grass*=lerp(1,lerp(.78,1.25,input.blade.y)*(1+input.blade.x*.08),bladeMaterial);
                 half3 soil=SAMPLE_TEXTURE2D(_SoilMap,sampler_SoilMap,p*_SoilScale).rgb*_SoilColor.rgb;
+                float2 brick=p/float2(.30,.15);brick.x+=step(1,fmod(floor(brick.y),2))*.5;
+                float2 edge=min(frac(brick),1-frac(brick));float mortar=1-smoothstep(.025,.065,min(edge.x,edge.y));
+                half3 brickColor=_SoilColor.rgb*(.78+Noise(floor(brick))*.35+patch*.12);
+                soil=lerp(soil,lerp(brickColor,half3(.19,.17,.12),mortar),_BrickPattern);
                 float mask=saturate(input.mask*_GrassCoverage-(patch-.5)*.3);
+                // Reference terrain shares one mesh with the horizon. Keep the mud
+                // mask confined to the four actual fields rather than interpolating
+                // the field colour across the large outer terrain triangles.
+                float inFields=step(12,p.x)*step(p.x,52.6)*step(-8,p.y)*step(p.y,52.6);
+                float dike=max(step(20,fmod(max(0,p.x-12),20.6)),step(30,fmod(max(0,p.y+8),30.6)));
+                float groundMask=lerp(1,dike*.45,inFields)*step(-.05,input.world.y);
+                mask=lerp(mask,groundMask,_ReferenceFieldMask);
                 half3 albedo=lerp(soil,grass,mask);
                 half3 n=normalize(input.normal)*IS_FRONT_VFACE(face,1,-1);
                 n=normalize(lerp(n,half3(0,1,0),bladeMaterial*.65));
                 Light sun=GetMainLight(TransformWorldToShadowCoord(input.world));
                 half diffuse=saturate((dot(n,sun.direction)+.15)/1.15);
                 half3 light=SampleSH(n)+sun.color*diffuse*sun.shadowAttenuation;
-                return half4(MixFog(albedo*max(light,.2),input.fog),1);
+                half3 color=albedo*max(light,.2);
+                return half4(lerp(MixFog(color,input.fog),VillageHeightFog(color,input.world),_VillageFogParameters.w),1);
             }
             ENDHLSL
         }
@@ -84,7 +99,7 @@ Shader "KuTy/Village/Matte Grass Earth"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             CBUFFER_START(UnityPerMaterial)
             float4 _GrassColor,_SoilColor;
-            float _GrassCoverage,_UseVertexCoverage,_SoilScale,_GrassBend;
+            float _GrassCoverage,_UseVertexCoverage,_SoilScale,_GrassBend,_BrickPattern,_ReferenceFieldMask;
             CBUFFER_END
             struct A {float4 p:POSITION;float4 color:COLOR;UNITY_VERTEX_INPUT_INSTANCE_ID};
             float4 DepthVert(A input):SV_POSITION

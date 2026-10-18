@@ -85,3 +85,20 @@ office-view.png
 # Raw downloads/drafts & Agent workspace tools
 dumb/
 .agents/
+
+# Scene 3 working files: keep scripts, documentation and editable .blend sources.
+# Unity assets used by the game belong under Assets/ and retain their .meta files.
+/Tools/Scene3/**/*.png
+/Tools/Scene3/**/*.gif
+/Tools/Scene3/**/*.log
+/Tools/Scene3/**/*.txt
+/Tools/Scene3/**/*.json
+/Tools/Scene3/**/*.unity
+/Tools/Scene3/**/*.asset
+/Tools/Scene3/**/*.fbx
+/Tools/Scene3/**/*.meta
+/Tools/Scene3/**/*.blend1
+/Tools/Scene3/**/*.pyc
+
+# Duplicate, unreferenced 109 MiB source FBXs (local copies remain available).
+/Assets/_Project/Art/Materials/Scene3/353a7deb6e959c9a23c51cc2b628b9e3*.fbx*
