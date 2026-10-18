@@ -72,6 +72,11 @@ public class KitchenFlowManager : MonoBehaviour
 
     public void ShowChecklist()
     {
+        if (HouseholdChoreFlow.Instance != null)
+        {
+            HouseholdChoreFlow.Instance.ShowChecklist();
+            return;
+        }
         if (uiCanvas != null) uiCanvas.SetActive(true);
     }
 
