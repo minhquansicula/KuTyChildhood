@@ -10,7 +10,7 @@ public static class KuTyAct2WallSetup
 {
     private const string ScenePath = "Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity";
     private const string RootName = "Act2_RusticWalls";
-    private const string TexturePath = "Assets/_Project/Art/Models/Act2Home/house_1/traditional_house_1_3d_model_tripo_part_1_basecolor.JPEG";
+    private const string TexturePath = "Assets/_Project/Art/Scene2/Models/Act2Home/house_1/traditional_house_1_3d_model_tripo_part_1_basecolor.JPEG";
 
     [MenuItem("KuTy/Setup/Create Scene 2 Rustic Walls")]
     public static void CreateWalls()
@@ -72,7 +72,7 @@ public static class KuTyAct2WallSetup
 
     private static Material MakeMaterial(string name, Texture2D texture, Color tint, Vector2 scale, Vector2 offset)
     {
-        string path = "Assets/_Project/Art/Materials/" + name + ".mat";
+        string path = "Assets/_Project/Art/Scene2/Materials/" + name + ".mat";
         var material = AssetDatabase.LoadAssetAtPath<Material>(path);
         if (material != null) return material;
         material = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = name };

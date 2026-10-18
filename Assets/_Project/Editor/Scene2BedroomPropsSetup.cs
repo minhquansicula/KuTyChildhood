@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public static class Scene2BedroomPropsSetup
 {
     private const string ScenePath = "Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity";
-    private const string ModelFolder = "Assets/_Project/Models/";
+    private const string ModelFolder = "Assets/_Project/Art/Scene2/Models/";
 
     [MenuItem("KuTy/Scene 2/Preview bedroom props unobstructed")]
     private static void PreviewUnobstructed()

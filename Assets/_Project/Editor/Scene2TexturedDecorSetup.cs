@@ -8,7 +8,7 @@ using UnityEngine;
 public static class Scene2TexturedDecorSetup
 {
     const string ScenePath = "Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity";
-    const string ArtRoot = "Assets/_Project/Art/BedroomDecor";
+    const string ArtRoot = "Assets/_Project/Art/Scene2/BedroomDecor";
 
     // Batch entry point. Reuses the identical FBX assets already imported in the project.
     [MenuItem("KuTy/Scene 2/Add textured bedroom decor")]
@@ -35,7 +35,7 @@ public static class Scene2TexturedDecorSetup
         string[] names = { "tranhtuong", "ke_tivi", "ruongdo" };
         for (int i = 0; i < models.Length; i++)
         {
-            string modelPath = "Assets/_Project/Models/" + models[i] + ".fbx";
+            string modelPath = "Assets/_Project/Art/Scene2/Models/" + models[i] + ".fbx";
             string folder = ArtRoot + "/" + names[i];
             Directory.CreateDirectory(folder + "/Textures");
             Directory.CreateDirectory(folder + "/Materials");

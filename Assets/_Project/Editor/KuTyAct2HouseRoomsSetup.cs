@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public static class KuTyAct2HouseRoomsSetup
 {
     private const string ScenePath = "Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity";
-    private const string ModelFolder = "Assets/_Project/Art/Models/Act2Home";
+    private const string ModelFolder = "Assets/_Project/Art/Scene2/Models/Act2Home";
 
     [MenuItem("KuTy/Setup/Preview Act 2 only")]
     public static void PreviewAct2Only()
