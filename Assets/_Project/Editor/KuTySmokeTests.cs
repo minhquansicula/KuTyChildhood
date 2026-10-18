@@ -87,10 +87,10 @@ public class KuTyStoryRunner : MonoBehaviour
         foreach (string objectName in new[] { "OfficeDesk", "OfficeDesk_New", "OfficeInterior_New",
                      "OfficeChair", "StreetBackdrop2D", "BossSilhouette", "FluorescentFixture",
                      "PlayerDeskAfternoonLight", "BossGlassInteriorGlow", "Scene1NarrativeProps",
-                     "OfficeClockText", "PrinterPaperInteraction", "WaterCupInteraction",
                      "ColdCoffeeInteraction", "OfficeMoodVolume",
-                     "OfficeExhaustionFade", "LaptopStatusText", "OfficeOpening", "OfficeOpeningFade",
-                     "KeyboardDistant", "BossDeskSlam", "PlayerOpeningVoice", "DeskCollapseTarget" })
+                     "OfficeExhaustionFade", "OfficeOpening", "OfficeOpeningFade",
+                     "KeyboardDistant", "BossDeskSlam", "PlayerOpeningVoice", "DeskCollapseTarget",
+                     "PlayerSeatAnchor", "DeskCollapseAnchor", "Desk_Afternoon_Key" })
             Check(GameObject.Find(objectName) != null, "Missing office asset slot: " + objectName);
         Check(GameObject.Find("ChildhoodMarbleInteraction") == null,
             "The childhood marble should not be present in Scene 1");
@@ -107,14 +107,14 @@ public class KuTyStoryRunner : MonoBehaviour
                      "BossArmPlaceholder" })
             Check(GameObject.Find(demoVisual) == null, "Demo visual was not removed: " + demoVisual);
         Check(Get<Transform>(office, "playerTransform") == FindObjectOfType<FirstPersonController>().transform &&
-              Get<Transform>(office, "chairAnchor") == GameObject.Find("office-chair-main-character").transform,
-            "The sitting anchor is not wired to office-chair-main-character");
+              Get<Transform>(office, "chairAnchor") == GameObject.Find("PlayerSeatAnchor").transform,
+            "The sitting anchor is not wired to the main-character chair seat anchor");
         Check(Get<Transform>(FindObjectOfType<OfficeExhaustionSequence>(), "deskCollapseTarget") ==
-              GameObject.Find("DeskCollapseTarget").transform,
+              GameObject.Find("DeskCollapseAnchor").transform,
             "The exhaustion camera is not wired to the player desk collapse target");
-        Check(Get<TMPro.TextMeshPro>(office, "screenWarning") != null &&
-              Get<TMPro.TextMeshPro>(office, "clockText") != null &&
-              Get<OfficeExhaustionSequence>(office, "exhaustionSequence") != null &&
+        Check(Get<Light>(office, "afternoonLight") == GameObject.Find("Desk_Afternoon_Key").GetComponent<Light>(),
+            "The work progression is not wired to the office art-pass desk light");
+        Check(Get<OfficeExhaustionSequence>(office, "exhaustionSequence") != null &&
               Get<OfficeOpeningSequence>(office, "openingSequence") != null,
             "Scene 1 narrative references are incomplete");
         Check(!GameObject.Find("UI").GetComponent<StoryPrologueController>().enabled,
@@ -232,8 +232,11 @@ public class KuTyStoryRunner : MonoBehaviour
         reportGame.ChooseOption(2);
         reportGame.ChooseOption(3);
         yield return new WaitForSecondsRealtime(1.1f);
+        Check(office.Phase == OfficePhase.ExcelAuditing && !GameManager.Instance.InputBlocked,
+            "Report completion did not advance to Excel auditing");
+        office.CompleteExcelTask();
         Check(office.Phase == OfficePhase.AfterWork && !GameManager.Instance.InputBlocked,
-            "Report completion did not start the free-roam aftermath");
+            "Excel completion did not start the free-roam aftermath");
         office.MakeRestAvailableForTests();
         Check(office.Phase == OfficePhase.Rest, "Exhaustion objective did not become available");
         find(OfficeInteractionKind.Chair).Interact();
