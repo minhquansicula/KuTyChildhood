@@ -459,7 +459,7 @@ public static class KuTyProjectSetup
     private static void CreateAct2()
     {
         NewScene(); World();
-        var systems = new GameObject("Act2 Systems");
+        var systems = new GameObject("Act2Systems");
         systems.AddComponent<CurrencyManager>(); systems.AddComponent<InventoryManager>(); systems.AddComponent<MemoryCollectionManager>();
         var shopManager = systems.AddComponent<ShopManager>();
         var canvas = GameplayUI();

@@ -15,12 +15,12 @@ public static class Scene2HouseholdChoreSetup
         var report = new StringBuilder("[Scene2 chores] Target bounds:\n");
         string[] paths =
         {
-            "HouseLayout/lunuoc", "HouseLayout/KitchenArea/CaiLu",
-            "HouseLayout/KitchenArea/ThauTreoTuong",
-            "HouseLayout/KitchenArea/FirewoodStove/NoiBepLua",
+            "HouseLayout/TraditionalHouseInterior", "HouseLayout/KitchenArea/RiceJar",
+            "HouseLayout/KitchenArea/WallBasins",
+            "HouseLayout/KitchenArea/FirewoodStove/StovePotVisual",
             "HouseLayout/KitchenArea/RicePot", "HouseLayout/KitchenArea/DiningTable",
-            "HouseLayout/KitchenArea/Sink/GocRuaChen",
-            "HouseLayout/KitchenArea/DishCabinet/TuChen"
+            "HouseLayout/KitchenArea/Sink/DishwashingStationVisual",
+            "HouseLayout/KitchenArea/DishCabinet/DishCabinetVisual"
         };
         foreach (var path in paths)
         {
@@ -43,30 +43,30 @@ public static class Scene2HouseholdChoreSetup
 
         BindWaterJar();
 
-        var rice = Need("HouseLayout/KitchenArea/CaiLu");
+        var rice = Need("HouseLayout/KitchenArea/RiceJar");
         BindOne(rice, HouseholdChore.MeasureRice, rice.transform.Find("cailugao"));
 
-        var basin = Need("HouseLayout/KitchenArea/ThauTreoTuong");
+        var basin = Need("HouseLayout/KitchenArea/WallBasins");
         var basinVisual = basin.transform.Find("thao") ?? basin.transform;
         var basinRenderer = basinVisual.GetComponent<Renderer>();
         var basinPosition = basinRenderer != null ? basinRenderer.bounds.center : basin.transform.position + Vector3.up;
         var basinPoint = Proxy(basin.transform, "RiceWashingChoreTrigger", basinPosition, new Vector3(.8f, .55f, .7f));
         BindOne(basinPoint, HouseholdChore.WashRice, basinVisual);
 
-        BindReplace("HouseLayout/KitchenArea/FirewoodStove/NoiBepLua", HouseholdChore.LightFire,
-            Need("HouseLayout/KitchenArea/FirewoodStove/NoiBepLua").transform, typeof(MashToCompleteTask));
+        BindReplace("HouseLayout/KitchenArea/FirewoodStove/StovePotVisual", HouseholdChore.LightFire,
+            Need("HouseLayout/KitchenArea/FirewoodStove/StovePotVisual").transform, typeof(MashToCompleteTask));
         BindOne(Need("HouseLayout/KitchenArea/FirewoodStove/InteractTrigger"), HouseholdChore.LightFire,
-            Need("HouseLayout/KitchenArea/FirewoodStove/NoiBepLua").transform);
+            Need("HouseLayout/KitchenArea/FirewoodStove/StovePotVisual").transform);
 
         BindReplace("HouseLayout/KitchenArea/RicePot/InteractTrigger", HouseholdChore.CookRice,
             Need("HouseLayout/KitchenArea/RicePot").transform, typeof(HoldToCompleteTask));
         BindReplace("HouseLayout/KitchenArea/DiningTable/InteractTrigger", HouseholdChore.SetTable,
             Need("HouseLayout/KitchenArea/DiningTable").transform, typeof(HoldToCompleteTask));
 
-        BindReplace("HouseLayout/KitchenArea/Sink/GocRuaChen", HouseholdChore.WashDishes,
-            Need("HouseLayout/KitchenArea/Sink/GocRuaChen").transform, typeof(DishInteractable));
-        BindReplace("HouseLayout/KitchenArea/DishCabinet/TuChen", HouseholdChore.PutAwayDishes,
-            Need("HouseLayout/KitchenArea/DishCabinet/TuChen").transform, typeof(HoldToCompleteTask));
+        BindReplace("HouseLayout/KitchenArea/Sink/DishwashingStationVisual", HouseholdChore.WashDishes,
+            Need("HouseLayout/KitchenArea/Sink/DishwashingStationVisual").transform, typeof(DishInteractable));
+        BindReplace("HouseLayout/KitchenArea/DishCabinet/DishCabinetVisual", HouseholdChore.PutAwayDishes,
+            Need("HouseLayout/KitchenArea/DishCabinet/DishCabinetVisual").transform, typeof(HoldToCompleteTask));
 
         EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
@@ -86,10 +86,10 @@ public static class Scene2HouseholdChoreSetup
     private static void BindWaterJar()
     {
         // The FBX root is an entire group of household parts; its pivot is far from the actual water jar.
-        var waterRoot = Need("HouseLayout/lunuoc");
+        var waterRoot = Need("HouseLayout/TraditionalHouseInterior");
         var oldWaterPoint = waterRoot.transform.Find("WaterChoreTrigger");
         if (oldWaterPoint != null) Undo.DestroyObjectImmediate(oldWaterPoint.gameObject);
-        var waterJar = Need("HouseLayout/lunuoc/tripo_part_10");
+        var waterJar = Need("HouseLayout/TraditionalHouseInterior/WaterJarVisual");
         var waterMesh = waterJar.GetComponent<MeshFilter>();
         if (waterMesh == null || waterMesh.sharedMesh == null)
             throw new System.InvalidOperationException("Water jar mesh is missing.");
@@ -130,7 +130,7 @@ public static class Scene2HouseholdChoreSetup
     {
         if (!Application.isPlaying || UnityEngine.SceneManagement.SceneManager.GetActiveScene().path != ScenePath)
             throw new System.InvalidOperationException("Enter Scene 2 Play Mode first.");
-        var jar = Need("HouseLayout/lunuoc/tripo_part_10");
+        var jar = Need("HouseLayout/TraditionalHouseInterior/WaterJarVisual");
         var collider = jar.GetComponent<BoxCollider>();
         var interaction = jar.GetComponent<HouseholdChoreInteractable>();
         var flow = HouseholdChoreFlow.Instance;

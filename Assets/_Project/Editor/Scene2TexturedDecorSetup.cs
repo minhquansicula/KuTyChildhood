@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -8,7 +7,7 @@ using UnityEngine;
 public static class Scene2TexturedDecorSetup
 {
     const string ScenePath = "Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity";
-    const string ArtRoot = "Assets/_Project/Art/Scene2/BedroomDecor";
+    const string ArtRoot = "Assets/_Project/Art/Scene2";
 
     // Batch entry point. Reuses the identical FBX assets already imported in the project.
     [MenuItem("KuTy/Scene 2/Add textured bedroom decor")]
@@ -24,26 +23,23 @@ public static class Scene2TexturedDecorSetup
         }
         var bedroom = GameObject.Find("BedroomArea");
         if (!bedroom) throw new InvalidOperationException("BedroomArea is missing.");
-        var existing = bedroom.transform.Find("Decor_Textured");
+        var existing = bedroom.transform.Find("BedroomDecor");
         if (existing && existing.childCount != 0)
-            throw new InvalidOperationException("Decor_Textured already exists; inspect it before adding duplicates.");
+            throw new InvalidOperationException("BedroomDecor already exists; inspect it before adding duplicates.");
         var bed = GameObject.Find("BedroomArea/RusticBedroom_Visual/BedBlock");
         var anchor = bed ? bed.transform.position : bedroom.transform.position;
-        var holder = existing ? existing.gameObject : new GameObject("Decor_Textured");
+        var holder = existing ? existing.gameObject : new GameObject("BedroomDecor");
         holder.transform.SetParent(bedroom.transform, false);
-        string[] models = { "tranh", "tivi", "tudocanhan" };
-        string[] names = { "tranhtuong", "ke_tivi", "ruongdo" };
+        string[] names = { "WallArt", "TelevisionStand", "StorageChest" };
+        string[] models = { "SM_WallArt", "SM_TelevisionStand", "SM_StorageChest" };
         for (int i = 0; i < models.Length; i++)
         {
-            string modelPath = "Assets/_Project/Art/Scene2/Models/" + models[i] + ".fbx";
-            string folder = ArtRoot + "/" + names[i];
-            Directory.CreateDirectory(folder + "/Textures");
-            Directory.CreateDirectory(folder + "/Materials");
-            AssetDatabase.Refresh();
+            string modelPath = ArtRoot + "/Models/Bedroom/" + models[i] + ".fbx";
+            string textureFolder = ArtRoot + "/Textures/Bedroom";
+            string materialPath = ArtRoot + "/Materials/Bedroom/MAT_" + names[i] + ".mat";
             var importer = (ModelImporter)AssetImporter.GetAtPath(modelPath);
-            importer.ExtractTextures(folder + "/Textures");
-            AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
-            var textures = AssetDatabase.FindAssets("t:Texture2D", new[] { folder + "/Textures" })
+            if (importer == null) throw new InvalidOperationException("Missing model importer: " + modelPath);
+            var textures = AssetDatabase.FindAssets("t:Texture2D T_" + names[i] + "_", new[] { textureFolder })
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Select(AssetDatabase.LoadAssetAtPath<Texture2D>).ToArray();
             var colors = textures.Where(t => {
@@ -69,7 +65,6 @@ public static class Scene2TexturedDecorSetup
                         ? colors.FirstOrDefault(t => t.name == source.mainTexture.name) : null;
                     if (!color && colors.Length == 1) color = colors[0];
                     if (!color) throw new InvalidOperationException("Cannot match texture for " + renderer.name);
-                    string materialPath = folder + "/Materials/" + color.name + ".mat";
                     var material = AssetDatabase.LoadAssetAtPath<Material>(materialPath);
                     if (!material)
                     {
@@ -101,7 +96,7 @@ public static class Scene2TexturedDecorSetup
         if (!EditorSceneManager.SaveScene(scene)) throw new InvalidOperationException("Scene save failed.");
         // Reload the saved scene to validate material/texture references on disk.
         EditorSceneManager.OpenScene(ScenePath);
-        var saved = GameObject.Find("BedroomArea/Decor_Textured");
+        var saved = GameObject.Find("BedroomArea/BedroomDecor");
         if (!saved || saved.transform.childCount != 3) throw new InvalidOperationException("Saved decor group incomplete.");
         foreach (var r in saved.GetComponentsInChildren<Renderer>(true))
             foreach (var m in r.sharedMaterials)

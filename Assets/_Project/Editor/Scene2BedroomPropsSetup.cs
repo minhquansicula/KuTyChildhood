@@ -8,13 +8,13 @@ using UnityEngine.SceneManagement;
 public static class Scene2BedroomPropsSetup
 {
     private const string ScenePath = "Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity";
-    private const string ModelFolder = "Assets/_Project/Art/Scene2/Models/";
+    private const string ModelFolder = "Assets/_Project/Art/Scene2/Models/Bedroom/";
 
     [MenuItem("KuTy/Scene 2/Preview bedroom props unobstructed")]
     private static void PreviewUnobstructed()
     {
         if (!Ready()) return;
-        var roof = GameObject.Find("HouseLayout/MaiNha");
+        var roof = GameObject.Find("HouseLayout/Roof");
         var shell = GameObject.Find("BedroomArea/RusticBedroom_Visual");
         if (roof != null) SceneVisibilityManager.instance.Hide(roof, true);
         if (shell != null) SceneVisibilityManager.instance.Hide(shell, false);
@@ -31,23 +31,23 @@ public static class Scene2BedroomPropsSetup
         var bed = GameObject.Find("BedroomArea/RusticBedroom_Visual/BedBlock");
         if (bedroom == null || bed == null) throw new InvalidOperationException("Scene 2 bedroom or bed is missing.");
 
-        var root = bedroom.transform.Find("BedroomProps_New");
+        var root = bedroom.transform.Find("BedroomPropAnchors");
         if (root == null)
         {
-            var holder = new GameObject("BedroomProps_New");
+            var holder = new GameObject("BedroomPropAnchors");
             Undo.RegisterCreatedObjectUndo(holder, "Create bedroom props root");
             holder.transform.SetParent(bedroom.transform, false);
             root = holder.transform;
         }
 
         var bedPosition = bed.transform.position;
-        var cabinet = InstallVisual("tudocanhan", "TuDoCaNhan", root, 1.5f,
+        var cabinet = InstallVisual("SM_StorageChest", "TuDoCaNhan", root, 1.5f,
             Quaternion.Euler(0f, 90f, 0f), new Vector3(bedPosition.x - 2.6f, 0f, bedPosition.z - .6f), true);
         var cabinetBounds = BoundsOf(cabinet);
-        InstallVisual("tivi", "Tivi", root, 1.05f,
+        InstallVisual("SM_TelevisionStand", "Tivi", root, 1.05f,
             Quaternion.Euler(0f, 90f, 0f),
             new Vector3(cabinetBounds.center.x, cabinetBounds.max.y + .025f, cabinetBounds.center.z), true);
-        InstallVisual("tranh", "Tranh", root, 1f,
+        InstallVisual("SM_WallArt", "Tranh", root, 1f,
             Quaternion.Euler(0f, -90f, 0f),
             new Vector3(bedPosition.x + 1.6f, 2.05f, bedPosition.z + .4f), false);
 
@@ -81,7 +81,7 @@ public static class Scene2BedroomPropsSetup
     private static void Inspect()
     {
         if (!Ready()) return;
-        foreach (var name in new[] { "tudocanhan", "tivi", "tranh" })
+        foreach (var name in new[] { "SM_StorageChest", "SM_TelevisionStand", "SM_WallArt" })
         {
             var source = AssetDatabase.LoadAssetAtPath<GameObject>(ModelFolder + name + ".fbx");
             if (source == null) { Debug.LogError("Missing imported FBX: " + name); continue; }
@@ -99,10 +99,10 @@ public static class Scene2BedroomPropsSetup
         foreach (var path in new[] {
             "BedroomArea/RusticBedroom_Visual",
             "BedroomArea/RusticBedroom_Visual/BedBlock",
-            "BedroomArea/BedroomProps_New/TuDoCaNhan",
-            "BedroomArea/BedroomProps_New/Tivi",
-            "BedroomArea/BedroomProps_New/Tranh",
-            "HouseLayout/lunuoc/tripo_part_10", "HouseLayout/KitchenArea/CaiLu/cailugao" })
+            "BedroomArea/BedroomPropAnchors/TuDoCaNhan",
+            "BedroomArea/BedroomPropAnchors/Tivi",
+            "BedroomArea/BedroomPropAnchors/Tranh",
+            "HouseLayout/TraditionalHouseInterior/WaterJarVisual", "HouseLayout/KitchenArea/RiceJar/cailugao" })
         {
             var obj = GameObject.Find(path);
             if (obj != null)

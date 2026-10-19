@@ -149,7 +149,7 @@ public static class KuTyStorySetup
         EditorSceneManager.OpenScene(Path(SceneNames.Act2_Home));
         ReplaceWorldSign("Con diều tuổi thơ", "Kẹo mút và hũ bi ve");
         if (GameObject.Find("Journal") != null) { EditorSceneManager.SaveScene(SceneManager.GetActiveScene()); return; }
-        var systems = GameObject.Find("Act2 Systems");
+        var systems = GameObject.Find("Act2Systems");
         if (systems == null) throw new InvalidOperationException("Act2 Systems missing");
         var quests = systems.GetComponent<QuestManager>() ?? systems.AddComponent<QuestManager>();
         var candy = AssetDatabase.LoadAssetAtPath<ItemData>(Root + "/ScriptableObjects/Items/Item0.asset");
