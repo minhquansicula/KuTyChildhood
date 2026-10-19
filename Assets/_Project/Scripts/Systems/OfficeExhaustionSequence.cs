@@ -28,6 +28,8 @@ public sealed class OfficeExhaustionSequence : MonoBehaviour
 
     private void Awake()
     {
+        if (moodVolume != null && moodVolume.sharedProfile != null)
+            moodVolume.profile = Instantiate(moodVolume.sharedProfile);
         CacheVolumeEffects();
         SetBlackout(0f);
     }
@@ -51,7 +53,7 @@ public sealed class OfficeExhaustionSequence : MonoBehaviour
             ? deskCollapseTarget.rotation
             : startRotation * Quaternion.Euler(25f, 0f, 8f);
 
-        for (float elapsed = 0f; elapsed < collapseSeconds; elapsed += Time.unscaledDeltaTime)
+        for (float elapsed = 0f; elapsed < collapseSeconds; elapsed += Time.deltaTime)
         {
             float t = Mathf.Clamp01(elapsed / collapseSeconds);
             float eased = Mathf.SmoothStep(0f, 1f, t);
@@ -66,9 +68,9 @@ public sealed class OfficeExhaustionSequence : MonoBehaviour
         cameraTransform.SetPositionAndRotation(targetPosition, targetRotation);
         SetBlackout(1f);
         atmosphere?.StopOfficeAmbience();
-        yield return new WaitForSecondsRealtime(silentBlackSeconds);
+        yield return new WaitForSeconds(silentBlackSeconds);
         atmosphere?.PlayMemoryBridge();
-        yield return new WaitForSecondsRealtime(memoryAudioSeconds);
+        yield return new WaitForSeconds(memoryAudioSeconds);
         onReadyForMemoryWorld?.Invoke();
     }
 

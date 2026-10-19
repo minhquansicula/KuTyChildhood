@@ -10,9 +10,9 @@ public class PauseUI : MonoBehaviour
     [SerializeField] private Button menuButton;
     private void Start()
     {
-        panel.SetActive(false);
-        resumeButton.onClick.AddListener(Resume);
-        menuButton.onClick.AddListener(() => GameManager.Instance.ReturnToMainMenu());
+        if (panel != null) panel.SetActive(false);
+        if (resumeButton != null) resumeButton.onClick.AddListener(Resume);
+        if (menuButton != null) menuButton.onClick.AddListener(() => GameManager.Instance?.ReturnToMainMenu());
     }
     private void Update()
     {
@@ -21,9 +21,17 @@ public class PauseUI : MonoBehaviour
         if (game.IsPaused) Resume();
         else if (!game.InputBlocked)
         {
-            panel.SetActive(true);
-            game.SetPaused(true);
+            Pause();
         }
     }
-    public void Resume() { panel.SetActive(false); GameManager.Instance?.SetPaused(false); }
+    public void Pause()
+    {
+        if (panel != null) panel.SetActive(true);
+        GameManager.Instance?.SetPaused(true);
+    }
+    public void Resume()
+    {
+        if (panel != null) panel.SetActive(false);
+        GameManager.Instance?.SetPaused(false);
+    }
 }

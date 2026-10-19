@@ -6,7 +6,9 @@ Map theo [plan Scene 1](scene1-office-plan.md): phòng sếp ở góc bắc-tây
 
 ## Xem và đi thử
 
-Mở scene rồi Play. Bắt đầu trong phòng sếp với đoạn thoại khoảng 22 giây, dùng phụ đề tiếng Việt. Chuột cho nhìn nhẹ; hết thoại mới được đi. WASD di chuyển, E mở cửa một lần và ngồi tại ghế Tý cạnh cửa sổ. Esc tạm dừng/tiếp tục; mất focus cũng tạm dừng. Ngồi xong chỉ nhìn quanh, chưa có mini-game hoặc đứng dậy. Nhân vật sếp vẫn là khối mẫu.
+Mở scene rồi Play, hoặc bắt đầu từ MainMenu. Nghe thoại trong phòng sếp, sau đó WASD di chuyển, E mở cửa và ngồi tại ghế Tý cạnh cửa sổ. Nhìn máy tính và E để mở báo cáo Excel. Sửa ô C4 của Q3_Report (doanh thu trừ chi phí) và Q4_Forecast (tổng thực tế), rồi nhấn **Kiểm tra & gửi** hoặc Ctrl+Enter. Nút Đóng/Esc giữ dữ liệu và thời gian đang làm; hết giờ được thử lại. Đọc và trả lời tin nhắn để quay lại bảng tính.
+
+Space đứng dậy khi không mở công việc. Có thể xem đồng hồ, dùng máy in, uống nước, cầm cà phê và nhìn ra cửa sổ. Sau khi gửi đúng báo cáo, chờ khoảng 15 giây; quay về ghế nếu đang đứng, nhìn máy tính và E để nghỉ, gục xuống và sang Scene 2. Esc ở gameplay tạm dừng; mất focus cũng tạm dừng. Nhân vật sếp vẫn là khối mẫu.
 
 Nếu đứng trong vùng cửa sắp quét qua, lùi ra rồi nhấn E. Nhìn vào phần tựa hoặc mặt ghế có áo khoác để hiện prompt ngồi. Sau khi ngồi, camera chuyển êm tới bàn và phát `ReadyAtDesk` một lần.
 
@@ -37,7 +39,7 @@ Các nhóm `01_Architecture` đến `06_Lighting` tách kiến trúc, phòng s�
 - `KuTy > Office Intro > Install on Current Map`: dùng cho blockout chưa có intro; từ chối cài chồng. Scene hiện tại đã cài, không cần chạy lại.
 - Ảnh và báo cáo nằm trong `Assets/Screenshots/OfficeBlockout_*`.
 
-Scene chạy độc lập, chưa thay mục Scene 1 trong Build Settings. Chi tiết nghiệm thu ở [báo cáo triển khai](scene1-office-implementation.md).
+Scene chạy độc lập và đã là Scene 1 trong Build Settings/MainMenu. Dùng `KuTy > Tests > Run Act1 Excel gameplay + edge cases` để kiểm tra luồng công việc. Chi tiết và giới hạn nghiệm thu ở [báo cáo triển khai](scene1-office-implementation.md).
 
 ## Thư viện office dùng lại
 

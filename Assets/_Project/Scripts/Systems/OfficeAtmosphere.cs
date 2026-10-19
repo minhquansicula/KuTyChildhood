@@ -138,9 +138,9 @@ public class OfficeAtmosphere : MonoBehaviour
     private IEnumerator PlayBossAfterTwoDeskSlams(AudioClip clip)
     {
         PlayDeskSlam();
-        yield return new WaitForSecondsRealtime(bossDeskSlamInterval);
+        yield return new WaitForSeconds(bossDeskSlamInterval);
         PlayDeskSlam();
-        yield return new WaitForSecondsRealtime(bossVoiceAfterSlamDelay);
+        yield return new WaitForSeconds(bossVoiceAfterSlamDelay);
         if (bossSource != null && clip != null) bossSource.PlayOneShot(clip);
         bossSequenceRoutine = null;
     }

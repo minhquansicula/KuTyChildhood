@@ -259,11 +259,27 @@ public static class KuTyProjectSetup
     }
     private static Button Button(Transform parent, string label, Vector2 position, Vector2? size = null)
     {
-        var image = Panel(parent, label, size ?? new Vector2(240, 52), position);
-        image.color = new Color(0.20f, 0.39f, 0.38f);
+        var btnSize = size ?? new Vector2(240, 52);
+        var image = Panel(parent, label, btnSize, position);
+        image.color = new Color(0.14f, 0.25f, 0.28f, 0.98f);
+
+        // Frame border around button
+        var borderObj = Rect("Border", image.transform, btnSize + new Vector2(4, 4), Vector2.zero);
+        var border = borderObj.gameObject.AddComponent<Image>();
+        border.color = new Color(0.85f, 0.68f, 0.38f, 0.55f);
+        border.raycastTarget = false;
+        borderObj.SetAsFirstSibling();
+
         var button = image.gameObject.AddComponent<Button>();
         button.targetGraphic = image;
-        Text(image.transform, label, image.rectTransform.sizeDelta, Vector2.zero, 23);
+
+        var labelText = Text(image.transform, label, btnSize, Vector2.zero, 22);
+        labelText.fontStyle = FontStyles.Bold;
+        labelText.color = new Color(0.98f, 0.96f, 0.90f);
+
+        var juice = image.gameObject.AddComponent<UIButtonJuice>();
+        juice.SetBorder(border, new Color(0.85f, 0.68f, 0.38f, 0.55f), new Color(1f, 0.90f, 0.45f, 1f));
+
         return button;
     }
     private static Slider Bar(Transform parent, Vector2 position)
@@ -298,12 +314,23 @@ public static class KuTyProjectSetup
     private static void CreateSlotPrefab()
     {
         var panel = Panel(null, "ShopItemSlot", new Vector2(760, 78), Vector2.zero);
-        panel.color = new Color(0.16f, 0.22f, 0.24f);
+        panel.color = new Color(0.12f, 0.17f, 0.20f, 0.98f);
+        var borderObj = Rect("SlotBorder", panel.transform, new Vector2(764, 82), Vector2.zero);
+        var bImg = borderObj.gameObject.AddComponent<Image>();
+        bImg.color = new Color(0.85f, 0.68f, 0.38f, 0.35f);
+        bImg.raycastTarget = false;
+        borderObj.SetAsFirstSibling();
+
         var slot = panel.gameObject.AddComponent<ShopItemSlotUI>();
-        Set(slot, "itemNameText", Text(panel.transform, "", new Vector2(190, 65), new Vector2(-265, 0), 23));
-        Set(slot, "descriptionText", Text(panel.transform, "", new Vector2(250, 68), new Vector2(-35, 0), 18));
-        Set(slot, "priceText", Text(panel.transform, "", new Vector2(100, 65), new Vector2(155, 0), 22));
-        var buy = Button(panel.transform, "Mua", new Vector2(295, 0), new Vector2(130, 48));
+        var nameTxt = Text(panel.transform, "", new Vector2(190, 65), new Vector2(-265, 0), 22);
+        nameTxt.fontStyle = FontStyles.Bold;
+        nameTxt.color = new Color(1f, 0.88f, 0.45f);
+        Set(slot, "itemNameText", nameTxt);
+        Set(slot, "descriptionText", Text(panel.transform, "", new Vector2(250, 68), new Vector2(-35, 0), 17));
+        var priceTxt = Text(panel.transform, "", new Vector2(110, 65), new Vector2(155, 0), 21);
+        priceTxt.color = new Color(0.95f, 0.80f, 0.35f);
+        Set(slot, "priceText", priceTxt);
+        var buy = Button(panel.transform, "Mua", new Vector2(295, 0), new Vector2(120, 46));
         Set(slot, "buyButton", buy);
         Set(slot, "buttonText", buy.GetComponentInChildren<TextMeshProUGUI>());
         slotPrefab = PrefabUtility.SaveAsPrefabAsset(panel.gameObject, Root + "/Prefabs/UI/ShopItemSlot.prefab");
@@ -364,14 +391,38 @@ public static class KuTyProjectSetup
     {
         NewScene();
         new GameObject("Camera", typeof(Camera), typeof(AudioListener)).tag = "MainCamera";
-        Camera.main.backgroundColor = new Color(0.09f, 0.14f, 0.18f);
+        Camera.main.backgroundColor = new Color(0.07f, 0.09f, 0.12f);
         Camera.main.clearFlags = CameraClearFlags.SolidColor;
         var canvas = Canvas();
-        Text(canvas.transform, ending ? "CHÌA KHÓA ƯỚC MƠ" : "CHÌA KHÓA KÝ ỨC", new Vector2(1100, 100), new Vector2(0, 175), 52);
-        Text(canvas.transform, ending ? "Gia đình, bạn bè và những niềm vui nhỏ bé.\nBạn đã tìm lại điều mình từng bỏ quên." :
-            "Một buổi chiều cũ. Ba mảnh ký ức. Một lần trở về.", new Vector2(950, 100), new Vector2(0, 65), 27);
-        var play = Button(canvas.transform, ending ? "Chơi lại" : "Bắt đầu", new Vector2(0, -65));
-        var quit = Button(canvas.transform, "Thoát", new Vector2(0, -140));
+
+        // Warm sunset atmosphere glow
+        var bgGlow = Rect("WarmAtmosphere", canvas.transform, new Vector2(900, 500), new Vector2(0, 40));
+        var glowImg = bgGlow.gameObject.AddComponent<Image>();
+        glowImg.color = new Color(0.24f, 0.15f, 0.08f, 0.35f);
+        glowImg.raycastTarget = false;
+
+        // Title Shadow & Main Text
+        var titleShadow = Text(canvas.transform, ending ? "CHÌA KHÓA ƯỚC MƠ" : "CHÌA KHÓA KÝ ỨC", new Vector2(1100, 90), new Vector2(2, 173), 54);
+        titleShadow.fontStyle = FontStyles.Bold;
+        titleShadow.color = new Color(0f, 0f, 0f, 0.55f);
+
+        var title = Text(canvas.transform, ending ? "CHÌA KHÓA ƯỚC MƠ" : "CHÌA KHÓA KÝ ỨC", new Vector2(1100, 90), new Vector2(0, 175), 54);
+        title.fontStyle = FontStyles.Bold;
+        title.color = new Color(1f, 0.88f, 0.45f);
+
+        // Golden divider
+        var divider = Rect("TitleDivider", canvas.transform, new Vector2(460, 3), new Vector2(0, 128));
+        var divImg = divider.gameObject.AddComponent<Image>();
+        divImg.color = new Color(0.92f, 0.76f, 0.38f, 0.85f);
+        divImg.raycastTarget = false;
+
+        // Slogan / Subtitle
+        var subtitle = Text(canvas.transform, ending ? "Gia đình, bạn bè và những niềm vui nhỏ bé.\nBạn đã tìm lại điều mình từng bỏ quên." :
+            "Một buổi chiều cũ. Ba mảnh ký ức. Một lần trở về.", new Vector2(950, 70), new Vector2(0, 85), 22);
+        subtitle.color = new Color(0.88f, 0.85f, 0.78f);
+
+        var play = Button(canvas.transform, ending ? "⟲  Chơi lại" : "▶  Bắt đầu", new Vector2(0, -45), new Vector2(260, 54));
+        var quit = Button(canvas.transform, "✕  Thoát", new Vector2(0, -118), new Vector2(260, 54));
         if (ending)
         {
             var ui = canvas.gameObject.AddComponent<EndingUI>();
@@ -384,7 +435,18 @@ public static class KuTyProjectSetup
             UnityEventTools.AddPersistentListener(play.onClick, ui.OnPlayButtonClicked);
             UnityEventTools.AddPersistentListener(quit.onClick, ui.OnQuitButtonClicked);
         }
-        Text(canvas.transform, "Bản prototype — WASD: di chuyển · Chuột: nhìn · E: tương tác", new Vector2(1150, 50), new Vector2(0, -300), 20);
+
+        // Pill guide footer
+        var guidePill = Panel(canvas.transform, "ControlGuidePill", new Vector2(780, 38), new Vector2(0, -295));
+        guidePill.color = new Color(0.08f, 0.12f, 0.15f, 0.85f);
+        guidePill.raycastTarget = false;
+        var guideBorder = Rect("PillBorder", guidePill.transform, new Vector2(784, 42), Vector2.zero);
+        var pillBorderImg = guideBorder.gameObject.AddComponent<Image>();
+        pillBorderImg.color = new Color(0.85f, 0.68f, 0.38f, 0.4f);
+        pillBorderImg.raycastTarget = false;
+        guideBorder.SetAsFirstSibling();
+
+        Text(guidePill.transform, "Bản prototype — WASD: di chuyển · Chuột: nhìn · E: tương tác · Esc: menu", new Vector2(760, 35), Vector2.zero, 16);
         EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), ScenePath(ending ? SceneNames.Act_Ending : SceneNames.MainMenu));
     }
     private static void World()
@@ -430,19 +492,95 @@ public static class KuTyProjectSetup
     }
     private static void DialogueAndPause(Canvas canvas)
     {
-        var panel = Panel(canvas.transform, "DialoguePanel", new Vector2(1050, 165), new Vector2(0, -220));
+        var panel = Panel(canvas.transform, "DialoguePanel", new Vector2(1060, 175), new Vector2(0, -215));
+        panel.color = new Color(0.09f, 0.13f, 0.17f, 0.96f);
+
+        // Outer border for gamified RPG feel
+        var outerBorder = Rect("DialogueBorder", panel.transform, new Vector2(1066, 181), Vector2.zero);
+        var borderImg = outerBorder.gameObject.AddComponent<Image>();
+        borderImg.color = new Color(0.85f, 0.68f, 0.38f, 0.90f);
+        borderImg.raycastTarget = false;
+        outerBorder.SetAsFirstSibling();
+
+        // Top gold accent line
+        var topLine = Rect("TopAccent", panel.transform, new Vector2(1060, 3), new Vector2(0, 86));
+        var topImg = topLine.gameObject.AddComponent<Image>();
+        topImg.color = new Color(1f, 0.88f, 0.45f, 1f);
+        topImg.raycastTarget = false;
+
+        // Bottom gold accent line
+        var bottomLine = Rect("BottomAccent", panel.transform, new Vector2(1060, 3), new Vector2(0, -86));
+        var bottomImg = bottomLine.gameObject.AddComponent<Image>();
+        bottomImg.color = new Color(0.85f, 0.68f, 0.38f, 0.8f);
+        bottomImg.raycastTarget = false;
+
+        // Speaker Name Badge (khung tên người nói ở góc trên bên trái)
+        var speakerBadge = Rect("SpeakerBadge", panel.transform, new Vector2(240, 38), new Vector2(-380, 88));
+        var badgeBg = speakerBadge.gameObject.AddComponent<Image>();
+        badgeBg.color = new Color(0.20f, 0.14f, 0.10f, 0.98f);
+        var badgeBorder = Rect("BadgeBorder", speakerBadge, new Vector2(244, 42), Vector2.zero);
+        var bBorderImg = badgeBorder.gameObject.AddComponent<Image>();
+        bBorderImg.color = new Color(0.95f, 0.78f, 0.38f, 1f);
+        bBorderImg.raycastTarget = false;
+        badgeBorder.SetAsFirstSibling();
+
+        var titleText = Text(speakerBadge, "", new Vector2(220, 34), Vector2.zero, 22);
+        titleText.fontStyle = FontStyles.Bold;
+        titleText.color = new Color(1f, 0.90f, 0.50f);
+
+        // Body dialogue text
+        var bodyText = Text(panel.transform, "", new Vector2(990, 80), new Vector2(0, -8), 24);
+        bodyText.color = new Color(0.96f, 0.95f, 0.92f);
+        bodyText.alignment = TextAlignmentOptions.TopLeft;
+
+        // Continue prompt indicator [Space Tiếp tục]
+        var continuePrompt = Rect("ContinuePrompt", panel.transform, new Vector2(180, 28), new Vector2(410, -58));
+        var promptBg = continuePrompt.gameObject.AddComponent<Image>();
+        promptBg.color = new Color(0.12f, 0.18f, 0.22f, 0.92f);
+        var promptBorder = Rect("PromptBorder", continuePrompt, new Vector2(184, 32), Vector2.zero);
+        var pBorderImg = promptBorder.gameObject.AddComponent<Image>();
+        pBorderImg.color = new Color(0.85f, 0.68f, 0.38f, 0.7f);
+        pBorderImg.raycastTarget = false;
+        promptBorder.SetAsFirstSibling();
+
+        var promptText = Text(continuePrompt, "[ Space ▶ ]", new Vector2(170, 26), Vector2.zero, 15);
+        promptText.fontStyle = FontStyles.Bold;
+        promptText.color = new Color(1f, 0.88f, 0.40f);
+
         var dialogue = canvas.gameObject.AddComponent<DialogueUI>();
         Set(dialogue, "panel", panel.gameObject);
         Set(dialogue, "canvasGroup", panel.gameObject.AddComponent<CanvasGroup>());
-        Set(dialogue, "titleText", Text(panel.transform, "", new Vector2(1000, 40), new Vector2(0, 53), 26));
-        Set(dialogue, "bodyText", Text(panel.transform, "", new Vector2(990, 70), new Vector2(0, -4), 25));
-        Text(panel.transform, "Space: hiện hết / tiếp tục", new Vector2(700, 25), new Vector2(0, -64), 17);
-        var pausePanel = Panel(canvas.transform, "Pause", new Vector2(440, 260), Vector2.zero);
-        Text(pausePanel.transform, "Tạm dừng", new Vector2(400, 50), new Vector2(0, 80), 34);
+        Set(dialogue, "titleText", titleText);
+        Set(dialogue, "bodyText", bodyText);
+        Set(dialogue, "speakerBadge", speakerBadge.gameObject);
+        Set(dialogue, "continuePrompt", continuePrompt.gameObject);
+        Set(dialogue, "containerRect", panel.rectTransform);
+
+        // Pause Menu with Dim Backdrop & Styled Card
+        var pausePanel = Panel(canvas.transform, "Pause", new Vector2(1280, 720), Vector2.zero);
+        pausePanel.color = new Color(0f, 0f, 0f, 0.70f); // Screen-dimmer backdrop
+
+        var pauseCard = Panel(pausePanel.transform, "PauseCard", new Vector2(460, 280), Vector2.zero);
+        pauseCard.color = new Color(0.09f, 0.13f, 0.17f, 0.98f);
+        var pauseBorder = Rect("CardBorder", pauseCard.transform, new Vector2(466, 286), Vector2.zero);
+        var pCardBorderImg = pauseBorder.gameObject.AddComponent<Image>();
+        pCardBorderImg.color = new Color(0.85f, 0.68f, 0.38f, 0.85f);
+        pCardBorderImg.raycastTarget = false;
+        pauseBorder.SetAsFirstSibling();
+
+        var pauseTitle = Text(pauseCard.transform, "TẠM DỪNG", new Vector2(400, 45), new Vector2(0, 85), 32);
+        pauseTitle.fontStyle = FontStyles.Bold;
+        pauseTitle.color = new Color(1f, 0.88f, 0.45f);
+
+        var pauseDivider = Rect("PauseDivider", pauseCard.transform, new Vector2(240, 2), new Vector2(0, 58));
+        var divImg = pauseDivider.gameObject.AddComponent<Image>();
+        divImg.color = new Color(0.85f, 0.68f, 0.38f, 0.7f);
+        divImg.raycastTarget = false;
+
         var pause = canvas.gameObject.AddComponent<PauseUI>();
         Set(pause, "panel", pausePanel.gameObject);
-        Set(pause, "resumeButton", Button(pausePanel.transform, "Tiếp tục", new Vector2(0, 10)));
-        Set(pause, "menuButton", Button(pausePanel.transform, "Về menu", new Vector2(0, -60)));
+        Set(pause, "resumeButton", Button(pauseCard.transform, "Tiếp tục", new Vector2(0, 10), new Vector2(240, 48)));
+        Set(pause, "menuButton", Button(pauseCard.transform, "Về menu", new Vector2(0, -60), new Vector2(240, 48)));
     }
     private static void CreateAct1()
     {
@@ -583,6 +721,35 @@ public static class KuTyProjectSetup
         Set(ui, "itemListParent", list); Set(ui, "itemSlotPrefab", slotPrefab);
         Set(ui, "messageText", Text(panel.transform, "", new Vector2(840, 35), new Vector2(0, -197), 20));
         Set(ui, "closeButton", Button(panel.transform, "Đóng (Esc)", new Vector2(0, -243)));
+    }
+
+    private static void EnsureAssetsLoaded()
+    {
+        CreateFont();
+        if (ground == null) ground = Material("Ground", new Color(0.47f, 0.48f, 0.30f));
+        if (wood == null) wood = Material("Wood", new Color(0.48f, 0.27f, 0.13f));
+        if (blue == null) blue = Material("Blue", new Color(0.13f, 0.55f, 0.80f));
+        if (clean == null) clean = Material("Clean", new Color(0.95f, 0.92f, 0.79f));
+        if (dirty == null) dirty = Material("Dirty", new Color(0.35f, 0.29f, 0.15f));
+        if (red == null) red = Material("Red", new Color(0.83f, 0.26f, 0.18f));
+        if (playerPrefab == null) playerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(Root + "/Prefabs/Player/Player.prefab");
+        if (slotPrefab == null) slotPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(Root + "/Prefabs/UI/ShopItemSlot.prefab");
+    }
+
+    [MenuItem("KuTy/UI/Rebuild Beautiful UI in Scenes")]
+    public static void RebuildUI()
+    {
+        EnsureAssetsLoaded();
+        CreateSlotPrefab();
+        CreateMenu(false);
+        CreateAct1();
+        CreateAct2();
+        CreateMenu(true);
+        KuTyStorySetup.UpgradeScenes();
+        KuTyOfficeSetup.UpgradeScene();
+        AssetDatabase.SaveAssets();
+        EditorSceneManager.OpenScene(ScenePath(SceneNames.MainMenu));
+        Debug.Log("KuTy Beautiful UI rebuild completed successfully!");
     }
 
     [MenuItem("KuTy/Validate prototype")]

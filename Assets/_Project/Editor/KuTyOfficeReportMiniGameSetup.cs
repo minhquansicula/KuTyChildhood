@@ -6,9 +6,8 @@ using UnityEngine.UI;
 
 public static class KuTyOfficeReportMiniGameSetup
 {
-    private const string ScenePath = "Assets/_Project/Scenes/Act1_RealWorld.unity";
+    private const string ScenePath = "Assets/_Project/Scenes/Act1_RealWorld_OfficeArtPass.unity";
 
-    [MenuItem("KuTy/Preview/Show office report mini-game")]
     public static void ShowPreview()
     {
         OfficeReportMiniGame miniGame = Object.FindObjectOfType<OfficeReportMiniGame>();
@@ -21,13 +20,11 @@ public static class KuTyOfficeReportMiniGameSetup
         miniGame.Open(office);
     }
 
-    [MenuItem("KuTy/Preview/Hide office report mini-game")]
     public static void HidePreview()
     {
         Object.FindObjectOfType<OfficeReportMiniGame>()?.ClosePanel();
     }
 
-    [MenuItem("KuTy/Setup/Build office report mini-game UI")]
     public static void Build()
     {
         var scene = EditorSceneManager.GetActiveScene();
@@ -153,7 +150,7 @@ public static class KuTyOfficeReportMiniGameSetup
         feedback.enableWordWrapping = true;
 
         TextMeshProUGUI footer = CreateText("ReportFooter", workspace.transform,
-            "ESC  Tạm dừng và quay lại văn phòng   ·   Tiến độ được tự động lưu", 15f,
+            "PHÍM 1–4  Chọn phương án   ·   ESC  Tạm dừng   ·   Tiến độ tự động lưu", 15f,
             new Color(0.48f, 0.57f, 0.7f), font);
         BottomCenter(footer.rectTransform, 0f, 18f, 950f, 28f);
         footer.alignment = TextAlignmentOptions.Center;
@@ -174,17 +171,13 @@ public static class KuTyOfficeReportMiniGameSetup
         SetArray(miniSerialized, "optionLabels", labels);
         miniSerialized.ApplyModifiedPropertiesWithoutUndo();
 
-        var officeSerialized = new SerializedObject(office);
-        SetReference(officeSerialized, "reportMiniGame", miniGame);
-        officeSerialized.ApplyModifiedPropertiesWithoutUndo();
-
         overlay.SetActive(false);
         EditorUtility.SetDirty(miniGame);
         EditorUtility.SetDirty(office);
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
         Selection.activeGameObject = workspace;
-        Debug.Log("[KuTy] Office report mini-game UI built and connected.");
+        Debug.Log("[KuTy] Legacy report mini-game UI built for isolated preview only; Scene 1 remains Excel-only.");
     }
 
     private static GameObject CreateImage(string name, Transform parent, Color color)
@@ -218,7 +211,7 @@ public static class KuTyOfficeReportMiniGameSetup
     {
         GameObject go = CreateImage(name, parent, background);
         Button button = go.AddComponent<Button>();
-        button.navigation = new Navigation { mode = Navigation.Mode.None };
+        button.navigation = new Navigation { mode = Navigation.Mode.Automatic };
         ColorBlock colors = button.colors;
         colors.normalColor = Color.white;
         colors.highlightedColor = new Color(1.12f, 1.12f, 1.12f, 1f);

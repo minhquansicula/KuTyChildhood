@@ -94,11 +94,11 @@ public static class KuTyOfficeIntroSetup
         intro.door=Find("BossDoor_Hinge").gameObject.AddComponent<OfficeDoorInteractable>();
         intro.door.leaf=intro.door.GetComponentInChildren<BoxCollider>();
         intro.dialogue=new[] {
-            new OfficeIntroController.Line {speaker="SẾP",text="Báo cáo này cậu làm kiểu gì vậy?\nSố liệu còn thiếu thế này mà cũng gửi lên?",duration=7},
-            new OfficeIntroController.Line {speaker="SẾP",text="Khách hàng đang chờ.\nTôi đã nhắc cậu từ sáng rồi.",duration=5},
+            new OfficeIntroController.Line {speaker="SẾP",text="Số liệu trong file này là sao?\nNhiều ô còn sai mà cậu đã gửi rồi à?",duration=7},
+            new OfficeIntroController.Line {speaker="SẾP",text="Khách hàng đang chờ bản chốt.\nTôi đã nhắc cậu từ sáng rồi.",duration=5},
             new OfficeIntroController.Line {speaker="",text="",duration=.8f,slam=true},
-            new OfficeIntroController.Line {speaker="SẾP",text="Về sửa lại cho xong.\nTrước khi về gửi lại cho tôi.",duration=5},
-            new OfficeIntroController.Line {speaker="TÝ",text="Dạ… em sửa ngay ạ.",duration=3},
+            new OfficeIntroController.Line {speaker="SẾP",text="Quay về bàn, kiểm tra lại file Excel.\nXong thì gửi cho tôi trước khi tan ca.",duration=5},
+            new OfficeIntroController.Line {speaker="TÝ",text="Dạ… em kiểm tra lại ngay ạ.",duration=3},
             new OfficeIntroController.Line {speaker="",text="",duration=1}
         };
         intro.voice=Audio("DialogueVoice",systems.transform,"",new Vector3(-4.8f,1.5f,4.3f),.85f,false);
@@ -134,7 +134,7 @@ public static class KuTyOfficeIntroSetup
         hud.pausePanel.SetActive(false); hud.subtitlePanel.SetActive(false);
         if(!UnityEngine.Object.FindObjectOfType<EventSystem>())
         { var es=Child("EventSystem",ui.transform); es.AddComponent<EventSystem>(); es.AddComponent<StandaloneInputModule>(); }
-        string allText=string.Join("",intro.dialogue.Select(l=>l.speaker+l.text))+"Quay lại bàn làm việc.Đã về chỗ làm việc.Tạm dừngTiếp tục[E] Mở cửa[E] Ngồi xuốngLùi lại một chút để mở cửa.·PHÒNG GIÁM ĐỐC";
+        string allText=string.Join("",intro.dialogue.Select(l=>l.speaker+l.text))+"Quay lại bàn làm việc.Mở báo cáo Excel trên máy tính.NHIỆM VỤTạm dừngTiếp tục[E] Mở cửa[E] Ngồi xuốngLùi lại một chút để mở cửa.·PHÒNG GIÁM ĐỐC";
         if(!font.HasCharacters(allText,out uint[] missing,true,true)) throw new InvalidOperationException("Font missing glyphs: "+string.Join(",",missing));
         EditorUtility.SetDirty(font);
         foreach(var label in UnityEngine.Object.FindObjectsOfType<TextMesh>())
