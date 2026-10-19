@@ -28,9 +28,17 @@ public static class Scene2BambooAndMillSetup
             new Vector3(grainBounds.center.x + 2.8f, grainBounds.min.y, grainBounds.center.z - 2.2f),
             new Vector3(grainBounds.center.x, grainBounds.min.y, grainBounds.center.z - 1.4f)
         };
-        for (int i = 0; i < Names.Length; i++)
+        AddProps(Names, positions, new[] { 2.1f, 1.15f });
+        View();
+    }
+
+    static void AddProps(string[] names, Vector3[] positions, float[] sizes)
+    {
+        var scene = SceneManager.GetActiveScene();
+        var yard = GameObject.Find("HouseLayout/YardProps");
+        for (int i = 0; i < names.Length; i++)
         {
-            string name = Names[i];
+            string name = names[i];
             string modelPath = Root + "/Models/Yard/SM_" + name + ".fbx";
             string textureFolder = Root + "/Textures/Yard/" + name;
             string matPath = Root + "/Materials/Yard/MAT_" + name + ".mat";
@@ -71,7 +79,7 @@ public static class Scene2BambooAndMillSetup
             go.name = name;
             go.transform.rotation = Quaternion.identity;
             var bounds = BoundsOf(go);
-            go.transform.localScale *= (i == 0 ? 2.1f : 1.15f) / Mathf.Max(bounds.size.x, bounds.size.y, bounds.size.z);
+            go.transform.localScale *= sizes[i] / Mathf.Max(bounds.size.x, bounds.size.y, bounds.size.z);
             bounds = BoundsOf(go);
             go.transform.position += positions[i] - new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
             foreach (var renderer in go.GetComponentsInChildren<Renderer>())
@@ -86,8 +94,7 @@ public static class Scene2BambooAndMillSetup
         AssetDatabase.SaveAssets();
         EditorSceneManager.MarkSceneDirty(scene);
         if (!EditorSceneManager.SaveScene(scene)) throw new InvalidOperationException("Scene save failed.");
-        View();
-        Debug.Log("BAMBOO_MILL_SAVED: two textured props added to HouseLayout/YardProps.");
+        Debug.Log("BAMBOO_MILL_SAVED: Textured props saved in HouseLayout/YardProps.");
     }
 
     [MenuItem("KuTy/Scene 2/View bamboo table and grain mill")]
@@ -121,6 +128,38 @@ public static class Scene2BambooAndMillSetup
         EditorSceneManager.SaveScene(scene);
         View();
     }
+    [MenuItem("KuTy/Scene 2/Add tool set and bamboo basket")]
+    public static void AddToolsAndBasket()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode || SceneManager.GetActiveScene().path != "Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity")
+            throw new InvalidOperationException("Open Scene 2 in Edit Mode first.");
+        var yard = GameObject.Find("HouseLayout/YardProps");
+        var pile = GameObject.Find("HouseLayout/YardProps/GrainPile");
+        if (!yard || !pile) throw new InvalidOperationException("Yard or grain pile missing.");
+        var names = new[] { "ToolSet", "BambooBasket" };
+        foreach (var name in names)
+            if (yard.transform.Find(name)) throw new InvalidOperationException(name + " already exists.");
+        var grain = BoundsOf(pile);
+        var positions = new[] {
+            new Vector3(grain.min.x + .3f, grain.min.y, grain.center.z - 2.0f),
+            new Vector3(grain.max.x + .5f, grain.min.y, grain.center.z - .1f)
+        };
+        AddProps(names, positions, new[] { 1.5f, .7f });
+        ViewToolsAndBasket();
+    }
+
+    [MenuItem("KuTy/Scene 2/View tool set and bamboo basket")]
+    public static void ViewToolsAndBasket()
+    {
+        var tools = GameObject.Find("HouseLayout/YardProps/ToolSet");
+        var basket = GameObject.Find("HouseLayout/YardProps/BambooBasket");
+        if (!tools || !basket || !SceneView.lastActiveSceneView) return;
+        var bounds = BoundsOf(tools);
+        bounds.Encapsulate(BoundsOf(basket));
+        var from = bounds.center + new Vector3(1.5f, 2.8f, -5.5f);
+        SceneView.lastActiveSceneView.LookAt(bounds.center, Quaternion.LookRotation(bounds.center - from), 3.2f, false, true);
+    }
+
     static Bounds BoundsOf(GameObject root)
     {
         var rs = root.GetComponentsInChildren<Renderer>(true);
