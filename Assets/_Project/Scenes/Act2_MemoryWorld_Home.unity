@@ -7780,11 +7780,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1ff0aa2f604030447ac13fe83602f570, type: 3}
   m_PrefabInstance: {fileID: 706416212}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
 --- !u!1 &716358188
-=======
---- !u!1 &720681236
->>>>>>> eccccb2af2f6b3bdc79963b4bf2fc1129279d1ad
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7792,35 +7788,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD
   - component: {fileID: 716358189}
   - component: {fileID: 716358191}
   - component: {fileID: 716358190}
   m_Layer: 0
   m_Name: tripo_part_21 (1)
-=======
-  - component: {fileID: 720681237}
-  - component: {fileID: 720681239}
-  - component: {fileID: 720681238}
-  m_Layer: 0
-  m_Name: Act2_Window_WarmKey (1)
->>>>>>> eccccb2af2f6b3bdc79963b4bf2fc1129279d1ad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< HEAD
 --- !u!4 &716358189
-=======
---- !u!4 &720681237
->>>>>>> eccccb2af2f6b3bdc79963b4bf2fc1129279d1ad
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
   m_GameObject: {fileID: 716358188}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
@@ -7832,24 +7815,10 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &716358190
 MeshRenderer:
-=======
-  m_GameObject: {fileID: 720681236}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.50055355, y: 0.4979356, z: -0.52747333, w: 0.47252327}
-  m_LocalPosition: {x: -2.76, y: 4.359, z: -3.542}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 206388325}
-  m_LocalEulerAnglesHint: {x: 93.3, y: 93, z: 0}
---- !u!114 &720681238
-MonoBehaviour:
->>>>>>> eccccb2af2f6b3bdc79963b4bf2fc1129279d1ad
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
   m_GameObject: {fileID: 716358188}
   m_Enabled: 1
   m_CastShadows: 1
@@ -7888,7 +7857,51 @@ MonoBehaviour:
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &716358191
 MeshFilter:
-=======
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716358188}
+  m_Mesh: {fileID: -8796765906938637932, guid: 5aec5641c17e40e4782c34ba3a382356, type: 3}
+--- !u!1 &720681236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 720681237}
+  - component: {fileID: 720681239}
+  - component: {fileID: 720681238}
+  m_Layer: 0
+  m_Name: Act2_Window_WarmKey (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &720681237
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720681236}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.50055355, y: 0.4979356, z: -0.52747333, w: 0.47252327}
+  m_LocalPosition: {x: -2.76, y: 4.359, z: -3.542}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 206388325}
+  m_LocalEulerAnglesHint: {x: 93.3, y: 93, z: 0}
+--- !u!114 &720681238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720681236}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -7908,15 +7921,10 @@ MeshFilter:
   m_SoftShadowQuality: 0
 --- !u!108 &720681239
 Light:
->>>>>>> eccccb2af2f6b3bdc79963b4bf2fc1129279d1ad
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 716358188}
-  m_Mesh: {fileID: -8796765906938637932, guid: 5aec5641c17e40e4782c34ba3a382356, type: 3}
-=======
   m_GameObject: {fileID: 720681236}
   m_Enabled: 1
   serializedVersion: 10
@@ -7973,7 +7981,6 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
->>>>>>> eccccb2af2f6b3bdc79963b4bf2fc1129279d1ad
 --- !u!1 &748306573
 GameObject:
   m_ObjectHideFlags: 0
