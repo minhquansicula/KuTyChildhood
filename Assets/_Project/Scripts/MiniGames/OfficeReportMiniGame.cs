@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public enum OfficeWorkTask { Emails, Documents, Report }
@@ -38,6 +39,7 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
     [SerializeField] private Color hintTextColor = new Color(0.72f, 0.78f, 0.88f, 1f);
 
     public bool IsOpen { get; private set; }
+    public bool IsTransitioning => transitioning;
     public OfficeWorkTask CurrentTask { get; private set; }
     public int ItemIndex => CurrentItemIndex();
     public int CurrentStep => (int)CurrentTask;
@@ -47,20 +49,53 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
     private readonly bool[] finalChecklist = new bool[3];
     private OfficeSceneController owner;
     private bool transitioning;
+    private CanvasGroup panelCanvasGroup;
+    private RectTransform workspaceRect;
+    private Coroutine panelRevealRoutine;
 
     private void Awake()
     {
+        ConfigurePresentation();
+        ResetProgress();
+    }
+
+    public void ResetProgress()
+    {
+        StopAllCoroutines();
+        for (int i = 0; i < itemIndices.Length; i++) itemIndices[i] = 0;
+        for (int i = 0; i < finalChecklist.Length; i++) finalChecklist[i] = false;
+        owner = null;
+        CurrentTask = OfficeWorkTask.Emails;
+        IsOpen = false;
+        transitioning = false;
         if (panel != null) panel.SetActive(false);
     }
 
     private void Start()
     {
-        if (closeButton != null) closeButton.onClick.AddListener(RequestClose);
+        ConfigurePresentation();
+        if (closeButton != null)
+        {
+            ConfigureButton(closeButton);
+            closeButton.onClick.AddListener(RequestClose);
+        }
         for (int i = 0; i < optionButtons.Length; i++)
         {
             int index = i;
-            if (optionButtons[i] != null) optionButtons[i].onClick.AddListener(() => ChooseOption(index));
+            if (optionButtons[i] == null) continue;
+            ConfigureButton(optionButtons[i]);
+            optionButtons[i].onClick.AddListener(() => ChooseOption(index));
         }
+    }
+
+    private void Update()
+    {
+        if (!IsOpen || transitioning) return;
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1)) ChooseOption(0);
+        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2)) ChooseOption(1);
+        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3)) ChooseOption(2);
+        else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4)) ChooseOption(3);
     }
 
     private void OnDestroy()
@@ -85,6 +120,7 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
         panel.SetActive(true);
         panel.transform.SetAsLastSibling();
         RefreshTask();
+        PlayRevealAnimation();
         return true;
     }
 
@@ -96,6 +132,13 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
         StopAllCoroutines();
         transitioning = false;
         IsOpen = false;
+        if (panelRevealRoutine != null)
+        {
+            StopCoroutine(panelRevealRoutine);
+            panelRevealRoutine = null;
+        }
+        if (panelCanvasGroup != null) panelCanvasGroup.alpha = 1f;
+        if (workspaceRect != null) workspaceRect.localScale = Vector3.one;
         if (panel != null) panel.SetActive(false);
     }
 
@@ -104,6 +147,8 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
     public void ChooseOption(int index)
     {
         if (!IsOpen || transitioning || index < 0 || index >= optionButtons.Length) return;
+        Button selectedButton = optionButtons[index];
+        if (selectedButton == null || !selectedButton.gameObject.activeInHierarchy || !selectedButton.interactable) return;
 
         switch (CurrentTask)
         {
@@ -193,7 +238,7 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
 
     private IEnumerator AdvanceAfterFeedback(int itemCount)
     {
-        yield return new WaitForSecondsRealtime(0.55f);
+        yield return new WaitForSeconds(0.55f);
         int taskIndex = (int)CurrentTask;
         itemIndices[taskIndex]++;
         owner?.UpdateReportMiniGameProgress(Progress);
@@ -210,7 +255,7 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
 
     private IEnumerator CompleteTaskAfterDelay(float delay)
     {
-        if (delay > 0f) yield return new WaitForSecondsRealtime(delay);
+        if (delay > 0f) yield return new WaitForSeconds(delay);
         OfficeWorkTask completed = CurrentTask;
         ClosePanel();
         owner?.CompleteWorkTask(completed);
@@ -240,6 +285,7 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
             case OfficeWorkTask.Documents: ShowDocumentSort(); break;
             case OfficeWorkTask.Report: ShowReport(); break;
         }
+        SelectFirstAvailableOption();
     }
 
     private void ShowEmail()
@@ -397,12 +443,13 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
     private void SetOption(int index, string label, bool interactable)
     {
         if (index < 0 || index >= optionButtons.Length) return;
+        string displayLabel = string.IsNullOrEmpty(label) ? string.Empty : $"{index + 1}.  {label}";
         if (optionButtons[index] != null)
         {
             optionButtons[index].gameObject.SetActive(!string.IsNullOrEmpty(label));
             optionButtons[index].interactable = interactable;
         }
-        if (index < optionLabels.Length && optionLabels[index] != null) optionLabels[index].text = label;
+        if (index < optionLabels.Length && optionLabels[index] != null) optionLabels[index].text = displayLabel;
     }
 
     private void SetOptionColor(int index, Color color)
@@ -414,7 +461,101 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
     private void SetFeedback(string message, Color color)
     {
         if (feedbackText == null) return;
-        feedbackText.text = message;
+        string prefix = color == successTextColor ? "✓  " : color == errorTextColor ? "!  " : "•  ";
+        feedbackText.text = prefix + message;
         feedbackText.color = color;
+    }
+
+    private void ConfigurePresentation()
+    {
+        if (panel == null) return;
+
+        panelCanvasGroup = panel.GetComponent<CanvasGroup>();
+        if (panelCanvasGroup == null) panelCanvasGroup = panel.AddComponent<CanvasGroup>();
+        panelCanvasGroup.interactable = true;
+        panelCanvasGroup.blocksRaycasts = true;
+
+        Transform workspace = panel.transform.Find("ReportWorkspace");
+        workspaceRect = workspace != null ? workspace as RectTransform : null;
+
+        TextMeshProUGUI footer = panel.transform.Find("ReportWorkspace/ReportFooter")?.GetComponent<TextMeshProUGUI>();
+        if (footer != null)
+            footer.text = "PHÍM 1–4  Chọn phương án   ·   ESC  Tạm dừng   ·   Tiến độ tự động lưu";
+
+        if (feedbackText != null)
+        {
+            feedbackText.enableWordWrapping = true;
+            feedbackText.overflowMode = TextOverflowModes.Ellipsis;
+        }
+
+        for (int i = 0; i < optionLabels.Length; i++)
+        {
+            TextMeshProUGUI label = optionLabels[i];
+            if (label == null) continue;
+            label.enableAutoSizing = true;
+            label.fontSizeMin = 13f;
+            label.fontSizeMax = 17f;
+            label.raycastTarget = false;
+        }
+    }
+
+    private static void ConfigureButton(Button button)
+    {
+        if (button == null) return;
+        button.transition = Selectable.Transition.ColorTint;
+        button.navigation = new Navigation { mode = Navigation.Mode.Automatic };
+
+        ColorBlock colors = button.colors;
+        colors.normalColor = Color.white;
+        colors.highlightedColor = new Color(1.12f, 1.12f, 1.12f, 1f);
+        colors.pressedColor = new Color(0.78f, 0.82f, 0.9f, 1f);
+        colors.selectedColor = new Color(1.08f, 1.08f, 1.08f, 1f);
+        colors.disabledColor = new Color(0.48f, 0.5f, 0.56f, 0.62f);
+        colors.colorMultiplier = 1f;
+        colors.fadeDuration = 0.08f;
+        button.colors = colors;
+
+        if (button.GetComponent<UIButtonJuice>() == null) button.gameObject.AddComponent<UIButtonJuice>();
+    }
+
+    private void SelectFirstAvailableOption()
+    {
+        if (EventSystem.current == null) return;
+        for (int i = 0; i < optionButtons.Length; i++)
+        {
+            Button option = optionButtons[i];
+            if (option == null || !option.gameObject.activeInHierarchy || !option.interactable) continue;
+            EventSystem.current.SetSelectedGameObject(option.gameObject);
+            return;
+        }
+    }
+
+    private void PlayRevealAnimation()
+    {
+        if (panelCanvasGroup == null) return;
+        if (panelRevealRoutine != null) StopCoroutine(panelRevealRoutine);
+        panelRevealRoutine = StartCoroutine(RevealPanel());
+    }
+
+    private IEnumerator RevealPanel()
+    {
+        const float duration = 0.18f;
+        float elapsed = 0f;
+        panelCanvasGroup.alpha = 0f;
+        if (workspaceRect != null) workspaceRect.localScale = Vector3.one * 0.965f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            float eased = 1f - Mathf.Pow(1f - t, 3f);
+            panelCanvasGroup.alpha = eased;
+            if (workspaceRect != null) workspaceRect.localScale = Vector3.one * Mathf.Lerp(0.965f, 1f, eased);
+            yield return null;
+        }
+
+        panelCanvasGroup.alpha = 1f;
+        if (workspaceRect != null) workspaceRect.localScale = Vector3.one;
+        panelRevealRoutine = null;
     }
 }

@@ -149,7 +149,10 @@ public static class KuTyOfficeSetup
             if (label.text == "Mẹ" || label.text == "Bạn bè" || label.text == "Niềm vui" || label.text == "Tự do" || label.text == "0 đồng")
                 label.gameObject.SetActive(false);
             else if (label.text.StartsWith("WASD:"))
-                label.text = "WASD: đi · Chuột: nhìn · E: tương tác · Giữ chuột trái: làm việc · Esc: dừng/tạm nghỉ";
+                label.text = "<color=#F4C66A><b>WASD</b></color> Di chuyển  •  " +
+                    "<color=#F4C66A><b>CHUỘT</b></color> Quan sát  •  " +
+                    "<color=#F4C66A><b>E</b></color> Tương tác  •  " +
+                    "<color=#F4C66A><b>ESC</b></color> Tạm dừng";
         }
     }
     private static Material Material(string name, Color color)

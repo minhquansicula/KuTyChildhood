@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ExcelDataAuditorGame : MonoBehaviour
@@ -35,13 +36,14 @@ public class ExcelDataAuditorGame : MonoBehaviour
     [SerializeField] private Button submitButton;
     [SerializeField] private TextMeshProUGUI warningFeedbackText;
 
-    private readonly Color normalOptionColor = new Color(0.105f, 0.145f, 0.215f, 1f);
-    private readonly Color selectedOptionColor = new Color(0.12f, 0.34f, 0.28f, 1f);
     private readonly Color errorOptionColor = new Color(0.48f, 0.13f, 0.16f, 1f);
-    private readonly Color successTextColor = new Color(0.42f, 0.92f, 0.64f, 1f);
-    private readonly Color errorTextColor = new Color(1f, 0.43f, 0.43f, 1f);
-    private readonly Color hintTextColor = new Color(0.72f, 0.78f, 0.88f, 1f);
-    private readonly Color bgPanelColor = new Color(0.96f, 0.96f, 0.98f, 1f); 
+    private readonly Color successTextColor = new Color(0.07f, 0.48f, 0.23f, 1f);
+    private readonly Color errorTextColor = new Color(0.72f, 0.12f, 0.1f, 1f);
+    private readonly Color bgPanelColor = new Color(0.94f, 0.955f, 0.95f, 1f);
+    private readonly Color excelGreen = new Color(0.09f, 0.42f, 0.24f, 1f);
+    private readonly Color editableCellColor = new Color(0.9f, 0.98f, 0.92f, 1f);
+    private readonly Color editableCellHoverColor = new Color(0.82f, 0.95f, 0.86f, 1f);
+    private readonly Color invalidCellColor = new Color(1f, 0.82f, 0.82f, 1f);
 
     private float timeRemaining;
     private bool isGameActive = false;
@@ -50,6 +52,13 @@ public class ExcelDataAuditorGame : MonoBehaviour
     
     private RectTransform timerProgressBar;
     private Image timerProgressImage;
+    private TextMeshProUGUI sheetProgressText;
+    private CanvasGroup mainPanelCanvasGroup;
+    private Coroutine revealRoutine;
+    private bool attemptStarted;
+    private Image chatBackdrop;
+    private TextMeshProUGUI formulaHint;
+    private float AttemptDuration => timeLimit > 0f ? Mathf.Max(1f, timeLimit) : 60f;
 
     public class SheetData
     {
@@ -63,6 +72,9 @@ public class ExcelDataAuditorGame : MonoBehaviour
     private int currentSheetIndex = 0;
     private Dictionary<int, Dictionary<Vector2Int, string>> userInputs = new Dictionary<int, Dictionary<Vector2Int, string>>();
     private List<Image> tabBgImages = new List<Image>();
+    private readonly List<TextMeshProUGUI> tabLabels = new List<TextMeshProUGUI>();
+    private readonly Dictionary<Vector2Int, TMP_InputField> visibleInputs = new Dictionary<Vector2Int, TMP_InputField>();
+    private readonly Dictionary<int, HashSet<Vector2Int>> validationErrors = new Dictionary<int, HashSet<Vector2Int>>();
 
     private void InitializeSheets()
     {
@@ -72,7 +84,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
             {
                 Name = "Q3_Report",
                 Grid = new string[,] {
-                    {"Revenue", "Expenses", "Profit"},
+                    {"Doanh thu", "Chi phí", "Lợi nhuận"},
                     {"1500", "800", "700"},
                     {"2100", "1500", "600"},
                     {"3600", "2300", "9999"} // Target 1300
@@ -94,10 +106,10 @@ public class ExcelDataAuditorGame : MonoBehaviour
             {
                 Name = "Q4_Forecast",
                 Grid = new string[,] {
-                    {"Project", "Budget", "Actual"},
-                    {"Mktg", "5000", "4500"},
-                    {"Dev", "8000", "7000"},
-                    {"Total", "13000", "12000"} // Actual target 11500
+                    {"Hạng mục", "Ngân sách", "Thực tế"},
+                    {"Marketing", "5000", "4500"},
+                    {"Phát triển", "8000", "7000"},
+                    {"Tổng", "13000", "12000"} // Actual target 11500
                 },
                 Editable = new bool[,] {
                     {false, false, false},
@@ -141,8 +153,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
     private void CreateHeaders() 
     {
         if (mainPanel == null) return;
-        
-        // 1. Ribbon Menu
+
         var ribbonObj = new GameObject("ExcelRibbon");
         ribbonObj.transform.SetParent(mainPanel.transform, false);
         var ribbonRect = ribbonObj.AddComponent<RectTransform>();
@@ -151,31 +162,129 @@ public class ExcelDataAuditorGame : MonoBehaviour
         ribbonRect.anchorMax = new Vector2(1f, 1f);
         var ribbonImg = ribbonObj.AddComponent<Image>();
         ribbonImg.sprite = null;
-        ribbonImg.color = new Color(0.12f, 0.45f, 0.25f, 1f); // Excel Green
+        ribbonImg.color = excelGreen;
+
+        var ribbonShadow = ribbonObj.AddComponent<Shadow>();
+        ribbonShadow.effectColor = new Color(0f, 0f, 0f, 0.24f);
+        ribbonShadow.effectDistance = new Vector2(0f, -4f);
 
         var tObj = new GameObject("TaskTitleText");
         tObj.transform.SetParent(ribbonObj.transform, false);
         var tRect = tObj.AddComponent<RectTransform>();
         StretchRect(tRect);
-        tRect.offsetMin = new Vector2(25, 0); // Padding left
+        tRect.offsetMin = new Vector2(32f, 0f);
+        tRect.offsetMax = new Vector2(-220f, 0f);
         var tText = tObj.AddComponent<TextMeshProUGUI>();
-        tText.text = "REPORT_Q3_FINAL.xlsx - Excel";
+        tText.text = "<color=#E9FFF1><b>REPORT_Q3_FINAL.xlsx</b></color>  <color=#91DDB3>•  KIỂM TRA DỮ LIỆU</color>";
         tText.color = Color.white;
         tText.fontStyle = FontStyles.Bold;
         tText.alignment = TextAlignmentOptions.MidlineLeft;
+        tText.enableAutoSizing = true;
+        tText.fontSizeMin = 18f;
+        tText.fontSizeMax = 30f;
+        tText.raycastTarget = false;
         if (globalFont != null) tText.font = globalFont;
 
+        if (timerText != null)
+        {
+            timerText.transform.SetParent(ribbonObj.transform, false);
+            RectTransform timerRect = timerText.rectTransform;
+            timerRect.anchorMin = new Vector2(0.82f, 0.2f);
+            timerRect.anchorMax = new Vector2(0.98f, 0.8f);
+            timerRect.offsetMin = Vector2.zero;
+            timerRect.offsetMax = Vector2.zero;
+            timerText.gameObject.SetActive(true);
+            timerText.text = "01:00";
+            timerText.color = Color.white;
+            timerText.fontStyle = FontStyles.Bold;
+            timerText.alignment = TextAlignmentOptions.Center;
+            timerText.enableAutoSizing = true;
+            timerText.fontSizeMin = 16f;
+            timerText.fontSizeMax = 26f;
+            timerText.raycastTarget = false;
+            if (globalFont != null) timerText.font = globalFont;
+        }
+
+        var instructionCard = new GameObject("InstructionCard");
+        instructionCard.transform.SetParent(mainPanel.transform, false);
+        var cardRect = instructionCard.AddComponent<RectTransform>();
+        ResetRect(cardRect);
+        cardRect.anchorMin = new Vector2(0.1f, 0.74f);
+        cardRect.anchorMax = new Vector2(0.9f, 0.82f);
+        var cardImage = instructionCard.AddComponent<Image>();
+        cardImage.color = new Color(0.86f, 0.93f, 0.88f, 1f);
+        var cardOutline = instructionCard.AddComponent<Outline>();
+        cardOutline.effectColor = new Color(0.48f, 0.66f, 0.53f, 0.55f);
+        cardOutline.effectDistance = new Vector2(1f, -1f);
+
         var iObj = new GameObject("InstructionText");
-        iObj.transform.SetParent(mainPanel.transform, false);
+        iObj.transform.SetParent(instructionCard.transform, false);
         var iRect = iObj.AddComponent<RectTransform>();
-        ResetRect(iRect);
-        iRect.anchorMin = new Vector2(0.1f, 0.70f);
-        iRect.anchorMax = new Vector2(0.9f, 0.82f);
+        StretchRect(iRect);
+        iRect.offsetMin = new Vector2(22f, 10f);
+        iRect.offsetMax = new Vector2(-260f, -10f);
         var iText = iObj.AddComponent<TextMeshProUGUI>();
-        iText.text = "SỬA BÁO CÁO CHO SẾP\nKiểm tra lại dữ liệu và sửa lỗi sai trước khi nộp.";
-        iText.color = new Color(0.15f, 0.15f, 0.15f, 1f); // Black text
-        iText.alignment = TextAlignmentOptions.TopLeft;
+        iText.text = "<color=#176B3A><b>HOÀN THIỆN BẢNG TÍNH</b></color>\n" +
+            "Tìm ô xanh nhạt, tính lại <b>Lợi nhuận</b> và <b>Tổng thực tế</b>, rồi nhập giá trị đúng.";
+        iText.color = new Color(0.08f, 0.2f, 0.12f, 1f);
+        iText.alignment = TextAlignmentOptions.MidlineLeft;
+        iText.enableAutoSizing = true;
+        iText.fontSizeMin = 13f;
+        iText.fontSizeMax = 22f;
+        iText.raycastTarget = false;
         if (globalFont != null) iText.font = globalFont;
+
+        var progressObj = new GameObject("SheetProgressText");
+        progressObj.transform.SetParent(instructionCard.transform, false);
+        var progressRect = progressObj.AddComponent<RectTransform>();
+        progressRect.anchorMin = new Vector2(0.68f, 0f);
+        progressRect.anchorMax = new Vector2(0.98f, 1f);
+        progressRect.offsetMin = Vector2.zero;
+        progressRect.offsetMax = Vector2.zero;
+        sheetProgressText = progressObj.AddComponent<TextMeshProUGUI>();
+        sheetProgressText.color = excelGreen;
+        sheetProgressText.fontStyle = FontStyles.Bold;
+        sheetProgressText.alignment = TextAlignmentOptions.Center;
+        sheetProgressText.enableAutoSizing = true;
+        sheetProgressText.fontSizeMin = 13f;
+        sheetProgressText.fontSizeMax = 20f;
+        sheetProgressText.raycastTarget = false;
+        if (globalFont != null) sheetProgressText.font = globalFont;
+
+        var hintObject = new GameObject("FormulaHint", typeof(RectTransform));
+        hintObject.transform.SetParent(mainPanel.transform, false);
+        formulaHint = hintObject.AddComponent<TextMeshProUGUI>();
+        formulaHint.font = globalFont;
+        formulaHint.enableAutoSizing = true;
+        formulaHint.fontSizeMin = 13f;
+        formulaHint.fontSizeMax = 18f;
+        formulaHint.color = excelGreen;
+        formulaHint.alignment = TextAlignmentOptions.Center;
+        formulaHint.raycastTarget = false;
+        formulaHint.rectTransform.anchorMin = new Vector2(.12f, .685f);
+        formulaHint.rectTransform.anchorMax = new Vector2(.88f, .725f);
+        formulaHint.rectTransform.offsetMin = formulaHint.rectTransform.offsetMax = Vector2.zero;
+
+        var closeObject = new GameObject("CloseWorkbook", typeof(RectTransform), typeof(Image), typeof(Button));
+        closeObject.transform.SetParent(mainPanel.transform, false);
+        var closeRect = (RectTransform)closeObject.transform;
+        closeRect.anchorMin = new Vector2(.74f, .055f);
+        closeRect.anchorMax = new Vector2(.96f, .145f);
+        closeRect.offsetMin = closeRect.offsetMax = Vector2.zero;
+        closeObject.GetComponent<Image>().color = new Color(.23f, .3f, .27f);
+        var closeButton = closeObject.GetComponent<Button>();
+        ConfigureButton(closeButton);
+        closeButton.onClick.AddListener(() => owner?.CancelWork());
+        var closeLabel = new GameObject("Label", typeof(RectTransform)).AddComponent<TextMeshProUGUI>();
+        closeLabel.transform.SetParent(closeObject.transform, false);
+        StretchRect(closeLabel.rectTransform);
+        closeLabel.font = globalFont;
+        closeLabel.text = "ĐÓNG  [ESC]\n<size=70%>Giữ dữ liệu đang làm</size>";
+        closeLabel.enableAutoSizing = true;
+        closeLabel.fontSizeMin = 13f;
+        closeLabel.fontSizeMax = 19f;
+        closeLabel.alignment = TextAlignmentOptions.Center;
+        closeLabel.raycastTarget = false;
     }
 
     private void CreateTabs()
@@ -190,7 +299,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
         tabsRect.anchorMax = new Vector2(1f, 0.25f);
         var tabsImg = tabsParent.AddComponent<Image>();
         tabsImg.sprite = null;
-        tabsImg.color = new Color(0.85f, 0.85f, 0.85f, 1f);
+        tabsImg.color = new Color(0.78f, 0.82f, 0.8f, 1f);
 
         var horizLayout = tabsParent.AddComponent<HorizontalLayoutGroup>();
         horizLayout.spacing = 5;
@@ -212,9 +321,10 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
             var tabBtn = tabObj.AddComponent<Button>();
             tabBtn.onClick.AddListener(() => SwitchSheet(loopIndex));
+            ConfigureButton(tabBtn);
 
             var tabLe = tabObj.AddComponent<LayoutElement>();
-            tabLe.minWidth = 140; 
+            tabLe.minWidth = 165f;
             
             var txtObj = new GameObject("Text");
             txtObj.transform.SetParent(tabObj.transform, false);
@@ -228,7 +338,9 @@ public class ExcelDataAuditorGame : MonoBehaviour
             txt.enableAutoSizing = true;
             txt.fontSizeMin = 12;
             txt.fontSizeMax = 22;
+            txt.raycastTarget = false;
             if (globalFont != null) txt.font = globalFont;
+            tabLabels.Add(txt);
         }
 
         UpdateTabUI();
@@ -236,10 +348,14 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
     private void SwitchSheet(int index)
     {
+        if (!isGameActive || GameManager.Instance?.IsPaused == true ||
+            (chatPopupPanel != null && chatPopupPanel.activeSelf)) return;
         if (index == currentSheetIndex) return;
         currentSheetIndex = index;
         UpdateTabUI();
         GenerateGrid();
+        SetFeedback($"Đang xem sheet {sheets[currentSheetIndex].Name}.", new Color(0.25f, 0.32f, 0.28f, 1f), "•");
+        FocusFirstEditableCell();
     }
 
     private void UpdateTabUI()
@@ -248,9 +364,16 @@ public class ExcelDataAuditorGame : MonoBehaviour
         {
             if (tabBgImages[i] != null)
             {
-                tabBgImages[i].color = (i == currentSheetIndex) ? Color.white : new Color(0.75f, 0.75f, 0.75f, 1f);
+                bool active = i == currentSheetIndex;
+                tabBgImages[i].color = active ? excelGreen : new Color(0.72f, 0.76f, 0.74f, 1f);
+                if (i < tabLabels.Count && tabLabels[i] != null)
+                {
+                    tabLabels[i].color = active ? Color.white : new Color(0.15f, 0.2f, 0.17f, 1f);
+                    tabLabels[i].fontStyle = active ? FontStyles.Bold : FontStyles.Normal;
+                }
             }
         }
+        UpdateCompletionSummary();
     }
 
     private void Awake()
@@ -262,32 +385,57 @@ public class ExcelDataAuditorGame : MonoBehaviour
         }
 
         InitializeSheets();
+        if (mainPanel == null)
+        {
+            Debug.LogError("Excel mini-game main panel is not configured.", this);
+            return;
+        }
+
+        mainPanelCanvasGroup = mainPanel.GetComponent<CanvasGroup>();
+        if (mainPanelCanvasGroup == null) mainPanelCanvasGroup = mainPanel.AddComponent<CanvasGroup>();
+        mainPanelCanvasGroup.interactable = true;
+        mainPanelCanvasGroup.blocksRaycasts = true;
+
+        if (mainPanel.TryGetComponent<Image>(out var mainBackground))
+        {
+            mainBackground.sprite = null;
+            mainBackground.color = bgPanelColor;
+        }
+
         CreateHeaders();
         CreateTabs();
 
         if (chatPopupPanel != null)
         {
-            ResetRect(chatPopupPanel.GetComponent<RectTransform>());
+            var backdropObject = new GameObject("ChatModalBackdrop", typeof(RectTransform), typeof(Image));
+            backdropObject.transform.SetParent(chatPopupPanel.transform.parent, false);
+            chatBackdrop = backdropObject.GetComponent<Image>();
+            StretchRect(chatBackdrop.rectTransform);
+            chatBackdrop.color = new Color(.015f, .025f, .035f, .65f);
+            backdropObject.SetActive(false);
+            RectTransform popupRect = chatPopupPanel.GetComponent<RectTransform>();
+            ResetRect(popupRect);
+            popupRect.anchorMin = new Vector2(0.31f, 0.29f);
+            popupRect.anchorMax = new Vector2(0.69f, 0.71f);
             if (chatPopupPanel.TryGetComponent<Image>(out var popBg)) 
             {
                 popBg.sprite = null;
-                popBg.color = Color.white;
+                popBg.color = new Color(0.98f, 0.99f, 1f, 1f);
             }
-            
-            // Add slight padding/border to Popup
+
             var popOutline = chatPopupPanel.gameObject.GetComponent<Outline>() ?? chatPopupPanel.gameObject.AddComponent<Outline>();
-            popOutline.effectColor = new Color(0.8f, 0.8f, 0.8f, 1f);
-            popOutline.effectDistance = new Vector2(2, -2);
+            popOutline.effectColor = new Color(0.08f, 0.18f, 0.3f, 0.48f);
+            popOutline.effectDistance = new Vector2(3f, -3f);
 
             var titleBar = new GameObject("TitleBar");
             titleBar.transform.SetParent(chatPopupPanel.transform, false);
             var titleBarRect = titleBar.AddComponent<RectTransform>();
             StretchRect(titleBarRect);
-            titleBarRect.anchorMin = new Vector2(0f, 0.8f);
+            titleBarRect.anchorMin = new Vector2(0f, 0.78f);
             titleBarRect.anchorMax = new Vector2(1f, 1f);
             var titleImg = titleBar.AddComponent<Image>();
             titleImg.sprite = null;
-            titleImg.color = new Color(0.12f, 0.45f, 0.85f, 1f); // Zalo Blue
+            titleImg.color = new Color(0.08f, 0.34f, 0.62f, 1f);
 
             ResetRect(chatSenderText?.GetComponent<RectTransform>());
             ResetRect(chatContentText?.GetComponent<RectTransform>());
@@ -298,33 +446,55 @@ public class ExcelDataAuditorGame : MonoBehaviour
             {
                 chatSenderText.transform.SetParent(titleBar.transform, false);
                 StretchRect(chatSenderText.GetComponent<RectTransform>());
-                chatSenderText.GetComponent<RectTransform>().offsetMin = new Vector2(10, 0); // padding left
+                chatSenderText.GetComponent<RectTransform>().offsetMin = new Vector2(20f, 0f);
+                chatSenderText.GetComponent<RectTransform>().offsetMax = new Vector2(-16f, 0f);
                 chatSenderText.color = Color.white;
+                chatSenderText.fontStyle = FontStyles.Bold;
                 chatSenderText.alignment = TextAlignmentOptions.MidlineLeft;
+                chatSenderText.enableAutoSizing = true;
+                chatSenderText.fontSizeMin = 15f;
+                chatSenderText.fontSizeMax = 24f;
                 if (globalFont != null) chatSenderText.font = globalFont;
             }
 
             if (chatContentText != null) 
             {
-                // Push content down below title bar
                 var cRect = chatContentText.GetComponent<RectTransform>();
-                if (cRect != null) cRect.anchorMax = new Vector2(cRect.anchorMax.x, 0.75f);
-                chatContentText.color = Color.black;
+                if (cRect != null)
+                {
+                    cRect.anchorMin = new Vector2(0.07f, 0.31f);
+                    cRect.anchorMax = new Vector2(0.93f, 0.72f);
+                    cRect.offsetMin = Vector2.zero;
+                    cRect.offsetMax = Vector2.zero;
+                }
+                chatContentText.color = new Color(0.12f, 0.16f, 0.21f, 1f);
+                chatContentText.alignment = TextAlignmentOptions.MidlineLeft;
+                chatContentText.enableAutoSizing = true;
+                chatContentText.fontSizeMin = 14f;
+                chatContentText.fontSizeMax = 23f;
                 if (globalFont != null) chatContentText.font = globalFont;
             }
 
             if (chatResponseButtonText != null) 
             {
                 chatResponseButtonText.color = Color.white;
+                chatResponseButtonText.alignment = TextAlignmentOptions.Center;
                 chatResponseButtonText.enableAutoSizing = true;
                 chatResponseButtonText.fontSizeMin = 14;
-                chatResponseButtonText.fontSizeMax = 36;
+                chatResponseButtonText.fontSizeMax = 22;
+                chatResponseButtonText.raycastTarget = false;
                 if (globalFont != null) chatResponseButtonText.font = globalFont;
             }
             if (chatResponseButton != null && chatResponseButton.TryGetComponent<Image>(out var btnBg)) 
             {
+                RectTransform responseRect = chatResponseButton.GetComponent<RectTransform>();
+                responseRect.anchorMin = new Vector2(0.08f, 0.08f);
+                responseRect.anchorMax = new Vector2(0.92f, 0.25f);
+                responseRect.offsetMin = Vector2.zero;
+                responseRect.offsetMax = Vector2.zero;
                 btnBg.sprite = null;
-                btnBg.color = new Color(0.1f, 0.45f, 0.85f, 1f); // Blue Zalo
+                btnBg.color = new Color(0.08f, 0.38f, 0.72f, 1f);
+                ConfigureButton(chatResponseButton);
             }
         }
 
@@ -332,20 +502,22 @@ public class ExcelDataAuditorGame : MonoBehaviour
         {
             var sRect = submitButton.GetComponent<RectTransform>();
             ResetRect(sRect);
-            sRect.anchorMin = new Vector2(0.35f, 0.05f);
-            sRect.anchorMax = new Vector2(0.65f, 0.15f);
-            if (submitButton.TryGetComponent<Image>(out var subBg)) subBg.color = selectedOptionColor;
+            sRect.anchorMin = new Vector2(0.36f, 0.055f);
+            sRect.anchorMax = new Vector2(0.64f, 0.145f);
+            if (submitButton.TryGetComponent<Image>(out var subBg)) subBg.color = excelGreen;
+            ConfigureButton(submitButton);
             submitButton.onClick.AddListener(CheckValidation);
             var btnText = submitButton.GetComponentInChildren<TextMeshProUGUI>();
             if (btnText != null) 
             {
                 StretchRect(btnText.GetComponent<RectTransform>());
-                btnText.text = "GỬI BÁO CÁO";
+                btnText.text = "KIỂM TRA & GỬI\n<size=65%>CTRL + ENTER</size>";
                 btnText.color = Color.white;
                 btnText.alignment = TextAlignmentOptions.Center;
                 btnText.enableAutoSizing = true;
-                btnText.fontSizeMin = 14;
-                btnText.fontSizeMax = 36;
+                btnText.fontSizeMin = 13;
+                btnText.fontSizeMax = 24;
+                btnText.raycastTarget = false;
             }
         }
         
@@ -353,37 +525,34 @@ public class ExcelDataAuditorGame : MonoBehaviour
         {
             ResetRect(warningFeedbackText.GetComponent<RectTransform>());
             var wRect = warningFeedbackText.GetComponent<RectTransform>();
-            wRect.anchorMin = new Vector2(0.1f, 0.26f);
-            wRect.anchorMax = new Vector2(0.9f, 0.35f);
-            warningFeedbackText.color = Color.red;
+            wRect.anchorMin = new Vector2(0.12f, 0.265f);
+            wRect.anchorMax = new Vector2(0.88f, 0.34f);
+            warningFeedbackText.color = new Color(0.25f, 0.32f, 0.28f, 1f);
             warningFeedbackText.alignment = TextAlignmentOptions.Center;
+            warningFeedbackText.enableAutoSizing = true;
+            warningFeedbackText.fontSizeMin = 13f;
+            warningFeedbackText.fontSizeMax = 22f;
+            warningFeedbackText.raycastTarget = false;
             if (globalFont != null) warningFeedbackText.font = globalFont;
         }
 
-        if (timerText != null) 
-        {
-            timerText.gameObject.SetActive(false); // Hide text timer, use Progress Bar instead
-        }
-
-        // Create Progress Bar background right below Ribbon
         var pbBg = new GameObject("ProgressBarBg");
         pbBg.transform.SetParent(mainPanel.transform, false);
         var pbBgRect = pbBg.AddComponent<RectTransform>();
         StretchRect(pbBgRect);
-        pbBgRect.anchorMin = new Vector2(0f, 0.84f); 
+        pbBgRect.anchorMin = new Vector2(0f, 0.837f);
         pbBgRect.anchorMax = new Vector2(1f, 0.85f);
         var pbBgImg = pbBg.AddComponent<Image>();
         pbBgImg.sprite = null;
-        pbBgImg.color = new Color(0.85f, 0.85f, 0.85f, 1f);
+        pbBgImg.color = new Color(0.64f, 0.7f, 0.66f, 1f);
 
-        // Create Progress Bar Fill
         var pbFill = new GameObject("ProgressBarFill");
         pbFill.transform.SetParent(pbBg.transform, false);
         timerProgressBar = pbFill.AddComponent<RectTransform>();
-        StretchRect(timerProgressBar); // Anchor 0..1 initially
+        StretchRect(timerProgressBar);
         timerProgressImage = pbFill.AddComponent<Image>();
         timerProgressImage.sprite = null;
-        timerProgressImage.color = new Color(0.13f, 0.65f, 0.27f, 1f);
+        timerProgressImage.color = new Color(0.16f, 0.72f, 0.34f, 1f);
 
         if (mainPanel != null) mainPanel.SetActive(false);
         if (chatPopupPanel != null) chatPopupPanel.SetActive(false);
@@ -392,52 +561,92 @@ public class ExcelDataAuditorGame : MonoBehaviour
         {
             chatResponseButton.onClick.AddListener(CloseChatPopup);
         }
-        // Clean up Awake layout remnants
-        // ...
-        
-        // Initialize default messages if empty
+
         if (randomMessages == null || randomMessages.Count == 0)
         {
             randomMessages = new List<ChatMessageData> {
-                new ChatMessageData { senderName = "Quản lý", messageContent = "Báo cáo nộp đi em! Kiểm tra số liệu nha.", responseButtonText = "Dạ vâng, nộp đây!" },
-                new ChatMessageData { senderName = "Quản lý", messageContent = "Sửa format cho đúng, tôi không thích bảng xấu.", responseButtonText = "Vâng tôi đang làm" },
-                new ChatMessageData { senderName = "Nhân Sự", messageContent = "4h nay phòng mình có ca họp.", responseButtonText = "Đã nhận thông tin!" },
-                new ChatMessageData { senderName = "Đồng Nghiệp", messageContent = "Trưa nay ăn bún không bạn ơi?", responseButtonText = "Xin lỗi, tôi đang làm" }
+                new ChatMessageData { senderName = "Quản lý", messageContent = "Em kiểm tra kỹ số liệu rồi gửi lại báo cáo nhé.", responseButtonText = "Dạ, em đang kiểm tra ạ." },
+                new ChatMessageData { senderName = "Quản lý", messageContent = "Nhớ giữ định dạng bảng thống nhất trước khi gửi.", responseButtonText = "Vâng, em đã rõ ạ." },
+                new ChatMessageData { senderName = "Nhân sự", messageContent = "Ngày mai phòng mình họp lúc 9 giờ nhé.", responseButtonText = "Mình đã nhận thông tin." },
+                new ChatMessageData { senderName = "Đồng nghiệp", messageContent = "Mọi người về rồi, Tý còn làm à?", responseButtonText = "Ừ, mình đang làm nốt báo cáo." }
             };
         }
     }
 
-    public void Open(OfficeSceneController controller)
+    private void Update()
     {
+        if (!isGameActive || GameManager.Instance?.IsPaused == true) return;
+        bool submitShortcut = (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) ||
+                               Input.GetKey(KeyCode.LeftCommand) || Input.GetKey(KeyCode.RightCommand)) &&
+                              Input.GetKeyDown(KeyCode.Return);
+        if (submitShortcut && (chatPopupPanel == null || !chatPopupPanel.activeSelf)) CheckValidation();
+        else if (Input.GetKeyDown(KeyCode.Return) && chatPopupPanel != null && chatPopupPanel.activeSelf)
+            CloseChatPopup();
+    }
+
+    private void OnDestroy()
+    {
+        if (submitButton != null) submitButton.onClick.RemoveListener(CheckValidation);
+        if (chatResponseButton != null) chatResponseButton.onClick.RemoveListener(CloseChatPopup);
+    }
+
+    public bool Open(OfficeSceneController controller)
+    {
+        // Repeated UI events must not start duplicate timer/chat coroutines.
+        if (isGameActive) return true;
+
+        if (mainPanel == null || gridParent == null || cellPrefab == null)
+        {
+            Debug.LogError("Excel mini-game UI is not fully configured.", this);
+            return false;
+        }
+
         gameObject.SetActive(true);
         owner = controller;
         isGameActive = true;
-        timeRemaining = timeLimit;
+        if (!attemptStarted || timeRemaining <= 0f) timeRemaining = AttemptDuration;
+        attemptStarted = true;
         
         mainPanel.SetActive(true);
         mainPanel.transform.SetAsLastSibling();
-        chatPopupPanel.SetActive(false);
+        if (chatPopupPanel != null) chatPopupPanel.SetActive(false);
+        if (chatBackdrop != null) chatBackdrop.gameObject.SetActive(false);
+        if (submitButton != null) submitButton.interactable = true;
         
-        if (warningFeedbackText != null) warningFeedbackText.text = "";
+        SetFeedback("Nhập giá trị đúng vào các ô được tô màu.", new Color(0.25f, 0.32f, 0.28f, 1f), "•");
         
+        UpdateTabUI();
         GenerateGrid();
+        UpdateTimerUI();
+        PlayRevealAnimation();
         StartCoroutine(TimerRoutine());
         StartCoroutine(BossDistractionRoutine());
+        return true;
     }
 
     public void ClosePanel()
     {
         isGameActive = false;
         StopAllCoroutines();
+        revealRoutine = null;
+        if (mainPanelCanvasGroup != null) mainPanelCanvasGroup.alpha = 1f;
+        if (chatPopupPanel != null) chatPopupPanel.SetActive(false);
+        if (chatBackdrop != null) chatBackdrop.gameObject.SetActive(false);
         if (mainPanel != null) mainPanel.SetActive(false);
     }
 
     private void GenerateGrid()
     {
+        if (gridParent == null || cellPrefab == null || sheets == null || sheets.Count == 0) return;
+        if (formulaHint != null) formulaHint.text = currentSheetIndex == 0
+            ? "Q3 · Ô C4: Lợi nhuận = Doanh thu − Chi phí (A4 − B4)"
+            : "Q4 · Ô C4: Tổng thực tế = Marketing + Phát triển (C2 + C3)";
+
         foreach (Transform child in gridParent)
         {
             Destroy(child.gameObject);
         }
+        visibleInputs.Clear();
 
         if (mainPanel != null && mainPanel.TryGetComponent<Image>(out var img))
         {
@@ -445,20 +654,26 @@ public class ExcelDataAuditorGame : MonoBehaviour
             img.sprite = null;
         }
 
-        if (gridParent != null)
-        {
-            var gridImg = gridParent.GetComponent<Image>();
-            if (gridImg != null) gridImg.enabled = false; // Disable huge gray background
+        RectTransform gridRect = gridParent;
+        gridRect.anchorMin = new Vector2(0.12f, 0.36f);
+        gridRect.anchorMax = new Vector2(0.88f, 0.68f);
+        gridRect.offsetMin = Vector2.zero;
+        gridRect.offsetMax = Vector2.zero;
+        Canvas.ForceUpdateCanvases();
 
-            var grid = gridParent.GetComponent<GridLayoutGroup>();
-            if (grid != null)
-            {
-                grid.cellSize = new Vector2(170, 35);
-                grid.spacing = new Vector2(0, 0); // Outlines will act as borders
-                grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                grid.constraintCount = 4; // 1 header + 3 col
-                grid.childAlignment = TextAnchor.MiddleCenter;
-            }
+        var gridImg = gridParent.GetComponent<Image>();
+        if (gridImg != null) gridImg.enabled = false;
+
+        var grid = gridParent.GetComponent<GridLayoutGroup>();
+        if (grid != null)
+        {
+            float width = Mathf.Max(520f, gridRect.rect.width);
+            float height = Mathf.Max(210f, gridRect.rect.height);
+            grid.cellSize = new Vector2((width - 3f) / 4f, (height - 4f) / 5f);
+            grid.spacing = Vector2.one;
+            grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            grid.constraintCount = 4;
+            grid.childAlignment = TextAnchor.MiddleCenter;
         }
 
         for (int r = 0; r < 5; r++)
@@ -466,23 +681,20 @@ public class ExcelDataAuditorGame : MonoBehaviour
             for (int c = 0; c < 4; c++)
             {
                 var cellObj = Instantiate(cellPrefab, gridParent);
-                cellObj.SetActive(true); 
-                
+                cellObj.name = $"Cell_{r}_{c}";
+                cellObj.SetActive(true);
+
                 var inputField = cellObj.GetComponentInChildren<TMP_InputField>();
                 var textComponent = cellObj.GetComponentInChildren<TextMeshProUGUI>();
-                
-                // Kill all rounded corners and add exact 1px border
-                foreach (var cImg in cellObj.GetComponentsInChildren<Image>())
-                {
-                    cImg.sprite = null; 
-                    cImg.type = Image.Type.Simple;
-                    var outline = cImg.gameObject.GetComponent<Outline>();
-                    if (outline == null) outline = cImg.gameObject.AddComponent<Outline>();
-                    outline.effectColor = new Color(0.7f, 0.7f, 0.7f, 1f); // Border color
-                    outline.effectDistance = new Vector2(1, -1);
-                }
-                
                 var rootBg = cellObj.GetComponent<Image>();
+                var outline = cellObj.GetComponent<Outline>() ?? cellObj.AddComponent<Outline>();
+                outline.effectColor = new Color(0.46f, 0.52f, 0.49f, 0.9f);
+                outline.effectDistance = new Vector2(1f, -1f);
+                if (rootBg != null)
+                {
+                    rootBg.sprite = null;
+                    rootBg.type = Image.Type.Simple;
+                }
 
                 bool isHeader = (r == 0 || c == 0);
                 string val = " ";
@@ -504,23 +716,37 @@ public class ExcelDataAuditorGame : MonoBehaviour
                     }
                 }
 
+                Vector2Int coordinate = new Vector2Int(r, c);
+                bool hasError = validationErrors.TryGetValue(currentSheetIndex, out var errors) && errors.Contains(coordinate);
                 if (rootBg != null)
                 {
-                    rootBg.color = isHeader ? new Color(0.9f, 0.92f, 0.94f, 1f) : Color.white;
+                    rootBg.color = isHeader
+                        ? new Color(0.82f, 0.87f, 0.84f, 1f)
+                        : hasError ? invalidCellColor : canEdit ? editableCellColor : Color.white;
                 }
 
                 if (inputField != null)
                 {
                     var colors = inputField.colors;
-                    colors.disabledColor = isHeader ? new Color(0.9f, 0.92f, 0.94f, 1f) : Color.white;
+                    colors.disabledColor = Color.white;
                     colors.normalColor = Color.white;
+                    colors.highlightedColor = new Color(0.96f, 1f, 0.97f, 1f);
+                    colors.selectedColor = new Color(0.92f, 1f, 0.94f, 1f);
+                    colors.pressedColor = new Color(0.88f, 0.95f, 0.9f, 1f);
                     inputField.colors = colors;
 
-                    // Hide placeholder completely
                     if (inputField.placeholder != null) inputField.placeholder.gameObject.SetActive(false);
+                    if (inputField.targetGraphic is Image fieldBg)
+                    {
+                        fieldBg.sprite = null;
+                        fieldBg.color = Color.clear;
+                    }
 
                     inputField.text = val;
                     inputField.interactable = canEdit;
+                    inputField.contentType = TMP_InputField.ContentType.IntegerNumber;
+                    inputField.characterValidation = TMP_InputField.CharacterValidation.Integer;
+                    inputField.characterLimit = 8;
                     
                     var txt = inputField.textComponent;
                     if (txt != null) 
@@ -529,16 +755,44 @@ public class ExcelDataAuditorGame : MonoBehaviour
                         txt.color = isHeader ? new Color(0.2f, 0.2f, 0.2f, 1f) : Color.black; 
                         txt.fontStyle = isHeader ? FontStyles.Bold : FontStyles.Normal;
                         txt.alignment = TextAlignmentOptions.Center;
+                        txt.enableAutoSizing = true;
+                        txt.fontSizeMin = 12f;
+                        txt.fontSizeMax = 22f;
+                        txt.raycastTarget = false;
                     }
                     
                     if (canEdit)
                     {
+                        int sheetIndex = currentSheetIndex;
                         int captureR = r;
                         int captureC = c;
+                        Vector2Int capturedCoordinate = coordinate;
+                        visibleInputs[capturedCoordinate] = inputField;
                         inputField.onValueChanged.RemoveAllListeners();
                         inputField.onValueChanged.AddListener((changedVal) => 
                         {
-                            userInputs[currentSheetIndex][new Vector2Int(captureR, captureC)] = changedVal;
+                            userInputs[sheetIndex][new Vector2Int(captureR, captureC)] = changedVal;
+                            if (validationErrors.TryGetValue(sheetIndex, out var sheetErrors))
+                                sheetErrors.Remove(capturedCoordinate);
+                            if (rootBg != null) rootBg.color = editableCellColor;
+                            outline.effectColor = excelGreen;
+                            UpdateCompletionSummary();
+                        });
+                        inputField.onSelect.RemoveAllListeners();
+                        inputField.onSelect.AddListener(_ =>
+                        {
+                            if (rootBg != null && !hasError) rootBg.color = editableCellHoverColor;
+                            outline.effectColor = excelGreen;
+                            outline.effectDistance = new Vector2(2f, -2f);
+                        });
+                        inputField.onDeselect.RemoveAllListeners();
+                        inputField.onDeselect.AddListener(_ =>
+                        {
+                            bool stillInvalid = validationErrors.TryGetValue(sheetIndex, out var sheetErrors) &&
+                                                sheetErrors.Contains(capturedCoordinate);
+                            if (rootBg != null) rootBg.color = stillInvalid ? invalidCellColor : editableCellColor;
+                            outline.effectColor = stillInvalid ? errorOptionColor : new Color(0.46f, 0.52f, 0.49f, 0.9f);
+                            outline.effectDistance = new Vector2(1f, -1f);
                         });
                     }
                 }
@@ -549,15 +803,27 @@ public class ExcelDataAuditorGame : MonoBehaviour
                     textComponent.color = isHeader ? new Color(0.2f, 0.2f, 0.2f, 1f) : Color.black; 
                     textComponent.alignment = TextAlignmentOptions.Center;
                     textComponent.fontStyle = isHeader ? FontStyles.Bold : FontStyles.Normal;
+                    textComponent.enableAutoSizing = true;
+                    textComponent.fontSizeMin = 12f;
+                    textComponent.fontSizeMax = 22f;
+                    textComponent.raycastTarget = false;
                 }
             }
         }
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(gridParent);
+        UpdateCompletionSummary();
     }
 
     private IEnumerator TimerRoutine()
     {
         while (isGameActive && timeRemaining > 0)
         {
+            if (chatPopupPanel != null && chatPopupPanel.activeSelf)
+            {
+                yield return null;
+                continue;
+            }
             timeRemaining -= Time.deltaTime;
             UpdateTimerUI();
             yield return null;
@@ -565,20 +831,30 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
         if (timeRemaining <= 0)
         {
-            FailGame("TIMEOUT!\nQuản lý đã nổi giận vì quên nộp báo cáo...");
+            FailGame("HẾT THỜI GIAN\nBình tĩnh kiểm tra lại; dữ liệu bạn đã nhập vẫn được giữ nguyên.");
         }
     }
 
     private void UpdateTimerUI()
     {
+        float fill = Mathf.Clamp01(timeRemaining / AttemptDuration);
         if (timerProgressBar != null)
         {
-            float fill = Mathf.Clamp01(timeRemaining / timeLimit);
             timerProgressBar.anchorMax = new Vector2(fill, 1f);
             if (timerProgressImage != null)
             {
-                timerProgressImage.color = Color.Lerp(Color.red, new Color(0.13f, 0.65f, 0.27f, 1f), fill);
+                timerProgressImage.color = Color.Lerp(new Color(0.88f, 0.16f, 0.12f, 1f),
+                    new Color(0.16f, 0.72f, 0.34f, 1f), fill);
             }
+        }
+
+        if (timerText != null)
+        {
+            int seconds = Mathf.Max(0, Mathf.CeilToInt(timeRemaining));
+            timerText.text = $"CÒN  {seconds / 60:00}:{seconds % 60:00}";
+            timerText.color = fill <= 0.25f
+                ? new Color(1f, 0.68f, 0.55f, 1f)
+                : fill <= 0.5f ? new Color(1f, 0.9f, 0.62f, 1f) : Color.white;
         }
     }
 
@@ -594,7 +870,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
             ShowChatPopup();
 
             // Freeze the input/timer wait until they close it
-            while (chatPopupPanel.activeSelf)
+            while (chatPopupPanel != null && chatPopupPanel.activeSelf)
             {
                 yield return null;
             }
@@ -603,29 +879,43 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
     private void ShowChatPopup()
     {
+        if (chatPopupPanel == null || chatSenderText == null || chatContentText == null ||
+            chatResponseButtonText == null || randomMessages == null || randomMessages.Count == 0) return;
+
         var randomMsg = randomMessages[Random.Range(0, randomMessages.Count)];
         
         chatSenderText.text = randomMsg.senderName;
         chatContentText.text = randomMsg.messageContent;
         chatResponseButtonText.text = randomMsg.responseButtonText;
         
+        if (chatBackdrop != null)
+        {
+            chatBackdrop.gameObject.SetActive(true);
+            chatBackdrop.transform.SetAsLastSibling();
+        }
         chatPopupPanel.SetActive(true);
         chatPopupPanel.transform.SetAsLastSibling();
-        
-        // Maybe play a "Ting" sound using owner
-        // owner?.PlayChatSound();
+        if (EventSystem.current != null && chatResponseButton != null)
+            EventSystem.current.SetSelectedGameObject(chatResponseButton.gameObject);
     }
 
     private void CloseChatPopup()
     {
-        chatPopupPanel.SetActive(false);
+        if (GameManager.Instance?.IsPaused == true) return;
+        if (chatPopupPanel != null) chatPopupPanel.SetActive(false);
+        if (chatBackdrop != null) chatBackdrop.gameObject.SetActive(false);
+        FocusFirstEditableCell();
     }
 
     private void CheckValidation()
     {
-        if (!isGameActive) return;
+        if (!isGameActive || GameManager.Instance?.IsPaused == true ||
+            (chatPopupPanel != null && chatPopupPanel.activeSelf)) return;
 
-        bool allCorrect = true;
+        validationErrors.Clear();
+        int errorCount = 0;
+        int firstErrorSheet = -1;
+        Vector2Int firstErrorCoordinate = default;
 
         for (int s = 0; s < sheets.Count; s++)
         {
@@ -641,24 +931,36 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
                         if (uVal.Trim() != sheet.TargetValues[r, c])
                         {
-                            allCorrect = false;
+                            Vector2Int coordinate = new Vector2Int(r + 1, c + 1);
+                            if (!validationErrors.TryGetValue(s, out var errors))
+                            {
+                                errors = new HashSet<Vector2Int>();
+                                validationErrors[s] = errors;
+                            }
+                            errors.Add(coordinate);
+                            errorCount++;
+                            if (firstErrorSheet < 0)
+                            {
+                                firstErrorSheet = s;
+                                firstErrorCoordinate = coordinate;
+                            }
                         }
                     }
                 }
             }
         }
 
-        if (allCorrect)
+        if (errorCount == 0)
         {
             WinGame();
         }
         else
         {
-            if (warningFeedbackText != null)
-            {
-                warningFeedbackText.text = "SAI SỐ LIỆU! TÍNH LẠI ĐI!!";
-                warningFeedbackText.color = Color.red;
-            }
+            currentSheetIndex = firstErrorSheet;
+            UpdateTabUI();
+            GenerateGrid();
+            SetFeedback($"Còn {errorCount} ô chưa chính xác · Đã chuyển tới vị trí cần sửa.", errorTextColor, "!");
+            FocusEditableCell(firstErrorCoordinate);
         }
     }
 
@@ -666,11 +968,11 @@ public class ExcelDataAuditorGame : MonoBehaviour
     {
         isGameActive = false;
         StopAllCoroutines();
-        if (warningFeedbackText != null)
-        {
-            warningFeedbackText.text = "CHÍNH XÁC! REPORT ĐÃ ĐƯỢC GỬI ĐI.";
-            warningFeedbackText.color = Color.green;
-        }
+        if (chatPopupPanel != null) chatPopupPanel.SetActive(false);
+        if (submitButton != null) submitButton.interactable = false;
+        if (timerProgressBar != null) timerProgressBar.anchorMax = Vector2.one;
+        if (timerProgressImage != null) timerProgressImage.color = new Color(0.12f, 0.68f, 0.3f, 1f);
+        SetFeedback("Dữ liệu chính xác. Báo cáo đã được gửi thành công.", successTextColor, "OK");
         StartCoroutine(CompleteTaskAfterDelay(1.5f));
     }
 
@@ -678,21 +980,131 @@ public class ExcelDataAuditorGame : MonoBehaviour
     {
         isGameActive = false;
         StopAllCoroutines();
-        if (warningFeedbackText != null)
+        if (chatPopupPanel != null) chatPopupPanel.SetActive(false);
+        if (chatBackdrop != null) chatBackdrop.gameObject.SetActive(false);
+        if (submitButton != null) submitButton.interactable = false;
+        SetFeedback(reason, errorTextColor, "!");
+        StartCoroutine(RestartAfterFailure(2.0f));
+    }
+
+    private IEnumerator RestartAfterFailure(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        timeRemaining = AttemptDuration;
+        isGameActive = true;
+        if (submitButton != null) submitButton.interactable = true;
+        UpdateTimerUI();
+        SetFeedback("Thử lại từ dữ liệu hiện tại. Đồng hồ đã được đặt lại.", excelGreen, ">");
+        FocusFirstEditableCell();
+        StartCoroutine(TimerRoutine());
+        StartCoroutine(BossDistractionRoutine());
+    }
+
+    private void UpdateCompletionSummary()
+    {
+        if (sheetProgressText == null || sheets == null) return;
+
+        int correct = 0;
+        int total = 0;
+        for (int s = 0; s < sheets.Count; s++)
         {
-            warningFeedbackText.text = reason;
-            warningFeedbackText.color = Color.red;
+            SheetData sheet = sheets[s];
+            for (int r = 0; r < 4; r++)
+            {
+                for (int c = 0; c < 3; c++)
+                {
+                    if (!sheet.Editable[r, c] || string.IsNullOrEmpty(sheet.TargetValues[r, c])) continue;
+                    total++;
+                    string value = GetEffectiveValue(s, r, c);
+                    if (value.Trim() == sheet.TargetValues[r, c]) correct++;
+                }
+            }
         }
-        StartCoroutine(CompleteTaskAfterDelay(2.0f));
+
+        sheetProgressText.text = $"TIẾN ĐỘ\n{correct} / {total} Ô ĐÚNG";
+        owner?.UpdateReportMiniGameProgress(total > 0 ? (float)correct / total : 0f);
+        sheetProgressText.color = correct == total && total > 0 ? new Color(0.07f, 0.48f, 0.23f, 1f) : excelGreen;
+    }
+
+    private string GetEffectiveValue(int sheetIndex, int row, int column)
+    {
+        Vector2Int coordinate = new Vector2Int(row + 1, column + 1);
+        if (userInputs.TryGetValue(sheetIndex, out var inputs) &&
+            inputs.TryGetValue(coordinate, out string value) && !string.IsNullOrWhiteSpace(value))
+            return value;
+        return sheets[sheetIndex].Grid[row, column] ?? string.Empty;
+    }
+
+    private void SetFeedback(string message, Color color, string icon)
+    {
+        if (warningFeedbackText == null) return;
+        warningFeedbackText.text = string.IsNullOrEmpty(icon) ? message : $"{icon}  {message}";
+        warningFeedbackText.color = color;
+    }
+
+    private static void ConfigureButton(Button button)
+    {
+        if (button == null) return;
+        button.transition = Selectable.Transition.ColorTint;
+        button.navigation = new Navigation { mode = Navigation.Mode.Automatic };
+        ColorBlock colors = button.colors;
+        colors.normalColor = Color.white;
+        colors.highlightedColor = new Color(1.1f, 1.1f, 1.1f, 1f);
+        colors.pressedColor = new Color(0.78f, 0.84f, 0.8f, 1f);
+        colors.selectedColor = new Color(1.06f, 1.06f, 1.06f, 1f);
+        colors.disabledColor = new Color(0.5f, 0.52f, 0.5f, 0.55f);
+        colors.colorMultiplier = 1f;
+        colors.fadeDuration = 0.08f;
+        button.colors = colors;
+        if (button.GetComponent<UIButtonJuice>() == null) button.gameObject.AddComponent<UIButtonJuice>();
+    }
+
+    private void FocusFirstEditableCell()
+    {
+        foreach (var entry in visibleInputs)
+        {
+            FocusEditableCell(entry.Key);
+            return;
+        }
+    }
+
+    private void FocusEditableCell(Vector2Int coordinate)
+    {
+        if (!visibleInputs.TryGetValue(coordinate, out TMP_InputField input) || input == null) return;
+        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(input.gameObject);
+        input.ActivateInputField();
+        input.Select();
+    }
+
+    private void PlayRevealAnimation()
+    {
+        if (mainPanelCanvasGroup == null) return;
+        if (revealRoutine != null) StopCoroutine(revealRoutine);
+        revealRoutine = StartCoroutine(RevealPanel());
+    }
+
+    private IEnumerator RevealPanel()
+    {
+        const float duration = 0.2f;
+        float elapsed = 0f;
+        mainPanelCanvasGroup.alpha = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            mainPanelCanvasGroup.alpha = 1f - Mathf.Pow(1f - t, 3f);
+            yield return null;
+        }
+        mainPanelCanvasGroup.alpha = 1f;
+        revealRoutine = null;
+        FocusFirstEditableCell();
     }
     
     private IEnumerator CompleteTaskAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        ClosePanel();
-        
-        // Pass a dummy or newly added OfficeWorkTask.ExcelData if it was added to the enum.
-        // For now, it notifies the scene controller directly.
-        owner?.CompleteExcelTask();
+        OfficeSceneController controller = owner;
+        if (controller != null) controller.CompleteExcelTask();
+        else ClosePanel();
     }
 }

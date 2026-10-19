@@ -178,62 +178,23 @@ public class KuTyStoryRunner : MonoBehaviour
         workDesk.Interact();
         yield return new WaitForSecondsRealtime(.5f);
         workDesk.Interact();
-        Check(office.Phase == OfficePhase.ProcessEmails && office.IsWorking && GameManager.Instance.InputBlocked,
-            "Email task did not start");
+        var excelGame = FindObjectOfType<ExcelDataAuditorGame>(true);
+        Check(office.Phase == OfficePhase.ExcelAuditing && office.IsWorking && GameManager.Instance.InputBlocked &&
+              excelGame != null && excelGame.gameObject.activeInHierarchy,
+            "Excel task did not open directly from the workstation");
         Check(Get<AudioSource>(ambience, "keyboardSource").isPlaying &&
               Get<AudioSource>(ambience, "keyboardSource").loop,
             "Keyboard audio did not start with the work task");
-        var reportGame = FindObjectOfType<OfficeReportMiniGame>();
-        Check(reportGame != null && reportGame.IsOpen, "Report mini-game UI did not open");
-        reportGame.ChooseOption(0);
-        Check(reportGame.CurrentTask == OfficeWorkTask.Emails && reportGame.ItemIndex == 0,
-            "Wrong email choice advanced the work task");
         office.CancelWork();
-        Check(!office.IsWorking && !GameManager.Instance.InputBlocked && !reportGame.IsOpen,
-            "Report mini-game cancellation failed");
+        Check(!office.IsWorking && !GameManager.Instance.InputBlocked && !excelGame.gameObject.activeInHierarchy,
+            "Excel mini-game cancellation failed");
         Check(!Get<AudioSource>(ambience, "keyboardSource").isPlaying,
             "Keyboard audio continued after cancelling the work task");
 
         workDesk.Interact();
-        reportGame.ChooseOption(1);
-        yield return new WaitForSecondsRealtime(.7f);
-        reportGame.ChooseOption(2);
-        yield return new WaitForSecondsRealtime(.7f);
-        reportGame.ChooseOption(0);
-        yield return new WaitForSecondsRealtime(.9f);
-        Check(office.Phase == OfficePhase.SortDocuments && !office.IsWorking,
-            "Email processing did not advance to document sorting");
-
-        workDesk.Interact();
-        Check(reportGame.CurrentTask == OfficeWorkTask.Documents && reportGame.IsOpen,
-            "Document sorting did not open");
-        reportGame.ChooseOption(0);
-        yield return new WaitForSecondsRealtime(.7f);
-        reportGame.ChooseOption(1);
-        yield return new WaitForSecondsRealtime(.7f);
-        reportGame.ChooseOption(2);
-        yield return new WaitForSecondsRealtime(.7f);
-        reportGame.ChooseOption(2);
-        yield return new WaitForSecondsRealtime(.9f);
-        Check(office.Phase == OfficePhase.FixReport && !office.IsWorking,
-            "Document sorting did not advance to report correction");
-
-        workDesk.Interact();
-        Check(reportGame.CurrentTask == OfficeWorkTask.Report && reportGame.IsOpen,
-            "Report correction did not open");
-        reportGame.ChooseOption(2);
-        yield return new WaitForSecondsRealtime(.7f);
-        reportGame.ChooseOption(1);
-        yield return new WaitForSecondsRealtime(.7f);
-        reportGame.ChooseOption(3);
-        yield return new WaitForSecondsRealtime(.7f);
-        reportGame.ChooseOption(0);
-        reportGame.ChooseOption(1);
-        reportGame.ChooseOption(2);
-        reportGame.ChooseOption(3);
-        yield return new WaitForSecondsRealtime(1.1f);
-        Check(office.Phase == OfficePhase.ExcelAuditing && !GameManager.Instance.InputBlocked,
-            "Report completion did not advance to Excel auditing");
+        yield return null;
+        Check(office.IsWorking && excelGame.gameObject.activeInHierarchy,
+            "Excel task did not reopen after cancellation");
         office.CompleteExcelTask();
         Check(office.Phase == OfficePhase.AfterWork && !GameManager.Instance.InputBlocked,
             "Excel completion did not start the free-roam aftermath");

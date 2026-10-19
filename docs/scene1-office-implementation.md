@@ -1,6 +1,27 @@
 # Scene 1 — báo cáo triển khai
 
-Scene: `Assets/_Project/Scenes/Act1_Office_Blockout.unity`. Luồng đã triển khai: OpeningDialogue → ReturnToDesk → SeatingTransition → ReadyAtDesk. Play trực tiếp; WASD/chuột/E, Esc pause. Chưa tích hợp MainMenu hoặc mini-game.
+Scene: `Assets/_Project/Scenes/Act1_Office_Blockout.unity`.
+
+## Cập nhật gameplay/UI — 19/10/2026
+
+Luồng hiện tại: nghe sếp → mở cửa → ghế Tý → báo cáo Excel hai sheet → gửi báo cáo → 15 giây nghỉ mắt/đi lại → ngồi và nghỉ → gục xuống → `Act2_MemoryWorld_Home`. MainMenu và Build Settings đã trỏ tới Blockout. Bản code nhận đầu phiên đã dùng **Excel-only**; email/phân loại giấy trong kế hoạch parity cũ không còn là nhiệm vụ bắt buộc.
+
+- Thêm bảng tiến trình ca làm và giờ 17:42/18:17; ẩn khi mở công việc, pause và chuyển cảnh. Cập nhật mục tiêu khi ngồi/đứng ở bước nghỉ.
+- Excel có hướng dẫn công thức theo sheet, tiến độ 0–2 ô đúng, nút đóng giữ dữ liệu, nút gửi với Ctrl+Enter. Đóng/mở giữ cả thời gian còn lại; hết giờ cho thử lại với dữ liệu hiện tại; cấu hình thời gian không dương dùng 60 giây.
+- Tin nhắn có nền che và chặn tương tác bảng tính phía sau; phím tắt không gửi bài khi pause hoặc popup đang mở. Nội dung tin nhắn phù hợp cuối giờ làm.
+- Chuẩn hóa font tiếng Việt trong Office, nạp các dấu còn thiếu. Cải thiện bố cục HUD và tương phản prompt; không dựng lại map/nội thất/ánh sáng.
+- Khóa thao tác đứng dậy khi còn chuyển ghế, đang làm việc hoặc đang gục xuống.
+- Menu `KuTy > Office > Apply shift overview` cập nhật HUD/font tại scene Office hiện có; không chạy builder nội thất.
+
+Kiểm thử Play Mode: `Assets/Screenshots/OfficeBlockoutGameplay_Integration.txt` đạt **37 assertions**: bàn giao intro (bỏ qua thoại bằng hook), ngồi/đứng, callback lặp, pause timer, popup modal, nhập sai, retry, giữ dữ liệu/thời gian khi đóng, cấu hình 0 giây, nhập qua TMP_InputField thật, gửi thành công và tải Act 2. Chạy lại bằng `KuTy > Tests > Run Act1 Excel gameplay + edge cases`. Timeout chờ tải cảnh của harness là 45 giây để không báo lỗi giả khi Editor tải chậm; không thay thời lượng cinematic.
+
+Ảnh QA: `OfficeExcel_UI_1920.png`, `OfficeExcel_UI_1366.png`, `OfficeExcel_Chat_1366.png`, `OfficeShift_HUD_1366.png`, `OfficeShift_Complete_1366.png` trong `Assets/Screenshots`. Ảnh render camera + UI ở hai độ phân giải; không phải mô phỏng bàn phím/chuột người dùng. Kiểm thử này không chứng nhận toàn bộ đường đi bằng WASD hay lượt chơi từ MainMenu; kiểm thử intro cũ bên dưới là bằng chứng lịch sử. Voice mới/NPC sếp hoàn chỉnh vẫn chưa có.
+
+Scene Act 2 đang mở và có chỉnh sửa chưa lưu ở đầu phiên; đã lưu trạng thái đó trước khi chuyển sang Office, không chạy builder hay thay nội dung Act 2.
+
+## Triển khai intro ban đầu (lịch sử)
+
+Luồng ban đầu dừng ở ReadyAtDesk; các ghi chú chưa tích hợp mini-game bên dưới mô tả giai đoạn đó.
 
 ## Thành phần
 

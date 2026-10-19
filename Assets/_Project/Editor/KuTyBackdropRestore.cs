@@ -10,6 +10,7 @@ public static class KuTyBackdropRestore
     private const string ScenePath = "Assets/_Project/Scenes/Act1_Office_Blockout.unity";
     private const string BackupPath = "Assets/_Project/Scenes/Backups/Office_BeforeBackdropRestore.unity";
     private const string CityMaterialPath = "Assets/_Project/Art/Environment/City/Materials/MAT_City_material.mat";
+    private const string CityEmissionTexturePath = "Assets/_Project/Art/Environment/City/Textures/T_CityWindowEmission.png";
     private const string HorizonMaterialPath = "Assets/_Project/Art/Environment/City/Materials/MAT_SunsetHorizon.mat";
     private const string OriginalHorizonTexturePath = "Assets/_Project/Art/Environment/City/Textures/T_SunsetHorizon_Original.png";
 
@@ -61,15 +62,16 @@ public static class KuTyBackdropRestore
         }
 
         var cityMaterial = AssetDatabase.LoadAssetAtPath<Material>(CityMaterialPath);
-        if (!cityMaterial)
-            throw new InvalidOperationException("MAT_City_material was not found.");
+        var cityEmission = AssetDatabase.LoadAssetAtPath<Texture2D>(CityEmissionTexturePath);
+        if (!cityMaterial || !cityEmission)
+            throw new InvalidOperationException("The city material or window emission texture was not found.");
         Undo.RecordObject(cityMaterial, "Restore city backdrop material");
-        cityMaterial.DisableKeyword("_EMISSION");
-        cityMaterial.SetTexture("_EmissionMap", null);
-        cityMaterial.SetColor("_EmissionColor", Color.black);
+        cityMaterial.SetTexture("_EmissionMap", cityEmission);
+        cityMaterial.SetColor("_EmissionColor", new Color(2.5f, 1.5f, .65f));
+        cityMaterial.EnableKeyword("_EMISSION");
         cityMaterial.SetColor("_BaseColor", Color.white);
         cityMaterial.SetColor("_Color", Color.white);
-        cityMaterial.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
+        cityMaterial.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
         EditorUtility.SetDirty(cityMaterial);
 
         var horizonMaterial = AssetDatabase.LoadAssetAtPath<Material>(HorizonMaterialPath);
@@ -92,7 +94,7 @@ public static class KuTyBackdropRestore
         AssetDatabase.SaveAssets();
         EditorSceneManager.SaveScene(scene);
         KuTyCityBackdropImporter.CaptureCityPreview();
-        Debug.Log("OFFICE_REFERENCE_BACKDROP_RESTORED: sunset horizon, city, and 3 cloud layers; city window emission disabled.");
+        Debug.Log("OFFICE_REFERENCE_BACKDROP_RESTORED: sunset horizon, city, 3 cloud layers, and warm city window emission.");
     }
 
     private static void EnsureFolder(string path)

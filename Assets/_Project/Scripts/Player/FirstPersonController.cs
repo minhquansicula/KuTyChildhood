@@ -83,32 +83,52 @@ public class FirstPersonController : MonoBehaviour
     {
         if (IsMovementLocked || (GameManager.Instance != null && GameManager.Instance.InputBlocked)) return;
 
-        HandleGroundCheck();
         if (!LockWalkingOnly)
         {
-            HandleMovement();
-            HandleGravity();
+            Vector2 movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            MoveCharacter(movementInput, Input.GetKey(KeyCode.LeftShift), Time.deltaTime);
         }
         HandleMouseLook();
     }
 
     // ========== MOVEMENT ==========
-    private void HandleMovement()
+    private void MoveCharacter(Vector2 input, bool running, float deltaTime)
     {
-        // Lấy input WASD
-        float horizontal = Input.GetAxis("Horizontal"); // A/D
-        float vertical = Input.GetAxis("Vertical");     // W/S
+        HandleGroundCheck();
 
         // Tính hướng di chuyển theo hướng nhìn của player
-        Vector3 moveDirection = transform.right * horizontal + transform.forward * vertical;
+        Vector3 moveDirection = transform.right * input.x + transform.forward * input.y;
         moveDirection = Vector3.ClampMagnitude(moveDirection, 1f);
 
         // Chạy nhanh khi giữ Shift
-        float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
+        float currentSpeed = running ? runSpeed : walkSpeed;
 
-        // Di chuyển
-        characterController.Move(moveDirection * currentSpeed * Time.deltaTime);
+        // Tính trọng lực trước rồi chỉ Move một lần. Hai lần Move trong cùng frame
+        // khiến CharacterController tự giải va chạm hai lần và làm camera nảy ở
+        // mép collider/sàn dốc.
+        if (isGrounded && velocity.y < 0f)
+        {
+            velocity.y = -2f;
+        }
+        velocity.y += gravity * deltaTime;
+
+        Vector3 frameVelocity = moveDirection * currentSpeed;
+        frameVelocity.y = velocity.y;
+        CollisionFlags flags = characterController.Move(frameVelocity * deltaTime);
+        if ((flags & CollisionFlags.Below) != 0 && velocity.y < 0f)
+        {
+            velocity.y = -2f;
+            isGrounded = true;
+        }
     }
+
+#if UNITY_EDITOR
+    public void SimulateMovementForTests(Vector2 input, bool running, float deltaTime)
+    {
+        if (characterController == null) characterController = GetComponent<CharacterController>();
+        MoveCharacter(input, running, deltaTime);
+    }
+#endif
 
     // ========== MOUSE LOOK ==========
     private void HandleMouseLook()
@@ -124,18 +144,6 @@ public class FirstPersonController : MonoBehaviour
 
         // Xoay ngang (nhìn trái/phải) — xoay body (player transform)
         transform.Rotate(Vector3.up * mouseX);
-    }
-
-    // ========== GRAVITY ==========
-    private void HandleGravity()
-    {
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f; // Giữ player sát đất (không phải 0 để đảm bảo ground check)
-        }
-
-        velocity.y += gravity * Time.deltaTime;
-        characterController.Move(velocity * Time.deltaTime);
     }
 
     // ========== GROUND CHECK ==========
