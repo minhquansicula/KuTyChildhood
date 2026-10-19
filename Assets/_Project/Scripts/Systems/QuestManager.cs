@@ -141,7 +141,7 @@ public class QuestManager : MonoBehaviour
                 case QuestStep.WashDishes:
                     var chores = HouseholdChoreFlow.Instance;
                     return chores != null && chores.ActiveIndex < HouseholdChoreFlow.ChoreCount
-                        ? "Phụ mẹ: " + HouseholdChoreFlow.Titles[chores.ActiveIndex] + "."
+                        ? "Phụ mẹ: " + chores.CurrentTitle + " — " + chores.CurrentLocation + "."
                         : "Phụ mẹ làm việc nhà.";
                 case QuestStep.BuyCandyAndMarbles: return "Mua một cây kẹo mút và một hũ bi ve.";
                 case QuestStep.PlayMarbles: return "Mang hũ bi ra sân chơi.";

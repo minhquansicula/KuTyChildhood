@@ -11,7 +11,8 @@ public enum HouseholdChore
     CookRice,
     SetTable,
     WashDishes,
-    PutAwayDishes
+    PutAwayDishes,
+    FoldBlanket, ArrangeKeepsakes, TuneRadio, SortTools, GrindCorn, CarryWood, ReadLetter
 }
 
 /// <summary>Scene 2's ordered household chores and their one-time memory-piece rewards.</summary>
@@ -19,16 +20,44 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
 {
     public static HouseholdChoreFlow Instance { get; private set; }
     public const int PiecesPerChore = 10;
-    public const int ChoreCount = 8;
+    public const int ChoreCount = 14;
     public const int TotalPieces = PiecesPerChore * ChoreCount;
 
     public static readonly string[] Titles =
     {
         "Múc nước", "Đong gạo", "Vo gạo", "Nhóm lửa",
-        "Nấu cơm", "Dọn mâm cơm", "Rửa chén", "Cất chén"
+        "Nấu cơm", "Dọn mâm cơm", "Rửa chén", "Cất chén",
+        "Gấp chăn", "Xếp đồ vào rương", "Chỉnh radio", "Xếp dụng cụ", "Xay ngô", "Gom củi", "Mở thư của mẹ"
     };
 
-    private readonly bool[] completed = new bool[ChoreCount];
+    // Keep serialized enum IDs stable; this array defines story order only.
+    public static readonly HouseholdChore[] Order = {
+        HouseholdChore.ArrangeKeepsakes, HouseholdChore.TuneRadio,
+        HouseholdChore.SortTools, HouseholdChore.GrindCorn, HouseholdChore.CarryWood,
+        HouseholdChore.FetchWater, HouseholdChore.MeasureRice, HouseholdChore.WashRice,
+        HouseholdChore.LightFire, HouseholdChore.CookRice, HouseholdChore.SetTable,
+        HouseholdChore.WashDishes, HouseholdChore.PutAwayDishes, HouseholdChore.ReadLetter
+    };
+    public static readonly string[] Locations = {
+        "Bếp · lu nước", "Bếp · lu gạo", "Bếp · thau vo gạo", "Bếp · nồi trên bếp củi",
+        "Bếp · lò nấu cơm", "Nhà chính · mâm cơm", "Bếp · chỗ rửa", "Bếp · tủ chén",
+        "Phòng ngủ · mặt chăn", "Phòng ngủ · rương đồ", "Phòng ngủ · radio",
+        "Phòng kho · bộ dụng cụ", "Phòng kho · cối xay", "Phòng kho · giỏ tre", "Nhà chính · thư của mẹ"
+    };
+    public static readonly string[] Memories = {
+        "Gáo nước mát mẹ để dành từ sáng.", "Mẹ luôn đong thêm một chút cho con.",
+        "Nước đục đi, hạt gạo lại trắng.", "Bếp bắt lửa, cả nhà bắt đầu ấm.",
+        "Mùi cơm chín khiến con biết sắp được gọi về.", "Mâm cơm đủ người là bữa ngon nhất.",
+        "Mẹ rửa, con tráng, hai mẹ con chuyện trò.", "Tiếng chén khẽ chạm nhau, việc nhà đã xong.",
+        "Mẹ bảo: chăn gọn thì ngày mới cũng gọn.", "Chiếc rương giữ cả những mùa áo cũ.",
+        "Tiếng radio mở đầu mỗi buổi sáng của nhà mình.", "Dùng xong nhớ cất, mai còn tìm được con nhé.",
+        "Tiếng cối quay đều như nhịp tay mẹ.", "Bó củi nhỏ mang theo hơi ấm cho cả nhà.",
+        "Sau này đi đâu, con cũng nhớ ăn cơm đúng bữa. Nhà mình vẫn có một chỗ chờ con."
+    };
+    public string CurrentTitle => ActiveIndex < ChoreCount ? Titles[(int)Order[ActiveIndex]] : "Đã hoàn tất";
+    public string CurrentLocation => ActiveIndex < ChoreCount ? Locations[(int)Order[ActiveIndex]] : "";
+
+    private readonly bool[] completed = new bool[15];
     private HouseholdChoreUI ui;
     private bool checklistVisible;
     private int pieces;
@@ -39,7 +68,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         get
         {
             for (int i = 0; i < completed.Length; i++)
-                if (!completed[i]) return i;
+                if (!completed[(int)Order[i]]) return i;
             return completed.Length;
         }
     }
@@ -66,11 +95,11 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         checklistVisible = true;
         ui.SetChecklistVisible(true);
         RefreshUI();
-        ui.Notify("Mẹ: Con giúp mẹ lo bữa cơm nhé.");
+        ui.Notify("Mẹ: Con dậy rồi thì dọn đồ, phụ mẹ một tay nhé.");
         QuestManager.Instance?.RefreshHouseholdObjective();
     }
 
-    public bool IsCurrent(HouseholdChore chore) => checklistVisible && ActiveIndex == (int)chore;
+    public bool IsCurrent(HouseholdChore chore) => checklistVisible && ActiveIndex < ChoreCount && Order[ActiveIndex] == chore;
 
     public bool Complete(HouseholdChore chore)
     {
@@ -80,8 +109,8 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         pieces += PiecesPerChore;
         RefreshUI();
         ui.Notify(ActiveIndex == ChoreCount
-            ? "80/80 — Ngày ấy, căn bếp nhỏ luôn ấm vì có mẹ."
-            : "+10 mảnh ký ức — " + Titles[index]);
+            ? TotalPieces + "/" + TotalPieces + " — Nhà mình vẫn có một chỗ chờ con."
+            : "+10 mảnh ký ức — " + Memories[index]);
         AudioManager.Instance?.PlaySFX("memory_collected");
         OnChoreCompleted?.Invoke(chore, pieces);
         QuestManager.Instance?.RefreshHouseholdObjective();
@@ -89,7 +118,13 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         return true;
     }
 
-    private void RefreshUI() => ui.SetChecklist(Titles, completed, ActiveIndex, pieces, TotalPieces);
+    private void RefreshUI()
+    {
+        var names = new string[ChoreCount];
+        var done = new bool[ChoreCount];
+        for (int i = 0; i < ChoreCount; i++) { names[i] = Titles[(int)Order[i]]; done[i] = completed[(int)Order[i]]; }
+        ui.SetChecklist(names, done, ActiveIndex, pieces, TotalPieces, CurrentLocation);
+    }
 }
 
 /// <summary>Runtime UI so the chore flow works without adding a new prefab or editing the HUD.</summary>
@@ -122,9 +157,9 @@ public sealed class HouseholdChoreUI
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920, 1080);
 
-        checklist = Box("Checklist", canvasObject.transform, new Vector2(15, -15), new Vector2(345, 315),
+        checklist = Box("Checklist", canvasObject.transform, new Vector2(15, -15), new Vector2(365, 335),
             new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1), new Color(.07f, .055f, .04f, .78f));
-        checklistText = Label("Tasks", checklist.transform, new Vector2(14, -12), new Vector2(320, 285), 23, TextAnchor.UpperLeft);
+        checklistText = Label("Tasks", checklist.transform, new Vector2(14, -12), new Vector2(340, 310), 23, TextAnchor.UpperLeft);
         notificationText = Label("MemoryNotice", canvasObject.transform, new Vector2(0, -38), new Vector2(900, 60), 28, TextAnchor.MiddleCenter);
         notificationText.rectTransform.anchorMin = new Vector2(.5f, 1);
         notificationText.rectTransform.anchorMax = new Vector2(.5f, 1);
@@ -132,8 +167,8 @@ public sealed class HouseholdChoreUI
         notificationText.color = new Color(1f, .9f, .55f);
         notificationText.text = "";
 
-        gamePanel = Box("ChorePanel", canvasObject.transform, Vector2.zero, new Vector2(650, 455),
-            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.065f, .05f, .04f, .94f));
+        gamePanel = Box("ChorePanel", canvasObject.transform, new Vector2(-20, 0), new Vector2(650, 455),
+            new Vector2(1f, .5f), new Vector2(1f, .5f), new Vector2(1f, .5f), new Color(.065f, .05f, .04f, .94f));
         titleText = Label("Title", gamePanel.transform, new Vector2(0, 168), new Vector2(590, 50), 31, TextAnchor.MiddleCenter);
         hintText = Label("Hint", gamePanel.transform, new Vector2(0, 111), new Vector2(590, 70), 23, TextAnchor.MiddleCenter);
         progressText = Label("Progress", gamePanel.transform, new Vector2(0, -98), new Vector2(580, 50), 26, TextAnchor.MiddleCenter);
@@ -173,11 +208,11 @@ public sealed class HouseholdChoreUI
 
     public void SetChecklistVisible(bool visible) => checklist.SetActive(visible);
 
-    public void SetChecklist(string[] names, bool[] done, int current, int pieces, int total)
+    public void SetChecklist(string[] names, bool[] done, int current, int pieces, int total, string location)
     {
         var text = "<color=#F9D88C><b>VIỆC NHÀ CÙNG MẸ</b></color>\n" +
-                   "Mảnh ký ức: " + pieces + "/" + total + "\n\n";
-        for (int i = 0; i < names.Length; i++)
+                   "Mảnh ký ức: " + pieces + "/" + total + "\n" + location + "\n\n";
+        for (int i = Mathf.Max(0, Mathf.Min(current - 1, names.Length - 6)); i < Mathf.Min(names.Length, Mathf.Max(6, current + 5)); i++)
         {
             if (done[i]) text += "<color=#9ADD91>✓ " + names[i] + "</color>\n";
             else if (i == current) text += "<color=#FFE19B>▶ " + names[i] + "</color>\n";

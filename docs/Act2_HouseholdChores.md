@@ -1,36 +1,47 @@
-# Scene 2 — Phụ mẹ làm việc nhà
+# Scene 2 — Một ngày mẹ còn gọi
 
-## Kịch bản
+## Kịch bản và phạm vi
 
-Sau khi xuống giường, người chơi nghe lời mẹ: “Con dậy rồi à? Giúp mẹ lo bữa cơm nhé.” Checklist dẫn qua tám việc nhà theo thứ tự chuẩn bị nước và gạo, nấu cơm, dùng bữa, rửa rồi cất chén. Mỗi việc hoàn thành **một lần** thưởng **10 mảnh ký ức**; tổng cộng **80/80**. Thao tác lặp lại không thưởng thêm. Hủy bằng `Esc` giữ nguyên những nhiệm vụ đã xong, không làm mất mảnh ký ức.
+Một buổi sáng trong ký ức, mẹ gọi con dậy phụ việc. Mỗi đồ vật gợi lại một việc nhỏ đã từng làm cùng gia đình. Người chơi đi qua phòng ngủ, phòng kho, gian nhà chính `TraditionalHouseInterior` và gian bếp; cuối ngày tìm được lá thư mẹ cất lại.
 
-| Bước | Nhiệm vụ | GameObject trong Scene 2 | Cách chơi và điều kiện hoàn thành | Phản hồi đang làm việc |
+14 nhiệm vụ tuần tự, mỗi nhiệm vụ thưởng đúng một lần **10 mảnh ký ức**, tổng **140/140**. Giữ 3 ký ức lớn của cốt truyện độc lập: hoàn tất 14 việc mới trao `FilialLove` và chuyển sang bước cốt truyện tiếp theo. Chưa lưu tiến độ qua lần thoát/chạy lại scene. Esc hủy lượt mini-game đang làm, không mất nhiệm vụ đã hoàn tất; không nhận thưởng khi hủy.
+
+## Nhiệm vụ và tương tác
+
+Mỗi nhiệm vụ bắt đầu bằng nhìn vào đạo cụ và nhấn E. Chỉ bước hiện tại được chơi. HUD ghi rõ khu vực và vật cần tìm; checklist chỉ hiển thị một nhóm nhỏ quanh bước hiện tại, tránh nhiều dòng che màn hình.
+
+| Bước | Gian | Nhiệm vụ / GameObject | Mini-game | Hiệu ứng và câu ký ức |
 | --- | --- | --- | --- | --- |
-| 1 | Múc nước | `HouseLayout/lunuoc/tripo_part_10` | Nhấn `E`. Kim trên thước dọc chạy lên xuống; nhấn `Space` trong vùng giữa 3 lần. Trượt hụt chỉ phải làm lại lần múc đó. | Gáo chuyển động, hạt nước và tiếng nước khi múc trúng. |
-| 2 | Đong gạo | `HouseLayout/KitchenArea/CaiLu/cailugao` | Nhấn `E`; giữ chuột trái để tăng lượng gạo, thả trong vùng đánh dấu. Đong đúng 3 gáo. | Gáo chuyển động, hạt gạo rơi. |
-| 3 | Vo gạo | `HouseLayout/KitchenArea/ThauTreoTuong` | Nhấn `E`; xoay chuột 3 vòng rồi nhấn chuột phải chắt nước đục. | Thau lắc nhẹ theo thao tác, hạt nước bắn. |
-| 4 | Nhóm lửa | `HouseLayout/KitchenArea/FirewoodStove/NoiBepLua` | Nhấn `E`; nhấn `Space` 15 lần. | Hạt tàn lửa và ánh lửa tăng theo nhịp bấm. |
-| 5 | Nấu cơm | `HouseLayout/KitchenArea/RicePot` | Nhấn `E`; giữ `F` trong 4 giây, sau đó nhấn `Space` khi kim nhiệt đi vào vùng an toàn. | Hơi nước và ánh lửa tăng dần. |
-| 6 | Dọn mâm cơm | `HouseLayout/KitchenArea/DiningTable` | Nhấn `E`; bấm lần lượt 3 vị trí bát, đũa, nồi cơm trên UI mâm. Đặt đủ 3 món. | Biểu tượng món nảy nhẹ, hạt sáng khi đặt đúng. |
-| 7 | Rửa chén | `HouseLayout/KitchenArea/Sink/GocRuaChen` | Nhấn `E`; giữ chuột trái 3 giây/chén, rửa đủ 3 chén. | Miếng bọt biển chà qua lại, hạt nước và tiếng chén sạch. |
-| 8 | Cất chén | `HouseLayout/KitchenArea/DishCabinet/TuChen` | Nhấn `E`; bấm đúng thứ tự 3 vị trí chén, đĩa, đũa được đánh dấu trong UI tủ. | Biểu tượng chén đĩa nảy nhẹ, hạt sáng khi đặt đúng. |
+| 1 | Phòng ngủ | Xếp đồ vào rương — `BedroomDecor/StorageChest` | Chọn áo → khăn → đóng rương | Đạo cụ nhỏ nhún theo lần đặt; “Chiếc rương giữ cả những mùa áo cũ.” |
+| 2 | Phòng ngủ | Chỉnh radio — `BedroomDecor/Radio` | Canh kim ở giữa, Space đúng 3 lần | Núm xoay mô phỏng và hạt sáng; “Tiếng radio mở đầu mỗi buổi sáng của nhà mình.” |
+| 3 | Phòng kho | Xếp dụng cụ — `YardProps/ToolSet_02` | Chọn cào → cuốc → xẻng | Dụng cụ mô phỏng dịch chuyển; “Dùng xong nhớ cất, mai còn tìm được con nhé.” |
+| 4 | Phòng kho | Xay ngô — `YardProps/GrainMill` | Xoay chuột 3 vòng quanh tâm màn hình, chuột phải thu bột | Tay cầm mô phỏng xoay, hạt bột; “Tiếng cối quay đều như nhịp tay mẹ.” |
+| 5 | Phòng kho | Gom củi mang vào bếp — `YardProps/BambooBasket` | Giữ F 3 giây để gom bó củi | Bó củi mô phỏng nâng lên; đây là thao tác chuẩn bị, chưa có hệ thống kéo/thả hay cầm đồ khi đi | 
+| 6 | Gian bếp (lu thuộc TraditionalHouseInterior) | Múc nước — `WaterJarVisual` | Space đúng vùng giữa 3 lần | Gáo chuyển động, hạt nước; “Gáo nước mát mẹ để dành từ sáng.” |
+| 7 | Gian bếp | Đong gạo — `RiceJar/cailugao` | Giữ chuột trái rồi thả ở vùng xanh; 3 gáo | Gáo và hạt gạo; “Mẹ luôn đong thêm một chút cho con.” |
+| 8 | Gian bếp | Vo gạo — `WallBasins/Placeholder_RiceWashingBowl` (thau cũ đã bị xóa) | Xoay chuột 3 vòng, chuột phải chắt nước | Thau lắc và hạt nước; “Nước đục đi, hạt gạo lại trắng.” |
+| 9 | Gian bếp | Nhóm lửa — `FirewoodStove/StovePotVisual` | Space 15 nhịp | Tàn lửa, ánh sáng theo nhịp thổi; “Bếp bắt lửa, cả nhà bắt đầu ấm.” |
+| 10 | Gian bếp | Canh cơm — `RiceCookingStove/beplua_naucom` | Giữ F 4 giây, sau đó canh kim Space 1 lần | Hơi nước và ánh lửa; “Mùi cơm chín khiến con biết sắp được gọi về.” |
+| 11 | TraditionalHouseInterior | Dọn mâm — điểm trên bàn thật nếu tìm được; nếu thiếu dùng Cube `Placeholder_FamilyMealTray` | Chọn bát → đũa → nồi cơm | Các món mô phỏng chuyển động; “Mâm cơm đủ người là bữa ngon nhất.” |
+| 12 | Gian bếp | Rửa chén — `Sink/DishwashingStationVisual` | Giữ chuột trái 3 giây/chén, đủ 3 chén | Miếng chà và nước bắn; “Mẹ rửa, con tráng, hai mẹ con chuyện trò.” |
+| 13 | Gian bếp | Cất chén — `DishCabinet/DishCabinetVisual` | Chọn chén → đĩa → đũa | Đạo cụ mô phỏng nhún theo lần đặt; “Tiếng chén khẽ chạm nhau, việc nhà đã xong.” |
+| 14 | TraditionalHouseInterior | Mở lá thư của mẹ — Cube `Placeholder_MothersLetter` | Giữ F 3 giây để mở thư | Ánh sáng ký ức; hiện lời nhắn của mẹ, kết thúc 140/140 |
 
-## Luồng và giao diện
+Lời thư: “Sau này đi đâu, con cũng nhớ ăn cơm đúng bữa. Nhà mình vẫn có một chỗ chờ con.” Kết: “Hóa ra điều mình nhớ nhất không phải căn nhà, mà là tiếng mẹ gọi.”
 
-- Chỉ nhiệm vụ đang được đánh dấu trên checklist mới nhận thao tác. Các vật khác giữ trong scene, nhưng không cho cộng điểm sai thứ tự.
-- HUD hiển thị `Mảnh ký ức: N/80`; khi hoàn thành hiện `+10 mảnh ký ức`, hiệu ứng sáng ấm và gợi nhắc một khoảnh khắc với mẹ.
-- Mỗi mini-game có hướng dẫn phím, tiến độ, phản hồi trúng/trượt và `Esc` để hủy. Thất bại ở một nhịp không xóa những nhiệm vụ đã hoàn thành.
-- Kết thúc bước 8: “Ngày ấy, căn bếp nhỏ luôn ấm vì có mẹ.” Sau đó chuyển tiếp sang luồng ký ức hiện có; 80 mảnh việc nhà tách biệt với ba `MemoryType` lớn của cốt truyện.
+## Placeholder cần thay asset
 
-## Ghi chú triển khai
+- `Placeholder_MothersLetter`: lá thư hoặc phong bì cũ, tại gian nhà chính. Đây là asset mới cần người dùng tạo.
+- `Placeholder_FamilyMealTray`: chỉ dùng nếu chưa nhận diện được bàn/mâm tương tác trong gian nhà chính. Model gợi ý: mâm nhôm cùng bát và đũa. Không lấy `RicePot` làm mâm hoặc điểm nhiệm vụ vì đó từng là mốc xuống giường.
+- Cube hiển thị rõ, tên dễ tìm, collider trigger không chặn đi lại. Khi thay, giữ object gốc/script/trigger và gắn model làm con; không xóa binding nhiệm vụ. Đặt collider khớp model mới nếu kích thước đổi.
 
-- `lunuoc`, `CaiLu` và `ThauTreoTuong` hiện chủ yếu là model; cần collider/điểm tương tác phù hợp. `NoiBepLua`, `RicePot`, `DiningTable`, `GocRuaChen`, `TuChen` đã có tương tác cũ, cần tránh nhiều script cùng nhận một lần bấm.
-- Các chuyển động thao tác được tạo bằng animation trong Unity (nhún, nghiêng, lắc, rung theo đầu vào) và Particle System; không cần sửa mesh FBX gốc. Có thể thay bằng clip xuất từ Blender sau mà vẫn giữ nguyên logic nhiệm vụ.
-- Hiệu ứng hạt phải dừng khi hủy mini-game; transform vật mẫu trở lại vị trí ban đầu. Không dịch chuyển collider/tường hoặc phá bố cục người dùng đang chỉnh.
-- Một nhiệm vụ chỉ phát phần thưởng một lần; tiến độ 80/80 là dữ liệu của flow việc nhà, không dùng `CurrencyManager`.
+- `Placeholder_RiceWashingBowl`: thau vo gạo tại gian bếp; dùng tạm vì object `thao` đặt sàn đã bị xóa, các thau treo tường vẫn giữ nguyên.
 
-## Trạng thái triển khai
+## Quy tắc triển khai
 
-- Đã gắn tám nhiệm vụ vào các điểm tương tác của Scene 2. Múc nước gắn trực tiếp trên mesh chiếc lu `lunuoc/tripo_part_10`; `ThauTreoTuong` có trigger riêng. Script tương tác cũ trùng trên các đạo cụ bếp đã được thay bằng flow mới.
-- Hiệu ứng thao tác hiện là chuyển động đạo cụ đơn giản, Particle System và ánh lửa tạo trực tiếp trong Unity lúc chơi. Đây là bản giả lập hành động; chưa có clip hoạt hình xuất từ Blender hoặc animation nhân vật cầm đạo cụ.
-- Checklist hiện sau khi xuống giường. Kết thúc 80/80 chuyển sang bước cốt truyện kế tiếp và ghi nhận ký ức `FilialLove` hiện có.
+- Mở rộng `HouseholdChoreFlow`, `HouseholdChoreInteractable`, `HouseholdWorkFeedback` và utility binding hiện hữu. Giữ ID enum 0–7 của nhiệm vụ cũ, thêm ID mới ở cuối; thứ tự chơi được khai báo riêng để không làm sai serialized scene.
+- Điểm tương tác làm con của đạo cụ hiển thị và dùng trigger vừa kích thước. Không tạo collider vật lý rộng quanh căn phòng. Giữ collider vật lý và vị trí người dùng đã sửa.
+- Tránh hai Interactable cùng nhận E trên một điểm. Không xóa hành vi lên/xuống giường cũ.
+- Hiệu ứng là animation thủ tục và particle trong Unity, không phải clip Blender hoặc bàn tay nhân vật hoàn chỉnh. Dọn hiệu ứng và trả input khi hủy/tắt object. Không di chuyển mesh kiến trúc để diễn hoạt.
+- Không tạo asset nguồn hay script mới cho từng nhiệm vụ. Texture/model mới vẫn theo `docs/Scene2_AssetFolders.md`.
+- Kiểm tra đủ 14 binding, trigger không chặn di chuyển, chống thưởng sai thứ tự/trùng, hủy không cộng điểm, hoàn tất 140/140 mới chuyển quest. Báo rõ phần đã kiểm tra tự động và phần cần chơi thử.

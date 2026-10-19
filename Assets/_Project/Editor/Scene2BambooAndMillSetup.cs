@@ -32,16 +32,19 @@ public static class Scene2BambooAndMillSetup
         View();
     }
 
-    static void AddProps(string[] names, Vector3[] positions, float[] sizes)
+    static void AddProps(string[] names, Vector3[] positions, float[] sizes, string category = "Yard", string parentPath = "HouseLayout/YardProps")
     {
         var scene = SceneManager.GetActiveScene();
-        var yard = GameObject.Find("HouseLayout/YardProps");
+        var yard = GameObject.Find(parentPath);
+        if (!yard) throw new InvalidOperationException("Missing parent: " + parentPath);
+        foreach (var name in names)
+            if (yard.transform.Find(name)) throw new InvalidOperationException(name + " already exists.");
         for (int i = 0; i < names.Length; i++)
         {
             string name = names[i];
-            string modelPath = Root + "/Models/Yard/SM_" + name + ".fbx";
-            string textureFolder = Root + "/Textures/Yard/" + name;
-            string matPath = Root + "/Materials/Yard/MAT_" + name + ".mat";
+            string modelPath = Root + "/Models/" + category + "/SM_" + name + ".fbx";
+            string textureFolder = Root + "/Textures/" + category + "/" + name;
+            string matPath = Root + "/Materials/" + category + "/MAT_" + name + ".mat";
             Directory.CreateDirectory(textureFolder);
             AssetDatabase.Refresh();
             var importer = (ModelImporter)AssetImporter.GetAtPath(modelPath);
@@ -94,7 +97,7 @@ public static class Scene2BambooAndMillSetup
         AssetDatabase.SaveAssets();
         EditorSceneManager.MarkSceneDirty(scene);
         if (!EditorSceneManager.SaveScene(scene)) throw new InvalidOperationException("Scene save failed.");
-        Debug.Log("BAMBOO_MILL_SAVED: Textured props saved in HouseLayout/YardProps.");
+        Debug.Log("BAMBOO_MILL_SAVED: Textured props saved in " + parentPath);
     }
 
     [MenuItem("KuTy/Scene 2/View bamboo table and grain mill")]
@@ -158,6 +161,36 @@ public static class Scene2BambooAndMillSetup
         bounds.Encapsulate(BoundsOf(basket));
         var from = bounds.center + new Vector3(1.5f, 2.8f, -5.5f);
         SceneView.lastActiveSceneView.LookAt(bounds.center, Quaternion.LookRotation(bounds.center - from), 3.2f, false, true);
+    }
+
+    [MenuItem("KuTy/Scene 2/Add pantry and yard props")]
+    public static void AddPantryAndYardProps()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode || SceneManager.GetActiveScene().path != "Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity")
+            throw new InvalidOperationException("Open Scene 2 in Edit Mode first.");
+        var table = BoundsOf(GameObject.Find("HouseLayout/YardProps/BambooTable"));
+        var stove = BoundsOf(GameObject.Find("HouseLayout/KitchenArea/FirewoodStove/StovePotVisual"));
+        var cabinet = BoundsOf(GameObject.Find("HouseLayout/KitchenArea/DishCabinet/DishCabinetVisual"));
+        var sink = BoundsOf(GameObject.Find("HouseLayout/KitchenArea/Sink/DishwashingStationVisual"));
+        AddProps(new[] { "ToolSet_02", "CornPeanuts" }, new[] {
+            new Vector3(-6.35f, .02f, 3.1f),
+            new Vector3(table.center.x, table.max.y + .01f, table.center.z)
+        }, new[] { 1.25f, .8f });
+        AddProps(new[] { "SpiceJars", "FirewoodPile", "ClayJarSet", "FishBasket" }, new[] {
+            new Vector3(cabinet.center.x, cabinet.max.y + .01f, cabinet.center.z),
+            new Vector3(stove.center.x, .02f, stove.max.z + .7f),
+            new Vector3(1.95f, .02f, -3.6f),
+            new Vector3(sink.center.x + 1.05f, .02f, sink.center.z - .8f)
+        }, new[] { .65f, .9f, 1.25f, .65f }, "Kitchen", "HouseLayout/KitchenArea");
+        ViewPantryProps();
+    }
+
+    [MenuItem("KuTy/Scene 2/View pantry props")]
+    public static void ViewPantryProps()
+    {
+        if (!SceneView.lastActiveSceneView) return;
+        var target = new Vector3(-2f, .8f, -2.8f);
+        SceneView.lastActiveSceneView.LookAt(target, Quaternion.LookRotation(new Vector3(-1f, -5f, -6f)), 6f, false, true);
     }
 
     static Bounds BoundsOf(GameObject root)
