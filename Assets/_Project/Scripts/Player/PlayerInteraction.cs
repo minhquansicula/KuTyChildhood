@@ -28,6 +28,7 @@ public class PlayerInteraction : MonoBehaviour
     private IInteractable currentTarget = null;
     private string currentPromptText = "";
     private Camera mainCamera;
+    private readonly RaycastHit[] raycastHits = new RaycastHit[32];
 
     /// <summary>
     /// Khi true, player không thể tương tác (đang trong mini-game, cutscene, v.v.).
@@ -72,8 +73,23 @@ public class PlayerInteraction : MonoBehaviour
         Ray ray = new Ray(raycastOrigin.position, raycastOrigin.forward);
 
         // Cast against walls too, so an interactable cannot be used through a wall.
-        if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, ~0, QueryTriggerInteraction.Collide)
-            && (interactableLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
+        // Ignore the player's own colliders, then use the nearest remaining hit.
+        int hitCount = Physics.RaycastNonAlloc(ray, raycastHits, interactDistance, ~0, QueryTriggerInteraction.Collide);
+        RaycastHit hit = default;
+        float nearestDistance = float.PositiveInfinity;
+        if (hitCount < raycastHits.Length)
+        {
+            for (int i = 0; i < hitCount; i++)
+            {
+                RaycastHit candidate = raycastHits[i];
+                if (candidate.collider == null || candidate.transform.IsChildOf(transform) || candidate.distance >= nearestDistance)
+                    continue;
+                hit = candidate;
+                nearestDistance = candidate.distance;
+            }
+        }
+
+        if (hit.collider != null && (interactableLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
         {
             // Tìm IInteractable trên vật bị trúng
             IInteractable interactable = hit.collider.GetComponent<IInteractable>();

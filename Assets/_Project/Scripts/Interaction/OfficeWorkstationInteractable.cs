@@ -1,8 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Keeps the office report flow on a real desk mesh instead of separate demo props.
-/// The same desk handles screen, documents and rewriting according to the current phase.
+/// Opens the Excel report task from the real desk mesh instead of a separate demo prop.
 /// </summary>
 public sealed class OfficeWorkstationInteractable : InteractableBase
 {
@@ -10,8 +9,7 @@ public sealed class OfficeWorkstationInteractable : InteractableBase
 
     private OfficeSceneController Office => office != null ? office : OfficeSceneController.Instance;
 
-    // The real desk is the single main workstation. The controller selects the
-    // relevant task from the current narrative phase.
+    // The real desk is the single workstation for Scene 1's Excel-only task.
     private OfficeInteractionKind CurrentKind => OfficeInteractionKind.Laptop;
 
     private void Reset() => isOneTimeUse = false;

@@ -1,5 +1,5 @@
 # 📖 GAME DESIGN DOCUMENT
-> Tài liệu ý tưởng cũ, chưa phản ánh cốt truyện ba hồi mới. Xem [hướng dẫn triển khai hiện tại](implementation-guide.md) để gắn asset và xem luồng code đang chạy.
+> Tài liệu ý tưởng cũ, chưa phản ánh cốt truyện ba hồi mới. Phần Hồi 1 trong tài liệu này đã hết hiệu lực; dùng [plan Scene 1 mới](scene1-office-plan.md) khi dựng văn phòng. Xem [hướng dẫn triển khai hiện tại](implementation-guide.md) để xem luồng code prototype đang chạy.
 ## "CHÌA KHÓA KÝ ỨC" (tên tạm)
 
 ---

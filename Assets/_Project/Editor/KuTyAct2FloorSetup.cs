@@ -9,8 +9,8 @@ using UnityEngine.SceneManagement;
 public static class KuTyAct2FloorSetup
 {
     private const string ScenePath = "Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity";
-    private const string MeshPath = "Assets/_Project/Art/Models/Act2Home/GroundTerracotta.asset";
-    private const string MaterialPath = "Assets/_Project/Art/Materials/Act2GroundTerracotta.mat";
+    private const string MeshPath = "Assets/_Project/Art/Scene2/Models/Architecture/SM_TerracottaGround.asset";
+    private const string MaterialPath = "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TerracottaGround.mat";
 
     // Clean 12-by-8 tile section in the lower-left of Floor's texture atlas.
     // Keep UVs inside this island: the full texture also contains walls and black gaps.

@@ -12,8 +12,8 @@ using UnityEngine.SceneManagement;
 public static class KuTyAct2HomeAssetSetup
 {
     private const string ScenePath = "Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity";
-    private const string BedAssetPath = "Assets/_Project/Art/Models/Act2Home/bed.fbx";
-    private const string HouseAssetPath = "Assets/_Project/Art/Models/Act2Home/house-front.fbx";
+    private const string BedAssetPath = "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Bed.fbx";
+    private const string HouseAssetPath = "Assets/_Project/Art/Scene2/Models/Architecture/SM_HouseFacade.fbx";
 
     private const string EnvironmentRootName = "Act2 Imported Home";
     private const string BedVisualName = "BedVisual_Final";

@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public static class KuTyAct2HouseRoomsSetup
 {
     private const string ScenePath = "Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity";
-    private const string ModelFolder = "Assets/_Project/Art/Models/Act2Home";
+    private const string ModelFolder = "Assets/_Project/Art/Scene2/Models";
 
     [MenuItem("KuTy/Setup/Preview Act 2 only")]
     public static void PreviewAct2Only()
@@ -30,7 +30,7 @@ public static class KuTyAct2HouseRoomsSetup
     [MenuItem("KuTy/Setup/Inspect Act 2 house rooms")]
     public static void Inspect()
     {
-        foreach (string modelName in new[] { "house_1", "house_2" })
+        foreach (string modelName in new[] { "Architecture/SM_TraditionalHouseInterior", "Bedroom/SM_RusticBedroom" })
         {
             GameObject asset = AssetDatabase.LoadAssetAtPath<GameObject>($"{ModelFolder}/{modelName}.fbx");
             if (asset == null) throw new InvalidOperationException($"Missing {modelName}.fbx");

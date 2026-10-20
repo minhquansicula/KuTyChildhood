@@ -4,7 +4,7 @@ Mở project bằng Unity **2022.3.62f3**, vào `Assets/_Project/Scenes/MainMenu
 
 ## Luồng đã nối code
 
-1. **Hồi 1:** văn phòng có thể đi lại và nhìn quanh; sếp quát, phố xá/tiếng còi qua cửa sổ. Đọc laptop, kiểm tra giấy tờ, sửa báo cáo, ngồi nghỉ để chuyển cảnh. Xem [hướng dẫn cảnh văn phòng](office-scene.md).
+1. **Hồi 1 — prototype hiện có:** văn phòng có thể đi lại và nhìn quanh; có các tương tác laptop, giấy tờ và nghỉ để chuyển cảnh. Phần này chưa phải bản dựng mới. Thiết kế thay thế bắt đầu trong phòng sếp, mở cửa đi ra và về bàn; xem [plan Scene 1 mới](scene1-office-plan.md). Mini-game chưa thuộc phạm vi plan mới.
 2. **Hồi 2:** đọc `Journal` → rửa 5 chén, nhận tổng **2.000đ** và ký ức #1 → mua `Kẹo mút` (500đ) và `Hũ bi ve` (1.500đ), nhận ký ức #2 → chơi bắn bi, nhận ký ức #3 → quay lại nhật ký ghép chìa khóa → nhặt `DreamKeyVisual` → mở `ChainedDoor`.
 3. **Hồi 3:** fade trắng vào màn kết, hiện đúng thông điệp cuối và nút Chơi lại.
 
@@ -15,7 +15,7 @@ Mở project bằng Unity **2022.3.62f3**, vào `Assets/_Project/Scenes/MainMenu
 | Asset | Chỗ thay/gắn trong Unity |
 | --- | --- |
 | Môi trường nhà, bồn rửa, quầy, sân | Thay mesh/renderer của `JournalTable`, `Sink`, `ShopCounter`, `MarbleTable` trong `Act2_MemoryWorld`; giữ Collider, layer `Interactable` và các component logic ở object cũ. |
-| Bàn/ghế/laptop/cửa sổ/vách ngăn/tài liệu/sếp/đèn Hồi 1 | Xem [bảng vị trí gắn asset cảnh văn phòng](office-scene.md). |
+| Môi trường, bàn ghế, cửa và sếp Hồi 1 | Xem bố cục và bộ asset trong [plan Scene 1 mới](scene1-office-plan.md); vị trí trong prototype sẽ được bố trí lại khi triển khai. |
 | Nhật ký | Thay renderer của `Journal`; giữ `JournalInteractable`, Collider, layer. UI trang nhật ký là `UI/JournalPanel`. |
 | Chìa khóa 3D | Thay mesh ở `DreamKey/DreamKeyVisual`; giữ `DreamKeyInteractable` và Collider, gán lại `DreamKeyController.keyVisual` nếu đổi GameObject. |
 | Cửa, xích Hồi 2 | Thay mesh ở `ChainedDoor` và `Chains`; giữ `ChainedDoorInteractable`, collider/layer; nếu đổi object xích, gán `chainsVisual`. |

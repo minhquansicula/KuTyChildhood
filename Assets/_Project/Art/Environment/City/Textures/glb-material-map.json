@@ -1,0 +1,55 @@
+{
+  "source": "C:\\Users\\LENOVO\\Downloads\\low-poly_city_buildings.glb",
+  "images": [
+    "Image_0.jpg",
+    "Image_1.png",
+    "Image_2.png",
+    "Image_3.png"
+  ],
+  "materials": [
+    {
+      "index": 0,
+      "name": "material",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "baseColorTexture": "Image_0.jpg",
+      "metallicFactor": 0.11543075446697751,
+      "roughnessFactor": 0.8960042320437848,
+      "metallicRoughnessTexture": "Image_1.png",
+      "normalTexture": null,
+      "occlusionTexture": null,
+      "emissiveTexture": null,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "index": 1,
+      "name": "ground",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "baseColorTexture": "Image_3.png",
+      "metallicFactor": 0,
+      "roughnessFactor": 0.5,
+      "metallicRoughnessTexture": null,
+      "normalTexture": null,
+      "occlusionTexture": null,
+      "emissiveTexture": null,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

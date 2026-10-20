@@ -159,7 +159,10 @@ public static class KuTyScene1CompletionSetup
             if (value == "Mẹ" || value == "Niềm vui" || value == "Bạn bè" || value == "0 đồng")
                 text.gameObject.SetActive(false);
             if (text.text.Contains("Giữ chuột trái: làm việc"))
-                text.text = "WASD: di chuyển  ·  Chuột: nhìn  ·  E: tương tác  ·  Click: chọn công việc  ·  Esc: tạm dừng";
+                text.text = "<color=#F4C66A><b>WASD</b></color> Di chuyển  •  " +
+                    "<color=#F4C66A><b>CHUỘT</b></color> Quan sát  •  " +
+                    "<color=#F4C66A><b>E</b></color> Tương tác  •  " +
+                    "<color=#F4C66A><b>ESC</b></color> Tạm dừng";
         }
         for (int i = 0; i < 3; i++)
         {

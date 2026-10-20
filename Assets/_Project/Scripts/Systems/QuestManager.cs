@@ -72,6 +72,17 @@ public class QuestManager : MonoBehaviour
         Advance(QuestStep.ReadJournal, QuestStep.WashDishes);
     }
     public bool CanWashDishes => currentStep == QuestStep.WashDishes;
+    public bool CompleteHouseholdChores()
+    {
+        if (currentStep != QuestStep.WashDishes) return false;
+        memories?.CollectMemory(MemoryType.FilialLove);
+        Advance(QuestStep.WashDishes, QuestStep.BuyCandyAndMarbles);
+        return true;
+    }
+    public void RefreshHouseholdObjective()
+    {
+        if (currentStep == QuestStep.WashDishes) OnQuestChanged?.Invoke(currentStep);
+    }
     public bool CanShop => currentStep == QuestStep.BuyCandyAndMarbles;
     public bool CanPlayMarbles => currentStep == QuestStep.PlayMarbles &&
         inventory != null && marbleJar != null && inventory.HasItem(marbleJar);
@@ -127,7 +138,11 @@ public class QuestManager : MonoBehaviour
             switch (currentStep)
             {
                 case QuestStep.ReadJournal: return "Đọc cuốn nhật ký trên bàn.";
-                case QuestStep.WashDishes: return "Phụ mẹ rửa chén.";
+                case QuestStep.WashDishes:
+                    var chores = HouseholdChoreFlow.Instance;
+                    return chores != null && chores.ActiveIndex < HouseholdChoreFlow.ChoreCount
+                        ? "Phụ mẹ: " + HouseholdChoreFlow.Titles[chores.ActiveIndex] + "."
+                        : "Phụ mẹ làm việc nhà.";
                 case QuestStep.BuyCandyAndMarbles: return "Mua một cây kẹo mút và một hũ bi ve.";
                 case QuestStep.PlayMarbles: return "Mang hũ bi ra sân chơi.";
                 case QuestStep.ReturnToJournal: return "Trở lại cuốn nhật ký.";
