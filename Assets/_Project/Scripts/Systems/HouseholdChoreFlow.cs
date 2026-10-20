@@ -67,9 +67,9 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     {
         get
         {
-            for (int i = 0; i < completed.Length; i++)
+            for (int i = 0; i < Order.Length; i++)
                 if (!completed[(int)Order[i]]) return i;
-            return completed.Length;
+            return Order.Length;
         }
     }
 
