@@ -24,27 +24,33 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: f7518219d9c924841b14745bc7075e9c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 13747fd005a141d9ba41d8f150d11e72, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 926bd857612f76c41b5922adec3d2889, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Brightness: 0.9
-    - _Cutoff: 0.3
+    - _Brightness: 1.0
+    - _Cutoff: 0.25
+    - _FieldVariation: 0.65
     - _GustAmplitude: 0.28
     - _GustInterval: 24
     - _GustTravelSpeed: 14
     - _GustWidth: 10
-    - _NormalStrength: 0.3
-    - _Saturation: 0.58
+    - _NormalStrength: 0.0
+    - _NormalUpBlend: 0.25
+    - _Saturation: 1.0
+    - _Translucency: 1.15
     - _WindAmplitude: 0.075
     - _WindPreviewTime: -1
     - _WindSpeed: 0.8
     m_Colors:
-    - _BaseColor: {r: 0.83137256, g: 0.6862745, b: 0.21568628, a: 1}
+    - _BaseColor: {r: 1, g: 0.98, b: 0.92, a: 1}
+    - _BottomColor: {r: 0.90, g: 0.98, b: 0.85, a: 1}
+    - _TopColor: {r: 1.05, g: 1.0, b: 0.95, a: 1}
+    - _TranslucencyColor: {r: 1, g: 0.9, b: 0.45, a: 1}
     - _WindDirection: {r: 0.8, g: 0.6, b: 0, a: 0}
   m_BuildTextureStacks: []

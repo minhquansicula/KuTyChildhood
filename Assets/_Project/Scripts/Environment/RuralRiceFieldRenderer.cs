@@ -110,27 +110,76 @@ public sealed class RuralRiceFieldRenderer : MonoBehaviour
         if(!nearMesh)return;float xmin=float.MaxValue,xmax=float.MinValue,zmin=float.MaxValue,zmax=float.MinValue;
         foreach(var p in fieldPolygon){xmin=Mathf.Min(xmin,p.x);xmax=Mathf.Max(xmax,p.x);zmin=Mathf.Min(zmin,p.y);zmax=Mathf.Max(zmax,p.y);}
         var random=new System.Random(seed);var cells=new Dictionary<Vector2Int,Tile>();var source=nearMesh.bounds;
-        for(int attempt=1;PlantCount<targetInstances && attempt<=targetInstances*15;attempt++)
+
+        // Calculate cultivated row spacing to fit targetInstances organically
+        float width = Mathf.Max(1f, xmax - xmin);
+        float length = Mathf.Max(1f, zmax - zmin);
+        float area = width * length;
+        int target = targetInstances > 0 ? targetInstances : 3800;
+        float cellArea = Mathf.Max(0.04f, area / target);
+        float rowSpacing = Mathf.Sqrt(cellArea * 1.15f); // ~0.35m - 0.40m
+        float plantSpacing = cellArea / rowSpacing;      // ~0.28m - 0.32m
+
+        int cols = Mathf.Max(2, Mathf.RoundToInt(width / rowSpacing));
+        int rows = Mathf.Max(2, Mathf.RoundToInt(length / plantSpacing));
+        float actualRowSpacing = width / cols;
+        float actualPlantSpacing = length / rows;
+
+        // Cultivated grid with organic hand-planting jitter
+        for(int c = 0; c < cols && PlantCount < target; c++)
         {
-            var p=new Vector2(Mathf.Lerp(xmin,xmax,Halton(attempt+seed%997,2)),Mathf.Lerp(zmin,zmax,Halton(attempt+seed%997,3)));
-            p+=new Vector2((float)random.NextDouble()-.5f,(float)random.NextDouble()-.5f)*.12f;
-            if(!InsidePolygon(p,fieldPolygon,.6f))continue;
-            float yaw=(float)random.NextDouble()*360,rx=((float)random.NextDouble()*2-1)*randomTilt*Mathf.Rad2Deg,rz=((float)random.NextDouble()*2-1)*randomTilt*Mathf.Rad2Deg;
-            var rotation=Quaternion.Euler(rx,yaw,rz);var basis=Matrix4x4.Rotate(rotation);
-            var extents=source.extents;var rotatedExtents=new Vector3(
-                Mathf.Abs(basis.m00)*extents.x+Mathf.Abs(basis.m01)*extents.y+Mathf.Abs(basis.m02)*extents.z,
-                Mathf.Abs(basis.m10)*extents.x+Mathf.Abs(basis.m11)*extents.y+Mathf.Abs(basis.m12)*extents.z,
-                Mathf.Abs(basis.m20)*extents.x+Mathf.Abs(basis.m21)*extents.y+Mathf.Abs(basis.m22)*extents.z);
-            float height=Mathf.Clamp(normalizedHeight*(.85f+(float)random.NextDouble()*.30f),.7f,.9f);
-            float scale=height/Mathf.Max(.001f,rotatedExtents.y*2);
-            var transformedCenter=rotation*(source.center*scale);var position=new Vector3(p.x,0,p.y);
-            if(meanderingField)position=VillageLandscapeShape.Warp(position);
-            float ground=soilHeight+.007f*Mathf.Sin(p.x*3.1f+p.y*1.7f);
-            position.y=ground-rootBurial-(transformedCenter.y-rotatedExtents.y*scale);
-            var key=new Vector2Int(Mathf.FloorToInt(position.x/12),Mathf.FloorToInt(position.z/12));
-            var bounds=new Bounds(position+transformedCenter,rotatedExtents*scale*2+new Vector3(.9f,.25f,.9f));
-            if(!cells.TryGetValue(key,out var tile)){tile=new Tile{bounds=bounds};cells.Add(key,tile);tiles.Add(tile);}else tile.bounds.Encapsulate(bounds);
-            tile.positions.Add(position);tile.matrices.Add(Matrix4x4.TRS(position,rotation,Vector3.one*scale));PlantCount++;
+            for(int r = 0; r < rows && PlantCount < target; r++)
+            {
+                // Organic jitter: farmers plant in rows with slight hand offsets
+                float jx = ((float)random.NextDouble() - 0.5f) * actualRowSpacing * 0.42f;
+                float jz = ((float)random.NextDouble() - 0.5f) * actualPlantSpacing * 0.42f;
+                var p = new Vector2(xmin + (c + 0.5f) * actualRowSpacing + jx, zmin + (r + 0.5f) * actualPlantSpacing + jz);
+
+                if(!InsidePolygon(p, fieldPolygon, 0.45f)) continue;
+
+                float yaw = (float)random.NextDouble() * 360f;
+                float rx = ((float)random.NextDouble() * 2 - 1) * randomTilt * Mathf.Rad2Deg;
+                float rz = ((float)random.NextDouble() * 2 - 1) * randomTilt * Mathf.Rad2Deg;
+                var rotation = Quaternion.Euler(rx, yaw, rz);
+                var basis = Matrix4x4.Rotate(rotation);
+
+                var extents = source.extents;
+                var rotatedExtents = new Vector3(
+                    Mathf.Abs(basis.m00)*extents.x + Mathf.Abs(basis.m01)*extents.y + Mathf.Abs(basis.m02)*extents.z,
+                    Mathf.Abs(basis.m10)*extents.x + Mathf.Abs(basis.m11)*extents.y + Mathf.Abs(basis.m12)*extents.z,
+                    Mathf.Abs(basis.m20)*extents.x + Mathf.Abs(basis.m21)*extents.y + Mathf.Abs(basis.m22)*extents.z);
+
+                // Natural rice clump height variation (0.85m to 1.12m)
+                float height = Mathf.Clamp(normalizedHeight * (0.88f + (float)random.NextDouble() * 0.26f), 0.75f, 1.15f);
+                float scale = height / Mathf.Max(0.001f, rotatedExtents.y * 2);
+
+                // Natural bush spread proportion (no extreme horizontal stretching)
+                float widthSpread = 0.95f + (float)random.NextDouble() * 0.15f;
+                var transformedCenter = rotation * (source.center * scale);
+                var position = new Vector3(p.x, 0, p.y);
+                if(meanderingField) position = VillageLandscapeShape.Warp(position);
+                float ground = soilHeight + 0.007f * Mathf.Sin(p.x * 3.1f + p.y * 1.7f);
+                position.y = ground - rootBurial - (transformedCenter.y - rotatedExtents.y * scale);
+
+                var key = new Vector2Int(Mathf.FloorToInt(position.x / 12), Mathf.FloorToInt(position.z / 12));
+                var plantScale3D = new Vector3(scale * widthSpread, scale * 1.05f, scale * widthSpread);
+                var bounds = new Bounds(position + transformedCenter, rotatedExtents * scale * 2.2f + new Vector3(1.0f, 0.35f, 1.0f));
+
+                if(!cells.TryGetValue(key, out var tile))
+                {
+                    tile = new Tile { bounds = bounds };
+                    cells.Add(key, tile);
+                    tiles.Add(tile);
+                }
+                else
+                {
+                    tile.bounds.Encapsulate(bounds);
+                }
+
+                tile.positions.Add(position);
+                tile.matrices.Add(Matrix4x4.TRS(position, rotation, plantScale3D));
+                PlantCount++;
+            }
         }
     }
 

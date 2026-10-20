@@ -151,7 +151,8 @@ public static partial class Scene3VillageComposition
                 Block(field.transform,"BoRuong_Nam",new Vector3(center.x,.045f,rect.z-.2f),new Vector3(size.x,.15f,.4f),banks);
                 Block(field.transform,"BoRuong_Bac",new Vector3(center.x,.045f,rect.w+.2f),new Vector3(size.x,.15f,.4f),banks);
                 var rice = Undo.AddComponent<RuralRiceFieldRenderer>(field);
-                rice.nearMesh=meshes[0]; rice.middleMesh=meshes[1]; rice.farMesh=meshes[2];
+                rice.nearMesh=meshes[0]; rice.middleMesh=meshes[1]; rice.farMesh=meshes[1];
+                rice.nearDistance=8; rice.middleDistance=80; rice.farDistance=200;
                 rice.sharedMaterial=riceMaterial; rice.fieldSize=size; rice.seed=4109+index*97;
                 rice.player=player; rice.Regenerate(); EditorUtility.SetDirty(rice);
                 report.plants += rice.PlantCount; report.tiles += rice.TileCount; report.riceArea += size.x*size.y;
@@ -215,17 +216,17 @@ public static partial class Scene3VillageComposition
         if(!shader) throw new Exception("Rice instancing shader has not imported.");
         var material=AssetDatabase.LoadAssetAtPath<Material>(path);
         if(!material) { material=new Material(shader){name="Lua_Ruong_Chung"}; AssetDatabase.CreateAsset(material,path); }
-        material.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/Art/Textures/Scene3/RiceOptimized/CayLua_Atlas_BaseColor.png"));
-        material.SetTexture("_BumpMap",AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/Art/Textures/Scene3/RiceOptimized/CayLua_Atlas_Normal.png"));
-        material.SetColor("_BaseColor",Color.white); material.SetFloat("_Cutoff",.3f);
-        material.SetFloat("_NormalStrength",.55f); material.SetFloat("_WindAmplitude",.075f);
+        material.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/Art/Textures/Scene3/RiceOptimized/RiceClump_Card_BaseColor.png"));
+        material.SetTexture("_BumpMap",null);
+        material.SetColor("_BaseColor",new Color(1f, 0.98f, 0.92f, 1f)); material.SetFloat("_Cutoff",.35f);
+        material.SetFloat("_NormalStrength",0f); material.SetFloat("_WindAmplitude",.075f);
         material.enableInstancing=true; EditorUtility.SetDirty(material); return material;
     }
     private static Mesh LoadRiceMesh(int level)
     {
-        var model=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Art/Models/Scene3/RiceOptimized/CayLua_LOD"+level+".fbx");
-        if(!model) throw new Exception("Missing new rice LOD"+level);
-        return model.GetComponentInChildren<MeshFilter>().sharedMesh;
+        var mesh=AssetDatabase.LoadAssetAtPath<Mesh>("Assets/_Project/Art/Models/Scene3/RiceOptimized/CayLua_Card_LOD"+level+".asset");
+        if(!mesh) throw new Exception("Missing CoDuoiChon LOD"+level);
+        return mesh;
     }
     private static void SmallFence(Transform parent, Vector3 center, float length, Material wood)
     {

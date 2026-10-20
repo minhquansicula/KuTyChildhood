@@ -57,8 +57,12 @@ public static partial class Scene3VillageComposition
             for(int i=0;i<4;i++)
             {
                 var r=ReferenceFields[i];var polygon=ReferenceRectangle(r);
-                var f=fields[i];f.fieldPolygon=polygon;f.targetInstances=3641;f.normalizedHeight=.8f;f.soilHeight=0;f.rootBurial=.05f;
-                f.randomTilt=.1f;f.regionalGpuBatch=true;f.meanderingField=false;f.nearDistance=6;f.middleDistance=22;f.farDistance=150;f.Regenerate();EditorUtility.SetDirty(f);
+                var f=fields[i];f.fieldPolygon=polygon;f.targetInstances=2100;f.normalizedHeight=.86f;f.soilHeight=0;f.rootBurial=.05f;
+                var lod0Mesh=AssetDatabase.LoadAssetAtPath<Mesh>("Assets/_Project/Art/Models/Scene3/RiceOptimized/CayLua_Card_LOD0.asset");
+                var lod1Mesh=AssetDatabase.LoadAssetAtPath<Mesh>("Assets/_Project/Art/Models/Scene3/RiceOptimized/CayLua_Card_LOD1.asset");
+                var lod2Mesh=AssetDatabase.LoadAssetAtPath<Mesh>("Assets/_Project/Art/Models/Scene3/RiceOptimized/CayLua_Card_LOD2.asset");
+                f.nearMesh=lod0Mesh;f.middleMesh=lod1Mesh;f.farMesh=lod2Mesh;
+                f.randomTilt=.1f;f.regionalGpuBatch=true;f.meanderingField=false;f.nearDistance=8;f.middleDistance=80;f.farDistance=200;f.Regenerate();EditorUtility.SetDirty(f);
                 surfaces.Add(ReferenceSurface(root,"Nuoc_RuongRong_"+(i+1),polygon,.025f,false,waterMaterial));
             }
             surfaces.Add(ReferenceSurface(root,"Kenh_Doc_RanhLang",ReferenceRectangle(new Rect(8.8f,-13,1.6f,87)),-.06f,true,waterMaterial));
