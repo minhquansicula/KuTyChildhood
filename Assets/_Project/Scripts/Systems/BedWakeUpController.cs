@@ -13,7 +13,7 @@ public class BedWakeUpController : MonoBehaviour
     [Tooltip("World-space offset from the marker, keeping the player beside its collider.")]
     [SerializeField] private Vector3 bedExitOffset = new Vector3(0.55f, 0f, 0f);
     [Tooltip("Fallback distance to the right of the bed when no exit marker is assigned.")]
-    [SerializeField, Min(0f)] private float exitRightDistance = 1.55f;
+    [SerializeField, Min(0f)] private float exitRightDistance = 0.55f;
 
     private FirstPersonController playerController;
     private bool canWakeUp = false;
@@ -94,10 +94,42 @@ public class BedWakeUpController : MonoBehaviour
         {
             playerController.SetPitch(0f);
             
-            // Read the marker's current position each time so moving it also moves the exit.
-            if (bedExitPoint != null)
+            // Read the marker's current position (or find xuonggiuong if not assigned)
+            Transform exitTarget = bedExitPoint;
+            if (exitTarget == null)
             {
-                playerController.TeleportTo(bedExitPoint.position + bedExitOffset, Quaternion.identity);
+                GameObject xg = GameObject.Find("xuonggiuong") ?? GameObject.Find("BedExitPlatform");
+                if (xg != null) exitTarget = xg.transform;
+            }
+
+            if (exitTarget != null)
+            {
+                Vector3 exitPos = exitTarget.position + bedExitOffset;
+                // Keep feet grounded at floor level if pivot is below ground
+                if (exitPos.y < 0.05f) exitPos.y = 0.05f;
+
+                Quaternion exitRot = exitTarget.rotation;
+                // If marker has 3D tilt (e.g. FBX model root with X=270), keep upright yaw facing the bed
+                GameObject bed = GameObject.Find("BedBlock");
+                if (bed != null)
+                {
+                    Vector3 lookDir = bed.transform.position - exitPos;
+                    lookDir.y = 0f;
+                    if (lookDir.sqrMagnitude > 0.01f)
+                    {
+                        exitRot = Quaternion.LookRotation(lookDir);
+                    }
+                    else
+                    {
+                        exitRot = Quaternion.Euler(0f, 180f, 0f);
+                    }
+                }
+                else if (Mathf.Abs(exitRot.eulerAngles.x) > 1f || Mathf.Abs(exitRot.eulerAngles.z) > 1f)
+                {
+                    exitRot = Quaternion.Euler(0f, exitRot.eulerAngles.y, 0f);
+                }
+
+                playerController.TeleportTo(exitPos, exitRot);
             }
             else
             {
@@ -105,7 +137,7 @@ public class BedWakeUpController : MonoBehaviour
                 if (bed != null)
                 {
                     Vector3 bedPos = bed.transform.position;
-                    playerController.TeleportTo(new Vector3(bedPos.x + exitRightDistance, 0.05f, bedPos.z), Quaternion.identity);
+                    playerController.TeleportTo(new Vector3(bedPos.x + exitRightDistance, 0.05f, bedPos.z), Quaternion.Euler(0f, 150f, 0f));
                 }
             }
         }

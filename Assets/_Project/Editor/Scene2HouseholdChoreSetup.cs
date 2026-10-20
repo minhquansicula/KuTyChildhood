@@ -41,36 +41,183 @@ public static class Scene2HouseholdChoreSetup
         if (flowHost.GetComponent<HouseholdChoreFlow>() == null)
             Undo.AddComponent<HouseholdChoreFlow>(flowHost);
 
-        BindWaterJar();
+        string[] targets = {
+            "HouseLayout/TraditionalHouseInterior/WaterJarVisual",
+            "HouseLayout/KitchenArea/RiceJar/cailugao",
+            "HouseLayout/KitchenArea/WallBasins/thao",
+            "HouseLayout/KitchenArea/FirewoodStove/StovePotVisual",
+            "HouseLayout/KitchenArea/RiceCookingStove/beplua_naucom",
+            "HouseLayout/KitchenArea/Sink/DishwashingStationVisual",
+            "HouseLayout/KitchenArea/DishCabinet/DishCabinetVisual",
+            "BedroomArea/BedroomDecor/StorageChest", "BedroomArea/BedroomDecor/Radio",
+            "HouseLayout/YardProps/ToolSet_02", "HouseLayout/YardProps/GrainMill",
+            "HouseLayout/YardProps/BambooBasket"
+        };
+        HouseholdChore[] tasks = {
+            HouseholdChore.FetchWater, HouseholdChore.MeasureRice, HouseholdChore.WashRice,
+            HouseholdChore.LightFire, HouseholdChore.CookRice, HouseholdChore.WashDishes,
+            HouseholdChore.PutAwayDishes, HouseholdChore.ArrangeKeepsakes, HouseholdChore.TuneRadio,
+            HouseholdChore.SortTools, HouseholdChore.GrindCorn, HouseholdChore.CarryWood
+        };
+        if (!GameObject.Find(targets[2]))
+        {
+            var basin = Placeholder(Need("HouseLayout/KitchenArea/WallBasins").transform,
+                "Placeholder_RiceWashingBowl", new Vector3(-4.3f, .16f, -.75f), new Vector3(.55f, .25f, .55f));
+            targets[2] = "HouseLayout/KitchenArea/WallBasins/" + basin.name;
+        }
+        // Preflight before replacing old bindings. Preserve physical colliders and model placements.
+        foreach (string path in targets) Need(path);
+        var bed = Need("BedroomArea/RusticBedroom_Visual/BedBlock");
+        var living = Need("HouseLayout/TraditionalHouseInterior");
+        foreach (var old in Object.FindObjectsOfType<HouseholdChoreInteractable>(true))
+        {
+            Undo.RecordObject(old, "Replace old chore binding");
+            old.enabled = false;
+        }
+        for (int i = 0; i < targets.Length; i++) BindVisual(Need(targets[i]), tasks[i]);
 
-        var rice = Need("HouseLayout/KitchenArea/RiceJar");
-        BindOne(rice, HouseholdChore.MeasureRice, rice.transform.Find("cailugao"));
+        // Clean up old blanket triggers/placeholders
+        var oldFold = bed.transform.Find("FoldBlanketChoreTrigger");
+        if (oldFold != null) Object.DestroyImmediate(oldFold.gameObject);
+        var oldBlanket = bed.transform.Find("Placeholder_Blanket");
+        if (oldBlanket != null) Object.DestroyImmediate(oldBlanket.gameObject);
+        var strayBlanket = GameObject.Find("Placeholder_Blanket");
+        if (strayBlanket != null) Object.DestroyImmediate(strayBlanket);
 
-        var basin = Need("HouseLayout/KitchenArea/WallBasins");
-        var basinVisual = basin.transform.Find("thao") ?? basin.transform;
-        var basinRenderer = basinVisual.GetComponent<Renderer>();
-        var basinPosition = basinRenderer != null ? basinRenderer.bounds.center : basin.transform.position + Vector3.up;
-        var basinPoint = Proxy(basin.transform, "RiceWashingChoreTrigger", basinPosition, new Vector3(.8f, .55f, .7f));
-        BindOne(basinPoint, HouseholdChore.WashRice, basinVisual);
+        // Disable occluding sleep trigger on bed so chore interaction is clean
+        var bedInteractTrigger = bed.transform.Find("InteractTrigger");
+        if (bedInteractTrigger != null)
+        {
+            Undo.RecordObject(bedInteractTrigger.gameObject, "Disable occluding bed trigger in chore flow");
+            bedInteractTrigger.gameObject.SetActive(false);
+        }
 
-        BindReplace("HouseLayout/KitchenArea/FirewoodStove/StovePotVisual", HouseholdChore.LightFire,
-            Need("HouseLayout/KitchenArea/FirewoodStove/StovePotVisual").transform, typeof(MashToCompleteTask));
-        BindOne(Need("HouseLayout/KitchenArea/FirewoodStove/InteractTrigger"), HouseholdChore.LightFire,
-            Need("HouseLayout/KitchenArea/FirewoodStove/StovePotVisual").transform);
+        // Assign bedExitPoint to xuonggiuong GameObject and zero out offset
+        var bedWakeUp = Object.FindObjectOfType<BedWakeUpController>();
+        var xgObj = GameObject.Find("xuonggiuong");
+        if (bedWakeUp != null)
+        {
+            var so = new SerializedObject(bedWakeUp);
+            if (xgObj != null)
+            {
+                var propPoint = so.FindProperty("bedExitPoint");
+                if (propPoint != null) propPoint.objectReferenceValue = xgObj.transform;
+            }
+            var propOffset = so.FindProperty("bedExitOffset");
+            if (propOffset != null) propOffset.vector3Value = Vector3.zero;
+            var propExitDist = so.FindProperty("exitRightDistance");
+            if (propExitDist != null) propExitDist.floatValue = 0.55f;
+            so.ApplyModifiedProperties();
+        }
 
-        BindReplace("HouseLayout/KitchenArea/RicePot/InteractTrigger", HouseholdChore.CookRice,
-            Need("HouseLayout/KitchenArea/RicePot").transform, typeof(HoldToCompleteTask));
-        BindReplace("HouseLayout/KitchenArea/DiningTable/InteractTrigger", HouseholdChore.SetTable,
-            Need("HouseLayout/KitchenArea/DiningTable").transform, typeof(HoldToCompleteTask));
+        EnsureHouseInteriorColliders(living);
 
-        BindReplace("HouseLayout/KitchenArea/Sink/DishwashingStationVisual", HouseholdChore.WashDishes,
-            Need("HouseLayout/KitchenArea/Sink/DishwashingStationVisual").transform, typeof(DishInteractable));
-        BindReplace("HouseLayout/KitchenArea/DishCabinet/DishCabinetVisual", HouseholdChore.PutAwayDishes,
-            Need("HouseLayout/KitchenArea/DishCabinet/DishCabinetVisual").transform, typeof(HoldToCompleteTask));
-
+        var tray = Placeholder(living.transform, "Placeholder_FamilyMealTray", new Vector3(6.5f, .18f, -3f), new Vector3(.8f, .24f, .6f));
+        BindOne(tray, HouseholdChore.SetTable, tray.transform);
+        var letter = Placeholder(living.transform, "Placeholder_MothersLetter", new Vector3(6.5f, .4f, -3f), new Vector3(.3f, .12f, .22f));
+        BindOne(letter, HouseholdChore.ReadLetter, letter.transform);
         EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
-        Debug.Log("[Scene2 chores] Bound 8 chores and saved Scene 2.");
+        ValidateBindings();
+        Debug.Log("[Scene2 chores] Bound 14 chores across four rooms; visible placeholders; house colliders ensured; scene saved.");
+    }
+
+    [MenuItem("KuTy/Scene 2/Ensure house interior colliders")]
+    private static void EnsureHouseInteriorCollidersMenu()
+    {
+        if (!Ready()) return;
+        var living = Need("HouseLayout/TraditionalHouseInterior");
+        EnsureHouseInteriorColliders(living);
+        EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+        EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+        Debug.Log("[Scene2 chores] House interior colliders configured and scene saved.");
+    }
+
+    private static void EnsureHouseInteriorColliders(GameObject living)
+    {
+        int added = 0;
+        foreach (Transform child in living.transform)
+        {
+            if (child.GetComponent<HouseholdChoreInteractable>() != null) continue;
+            var mf = child.GetComponent<MeshFilter>();
+            if (mf == null || mf.sharedMesh == null) continue;
+            if (mf.sharedMesh.vertexCount == 0 || mf.sharedMesh.bounds.size.sqrMagnitude < 0.001f) continue;
+
+            var mc = child.GetComponent<MeshCollider>();
+            if (mc == null)
+            {
+                mc = Undo.AddComponent<MeshCollider>(child.gameObject);
+                added++;
+            }
+            Undo.RecordObject(mc, "Add house interior mesh collider");
+            mc.sharedMesh = mf.sharedMesh;
+            mc.convex = false;
+            mc.isTrigger = false;
+        }
+        Debug.Log($"[Scene2 chores] Configured MeshColliders on TraditionalHouseInterior ({added} new colliders added).");
+    }
+
+    private static GameObject Placeholder(Transform parent, string name, Vector3 position, Vector3 size)
+    {
+        var existing = parent.Find(name);
+        if (existing != null) return existing.gameObject;
+        var obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        Undo.RegisterCreatedObjectUndo(obj, "Create chore placeholder");
+        obj.name = name;
+        obj.transform.SetParent(parent, true);
+        obj.transform.position = position;
+        obj.transform.rotation = Quaternion.identity;
+        obj.transform.localScale = Vector3.one;
+        var scale = obj.transform.lossyScale;
+        obj.transform.localScale = new Vector3(size.x / Mathf.Abs(scale.x), size.y / Mathf.Abs(scale.y), size.z / Mathf.Abs(scale.z));
+        obj.GetComponent<BoxCollider>().isTrigger = true;
+        return obj;
+    }
+
+    private static void BindVisual(GameObject visual, HouseholdChore chore)
+    {
+        var mesh = visual.GetComponent<MeshFilter>();
+        if (mesh == null || mesh.sharedMesh == null) throw new System.InvalidOperationException("No mesh: " + visual.name);
+        string name = "ChoreTarget_" + chore;
+        var child = visual.transform.Find(name);
+        var target = child ? child.gameObject : new GameObject(name);
+        if (!child) Undo.RegisterCreatedObjectUndo(target, "Create chore target");
+        target.transform.SetParent(visual.transform, false);
+        target.transform.localPosition = Vector3.zero;
+        target.transform.localRotation = Quaternion.identity;
+        target.transform.localScale = Vector3.one;
+        var collider = target.GetComponent<BoxCollider>();
+        if (collider == null) collider = Undo.AddComponent<BoxCollider>(target);
+        Undo.RecordObject(collider, "Fit interaction trigger to visible mesh");
+        collider.center = mesh.sharedMesh.bounds.center;
+        collider.size = mesh.sharedMesh.bounds.size * 1.15f;
+        collider.isTrigger = true;
+        // Old chore components on the same physical prop must not hide the new trigger's prompt.
+        BindOne(target, chore, visual.transform);
+    }
+
+    [MenuItem("KuTy/Scene 2/Validate expanded chore bindings")]
+    private static void ValidateBindings()
+    {
+        var counts = new System.Collections.Generic.Dictionary<HouseholdChore, int>();
+        for (int i = 0; i < HouseholdChoreFlow.ChoreCount; i++)
+            counts[HouseholdChoreFlow.Order[i]] = 0;
+
+        foreach (var task in Object.FindObjectsOfType<HouseholdChoreInteractable>())
+        {
+            if (!task.enabled) continue;
+            if (counts.ContainsKey(task.Chore))
+            {
+                counts[task.Chore]++;
+            }
+            var collider = task.GetComponent<Collider>();
+            if (!collider || !collider.isTrigger) throw new System.InvalidOperationException("Expected non-blocking trigger: " + task.name);
+        }
+        foreach (var kvp in counts)
+        {
+            if (kvp.Value != 1) throw new System.InvalidOperationException("Expected one binding for " + kvp.Key + ": " + kvp.Value);
+        }
+        Debug.Log($"[Scene2 chores] VALIDATION PASS: {HouseholdChoreFlow.ChoreCount} unique enabled tasks, all interaction colliders are triggers.");
     }
 
     [MenuItem("KuTy/Scene 2/Fix water jar interaction")]
@@ -112,17 +259,61 @@ public static class Scene2HouseholdChoreSetup
         }
         var flow = HouseholdChoreFlow.Instance;
         if (flow == null) throw new System.InvalidOperationException("HouseholdChoreFlow is missing.");
+        var wake = Object.FindObjectOfType<BedWakeUpController>();
+        typeof(BedWakeUpController).GetMethod("GetOutOfBed", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)?.Invoke(wake, null);
         flow.ShowChecklist();
+        var first = System.Array.Find(Object.FindObjectsOfType<HouseholdChoreInteractable>(), t => t.enabled && t.Chore == HouseholdChoreFlow.Order[0]);
+        first.Interact();
+        first.enabled = false; // OnDisable must cancel without a reward or input leak.
+        first.enabled = true;
+        if (flow.Pieces != 0 || (GameManager.Instance != null && GameManager.Instance.InputBlocked))
+            throw new System.InvalidOperationException("Cancel leaked input or reward.");
+        if (flow.Complete(HouseholdChore.ReadLetter) || flow.Complete((HouseholdChore)999) || flow.Pieces != 0)
+            throw new System.InvalidOperationException("Out of order reward accepted.");
         for (int i = 0; i < HouseholdChoreFlow.ChoreCount; i++)
         {
-            var chore = (HouseholdChore)i;
+            var chore = HouseholdChoreFlow.Order[i];
             if (!flow.Complete(chore) || flow.Complete(chore) || flow.Pieces != (i + 1) * 10)
                 throw new System.InvalidOperationException("Chore reward failed at index " + i);
         }
         if (flow.ActiveIndex != HouseholdChoreFlow.ChoreCount ||
             QuestManager.Instance == null || QuestManager.Instance.CurrentStep != QuestStep.BuyCandyAndMarbles)
             throw new System.InvalidOperationException("Household story handoff failed.");
-        Debug.Log("[Scene2 chores] Reward smoke test passed: 8 one-time chores, 80/80 pieces, story advanced.");
+        Debug.Log($"[Scene2 chores] Reward smoke test passed: {HouseholdChoreFlow.ChoreCount} one-time chores, {HouseholdChoreFlow.TotalPieces}/{HouseholdChoreFlow.TotalPieces} pieces, story advanced.");
+    }
+
+    [MenuItem("KuTy/Scene 2/Check expanded chore targeting")]
+    private static void CheckTargeting()
+    {
+        Physics.SyncTransforms();
+        int reached = 0;
+        var report = new StringBuilder();
+        foreach (var task in Object.FindObjectsOfType<HouseholdChoreInteractable>())
+        {
+            if (!task.enabled) continue;
+            var box = task.GetComponent<Collider>();
+            bool hitTarget = false;
+            foreach (var direction in new[] { Vector3.forward, Vector3.back, Vector3.left, Vector3.right,
+                new Vector3(1,0,1).normalized, new Vector3(-1,0,1).normalized })
+            {
+                Vector3 origin = box.bounds.center + direction * 1.8f;
+                origin.y = Mathf.Max(1.6f, origin.y);
+                Vector3 delta = box.bounds.center - origin;
+                var hits = Physics.RaycastAll(origin, delta.normalized, 3f, ~0, QueryTriggerInteraction.Collide);
+                System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+                for (int h = 0; h < hits.Length; h++)
+                {
+                    if (hits[h].collider == box) { hitTarget = true; break; }
+                    if (!hits[h].collider.isTrigger) break; // Solid wall/obstacle blocks ray
+                }
+                if (hitTarget) break;
+                report.AppendLine("  " + task.Chore + " from " + origin + " hit " + (hits.Length > 0 ? hits[0].collider.name : "nothing"));
+            }
+            report.AppendLine(task.Chore + ": " + (hitTarget ? "reachable ray" : "BLOCKED") + " at " + box.bounds.center);
+            if (hitTarget) reached++;
+        }
+        System.IO.File.WriteAllText("Library/Scene2ChoreTargeting.txt", report.ToString());
+        Debug.Log($"[Scene2 chores] TARGETING {reached}/{HouseholdChoreFlow.ChoreCount}. {report}");
     }
 
     [MenuItem("KuTy/Scene 2/Smoke test water targeting")]
@@ -202,6 +393,7 @@ public static class Scene2HouseholdChoreSetup
         if (interaction == null) interaction = Undo.AddComponent<HouseholdChoreInteractable>(obj);
         Undo.RecordObject(interaction, "Configure Scene 2 chore");
         interaction.Configure(chore, anchor);
+        interaction.enabled = true;
         obj.layer = LayerMask.NameToLayer("Interactable");
         EditorUtility.SetDirty(interaction);
     }

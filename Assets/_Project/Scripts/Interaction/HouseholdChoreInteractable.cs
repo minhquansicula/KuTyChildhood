@@ -23,12 +23,14 @@ public sealed class HouseholdChoreInteractable : InteractableBase
         promptText = "[E] " + HouseholdChoreFlow.Titles[(int)chore];
     }
 
+    public HouseholdChore Chore => chore;
+
     private void Awake() => flow = HouseholdChoreFlow.Instance;
 
     public override string GetPromptText()
     {
         if (flow == null) flow = HouseholdChoreFlow.Instance;
-        return !running && flow != null && flow.IsCurrent(chore)
+        return isActiveAndEnabled && !running && flow != null && flow.IsCurrent(chore)
             ? "[E] " + HouseholdChoreFlow.Titles[(int)chore]
             : "";
     }
@@ -36,7 +38,7 @@ public sealed class HouseholdChoreInteractable : InteractableBase
     protected override void OnInteract()
     {
         if (flow == null) flow = HouseholdChoreFlow.Instance;
-        if (running || flow == null || !flow.IsCurrent(chore)) return;
+        if (!isActiveAndEnabled || running || flow == null || !flow.IsCurrent(chore)) return;
         running = true;
         successes = 0;
         amount = 0;
@@ -52,6 +54,20 @@ public sealed class HouseholdChoreInteractable : InteractableBase
         var ui = flow.UI;
         switch (chore)
         {
+            case HouseholdChore.FoldBlanket:
+                ShowOrder("Mép trái", "Mép phải", "Gấp đôi"); break;
+            case HouseholdChore.ArrangeKeepsakes:
+                ShowOrder("Áo", "Khăn", "Đóng rương"); break;
+            case HouseholdChore.SortTools:
+                ShowOrder("Cào", "Cuốc", "Xẻng"); break;
+            case HouseholdChore.TuneRadio:
+                ui.ShowGame("Chỉnh radio", "Space đúng vùng xanh 3 lần để bắt sóng", true); break;
+            case HouseholdChore.GrindCorn:
+                ui.ShowGame("Xay ngô", "Xoay chuột 3 vòng; chuột phải thu bột", false); break;
+            case HouseholdChore.CarryWood:
+                ui.ShowGame("Gom củi", "Giữ F 3 giây để gom bó củi cho mẹ", false); break;
+            case HouseholdChore.ReadLetter:
+                ui.ShowGame("Lá thư của mẹ", "Giữ F 3 giây để mở lá thư", false); break;
             case HouseholdChore.FetchWater:
                 ui.ShowGame("Múc nước", "Nhấn Space khi kim đi qua vùng xanh — 3 lần", true);
                 break;
@@ -85,6 +101,13 @@ public sealed class HouseholdChoreInteractable : InteractableBase
         ui.SetProgress(0, Counter());
     }
 
+    private void ShowOrder(params string[] labels)
+    {
+        flow.UI.ShowGame(HouseholdChoreFlow.Titles[(int)chore], "Bấm lần lượt: " + string.Join(" → ", labels), false);
+        flow.UI.ShowChoices(labels, SelectChoice);
+        flow.UI.SetExpectedChoice(0);
+    }
+
     private void Update()
     {
         if (!running) return;
@@ -92,6 +115,17 @@ public sealed class HouseholdChoreInteractable : InteractableBase
         feedback?.Tick();
         switch (chore)
         {
+            case HouseholdChore.TuneRadio:
+                Timing(3, 2.6f, "Sóng rõ", true); break;
+            case HouseholdChore.GrindCorn:
+                WashRice(); break;
+            case HouseholdChore.CarryWood:
+            case HouseholdChore.ReadLetter:
+                if (Input.GetKey(KeyCode.F)) amount += Time.deltaTime;
+                feedback?.SetIntensity(amount / 3f);
+                flow.UI.SetProgress(amount / 3f, amount.ToString("0.0") + "/3 giây");
+                if (amount >= 3f) Finish();
+                break;
             case HouseholdChore.FetchWater:
                 Timing(3, 2.9f, "Lần múc", false);
                 break;
@@ -172,7 +206,7 @@ public sealed class HouseholdChoreInteractable : InteractableBase
         {
             if (Input.GetMouseButtonDown(1))
             {
-                AudioManager.Instance?.PlaySFX("water_splash");
+                if (chore == HouseholdChore.WashRice) AudioManager.Instance?.PlaySFX("water_splash");
                 Finish();
             }
             return;
@@ -194,7 +228,7 @@ public sealed class HouseholdChoreInteractable : InteractableBase
         {
             secondPhase = true;
             feedback?.Pulse();
-            flow.UI.SetHint("Gạo đã sạch — nhấn chuột phải để chắt nước");
+            flow.UI.SetHint(chore == HouseholdChore.GrindCorn ? "Bột đã mịn — chuột phải để thu bột" : "Gạo đã sạch — nhấn chuột phải để chắt nước");
         }
     }
 
@@ -216,7 +250,7 @@ public sealed class HouseholdChoreInteractable : InteractableBase
 
     private void SelectChoice(int selection)
     {
-        if (!running || (chore != HouseholdChore.SetTable && chore != HouseholdChore.PutAwayDishes)) return;
+        if (!running || (chore != HouseholdChore.SetTable && chore != HouseholdChore.PutAwayDishes && chore != HouseholdChore.FoldBlanket && chore != HouseholdChore.ArrangeKeepsakes && chore != HouseholdChore.SortTools)) return;
         if (selection != successes)
         {
             flow.UI.SetHint("Chưa đúng thứ tự — xem ô đang sáng");
@@ -235,7 +269,8 @@ public sealed class HouseholdChoreInteractable : InteractableBase
     private void Finish()
     {
         EndInteraction();
-        flow?.Complete(chore);
+        if (flow != null && flow.Complete(chore) && chore == HouseholdChore.ReadLetter)
+            DialogueUI.Instance?.ShowDialogue("Thư của mẹ", HouseholdChoreFlow.Memories[(int)chore], 10f);
     }
 
     private void Cancel() => EndInteraction();

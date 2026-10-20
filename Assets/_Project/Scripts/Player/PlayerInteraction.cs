@@ -72,46 +72,48 @@ public class PlayerInteraction : MonoBehaviour
     {
         Ray ray = new Ray(raycastOrigin.position, raycastOrigin.forward);
 
-        // Cast against walls too, so an interactable cannot be used through a wall.
-        // Ignore the player's own colliders, then use the nearest remaining hit.
+        // Cast against all layers to detect obstacles, triggers, and interactables.
         int hitCount = Physics.RaycastNonAlloc(ray, raycastHits, interactDistance, ~0, QueryTriggerInteraction.Collide);
-        RaycastHit hit = default;
-        float nearestDistance = float.PositiveInfinity;
-        if (hitCount < raycastHits.Length)
+        if (hitCount > 0)
         {
+            // Sort hits by distance to evaluate from nearest to farthest
+            System.Array.Sort(raycastHits, 0, hitCount, RaycastHitComparer.Instance);
+
             for (int i = 0; i < hitCount; i++)
             {
                 RaycastHit candidate = raycastHits[i];
-                if (candidate.collider == null || candidate.transform.IsChildOf(transform) || candidate.distance >= nearestDistance)
+                if (candidate.collider == null || candidate.transform.IsChildOf(transform))
                     continue;
-                hit = candidate;
-                nearestDistance = candidate.distance;
-            }
-        }
 
-        if (hit.collider != null && (interactableLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
-        {
-            // Tìm IInteractable trên vật bị trúng
-            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-
-            if (interactable == null)
-            {
-                // Thử tìm trên parent (trường hợp collider ở child)
-                interactable = hit.collider.GetComponentInParent<IInteractable>();
-            }
-
-            if (interactable != null && !string.IsNullOrEmpty(interactable.GetPromptText()))
-            {
-                string promptText = interactable.GetPromptText();
-                if (currentTarget != interactable || currentPromptText != promptText)
+                // Check if this object or its parent has an interactable
+                bool isInteractableLayer = (interactableLayer.value & (1 << candidate.collider.gameObject.layer)) != 0;
+                IInteractable interactable = null;
+                if (isInteractableLayer)
                 {
-                    currentTarget = interactable;
-                    currentPromptText = promptText;
-
-                    HUDController.Instance?.ShowInteractPrompt(promptText);
-                    HUDController.Instance?.SetCrosshairHighlight(true);
+                    interactable = candidate.collider.GetComponent<IInteractable>() ?? candidate.collider.GetComponentInParent<IInteractable>();
                 }
-                return;
+
+                if (interactable != null && !string.IsNullOrEmpty(interactable.GetPromptText()))
+                {
+                    string promptText = interactable.GetPromptText();
+                    if (currentTarget != interactable || currentPromptText != promptText)
+                    {
+                        currentTarget = interactable;
+                        currentPromptText = promptText;
+
+                        HUDController.Instance?.ShowInteractPrompt(promptText);
+                        HUDController.Instance?.SetCrosshairHighlight(true);
+                    }
+                    return;
+                }
+
+                // If this is a solid physical collider (not a trigger) without an interaction,
+                // it is an obstacle (e.g. wall, door) that blocks line of sight. Stop checking further.
+                if (!candidate.collider.isTrigger)
+                {
+                    break;
+                }
+                // Immaterial triggers without active interactions do not block rays to objects behind them.
             }
         }
 
@@ -123,6 +125,12 @@ public class PlayerInteraction : MonoBehaviour
             HUDController.Instance?.HideInteractPrompt();
             HUDController.Instance?.SetCrosshairHighlight(false);
         }
+    }
+
+    private class RaycastHitComparer : System.Collections.Generic.IComparer<RaycastHit>
+    {
+        public static readonly RaycastHitComparer Instance = new RaycastHitComparer();
+        public int Compare(RaycastHit a, RaycastHit b) => a.distance.CompareTo(b.distance);
     }
 
     // ========== INPUT ==========

@@ -28,7 +28,7 @@ public sealed class HouseholdWorkFeedback
         root = new GameObject("HouseholdWorkEffect_" + task);
         root.transform.position = origin;
 
-        var kind = task == HouseholdChore.WashDishes ? PrimitiveType.Cube
+        var kind = task == HouseholdChore.WashDishes || task == HouseholdChore.FoldBlanket || task == HouseholdChore.ReadLetter ? PrimitiveType.Cube
             : task == HouseholdChore.LightFire ? PrimitiveType.Sphere : PrimitiveType.Cylinder;
         var toolObject = GameObject.CreatePrimitive(kind);
         toolObject.name = task == HouseholdChore.WashDishes ? "AnimatedSponge" : "AnimatedWorkTool";
@@ -37,6 +37,9 @@ public sealed class HouseholdWorkFeedback
             ? new Vector3(.18f, .055f, .12f)
             : task == HouseholdChore.LightFire ? new Vector3(.12f, .12f, .12f)
             : new Vector3(.14f, .055f, .14f);
+        if (task == HouseholdChore.FoldBlanket) toolObject.transform.localScale = new Vector3(.5f, .035f, .35f);
+        if (task == HouseholdChore.ReadLetter) toolObject.transform.localScale = new Vector3(.23f, .012f, .16f);
+        if (task == HouseholdChore.CarryWood) toolObject.transform.localScale = new Vector3(.09f, .25f, .09f);
         var collider = toolObject.GetComponent<Collider>();
         if (collider != null) Object.Destroy(collider);
         tool = toolObject.transform;
@@ -96,6 +99,12 @@ public sealed class HouseholdWorkFeedback
         tool.localPosition = new Vector3(Mathf.Sin(t * rate) * size, .1f + Mathf.Cos(t * rate * .8f) * size,
             Mathf.Cos(t * rate) * size);
         tool.localRotation = Quaternion.Euler(15f * Mathf.Sin(t * rate), t * 25f, 18f * Mathf.Cos(t * rate));
+        if (chore == HouseholdChore.GrindCorn)
+        {
+            tool.localPosition = new Vector3(Mathf.Cos(t * 4f) * .2f, .1f, Mathf.Sin(t * 4f) * .2f);
+            tool.localRotation = Quaternion.Euler(0f, t * 180f, 90f);
+        }
+        if (chore == HouseholdChore.TuneRadio) tool.localRotation = Quaternion.Euler(90f, 0f, Mathf.Sin(t * 3f) * 90f);
         if (swayingVisual != null)
             swayingVisual.localRotation = visualRotation * Quaternion.Euler(0f, 0f,
                 Mathf.Sin(t * rate) * (2f + 4f * intensity));
@@ -141,7 +150,14 @@ public sealed class HouseholdWorkFeedback
         {
             case HouseholdChore.LightFire: return new Color(1f, .38f, .06f, .85f);
             case HouseholdChore.CookRice: return new Color(.95f, .95f, .87f, .5f);
+            case HouseholdChore.GrindCorn:
             case HouseholdChore.MeasureRice: return new Color(.95f, .86f, .65f, .9f);
+            case HouseholdChore.FoldBlanket:
+            case HouseholdChore.ArrangeKeepsakes:
+            case HouseholdChore.SortTools:
+            case HouseholdChore.CarryWood:
+            case HouseholdChore.TuneRadio:
+            case HouseholdChore.ReadLetter:
             case HouseholdChore.SetTable:
             case HouseholdChore.PutAwayDishes: return new Color(1f, .78f, .4f, .65f);
             default: return new Color(.63f, .86f, 1f, .7f);
