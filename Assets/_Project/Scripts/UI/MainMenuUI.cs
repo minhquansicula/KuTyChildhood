@@ -10,8 +10,16 @@ using TMPro;
 /// </summary>
 public class MainMenuUI : MonoBehaviour
 {
+    [SerializeField] private Button continueButton;
+
     private void Start()
     {
+        // The authored menu already reserves a slot for Continue; keep its layout intact.
+        if (continueButton != null)
+        {
+            continueButton.interactable = Scene2Checkpoint.HasCheckpoint;
+            return;
+        }
         if (!Scene2Checkpoint.HasCheckpoint) return;
         Button play = null;
         Button quit = null;
@@ -25,13 +33,13 @@ public class MainMenuUI : MonoBehaviour
             }
         }
         if (play == null) return;
-        var continueButton = Instantiate(play, play.transform.parent);
-        continueButton.name = "Tiếp tục Scene 2";
-        continueButton.onClick = new Button.ButtonClickedEvent();
-        continueButton.onClick.AddListener(OnContinueButtonClicked);
-        var label = continueButton.GetComponentInChildren<TMP_Text>(true);
+        var legacyContinue = Instantiate(play, play.transform.parent);
+        legacyContinue.name = "Tiếp tục Scene 2";
+        legacyContinue.onClick = new Button.ButtonClickedEvent();
+        legacyContinue.onClick.AddListener(OnContinueButtonClicked);
+        var label = legacyContinue.GetComponentInChildren<TMP_Text>(true);
         if (label != null) label.text = "▶  TIẾP TỤC";
-        var continueRect = continueButton.transform as RectTransform;
+        var continueRect = legacyContinue.transform as RectTransform;
         var playRect = play.transform as RectTransform;
         if (continueRect != null && playRect != null)
         {
@@ -44,7 +52,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void OnContinueButtonClicked()
     {
-        if (!Scene2Checkpoint.HasCheckpoint) { OnPlayButtonClicked(); return; }
+        if (!Scene2Checkpoint.HasCheckpoint) return;
         if (GameManager.Instance != null) GameManager.Instance.ContinueGame();
         else UnityEngine.SceneManagement.SceneManager.LoadScene(Scene2Checkpoint.ResumeScene);
     }
