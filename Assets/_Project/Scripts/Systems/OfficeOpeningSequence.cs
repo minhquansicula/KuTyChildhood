@@ -143,7 +143,7 @@ public sealed class OfficeOpeningSequence : MonoBehaviour
             playerVoice.volume = playerVolume;
             playerVoice.PlayOneShot(playerResponseClip);
         }
-        officeController.ShowCinematicSubtitle("QUÂN", "Dạ... dạ, để em sửa và gửi ngay cho sếp ạ.", responseSeconds);
+        officeController.ShowCinematicSubtitle("QUÂN", "Dạ... để em sửa, in rồi mang lại ngay ạ.", responseSeconds);
         yield return new WaitForSecondsRealtime(responseSeconds);
 
         officeController.HideCinematicSubtitle();
@@ -183,7 +183,7 @@ public sealed class OfficeOpeningSequence : MonoBehaviour
             "CÁI NÀY MÀ CŨNG LÀM SAI ĐƯỢC À?!",
             "CẢ PHÒNG ĐANG CHỜ MỖI MÌNH CẬU ĐẤY!",
             "HÔM NAY KHÔNG XONG THÌ ĐỪNG CÓ VỀ!",
-            "LÀM LẠI NGAY CHO TÔI!"
+            "SỬA XONG THÌ IN MỘT BẢN, MANG LẠI ĐÂY!"
         };
         float[] weights = { .12f, .17f, .17f, .18f, .20f, .16f };
         float total = bossDialogueClip != null ? bossDialogueClip.length : 7.5f;

@@ -1,0 +1,161 @@
+{
+    "status": "placeholder-foundation",
+    "catalogAsset": "Assets/_Project/Data/Audio/SfxCatalog.asset",
+    "note": "Generated tones are safe fallbacks, not approved production SFX.",
+    "cues": [
+        {
+            "id": "UIConfirm",
+            "category": "UI",
+            "clipPaths": [
+                "Assets/_Project/Generated/SFX/UIConfirm.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        },
+        {
+            "id": "UIBack",
+            "category": "UI",
+            "clipPaths": [
+                "Assets/_Project/Generated/SFX/UIBack.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        },
+        {
+            "id": "UIInvalid",
+            "category": "UI",
+            "clipPaths": [
+                "Assets/_Project/Generated/SFX/UIInvalid.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        },
+        {
+            "id": "TaskProgress",
+            "category": "UI",
+            "clipPaths": [
+                "Assets/_Project/Generated/SFX/TaskProgress.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        },
+        {
+            "id": "TaskComplete",
+            "category": "UI",
+            "clipPaths": [
+                "Assets/_Project/Generated/Complete.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        },
+        {
+            "id": "WaterSplash",
+            "category": "Gameplay",
+            "clipPaths": [
+                "Assets/_Project/Generated/SFX/WaterSplash.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        },
+        {
+            "id": "DishClean",
+            "category": "Gameplay",
+            "clipPaths": [
+                "Assets/_Project/Generated/DishClean.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        },
+        {
+            "id": "MarbleShoot",
+            "category": "Gameplay",
+            "clipPaths": [
+                "Assets/_Project/Generated/MarbleShoot.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        },
+        {
+            "id": "MarbleHit",
+            "category": "Gameplay",
+            "clipPaths": [
+                "Assets/_Project/Generated/SFX/MarbleHit.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        },
+        {
+            "id": "MarbleRoll",
+            "category": "Gameplay",
+            "clipPaths": [
+                "Assets/_Project/Generated/SFX/MarbleRoll.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        },
+        {
+            "id": "Purchase",
+            "category": "UI",
+            "clipPaths": [
+                "Assets/_Project/Generated/Purchase.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        },
+        {
+            "id": "PurchaseFail",
+            "category": "UI",
+            "clipPaths": [
+                "Assets/_Project/Generated/PurchaseFail.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        },
+        {
+            "id": "MemoryCollected",
+            "category": "UI",
+            "clipPaths": [
+                "Assets/_Project/Generated/Memory.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        },
+        {
+            "id": "AllMemoriesComplete",
+            "category": "UI",
+            "clipPaths": [
+                "Assets/_Project/Generated/Complete.wav"
+            ],
+            "placeholder": true,
+            "source": "KuTy generated fallback",
+            "license": "project-owned generated tone",
+            "status": "replace-before-release"
+        }
+    ]
+}

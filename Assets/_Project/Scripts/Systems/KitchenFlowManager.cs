@@ -89,7 +89,7 @@ public class KitchenFlowManager : MonoBehaviour
             {
                 t.isCompleted = true;
                 changed = true;
-                AudioManager.Instance?.PlaySFX("ui_select"); // Phát âm thanh hoàn thành
+                AudioManager.Instance?.PlaySFX(SfxId.UIConfirm); // Phát âm thanh hoàn thành
             }
         }
         if (changed) UpdateUIText();

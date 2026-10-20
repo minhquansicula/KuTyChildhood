@@ -97,7 +97,7 @@ public static class KuTyOfficeIntroSetup
             new OfficeIntroController.Line {speaker="SẾP",text="Số liệu trong file này là sao?\nNhiều ô còn sai mà cậu đã gửi rồi à?",duration=7},
             new OfficeIntroController.Line {speaker="SẾP",text="Khách hàng đang chờ bản chốt.\nTôi đã nhắc cậu từ sáng rồi.",duration=5},
             new OfficeIntroController.Line {speaker="",text="",duration=.8f,slam=true},
-            new OfficeIntroController.Line {speaker="SẾP",text="Quay về bàn, kiểm tra lại file Excel.\nXong thì gửi cho tôi trước khi tan ca.",duration=5},
+            new OfficeIntroController.Line {speaker="SẾP",text="Quay về bàn, kiểm tra lại file Excel.\nXong thì in một bản, mang lại đây cho tôi ký.",duration=5},
             new OfficeIntroController.Line {speaker="TÝ",text="Dạ… em kiểm tra lại ngay ạ.",duration=3},
             new OfficeIntroController.Line {speaker="",text="",duration=1}
         };

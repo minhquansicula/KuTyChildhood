@@ -1,9 +1,22 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum OfficePhase { Opening, ReturnToDesk, ExcelAuditing, AfterWork, Rest, Leaving }
+public enum OfficePhase
+{
+    Opening,
+    ReturnToDesk,
+    ExcelAuditing,
+    AfterWork,
+    Rest,
+    Leaving,
+    PrintingReport,
+    CollectPrint,
+    DeliverReport,
+    WaterBreak
+}
 public enum OfficeInteractionKind { Laptop, Documents, Chair, Window, Boss }
 
 /// <summary>Coordinates the complete Scene 1 narrative and work flow.</summary>
@@ -37,7 +50,7 @@ public sealed class OfficeSceneController : MonoBehaviour
     [Header("Pacing")]
     [SerializeField] private float objectiveDelaySeconds = 2.5f;
     [SerializeField] private float bossReminderSeconds = 28f;
-    [SerializeField] private float afterWorkFreedomSeconds = 15f;
+    [SerializeField, Min(.5f)] private float printerDurationSeconds = 3f;
     [SerializeField] private Color dreamFade = new Color(1f, .84f, .47f);
 
     public OfficePhase Phase { get; private set; } = OfficePhase.Opening;
@@ -45,21 +58,33 @@ public sealed class OfficeSceneController : MonoBehaviour
     public bool IsSeated { get; private set; }
     public float WorkProgress { get; private set; }
     public string ObjectiveText { get; private set; } = string.Empty;
+    public bool HasPrintedReport { get; private set; }
+    public bool ReportDelivered { get; private set; }
+    public bool WaterBreakCompleted { get; private set; }
+    public event Action<OfficePhase, OfficePhase> PhaseChanged;
+    public event Action<bool> WorkingChanged;
+    public event Action<bool> SeatedChanged;
+    public event Action ObjectiveChanged;
 
     private Coroutine subtitleRoutine;
     private Coroutine seatRoutine;
     private Coroutine openingRoutine;
-    private Coroutine afterWorkRoutine;
+    private Coroutine printRoutine;
     private float standingCamY = 1.55f;
     private float reminderTimer;
     private bool nearChair;
     private bool memoryTransitionRequested;
+    private bool builtInObjectiveVisible = true;
+    private bool guidanceSubtitleActive;
     private float afternoonLightInitialIntensity;
+    private OfficeSceneEffects sceneEffects;
 
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+        sceneEffects = GetComponent<OfficeSceneEffects>();
+        if (sceneEffects == null) sceneEffects = gameObject.AddComponent<OfficeSceneEffects>();
         ConfigureHudPresentation();
         if (subtitlePanel != null) subtitlePanel.SetActive(false);
         SetControlsHintVisible(false);
@@ -122,7 +147,7 @@ public sealed class OfficeSceneController : MonoBehaviour
         {
             "SỐ LIỆU TRONG FILE NÀY LÀ SAO?!", "NHIỀU Ô CÒN SAI MÀ CẬU ĐÃ GỬI RỒI À?!",
             "KHÁCH HÀNG ĐANG CHỜ BẢN CHỐT!", "TÔI ĐÃ NHẮC CẬU TỪ SÁNG RỒI!",
-            "QUAY VỀ BÀN, KIỂM TRA LẠI FILE EXCEL!", "XONG THÌ GỬI TRƯỚC KHI TAN CA!"
+            "QUAY VỀ BÀN, KIỂM TRA LẠI FILE EXCEL!", "XONG THÌ IN MỘT BẢN, MANG LẠI ĐÂY CHO TÔI!"
         };
         float[] weights = { .12f, .17f, .17f, .18f, .20f, .16f };
         for (int i = 0; i < lines.Length; i++)
@@ -137,7 +162,8 @@ public sealed class OfficeSceneController : MonoBehaviour
     {
         if (IsWorking || seatRoutine != null || Phase == OfficePhase.Opening || Phase == OfficePhase.Leaving) return string.Empty;
         if (kind == OfficeInteractionKind.Window) return "[E] Nhìn ra phố";
-        if (kind == OfficeInteractionKind.Boss) return "[E] Nhìn về phía phòng sếp";
+        if (kind == OfficeInteractionKind.Boss)
+            return Phase == OfficePhase.DeliverReport ? "[E] Gõ cửa và nộp báo cáo" : "[E] Nhìn về phía phòng sếp";
         if (kind == OfficeInteractionKind.Chair)
         {
             if (!IsSeated) return "[E] Ngồi vào ghế";
@@ -150,7 +176,7 @@ public sealed class OfficeSceneController : MonoBehaviour
             case OfficePhase.ReturnToDesk: return "[E] Mở báo cáo Excel";
             case OfficePhase.ExcelAuditing: return "[E] Tiếp tục báo cáo Excel";
             case OfficePhase.AfterWork: return "[E] Kiểm tra trạng thái báo cáo";
-            case OfficePhase.Rest: return "[E] Nghỉ một chút";
+            case OfficePhase.Rest: return "[E] Gục xuống nghỉ một chút";
             default: return string.Empty;
         }
     }
@@ -166,6 +192,15 @@ public sealed class OfficeSceneController : MonoBehaviour
         }
         if (kind == OfficeInteractionKind.Boss)
         {
+            if (Phase == OfficePhase.DeliverReport)
+            {
+                ReportDelivered = true;
+                atmosphere?.PlayPaper();
+                sceneEffects?.PlayReportDelivered();
+                SetPhase(OfficePhase.WaterBreak);
+                ShowSubtitle("SẾP", "Để trên bàn đi. Được rồi, cậu về đi.", 4f);
+                return;
+            }
             ShowSubtitle("TÝ", "Bóng người sau lớp kính mờ vẫn khiến mình nghẹt thở.", 3.5f);
             return;
         }
@@ -188,8 +223,12 @@ public sealed class OfficeSceneController : MonoBehaviour
         switch (kind)
         {
             case OfficeMicroInteractionKind.Clock: return "[E] Nhìn đồng hồ và deadline";
-            case OfficeMicroInteractionKind.WaterCooler: return "[E] Uống một ngụm nước";
-            case OfficeMicroInteractionKind.PrinterPaper: return "[E] Nhặt tài liệu từ máy in";
+            case OfficeMicroInteractionKind.WaterCooler:
+                return Phase == OfficePhase.WaterBreak ? "[E] Lấy nước uống" : "[E] Uống một ngụm nước";
+            case OfficeMicroInteractionKind.PrinterPaper:
+                if (Phase == OfficePhase.PrintingReport) return "[E] Kiểm tra máy photo";
+                if (Phase == OfficePhase.CollectPrint) return "[E] Lấy bản báo cáo";
+                return "[E] Kiểm tra máy photo";
             case OfficeMicroInteractionKind.ColdCoffee: return "[E] Cầm cốc cà phê";
             case OfficeMicroInteractionKind.ChildhoodMarble: return "[E] Nhìn viên bi cũ";
             default: return string.Empty;
@@ -208,11 +247,17 @@ public sealed class OfficeSceneController : MonoBehaviour
                 break;
             case OfficeMicroInteractionKind.WaterCooler:
                 atmosphere?.PlayWater();
-                ShowSubtitle("TÝ", "Một ngụm nước. Mình phải tỉnh táo thêm chút nữa.", 3f);
+                sceneEffects?.PlayWater();
+                if (Phase == OfficePhase.WaterBreak)
+                {
+                    WaterBreakCompleted = true;
+                    SetPhase(OfficePhase.Rest);
+                    ShowSubtitle("TÝ", "Sao vẫn choáng thế này... về ghế ngồi một lát đã.", 4f);
+                }
+                else ShowSubtitle("TÝ", "Một ngụm nước. Mình phải tỉnh táo thêm chút nữa.", 3f);
                 break;
             case OfficeMicroInteractionKind.PrinterPaper:
-                atmosphere?.PlayPrinter(); atmosphere?.PlayPaper();
-                ShowSubtitle("TÀI LIỆU", "Bản in mới vẫn còn ấm. Lại thêm một việc cần xử lý.", 3.5f);
+                HandlePrinterInteraction();
                 break;
             case OfficeMicroInteractionKind.ColdCoffee:
                 atmosphere?.PlayCup();
@@ -228,7 +273,7 @@ public sealed class OfficeSceneController : MonoBehaviour
     private void StartExcelWork()
     {
         if (IsWorking) return;
-        IsWorking = true;
+        SetWorking(true);
         RefreshObjective();
         SetControlsHintVisible(false);
         GameManager.Instance?.AcquireInput(this);
@@ -237,7 +282,7 @@ public sealed class OfficeSceneController : MonoBehaviour
             atmosphere?.StartWorkTyping();
             return;
         }
-        IsWorking = false;
+        SetWorking(false);
         SetControlsHintVisible(true);
         RefreshObjective();
         atmosphere?.StopWorkTyping();
@@ -248,7 +293,7 @@ public sealed class OfficeSceneController : MonoBehaviour
     // Compatibility entry point for older scene assets. The current Scene 1 flow only uses Excel.
     public void CompleteWorkTask(OfficeWorkTask completed)
     {
-        IsWorking = false;
+        SetWorking(false);
         atmosphere?.StopWorkTyping();
         GameManager.Instance?.ReleaseInput(this);
         SetPhase(OfficePhase.ExcelAuditing);
@@ -260,22 +305,22 @@ public sealed class OfficeSceneController : MonoBehaviour
         // Ignore stale callbacks when the Excel task is no longer active.
         if (Phase != OfficePhase.ExcelAuditing || !IsWorking) return;
 
-        IsWorking = false;
+        SetWorking(false);
         atmosphere?.StopWorkTyping();
         excelMiniGame?.ClosePanel();
         SetControlsHintVisible(true);
         GameManager.Instance?.ReleaseInput(this);
         
         WorkProgress = 1f;
-        SetPhase(OfficePhase.AfterWork);
-        atmosphere?.PlayEmailNotification();
+        SetPhase(OfficePhase.PrintingReport);
+        atmosphere?.PlayPrinter();
         if (afternoonLight != null)
         {
             if (afternoonLightInitialIntensity <= 0f) afternoonLightInitialIntensity = afternoonLight.intensity;
             afternoonLight.intensity = afternoonLightInitialIntensity * .62f;
         }
-        if (afterWorkRoutine != null) StopCoroutine(afterWorkRoutine);
-        afterWorkRoutine = StartCoroutine(AfterWorkBeat());
+        if (printRoutine != null) StopCoroutine(printRoutine);
+        printRoutine = StartCoroutine(PrintReportBeat());
     }
 
     public void UpdateReportMiniGameProgress(float progress) => WorkProgress = Mathf.Clamp01(progress);
@@ -283,7 +328,7 @@ public sealed class OfficeSceneController : MonoBehaviour
 
     public void CancelWork()
     {
-        IsWorking = false;
+        SetWorking(false);
         atmosphere?.StopWorkTyping();
         if (excelMiniGame != null) excelMiniGame.ClosePanel();
         SetControlsHintVisible(true);
@@ -291,16 +336,46 @@ public sealed class OfficeSceneController : MonoBehaviour
         RefreshObjective();
     }
 
-    private IEnumerator AfterWorkBeat()
+    private IEnumerator PrintReportBeat()
     {
-        ShowSubtitle("HỆ THỐNG", "Đã gửi báo cáo Excel thành công.", 2.5f);
-        yield return new WaitForSeconds(afterWorkFreedomSeconds);
-        if (Phase == OfficePhase.AfterWork)
+        ShowSubtitle("HỆ THỐNG", "Dữ liệu chính xác. Đã gửi lệnh in tới máy photo.", 2.8f);
+        yield return new WaitForSeconds(printerDurationSeconds);
+        if (Phase == OfficePhase.PrintingReport)
         {
-            ShowSubtitle("TÝ", "Xong rồi... mình thực sự không còn sức nữa.", 4f);
-            SetPhase(OfficePhase.Rest);
+            SetPhase(OfficePhase.CollectPrint);
+            ShowSubtitle("TÝ", "Máy photo ở cạnh bình nước. Lấy bản in rồi mang cho sếp là xong.", 4f);
         }
-        afterWorkRoutine = null;
+        printRoutine = null;
+    }
+
+    private void HandlePrinterInteraction()
+    {
+        switch (Phase)
+        {
+            case OfficePhase.PrintingReport:
+                ShowSubtitle("MÁY PHOTO", "Máy vẫn đang in... chờ thêm một chút.", 2.5f);
+                break;
+            case OfficePhase.CollectPrint:
+                HasPrintedReport = true;
+                atmosphere?.PlayPaper();
+                sceneEffects?.PlayPaperPickup();
+                SetPhase(OfficePhase.DeliverReport);
+                ShowSubtitle("TÝ", "Bản in còn ấm. Mang đến phòng sếp thôi.", 3f);
+                break;
+            case OfficePhase.ReturnToDesk:
+            case OfficePhase.ExcelAuditing:
+                ShowSubtitle("TÝ", "Mình phải sửa xong file Excel trước khi in.", 3f);
+                break;
+            case OfficePhase.DeliverReport:
+            case OfficePhase.WaterBreak:
+            case OfficePhase.Rest:
+            case OfficePhase.AfterWork:
+                ShowSubtitle("TÝ", "Không cần in thêm bản nào nữa.", 2.5f);
+                break;
+            default:
+                ShowSubtitle("MÁY PHOTO", "Không có lệnh in nào trong hàng đợi.", 2.5f);
+                break;
+        }
     }
 
     private void BeginExhaustion()
@@ -330,31 +405,43 @@ public sealed class OfficeSceneController : MonoBehaviour
 
     private void SetPhase(OfficePhase next, bool showObjective = true)
     {
+        OfficePhase previous = Phase;
         Phase = next;
         switch (next)
         {
             case OfficePhase.Opening: ObjectiveText = string.Empty; break;
             case OfficePhase.ReturnToDesk: ObjectiveText = "Quay lại bàn và mở báo cáo Excel."; break;
             case OfficePhase.ExcelAuditing: ObjectiveText = "Đối chiếu số liệu và hoàn thiện báo cáo Excel."; break;
-            case OfficePhase.AfterWork: ObjectiveText = "Báo cáo đã gửi. Hãy rời mắt khỏi màn hình một chút."; break;
+            case OfficePhase.PrintingReport: ObjectiveText = "Chờ máy photo in báo cáo."; break;
+            case OfficePhase.CollectPrint: ObjectiveText = "Lấy bản báo cáo ở máy photo."; break;
+            case OfficePhase.DeliverReport: ObjectiveText = "Mang bản báo cáo đến cửa phòng sếp."; break;
+            case OfficePhase.WaterBreak: ObjectiveText = "Đến bình nước uống một chút."; break;
+            case OfficePhase.AfterWork: ObjectiveText = "Báo cáo đã hoàn tất."; break;
             case OfficePhase.Rest:
                 ObjectiveText = IsSeated ? "Nghỉ một chút." : "Quay lại ghế và nghỉ một chút.";
                 nearChair = false;
                 break;
             default: ObjectiveText = "..."; break;
         }
-        bool sent = next == OfficePhase.AfterWork || next == OfficePhase.Rest || next == OfficePhase.Leaving;
-        if (screenWarning != null) screenWarning.text = sent ? "BÁO CÁO ĐÃ GỬI" : "REPORT_Q3_FINAL.xlsx";
-        if (clockText != null) clockText.text = sent ? "18:17" : "17:42";
+        bool corrected = next == OfficePhase.PrintingReport || next == OfficePhase.CollectPrint ||
+            next == OfficePhase.DeliverReport;
+        bool delivered = next == OfficePhase.WaterBreak || next == OfficePhase.AfterWork ||
+            next == OfficePhase.Rest || next == OfficePhase.Leaving;
+        if (screenWarning != null) screenWarning.text = delivered ? "BÁO CÁO ĐÃ NỘP" :
+            corrected ? "BÁO CÁO ĐÃ SỬA" : "REPORT_Q3_FINAL.xlsx";
+        if (clockText != null) clockText.text = corrected || delivered ? "18:17" : "17:42";
         if (showObjective) RefreshObjective();
+        sceneEffects?.SetPhase(next);
+        if (previous != next) PhaseChanged?.Invoke(previous, next);
     }
 
     private void RefreshObjective()
     {
         if (Phase == OfficePhase.Rest) ObjectiveText = IsSeated ? "Nhìn máy tính, nhấn E để nghỉ một chút." : "Quay lại ghế và nghỉ một chút.";
+        ObjectiveChanged?.Invoke();
         if (objectiveText == null) return;
         CanvasGroup group = objectiveText.GetComponentInParent<CanvasGroup>();
-        if (group != null) group.alpha = IsWorking || Phase == OfficePhase.Leaving ? 0f : 1f;
+        if (group != null) group.alpha = builtInObjectiveVisible && !IsWorking && Phase != OfficePhase.Leaving ? 1f : 0f;
         if (string.IsNullOrEmpty(ObjectiveText)) { objectiveText.text = string.Empty; return; }
         string hint = IsSeated && Phase != OfficePhase.Rest && Phase != OfficePhase.Leaving
             ? "  <color=#8FA4B8>•  <b>SPACE</b> Đứng dậy</color>"
@@ -365,7 +452,8 @@ public sealed class OfficeSceneController : MonoBehaviour
     public void SitDown(bool instant = false)
     {
         if (IsSeated || playerTransform == null || chairAnchor == null) return;
-        IsSeated = true;
+        SetSeated(true);
+        atmosphere?.PlayChair();
         FirstPersonController fpc = playerTransform.GetComponent<FirstPersonController>();
         if (fpc != null)
         {
@@ -394,7 +482,8 @@ public sealed class OfficeSceneController : MonoBehaviour
             ShowSubtitle("HỆ THỐNG", "Lối đứng dậy đang bị chắn.", 2f);
             return;
         }
-        IsSeated = false;
+        SetSeated(false);
+        atmosphere?.PlayChair();
         if (seatRoutine != null) StopCoroutine(seatRoutine);
         FirstPersonController fpc = playerTransform.GetComponent<FirstPersonController>();
         if (instant)
@@ -505,8 +594,23 @@ public sealed class OfficeSceneController : MonoBehaviour
 
     private static bool IsWorkPhase(OfficePhase phase) => phase == OfficePhase.ExcelAuditing;
 
+    private void SetWorking(bool value)
+    {
+        if (IsWorking == value) return;
+        IsWorking = value;
+        WorkingChanged?.Invoke(value);
+    }
+
+    private void SetSeated(bool value)
+    {
+        if (IsSeated == value) return;
+        IsSeated = value;
+        SeatedChanged?.Invoke(value);
+    }
+
     private void ShowSubtitle(string speaker, string line, float seconds)
     {
+        guidanceSubtitleActive = false;
         if (subtitleRoutine != null) StopCoroutine(subtitleRoutine);
         subtitleRoutine = StartCoroutine(Subtitle(speaker, line, seconds));
     }
@@ -514,10 +618,34 @@ public sealed class OfficeSceneController : MonoBehaviour
     public void ShowCinematicSubtitle(string speaker, string line, float seconds) =>
         ShowSubtitle(speaker, line, seconds);
 
+    public void ShowGuidanceHint(string line)
+    {
+        if (string.IsNullOrEmpty(line)) return;
+        guidanceSubtitleActive = true;
+        if (subtitleRoutine != null) StopCoroutine(subtitleRoutine);
+        subtitleRoutine = StartCoroutine(Subtitle("GỢI Ý", line, 4.5f));
+    }
+
+    public void HideGuidanceHint()
+    {
+        if (!guidanceSubtitleActive) return;
+        if (subtitleRoutine != null) StopCoroutine(subtitleRoutine);
+        subtitleRoutine = null;
+        guidanceSubtitleActive = false;
+        if (subtitlePanel != null) subtitlePanel.SetActive(false);
+    }
+
+    public void SetBuiltInObjectiveVisible(bool visible)
+    {
+        builtInObjectiveVisible = visible;
+        RefreshObjective();
+    }
+
     public void HideCinematicSubtitle()
     {
         if (subtitleRoutine != null) StopCoroutine(subtitleRoutine);
         subtitleRoutine = null;
+        guidanceSubtitleActive = false;
         if (subtitlePanel != null) subtitlePanel.SetActive(false);
     }
 
@@ -540,7 +668,7 @@ public sealed class OfficeSceneController : MonoBehaviour
     public void AdoptExternalSeatedState()
     {
         if (!openingControlledExternally || playerTransform == null) return;
-        IsSeated = true;
+        SetSeated(true);
         FirstPersonController fpc = playerTransform.GetComponent<FirstPersonController>();
         if (fpc != null)
         {
@@ -566,6 +694,7 @@ public sealed class OfficeSceneController : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         if (subtitlePanel != null) subtitlePanel.SetActive(false);
         subtitleRoutine = null;
+        guidanceSubtitleActive = false;
     }
 
     private static string BuildStyledSubtitle(string speaker, string line)
@@ -664,8 +793,11 @@ public sealed class OfficeSceneController : MonoBehaviour
 
     public void MakeRestAvailableForTests()
     {
-        if (afterWorkRoutine != null) StopCoroutine(afterWorkRoutine);
-        afterWorkRoutine = null;
+        if (printRoutine != null) StopCoroutine(printRoutine);
+        printRoutine = null;
+        HasPrintedReport = true;
+        ReportDelivered = true;
+        WaterBreakCompleted = true;
         SetPhase(OfficePhase.Rest);
     }
 #endif

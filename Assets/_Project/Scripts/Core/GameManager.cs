@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameState currentState = GameState.MainMenu;
     public GameState CurrentState => currentState;
     public event System.Action<GameState> OnGameStateChanged;
+    public event System.Action<bool> OnPauseChanged;
     private readonly HashSet<Object> inputOwners = new HashSet<Object>();
     public bool IsPaused { get; private set; }
     public bool InputBlocked => IsPaused || inputOwners.Count > 0 ||
@@ -28,8 +29,10 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         inputOwners.Clear();
+        bool wasPaused = IsPaused;
         IsPaused = false;
         Time.timeScale = 1f;
+        if (wasPaused) OnPauseChanged?.Invoke(false);
         SetGameState(scene.name == SceneNames.Act1 ? GameState.Act1_RealWorld :
             scene.name == SceneNames.Act2_Home ? GameState.Act2_MemoryWorld_Home :
             scene.name == SceneNames.Act3_OutSide ? GameState.Act3_MemoryWorld_OutSide :
@@ -60,7 +63,16 @@ public class GameManager : MonoBehaviour
         Cursor.visible = visible;
         Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
     }
-    public void StartNewGame() => Navigate(SceneNames.Act1);
+    public void StartNewGame()
+    {
+        Scene2Checkpoint.Clear();
+        Navigate(SceneNames.Act1);
+    }
+    public void ContinueGame()
+    {
+        if (!Scene2Checkpoint.HasCheckpoint) return;
+        Navigate(Scene2Checkpoint.ResumeScene);
+    }
     public void EnterMemoryWorld() => Navigate(SceneNames.Act2_Home);
     public void EnterMemoryWorldOutSide() => Navigate(SceneNames.Act3_OutSide);
     public void EnterEnding() => Navigate(SceneNames.Act_Ending);
@@ -73,8 +85,10 @@ public class GameManager : MonoBehaviour
     }
     public void SetPaused(bool paused)
     {
+        if (IsPaused == paused) return;
         IsPaused = paused;
         Time.timeScale = paused ? 0f : 1f;
+        OnPauseChanged?.Invoke(paused);
         RefreshCursor();
     }
     public void QuitGame()

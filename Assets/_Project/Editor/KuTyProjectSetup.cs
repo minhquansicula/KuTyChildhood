@@ -351,9 +351,13 @@ public static class KuTyProjectSetup
         var bgm = go.AddComponent<AudioSource>();
         var sfx = go.AddComponent<AudioSource>();
         var ambient = go.AddComponent<AudioSource>();
-        bgm.playOnAwake = sfx.playOnAwake = ambient.playOnAwake = false;
+        var ui = go.AddComponent<AudioSource>();
+        bgm.playOnAwake = sfx.playOnAwake = ambient.playOnAwake = ui.playOnAwake = false;
+        ui.ignoreListenerPause = true;
         Set(audio, "bgmSource", bgm); Set(audio, "sfxSource", sfx); Set(audio, "ambientSource", ambient);
+        Set(audio, "uiSource", ui);
         Set(audio, "soundLibrary", library);
+        Set(audio, "sfxCatalog", AssetDatabase.LoadAssetAtPath<SfxCatalog>("Assets/_Project/Data/Audio/SfxCatalog.asset"));
         PrefabUtility.SaveAsPrefabAsset(go, Root + "/Resources/KuTyAudio.prefab");
         EditorUtility.SetDirty(library);
         UnityEngine.Object.DestroyImmediate(go);

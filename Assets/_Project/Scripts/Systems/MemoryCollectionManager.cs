@@ -22,11 +22,18 @@ public class MemoryCollectionManager : MonoBehaviour
     }
     private void OnDestroy() { if (Instance == this) Instance = null; }
     public bool HasCollected(MemoryType type) => collected.Contains(type);
+    /// <summary>Restore a memory across the home/outdoor scene boundary without replaying its discovery dialogue.</summary>
+    public bool RestoreMemory(MemoryType type)
+    {
+        if (!Enum.IsDefined(typeof(MemoryType), type) || !collected.Add(type)) return false;
+        OnMemoryCollected?.Invoke(type, collected.Count);
+        return true;
+    }
     public bool CollectMemory(MemoryType type)
     {
         if (!Enum.IsDefined(typeof(MemoryType), type) || !collected.Add(type)) return false;
         OnMemoryCollected?.Invoke(type, collected.Count);
-        AudioManager.Instance?.PlaySFX("memory_collected");
+        AudioManager.Instance?.PlaySFX(SfxId.MemoryCollected);
         DialogueUI.Instance?.ShowDialogue(GetMemoryName(type), GetMemoryDescription(type), 3f);
         if (collected.Count == TOTAL_MEMORIES) OnAllMemoriesCollected?.Invoke();
         return true;

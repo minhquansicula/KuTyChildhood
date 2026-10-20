@@ -35,7 +35,10 @@ public class JournalUI : MonoBehaviour
         GameManager.Instance?.ReleaseInput(this);
         if (Instance == this) Instance = null;
     }
-    private void Update() { if (IsOpen && Input.GetKeyDown(KeyCode.Escape)) Close(); }
+    private void Update()
+    {
+        if (IsOpen && PauseUI.LastResumeFrame != Time.frameCount && Input.GetKeyDown(KeyCode.Escape)) Close();
+    }
     private void QuestChanged(QuestStep step) => Refresh();
     private void MemoryCollected(MemoryType type, int count) => Refresh();
     public void Open()

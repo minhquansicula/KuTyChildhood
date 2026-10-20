@@ -56,9 +56,21 @@ public class ExcelDataAuditorGame : MonoBehaviour
     private CanvasGroup mainPanelCanvasGroup;
     private Coroutine revealRoutine;
     private bool attemptStarted;
+    private bool attemptRunning;
+    private bool tutorialCompleted;
+    private bool tutorialActive;
+    private bool relaxedMode;
+    private bool retryPending;
+    private ExcelTutorialController tutorial;
     private Image chatBackdrop;
     private TextMeshProUGUI formulaHint;
+    private Vector3 feedbackBaseScale = Vector3.one;
+    private float feedbackPulseRemaining;
     private float AttemptDuration => timeLimit > 0f ? Mathf.Max(1f, timeLimit) : 60f;
+
+    public bool IsTutorialActive => tutorialActive;
+    public bool IsAttemptRunning => attemptRunning;
+    public bool IsRelaxedMode => relaxedMode;
 
     public class SheetData
     {
@@ -348,10 +360,11 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
     private void SwitchSheet(int index)
     {
-        if (!isGameActive || GameManager.Instance?.IsPaused == true ||
+        if (!isGameActive || !attemptRunning || tutorialActive || GameManager.Instance?.IsPaused == true ||
             (chatPopupPanel != null && chatPopupPanel.activeSelf)) return;
         if (index == currentSheetIndex) return;
         currentSheetIndex = index;
+        AudioManager.Instance?.PlaySFX(SfxId.UIConfirm);
         UpdateTabUI();
         GenerateGrid();
         SetFeedback($"Đang xem sheet {sheets[currentSheetIndex].Name}.", new Color(0.25f, 0.32f, 0.28f, 1f), "•");
@@ -378,6 +391,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
     private void Awake()
     {
+        if (warningFeedbackText != null) feedbackBaseScale = warningFeedbackText.rectTransform.localScale;
         if (submitButton != null) 
         {
             var tmp = submitButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -390,6 +404,9 @@ public class ExcelDataAuditorGame : MonoBehaviour
             Debug.LogError("Excel mini-game main panel is not configured.", this);
             return;
         }
+
+        tutorial = GetComponent<ExcelTutorialController>();
+        if (tutorial == null) tutorial = gameObject.AddComponent<ExcelTutorialController>();
 
         mainPanelCanvasGroup = mainPanel.GetComponent<CanvasGroup>();
         if (mainPanelCanvasGroup == null) mainPanelCanvasGroup = mainPanel.AddComponent<CanvasGroup>();
@@ -575,7 +592,16 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
     private void Update()
     {
-        if (!isGameActive || GameManager.Instance?.IsPaused == true) return;
+        if (feedbackPulseRemaining > 0f && GameManager.Instance?.IsPaused != true)
+        {
+            feedbackPulseRemaining = Mathf.Max(0f, feedbackPulseRemaining - Time.deltaTime);
+            if (warningFeedbackText != null)
+            {
+                float pulse = Mathf.Sin((1f - feedbackPulseRemaining / .3f) * Mathf.PI);
+                warningFeedbackText.rectTransform.localScale = feedbackBaseScale * (1f + .09f * pulse);
+            }
+        }
+        if (!isGameActive || !attemptRunning || tutorialActive || GameManager.Instance?.IsPaused == true) return;
         bool submitShortcut = (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) ||
                                Input.GetKey(KeyCode.LeftCommand) || Input.GetKey(KeyCode.RightCommand)) &&
                               Input.GetKeyDown(KeyCode.Return);
@@ -593,7 +619,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
     public bool Open(OfficeSceneController controller)
     {
         // Repeated UI events must not start duplicate timer/chat coroutines.
-        if (isGameActive) return true;
+        if (isGameActive || retryPending) return true;
 
         if (mainPanel == null || gridParent == null || cellPrefab == null)
         {
@@ -604,8 +630,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
         gameObject.SetActive(true);
         owner = controller;
         isGameActive = true;
-        if (!attemptStarted || timeRemaining <= 0f) timeRemaining = AttemptDuration;
-        attemptStarted = true;
+        attemptRunning = false;
         
         mainPanel.SetActive(true);
         mainPanel.transform.SetAsLastSibling();
@@ -617,17 +642,52 @@ public class ExcelDataAuditorGame : MonoBehaviour
         
         UpdateTabUI();
         GenerateGrid();
+        tutorialActive = !tutorialCompleted;
         UpdateTimerUI();
         PlayRevealAnimation();
-        StartCoroutine(TimerRoutine());
-        StartCoroutine(BossDistractionRoutine());
+        if (!tutorialCompleted)
+        {
+            tutorialActive = true;
+            tutorial.Show(mainPanel.transform as RectTransform, globalFont, BeginAttempt);
+            SetFeedback("Chọn cách chơi sau khi đọc hướng dẫn. Đồng hồ chưa bắt đầu.", excelGreen, "?");
+        }
+        else BeginAttempt(relaxedMode ? ExcelAssistMode.Relaxed : ExcelAssistMode.Timed);
         return true;
+    }
+
+    public void BeginAttempt(ExcelAssistMode mode)
+    {
+        if (!isGameActive || mainPanel == null || !mainPanel.activeInHierarchy) return;
+        if (attemptRunning) StopAllCoroutines();
+        tutorialActive = false;
+        tutorial?.HideWithoutSelection();
+        tutorialCompleted = true;
+        relaxedMode = mode == ExcelAssistMode.Relaxed;
+        if (!attemptStarted || timeRemaining <= 0f) timeRemaining = AttemptDuration;
+        attemptStarted = true;
+        attemptRunning = true;
+        retryPending = false;
+        if (submitButton != null) submitButton.interactable = true;
+        UpdateTimerUI();
+        SetFeedback(relaxedMode
+            ? "Chế độ Thư thả: kiểm tra hai ô được tô màu, không giới hạn thời gian."
+            : "Nhập giá trị đúng vào các ô được tô màu.",
+            new Color(0.25f, 0.32f, 0.28f, 1f), "•");
+        FocusFirstEditableCell();
+        if (!relaxedMode) StartCoroutine(TimerRoutine());
+        StartCoroutine(BossDistractionRoutine());
     }
 
     public void ClosePanel()
     {
+        feedbackPulseRemaining = 0f;
+        if (warningFeedbackText != null) warningFeedbackText.rectTransform.localScale = feedbackBaseScale;
         isGameActive = false;
+        attemptRunning = false;
+        retryPending = false;
         StopAllCoroutines();
+        tutorialActive = false;
+        tutorial?.HideWithoutSelection();
         revealRoutine = null;
         if (mainPanelCanvasGroup != null) mainPanelCanvasGroup.alpha = 1f;
         if (chatPopupPanel != null) chatPopupPanel.SetActive(false);
@@ -817,7 +877,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
     private IEnumerator TimerRoutine()
     {
-        while (isGameActive && timeRemaining > 0)
+        while (isGameActive && attemptRunning && !relaxedMode && timeRemaining > 0)
         {
             if (chatPopupPanel != null && chatPopupPanel.activeSelf)
             {
@@ -829,7 +889,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
             yield return null;
         }
 
-        if (timeRemaining <= 0)
+        if (isGameActive && attemptRunning && !relaxedMode && timeRemaining <= 0)
         {
             FailGame("HẾT THỜI GIAN\nBình tĩnh kiểm tra lại; dữ liệu bạn đã nhập vẫn được giữ nguyên.");
         }
@@ -837,7 +897,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
     private void UpdateTimerUI()
     {
-        float fill = Mathf.Clamp01(timeRemaining / AttemptDuration);
+        float fill = relaxedMode ? 1f : Mathf.Clamp01(timeRemaining / AttemptDuration);
         if (timerProgressBar != null)
         {
             timerProgressBar.anchorMax = new Vector2(fill, 1f);
@@ -850,6 +910,18 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
         if (timerText != null)
         {
+            if (tutorialActive)
+            {
+                timerText.text = "CHƯA BẮT ĐẦU";
+                timerText.color = new Color(.75f, 1f, .85f, 1f);
+                return;
+            }
+            if (relaxedMode)
+            {
+                timerText.text = "THƯ THẢ · KHÔNG GIỚI HẠN";
+                timerText.color = new Color(.75f, 1f, .85f, 1f);
+                return;
+            }
             int seconds = Mathf.Max(0, Mathf.CeilToInt(timeRemaining));
             timerText.text = $"CÒN  {seconds / 60:00}:{seconds % 60:00}";
             timerText.color = fill <= 0.25f
@@ -860,12 +932,12 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
     private IEnumerator BossDistractionRoutine()
     {
-        while (isGameActive)
+        while (isGameActive && attemptRunning)
         {
             // Wait 10 to 18 seconds before popping up
             yield return new WaitForSeconds(Random.Range(10f, 18f));
             
-            if (!isGameActive) yield break;
+            if (!isGameActive || !attemptRunning) yield break;
 
             ShowChatPopup();
 
@@ -879,6 +951,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
     private void ShowChatPopup()
     {
+        if (!isGameActive || !attemptRunning || tutorialActive) return;
         if (chatPopupPanel == null || chatSenderText == null || chatContentText == null ||
             chatResponseButtonText == null || randomMessages == null || randomMessages.Count == 0) return;
 
@@ -904,12 +977,12 @@ public class ExcelDataAuditorGame : MonoBehaviour
         if (GameManager.Instance?.IsPaused == true) return;
         if (chatPopupPanel != null) chatPopupPanel.SetActive(false);
         if (chatBackdrop != null) chatBackdrop.gameObject.SetActive(false);
-        FocusFirstEditableCell();
+        if (attemptRunning && !tutorialActive) FocusFirstEditableCell();
     }
 
     private void CheckValidation()
     {
-        if (!isGameActive || GameManager.Instance?.IsPaused == true ||
+        if (!isGameActive || !attemptRunning || tutorialActive || GameManager.Instance?.IsPaused == true ||
             (chatPopupPanel != null && chatPopupPanel.activeSelf)) return;
 
         validationErrors.Clear();
@@ -956,10 +1029,12 @@ public class ExcelDataAuditorGame : MonoBehaviour
         }
         else
         {
+            AudioManager.Instance?.PlaySFX(SfxId.UIInvalid);
             currentSheetIndex = firstErrorSheet;
             UpdateTabUI();
             GenerateGrid();
             SetFeedback($"Còn {errorCount} ô chưa chính xác · Đã chuyển tới vị trí cần sửa.", errorTextColor, "!");
+            PulseFeedback();
             FocusEditableCell(firstErrorCoordinate);
         }
     }
@@ -967,23 +1042,30 @@ public class ExcelDataAuditorGame : MonoBehaviour
     private void WinGame()
     {
         isGameActive = false;
+        attemptRunning = false;
         StopAllCoroutines();
         if (chatPopupPanel != null) chatPopupPanel.SetActive(false);
         if (submitButton != null) submitButton.interactable = false;
         if (timerProgressBar != null) timerProgressBar.anchorMax = Vector2.one;
         if (timerProgressImage != null) timerProgressImage.color = new Color(0.12f, 0.68f, 0.3f, 1f);
-        SetFeedback("Dữ liệu chính xác. Báo cáo đã được gửi thành công.", successTextColor, "OK");
+        SetFeedback("Dữ liệu chính xác. Đang gửi lệnh in tới máy photo.", successTextColor, "OK");
+        PulseFeedback();
+        AudioManager.Instance?.PlaySFX(SfxId.TaskComplete);
         StartCoroutine(CompleteTaskAfterDelay(1.5f));
     }
 
     private void FailGame(string reason)
     {
         isGameActive = false;
+        attemptRunning = false;
+        retryPending = true;
         StopAllCoroutines();
         if (chatPopupPanel != null) chatPopupPanel.SetActive(false);
         if (chatBackdrop != null) chatBackdrop.gameObject.SetActive(false);
         if (submitButton != null) submitButton.interactable = false;
         SetFeedback(reason, errorTextColor, "!");
+        PulseFeedback();
+        AudioManager.Instance?.PlaySFX(SfxId.UIInvalid);
         StartCoroutine(RestartAfterFailure(2.0f));
     }
 
@@ -992,11 +1074,13 @@ public class ExcelDataAuditorGame : MonoBehaviour
         yield return new WaitForSeconds(delay);
         timeRemaining = AttemptDuration;
         isGameActive = true;
+        attemptRunning = true;
+        retryPending = false;
         if (submitButton != null) submitButton.interactable = true;
         UpdateTimerUI();
         SetFeedback("Thử lại từ dữ liệu hiện tại. Đồng hồ đã được đặt lại.", excelGreen, ">");
         FocusFirstEditableCell();
-        StartCoroutine(TimerRoutine());
+        if (!relaxedMode) StartCoroutine(TimerRoutine());
         StartCoroutine(BossDistractionRoutine());
     }
 
@@ -1040,6 +1124,12 @@ public class ExcelDataAuditorGame : MonoBehaviour
         if (warningFeedbackText == null) return;
         warningFeedbackText.text = string.IsNullOrEmpty(icon) ? message : $"{icon}  {message}";
         warningFeedbackText.color = color;
+    }
+
+    private void PulseFeedback()
+    {
+        feedbackPulseRemaining = .3f;
+        if (warningFeedbackText != null) warningFeedbackText.rectTransform.localScale = feedbackBaseScale;
     }
 
     private static void ConfigureButton(Button button)
@@ -1097,7 +1187,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
         }
         mainPanelCanvasGroup.alpha = 1f;
         revealRoutine = null;
-        FocusFirstEditableCell();
+        if (attemptRunning && !tutorialActive) FocusFirstEditableCell();
     }
     
     private IEnumerator CompleteTaskAfterDelay(float delay)

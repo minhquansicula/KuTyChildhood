@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum QuestStep
 {
@@ -29,6 +31,9 @@ public class QuestManager : MonoBehaviour
     public ItemData Candy => candy;
     public ItemData MarbleJar => marbleJar;
     public bool HasDreamKey { get; private set; }
+    public bool IsLeavingHome { get; private set; }
+    private bool outsideTransitionRequested;
+    private Coroutine outsideFallback;
     public bool HasReadJournal => currentStep != QuestStep.ReadJournal;
     public event Action<QuestStep> OnQuestChanged;
     public event Action OnDreamKeyCrafted;
@@ -40,22 +45,57 @@ public class QuestManager : MonoBehaviour
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         
-        // Bỏ qua bước ReadJournal, ép buộc bắt đầu từ WashDishes luôn
-        if (currentStep == QuestStep.ReadJournal)
+        // The outdoor scene owns the shop, marble table, journal and final door.
+        // It also starts in a playable state when opened directly for testing.
+        if (SceneManager.GetActiveScene().name == SceneNames.Act3_OutSide)
         {
-            currentStep = QuestStep.WashDishes;
+            currentStep = Scene2Checkpoint.OutsideStep;
+            HasDreamKey = Scene2Checkpoint.HasDreamKey;
+            if (GetComponent<Scene2QuestHUD>() == null) gameObject.AddComponent<Scene2QuestHUD>();
         }
+        else if (currentStep == QuestStep.ReadJournal)
+            currentStep = QuestStep.WashDishes;
     }
     private void Start()
     {
-        if (dishGame != null) dishGame.OnGameCompleted += DishCompleted;
+        if (SceneManager.GetActiveScene().name == SceneNames.Act3_OutSide)
+        {
+            if (Scene2Checkpoint.HasOutsideProgress)
+            {
+                CurrencyManager.Instance?.RestoreMoney(Scene2Checkpoint.OutsideMoney);
+                if (Scene2Checkpoint.HasCandy && candy != null) inventory?.AddItem(candy);
+                if (Scene2Checkpoint.HasMarbles && marbleJar != null) inventory?.AddItem(marbleJar);
+                for (int i = 0; i < MemoryCollectionManager.TOTAL_MEMORIES; i++)
+                    if (Scene2Checkpoint.HasMemory((MemoryType)i)) memories?.RestoreMemory((MemoryType)i);
+                // Repair interrupted writes at the boundaries between a purchase and its quest event.
+                memories?.RestoreMemory(MemoryType.FilialLove);
+                if (currentStep >= QuestStep.PlayMarbles)
+                {
+                    if (candy != null && inventory != null && !inventory.HasItem(candy)) inventory.AddItem(candy);
+                    if (marbleJar != null && inventory != null && !inventory.HasItem(marbleJar)) inventory.AddItem(marbleJar);
+                    memories?.RestoreMemory(MemoryType.SimpleJoy);
+                }
+                if (currentStep >= QuestStep.ReturnToJournal) memories?.RestoreMemory(MemoryType.Freedom);
+                if (currentStep == QuestStep.BuyCandyAndMarbles && HasRequiredPurchases)
+                {
+                    currentStep = QuestStep.PlayMarbles;
+                    memories?.RestoreMemory(MemoryType.SimpleJoy);
+                }
+                if (currentStep >= QuestStep.UnlockFrontDoor) HasDreamKey = true;
+                Scene2Checkpoint.SaveOutside(this);
+            }
+            else
+            {
+                memories?.RestoreMemory(MemoryType.FilialLove);
+                CurrencyManager.Instance?.AddMoney(2000);
+            }
+        }
         if (marbleGame != null) marbleGame.OnGameEnded += MarbleEnded;
         if (shop != null) shop.OnPurchaseSuccess += Purchased;
         OnQuestChanged?.Invoke(currentStep);
     }
     private void OnDestroy()
     {
-        if (dishGame != null) dishGame.OnGameCompleted -= DishCompleted;
         if (marbleGame != null) marbleGame.OnGameEnded -= MarbleEnded;
         if (shop != null) shop.OnPurchaseSuccess -= Purchased;
         if (Instance == this) Instance = null;
@@ -71,13 +111,48 @@ public class QuestManager : MonoBehaviour
         if (currentStep != QuestStep.ReadJournal) return;
         Advance(QuestStep.ReadJournal, QuestStep.WashDishes);
     }
-    public bool CanWashDishes => currentStep == QuestStep.WashDishes;
+    public bool CanWashDishes => currentStep == QuestStep.WashDishes && HouseholdChoreFlow.Instance == null;
+    public bool CanFinishHouseholdChores => currentStep == QuestStep.WashDishes && memories != null &&
+        CurrencyManager.Instance != null &&
+        Application.CanStreamedLevelBeLoaded(SceneNames.Act3_OutSide);
     public bool CompleteHouseholdChores()
     {
-        if (currentStep != QuestStep.WashDishes) return false;
-        memories?.CollectMemory(MemoryType.FilialLove);
+        if (!CanFinishHouseholdChores || HouseholdChoreFlow.Instance == null ||
+            HouseholdChoreFlow.Instance.ActiveIndex != HouseholdChoreFlow.ChoreCount) return false;
+        memories.CollectMemory(MemoryType.FilialLove);
+        // The household sequence is the only source of the shopping allowance.
+        // Advance guards this grant against duplicate completion calls.
+        CurrencyManager.Instance.AddMoney(2000);
         Advance(QuestStep.WashDishes, QuestStep.BuyCandyAndMarbles);
+        Scene2Checkpoint.SaveOutside(this);
+        if (SceneManager.GetActiveScene().name == SceneNames.Act2_Home)
+        {
+            IsLeavingHome = true;
+            outsideFallback = StartCoroutine(LeaveHomeAfterLetter());
+        }
         return true;
+    }
+
+    private IEnumerator LeaveHomeAfterLetter()
+    {
+        // Safety net if the letter's dialogue is unavailable or interrupted by another UI.
+        yield return new WaitForSecondsRealtime(20f);
+        outsideFallback = null;
+        ContinueOutside();
+    }
+
+    public void ContinueOutside()
+    {
+        if (!IsLeavingHome || outsideTransitionRequested) return;
+        outsideTransitionRequested = true;
+        if (outsideFallback != null) StopCoroutine(outsideFallback);
+        if (SceneLoader.Instance != null)
+            SceneLoader.Instance.LoadSceneWithColor(SceneNames.Act3_OutSide, Color.white, 1.2f);
+        else
+        {
+            Debug.LogWarning("SceneLoader is missing; continuing to the outdoor scene without a fade.", this);
+            SceneManager.LoadScene(SceneNames.Act3_OutSide);
+        }
     }
     public void RefreshHouseholdObjective()
     {
@@ -88,24 +163,22 @@ public class QuestManager : MonoBehaviour
         inventory != null && marbleJar != null && inventory.HasItem(marbleJar);
     public bool HasRequiredPurchases => inventory != null && candy != null && marbleJar != null &&
         inventory.HasItem(candy) && inventory.HasItem(marbleJar);
-    private void DishCompleted(int reward)
-    {
-        if (currentStep != QuestStep.WashDishes || memories == null) return;
-        memories.CollectMemory(MemoryType.FilialLove);
-        Advance(QuestStep.WashDishes, QuestStep.BuyCandyAndMarbles);
-    }
     private void Purchased(ItemData item)
     {
-        if (currentStep != QuestStep.BuyCandyAndMarbles || !HasRequiredPurchases || memories == null) return;
+        if (currentStep != QuestStep.BuyCandyAndMarbles) return;
+        Scene2Checkpoint.SaveOutside(this);
+        if (!HasRequiredPurchases || memories == null) return;
         ShopUI.Instance?.CloseShop();
         memories.CollectMemory(MemoryType.SimpleJoy);
         Advance(QuestStep.BuyCandyAndMarbles, QuestStep.PlayMarbles);
+        Scene2Checkpoint.SaveOutside(this);
     }
     private void MarbleEnded(bool won)
     {
         if (!won || currentStep != QuestStep.PlayMarbles || memories == null) return;
         memories.CollectMemory(MemoryType.Freedom);
         Advance(QuestStep.PlayMarbles, QuestStep.ReturnToJournal);
+        Scene2Checkpoint.SaveOutside(this);
     }
     public bool CraftDreamKey()
     {
@@ -113,7 +186,8 @@ public class QuestManager : MonoBehaviour
             memories.CollectedCount != MemoryCollectionManager.TOTAL_MEMORIES) return false;
         Advance(QuestStep.ReturnToJournal, QuestStep.TakeDreamKey);
         OnDreamKeyCrafted?.Invoke();
-        AudioManager.Instance?.PlaySFX("all_memories");
+        AudioManager.Instance?.PlaySFX(SfxId.AllMemoriesComplete);
+        Scene2Checkpoint.SaveOutside(this);
         return true;
     }
     public bool TakeDreamKey()
@@ -122,6 +196,7 @@ public class QuestManager : MonoBehaviour
         HasDreamKey = true;
         Advance(QuestStep.TakeDreamKey, QuestStep.UnlockFrontDoor);
         OnDreamKeyTaken?.Invoke();
+        Scene2Checkpoint.SaveOutside(this);
         return true;
     }
     public bool UnlockFrontDoor()
@@ -129,6 +204,7 @@ public class QuestManager : MonoBehaviour
         if (currentStep != QuestStep.UnlockFrontDoor || !HasDreamKey) return false;
         Advance(QuestStep.UnlockFrontDoor, QuestStep.Ending);
         OnFrontDoorUnlocked?.Invoke();
+        Scene2Checkpoint.MarkFinished();
         return true;
     }
     public string ObjectiveText
@@ -143,7 +219,9 @@ public class QuestManager : MonoBehaviour
                     return chores != null && chores.ActiveIndex < HouseholdChoreFlow.ChoreCount
                         ? "Phụ mẹ: " + chores.CurrentTitle + " — " + chores.CurrentLocation + "."
                         : "Phụ mẹ làm việc nhà.";
-                case QuestStep.BuyCandyAndMarbles: return "Mua một cây kẹo mút và một hũ bi ve.";
+                case QuestStep.BuyCandyAndMarbles:
+                    return SceneManager.GetActiveScene().name == SceneNames.Act2_Home
+                        ? "Mang tiền mẹ cho ra sân chơi." : "Mua một cây kẹo mút và một hũ bi ve.";
                 case QuestStep.PlayMarbles: return "Mang hũ bi ra sân chơi.";
                 case QuestStep.ReturnToJournal: return "Trở lại cuốn nhật ký.";
                 case QuestStep.TakeDreamKey: return "Cầm Chìa Khóa Ước Mơ.";

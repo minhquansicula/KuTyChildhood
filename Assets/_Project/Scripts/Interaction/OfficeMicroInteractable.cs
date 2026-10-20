@@ -10,7 +10,7 @@ public enum OfficeMicroInteractionKind
 }
 
 /// <summary>
-/// A short, optional office interaction. These never gate the main story flow.
+/// A short office interaction. Most are optional; printer and water can advance Scene 1.
 /// </summary>
 public sealed class OfficeMicroInteractable : InteractableBase
 {
@@ -19,11 +19,21 @@ public sealed class OfficeMicroInteractable : InteractableBase
     [SerializeField, Min(0f)] private float cooldownSeconds = 1.25f;
     private float nextUseTime;
 
+    public OfficeMicroInteractionKind Kind => kind;
     private OfficeSceneController Office => office != null ? office : OfficeSceneController.Instance;
+
+    private void Awake()
+    {
+        // Older versions of the scene serialized the printer as one-shot. It must remain
+        // reusable so checking it too early never consumes the main-task interaction.
+        if (kind == OfficeMicroInteractionKind.PrinterPaper) isOneTimeUse = false;
+    }
 
     public override string GetPromptText()
     {
-        if ((isOneTimeUse && hasBeenUsed) || Time.time < nextUseTime) return string.Empty;
+        bool requiredWaterStep = kind == OfficeMicroInteractionKind.WaterCooler &&
+            Office != null && Office.Phase == OfficePhase.WaterBreak;
+        if ((isOneTimeUse && hasBeenUsed) || (!requiredWaterStep && Time.time < nextUseTime)) return string.Empty;
         return Office != null ? Office.PromptForMicro(kind) : string.Empty;
     }
 

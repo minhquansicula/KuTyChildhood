@@ -249,7 +249,7 @@ public static class Scene2HouseholdChoreSetup
         BindOne(waterJar, HouseholdChore.FetchWater, waterJar.transform);
     }
 
-    [MenuItem("KuTy/Scene 2/Smoke test chore rewards")]
+    [MenuItem("KuTy/Scene 2/Smoke test chore rewards (overwrites checkpoint)")]
     private static void SmokeTestRewards()
     {
         if (!Application.isPlaying || UnityEngine.SceneManagement.SceneManager.GetActiveScene().path != ScenePath)
@@ -259,6 +259,16 @@ public static class Scene2HouseholdChoreSetup
         }
         var flow = HouseholdChoreFlow.Instance;
         if (flow == null) throw new System.InvalidOperationException("HouseholdChoreFlow is missing.");
+        var quests = QuestManager.Instance;
+        var currency = CurrencyManager.Instance;
+        if (quests == null || currency == null || quests.CompleteHouseholdChores() ||
+            quests.CurrentStep != QuestStep.WashDishes || currency.CurrentMoney != 0)
+            throw new System.InvalidOperationException("Household quest advanced or paid before all chores.");
+        var legacyDishes = Object.FindObjectOfType<DishWashingGame>();
+        legacyDishes?.StartGame();
+        legacyDishes?.WashFor(30f);
+        if (quests.CanWashDishes || currency.CurrentMoney != 0)
+            throw new System.InvalidOperationException("Legacy dish game bypassed the 14 household chores.");
         var wake = Object.FindObjectOfType<BedWakeUpController>();
         typeof(BedWakeUpController).GetMethod("GetOutOfBed", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)?.Invoke(wake, null);
         flow.ShowChecklist();
@@ -275,11 +285,56 @@ public static class Scene2HouseholdChoreSetup
             var chore = HouseholdChoreFlow.Order[i];
             if (!flow.Complete(chore) || flow.Complete(chore) || flow.Pieces != (i + 1) * 10)
                 throw new System.InvalidOperationException("Chore reward failed at index " + i);
+            if (i < HouseholdChoreFlow.ChoreCount - 1 && Scene2Checkpoint.HomeChores != i + 1)
+                throw new System.InvalidOperationException("Checkpoint failed after chore " + (i + 1));
         }
         if (flow.ActiveIndex != HouseholdChoreFlow.ChoreCount ||
             QuestManager.Instance == null || QuestManager.Instance.CurrentStep != QuestStep.BuyCandyAndMarbles)
             throw new System.InvalidOperationException("Household story handoff failed.");
+        if (currency.CurrentMoney != 2000 || quests.CompleteHouseholdChores() || currency.CurrentMoney != 2000)
+            throw new System.InvalidOperationException("Shopping allowance was missing or granted twice.");
+        if (!Scene2Checkpoint.HasOutsideProgress || Scene2Checkpoint.OutsideStep != QuestStep.BuyCandyAndMarbles ||
+            Scene2Checkpoint.OutsideMoney != 2000)
+            throw new System.InvalidOperationException("Outdoor checkpoint was not saved correctly.");
         Debug.Log($"[Scene2 chores] Reward smoke test passed: {HouseholdChoreFlow.ChoreCount} one-time chores, {HouseholdChoreFlow.TotalPieces}/{HouseholdChoreFlow.TotalPieces} pieces, story advanced.");
+    }
+
+    [MenuItem("KuTy/Scene 2/Validate outdoor mini-games at runtime")]
+    private static void ValidateOutdoorRuntime()
+    {
+        if (!Application.isPlaying || UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != SceneNames.Act3_OutSide)
+            throw new System.InvalidOperationException("Enter Play Mode in the outdoor scene first.");
+        if (QuestManager.Instance == null || ShopManager.Instance == null ||
+            CurrencyManager.Instance == null || InventoryManager.Instance == null ||
+            MemoryCollectionManager.Instance == null || ShopUI.Instance == null ||
+            MarbleAimUI.Instance == null || JournalUI.Instance == null)
+            throw new System.InvalidOperationException("An outdoor story or UI system is missing.");
+        if (!MemoryCollectionManager.Instance.HasCollected(MemoryType.FilialLove))
+            throw new System.InvalidOperationException("The household memory was not restored outdoors.");
+        if (ShopManager.Instance.ShopItems.Count != 2 ||
+            ShopManager.Instance.ShopItems[0].price + ShopManager.Instance.ShopItems[1].price != 2000)
+            throw new System.InvalidOperationException("The two shop items must cost 2,000 đồng total.");
+        RequireOutdoorInteractable<ShopInteractable>();
+        RequireOutdoorInteractable<MarbleInteractable>();
+        RequireOutdoorInteractable<JournalInteractable>();
+        RequireOutdoorInteractable<DreamKeyInteractable>();
+        RequireOutdoorInteractable<ChainedDoorInteractable>();
+        var marble = Object.FindObjectOfType<MarbleShootingGame>();
+        if (marble == null) throw new System.InvalidOperationException("MarbleShootingGame is missing.");
+        var data = new SerializedObject(marble);
+        foreach (string field in new[] { "playerMarble", "shootPosition", "ringCollider", "gameCameraPosition" })
+            if (data.FindProperty(field)?.objectReferenceValue == null)
+                throw new System.InvalidOperationException("Marble setup is missing " + field);
+        if (data.FindProperty("targetMarbles")?.arraySize < 3)
+            throw new System.InvalidOperationException("Marble setup needs at least three target marbles.");
+        Debug.Log("[Scene2 outdoor] VALIDATION PASS: shop, marble game, journal, key, door and 2,000 đồng economy are configured.");
+    }
+
+    private static void RequireOutdoorInteractable<T>() where T : InteractableBase
+    {
+        var items = Object.FindObjectsOfType<T>(true);
+        if (items.Length != 1 || items[0].GetComponent<Collider>() == null)
+            throw new System.InvalidOperationException("Expected one outdoor " + typeof(T).Name + " with a collider.");
     }
 
     [MenuItem("KuTy/Scene 2/Check expanded chore targeting")]

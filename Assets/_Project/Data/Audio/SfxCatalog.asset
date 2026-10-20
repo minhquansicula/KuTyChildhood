@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8d1be94225c0ff46853f5082b58e818, type: 3}
+  m_Name: SfxCatalog
+  m_EditorClassIdentifier: 
+  cues:
+  - id: 10
+    category: 1
+    variants:
+    - {fileID: 8300000, guid: e471d9553bf72b34087a7ff4b4d05185, type: 3}
+    volume: 0.62
+    pitchMin: 0.98
+    pitchMax: 1.02
+    cooldownSeconds: 0.05
+    avoidImmediateRepeat: 1
+  - id: 11
+    category: 1
+    variants:
+    - {fileID: 8300000, guid: 21cbe77dfa52a284f8547fd444fe1351, type: 3}
+    volume: 0.55
+    pitchMin: 0.98
+    pitchMax: 1.02
+    cooldownSeconds: 0.08
+    avoidImmediateRepeat: 1
+  - id: 12
+    category: 1
+    variants:
+    - {fileID: 8300000, guid: 8c7ccd195b804b045bd44d50860ffeb8, type: 3}
+    volume: 0.68
+    pitchMin: 1
+    pitchMax: 1
+    cooldownSeconds: 0.18
+    avoidImmediateRepeat: 1
+  - id: 20
+    category: 1
+    variants:
+    - {fileID: 8300000, guid: 7f78fa197bbb01946b931122ca7c3a1d, type: 3}
+    volume: 0.55
+    pitchMin: 0.98
+    pitchMax: 1.03
+    cooldownSeconds: 0.08
+    avoidImmediateRepeat: 1
+  - id: 21
+    category: 1
+    variants:
+    - {fileID: 8300000, guid: a918281e6d7ed424ba7ac18b56a6b4fa, type: 3}
+    volume: 0.72
+    pitchMin: 1
+    pitchMax: 1
+    cooldownSeconds: 0.3
+    avoidImmediateRepeat: 1
+  - id: 30
+    category: 0
+    variants:
+    - {fileID: 8300000, guid: 6e28d352c5f4da54a97542d126b6a3f0, type: 3}
+    volume: 0.62
+    pitchMin: 0.92
+    pitchMax: 1.05
+    cooldownSeconds: 0.12
+    avoidImmediateRepeat: 1
+  - id: 31
+    category: 0
+    variants:
+    - {fileID: 8300000, guid: 0ac9348509c312242ba2b85c6032944b, type: 3}
+    volume: 0.68
+    pitchMin: 0.96
+    pitchMax: 1.04
+    cooldownSeconds: 0.15
+    avoidImmediateRepeat: 1
+  - id: 40
+    category: 0
+    variants:
+    - {fileID: 8300000, guid: ba2d63395deaff8429e65ebbcf701146, type: 3}
+    volume: 0.72
+    pitchMin: 0.94
+    pitchMax: 1.06
+    cooldownSeconds: 0.06
+    avoidImmediateRepeat: 1
+  - id: 41
+    category: 0
+    variants:
+    - {fileID: 8300000, guid: 1307d66f9dc98e243a5df3746adb6251, type: 3}
+    volume: 0.68
+    pitchMin: 0.88
+    pitchMax: 1.12
+    cooldownSeconds: 0.04
+    avoidImmediateRepeat: 1
+  - id: 42
+    category: 0
+    variants:
+    - {fileID: 8300000, guid: d768c74b1aa74c542b6043555277cded, type: 3}
+    volume: 0.48
+    pitchMin: 0.92
+    pitchMax: 1.08
+    cooldownSeconds: 0.12
+    avoidImmediateRepeat: 1
+  - id: 50
+    category: 1
+    variants:
+    - {fileID: 8300000, guid: 100e8218658ef9e419a91fceda2d31c0, type: 3}
+    volume: 0.7
+    pitchMin: 1
+    pitchMax: 1
+    cooldownSeconds: 0.2
+    avoidImmediateRepeat: 1
+  - id: 51
+    category: 1
+    variants:
+    - {fileID: 8300000, guid: abcfd5f47c3f08f47ad5f12b4911afad, type: 3}
+    volume: 0.7
+    pitchMin: 1
+    pitchMax: 1
+    cooldownSeconds: 0.2
+    avoidImmediateRepeat: 1
+  - id: 60
+    category: 1
+    variants:
+    - {fileID: 8300000, guid: c2995b821dde011479c26f5ef3060bbe, type: 3}
+    volume: 0.68
+    pitchMin: 0.98
+    pitchMax: 1.02
+    cooldownSeconds: 0.2
+    avoidImmediateRepeat: 1
+  - id: 61
+    category: 1
+    variants:
+    - {fileID: 8300000, guid: a918281e6d7ed424ba7ac18b56a6b4fa, type: 3}
+    volume: 0.74
+    pitchMin: 1
+    pitchMax: 1
+    cooldownSeconds: 0.5
+    avoidImmediateRepeat: 1

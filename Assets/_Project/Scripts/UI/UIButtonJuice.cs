@@ -14,6 +14,7 @@ public class UIButtonJuice : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] private float hoverScale = 1.05f;
     [SerializeField] private float clickScale = 0.95f;
     [SerializeField] private float duration = 0.12f;
+    [SerializeField] private bool playClickSfx = true;
 
     [Header("Border Highlight")]
     [SerializeField] private Image targetBorder;
@@ -77,6 +78,7 @@ public class UIButtonJuice : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (selectable != null && !selectable.interactable) return;
         AnimateScale(originalScale * clickScale);
+        if (playClickSfx) AudioManager.Instance?.PlaySFX(SfxId.UIConfirm);
     }
 
     public void OnPointerUp(PointerEventData eventData)

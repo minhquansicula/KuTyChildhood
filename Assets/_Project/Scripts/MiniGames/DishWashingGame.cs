@@ -56,7 +56,7 @@ public class DishWashingGame : MonoBehaviour
             if (renderer != null && cleanDishMaterial != null) renderer.sharedMaterial = cleanDishMaterial;
         }
         CurrencyManager.Instance.AddMoney(moneyPerDish);
-        AudioManager.Instance?.PlaySFX("dish_clean");
+        AudioManager.Instance?.PlaySFX(SfxId.DishClean);
         OnDishCleaned?.Invoke(currentDishIndex);
         currentDishIndex++;
         currentProgress = 0;

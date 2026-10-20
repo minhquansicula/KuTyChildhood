@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Installs the Excel-only office work flow into the existing Blockout scene while
+/// Installs the Excel-to-print office task flow into the existing Blockout scene while
 /// preserving every environment root, imported visual and authored light.
 /// </summary>
 public static class KuTyOfficeBlockoutGameplaySetup
@@ -90,6 +90,13 @@ public static class KuTyOfficeBlockoutGameplaySetup
             SceneManager.MoveGameObjectToScene(eventSystem, targetScene);
         }
 
+        EventSystem gameplayEventSystem = FindInScene<EventSystem>(targetScene);
+        if (gameplayEventSystem != null && gameplayEventSystem.transform.parent != null)
+        {
+            gameplayEventSystem.transform.SetParent(null, false);
+            gameplayEventSystem.name = EventSystemName;
+        }
+
         CloseReferenceScene(sourceScene);
 
         GameObject systems = new GameObject(SystemsName);
@@ -99,6 +106,7 @@ public static class KuTyOfficeBlockoutGameplaySetup
 
         OfficeSceneController office = systems.AddComponent<OfficeSceneController>();
         systems.AddComponent<OfficeShiftHUD>();
+        systems.AddComponent<OfficeGuidanceController>();
         OfficeAtmosphere atmosphere = systems.AddComponent<OfficeAtmosphere>();
         OfficeExhaustionSequence exhaustion = systems.AddComponent<OfficeExhaustionSequence>();
         OfficeBlockoutGameplayBridge bridge = systems.AddComponent<OfficeBlockoutGameplayBridge>();
@@ -171,11 +179,11 @@ public static class KuTyOfficeBlockoutGameplaySetup
         SetObject(bridge, "pauseUI", pause);
         SetBool(intro, "useExternalInteractionInput", true);
 
-        ConfigureDoor(doorHinge, intro);
+        ConfigureDoor(doorHinge, intro, office);
         ConfigureChair(chairSlot, intro, office);
         ConfigureOfficeInteraction(windowCollision, office, OfficeInteractionKind.Window);
         ConfigureOfficeInteraction(bossSlot, office, OfficeInteractionKind.Boss);
-        ConfigureMicro(printerSlot, office, OfficeMicroInteractionKind.PrinterPaper, true, 0f);
+        ConfigureMicro(printerSlot, office, OfficeMicroInteractionKind.PrinterPaper, false, 0f);
         ConfigureMicro(clockSlot, office, OfficeMicroInteractionKind.Clock, false, 1f);
         ConfigureMicro(waterSlot, office, OfficeMicroInteractionKind.WaterCooler, false, 2.5f);
 
@@ -203,7 +211,7 @@ public static class KuTyOfficeBlockoutGameplaySetup
         EditorSceneManager.SaveScene(targetScene);
         AssetDatabase.SaveAssets();
         Selection.activeGameObject = systems;
-        Debug.Log("[KuTy] Act1 Office Blockout gameplay installed. Existing map, imported assets and lighting were preserved.");
+        Debug.Log("[KuTy] Act1 Office task flow installed. Existing map, imported assets and lighting were preserved.");
     }
 
     [MenuItem("KuTy/Validation/Validate Act1 Office Blockout gameplay")]
@@ -214,6 +222,7 @@ public static class KuTyOfficeBlockoutGameplaySetup
         Require(FindInScene<OfficeIntroController>(scene), "OfficeIntroController", missing);
         Require(FindInScene<OfficeBlockoutGameplayBridge>(scene), "OfficeBlockoutGameplayBridge", missing);
         Require(FindInScene<OfficeSceneController>(scene), "OfficeSceneController", missing);
+        Require(FindInScene<OfficeGuidanceController>(scene), "OfficeGuidanceController", missing);
         Require(FindInScene<PlayerInteraction>(scene), "PlayerInteraction", missing);
         Require(FindInScene<HUDController>(scene), "HUDController", missing);
         Require(FindInScene<ExcelDataAuditorGame>(scene), "ExcelDataAuditorGame", missing);
@@ -222,11 +231,14 @@ public static class KuTyOfficeBlockoutGameplaySetup
         Require(FindInScene<OfficeExhaustionSequence>(scene), "OfficeExhaustionSequence", missing);
         Require(FindByPath(scene, "OFFICE_BLOCKOUT/03_Workstations/TyDesk_SLOT"), "TyDesk_SLOT", missing);
         Require(FindByPath(scene, "OFFICE_BLOCKOUT/03_Workstations/TyChair_SLOT"), "TyChair_SLOT", missing);
+        Require(FindByPath(scene, "OFFICE_BLOCKOUT/02_BossOffice/BossPlaceholder_SLOT"), "BossPlaceholder_SLOT", missing);
+        Require(FindByPath(scene, "OFFICE_BLOCKOUT/04_UtilityArea/Printer_SLOT"), "Printer_SLOT", missing);
+        Require(FindByPath(scene, "OFFICE_BLOCKOUT/04_UtilityArea/WaterCooler_SLOT"), "WaterCooler_SLOT", missing);
         Require(scene.GetRootGameObjects().FirstOrDefault(root => root.name == SystemsName), SystemsName, missing);
         Require(scene.GetRootGameObjects().FirstOrDefault(root => root.name == UiName), UiName, missing);
         Require(FindInScene<EventSystem>(scene), "EventSystem", missing);
         if (missing.Count > 0) Debug.LogError("[KuTy] Office Blockout gameplay validation failed: " + string.Join(", ", missing));
-        else Debug.Log("[KuTy] Office Blockout gameplay validation passed: Excel-only flow, UI, interactions and ending are wired.");
+        else Debug.Log("[KuTy] Office Blockout validation passed: Excel, print, delivery, water, UI and ending are wired.");
     }
 
     private static void PrepareGameplayUi(GameObject ui)
@@ -341,6 +353,11 @@ public static class KuTyOfficeBlockoutGameplaySetup
         SetObject(atmosphere, "bossSource", boss);
         SetObject(atmosphere, "propSource", props);
         SetObject(atmosphere, "memorySource", memory);
+        SetObject(atmosphere, "printerSound", AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/_Project/Audio/SFX/Office/sfx_office_printer_01.wav"));
+        SetObject(atmosphere, "paperRustle", AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/_Project/Audio/SFX/Office/sfx_office_paper_01.wav"));
+        SetObject(atmosphere, "waterPour", AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/_Project/Audio/SFX/Office/sfx_office_water_01.wav"));
+        SetObject(atmosphere, "cupSetDown", AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/_Project/Audio/SFX/Office/sfx_office_cup_01.wav"));
+        SetObject(atmosphere, "chairShift", AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/_Project/Audio/SFX/Office/sfx_office_chair_01.wav"));
         SetObjectArray(atmosphere, "ceilingLights", new Light[0]);
         SetBool(atmosphere, "deferAmbienceToOpening", false);
     }
@@ -405,10 +422,11 @@ public static class KuTyOfficeBlockoutGameplaySetup
         return anchor.transform;
     }
 
-    private static void ConfigureDoor(GameObject door, OfficeIntroController intro)
+    private static void ConfigureDoor(GameObject door, OfficeIntroController intro, OfficeSceneController office)
     {
         OfficeBlockoutDoorInteractable adapter = door.AddComponent<OfficeBlockoutDoorInteractable>();
         SetObject(adapter, "intro", intro);
+        SetObject(adapter, "office", office);
         SetColliderLayers(door, LayerMask.NameToLayer("Interactable"));
     }
 

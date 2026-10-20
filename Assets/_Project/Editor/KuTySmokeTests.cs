@@ -196,8 +196,8 @@ public class KuTyStoryRunner : MonoBehaviour
         Check(office.IsWorking && excelGame.gameObject.activeInHierarchy,
             "Excel task did not reopen after cancellation");
         office.CompleteExcelTask();
-        Check(office.Phase == OfficePhase.AfterWork && !GameManager.Instance.InputBlocked,
-            "Excel completion did not start the free-roam aftermath");
+        Check(office.Phase == OfficePhase.PrintingReport && !GameManager.Instance.InputBlocked,
+            "Excel completion did not start the print objective");
         office.MakeRestAvailableForTests();
         Check(office.Phase == OfficePhase.Rest, "Exhaustion objective did not become available");
         find(OfficeInteractionKind.Chair).Interact();

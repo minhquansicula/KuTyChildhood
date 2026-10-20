@@ -66,7 +66,7 @@ public class RiceWashingTask : InteractableBase
             {
                 state = 3;
                 ProgressBarUI.Instance?.Show("Vo gạo xong! Bấm ESC để thoát và đi lấy nước mới");
-                AudioManager.Instance?.PlaySFX("ui_select");
+                AudioManager.Instance?.PlaySFX(SfxId.UIConfirm);
             }
         }
     }

@@ -132,6 +132,14 @@ public class HUDController : MonoBehaviour
             promptPanel.SetActive(false);
     }
 
+    /// <summary>Scene-specific objective views can replace only this label, keeping the shared crosshair and prompt.</summary>
+    public void SetObjectiveVisible(bool visible)
+    {
+        if (objectiveText != null) objectiveText.gameObject.SetActive(visible);
+    }
+
+    public TMP_FontAsset ObjectiveFont => objectiveText != null ? objectiveText.font : null;
+
     // ========== CURRENCY ==========
 
     private void UpdateMoneyDisplay(int amount)

@@ -35,7 +35,7 @@ public class ShopManager : MonoBehaviour
         if (LastFailure != PurchaseFailure.None)
         {
             OnPurchaseFailed?.Invoke(item);
-            AudioManager.Instance?.PlaySFX("purchase_fail");
+            AudioManager.Instance?.PlaySFX(SfxId.PurchaseFail);
             return false;
         }
         purchasing = true;
@@ -43,7 +43,7 @@ public class ShopManager : MonoBehaviour
         {
             if (!CurrencyManager.Instance.SpendMoney(item.price)) return false;
             InventoryManager.Instance.AddItem(item);
-            AudioManager.Instance?.PlaySFX("purchase");
+        AudioManager.Instance?.PlaySFX(SfxId.Purchase);
             OnPurchaseSuccess?.Invoke(item);
             return true;
         }

@@ -9,7 +9,7 @@ public sealed class OfficeWorkstationInteractable : InteractableBase
 
     private OfficeSceneController Office => office != null ? office : OfficeSceneController.Instance;
 
-    // The real desk is the single workstation for Scene 1's Excel-only task.
+    // The real desk starts Scene 1's Excel step before the physical print-and-deliver tasks.
     private OfficeInteractionKind CurrentKind => OfficeInteractionKind.Laptop;
 
     private void Reset() => isOneTimeUse = false;

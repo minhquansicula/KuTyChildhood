@@ -1,3 +1,5 @@
+using UnityEngine;
+
 /// <summary>
 /// IInteractable — Interface chung cho mọi vật thể có thể tương tác được.
 /// 
@@ -23,4 +25,10 @@ public interface IInteractable
     /// Implement logic tương tác tại đây.
     /// </summary>
     void Interact();
+}
+
+/// <summary>Optional nearby focus for small or occluded interactables.</summary>
+public interface IProximityInteractable : IInteractable
+{
+    bool TryGetProximityDistance(Vector3 playerPosition, out float distance);
 }

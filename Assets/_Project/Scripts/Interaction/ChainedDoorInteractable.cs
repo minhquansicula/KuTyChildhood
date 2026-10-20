@@ -1,10 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ChainedDoorInteractable : InteractableBase
 {
     [SerializeField] private GameObject chainsVisual;
-    // [SerializeField] private Color transitionColor = Color.white;
-    // [SerializeField] private float transitionSeconds = 1.8f;
     private void Reset() { promptText = "[E] Dùng chìa khóa mở cửa"; isOneTimeUse = false; }
     public override string GetPromptText()
     {
@@ -30,8 +29,15 @@ public class ChainedDoorInteractable : InteractableBase
     private System.Collections.IEnumerator Finish()
     {
         yield return new WaitForSecondsRealtime(3f);
-        DialogueUI.Instance?.ShowText("Tạm dừng tại đây (Chưa chuyển qua Scene 3).", 3f);
-        // SceneLoader.Instance?.LoadSceneWithColor(SceneNames.Act3_OutSide, transitionColor, transitionSeconds);
+        GameManager.Instance?.ReleaseInput(this);
+        if (SceneLoader.Instance != null)
+            SceneLoader.Instance.LoadSceneWithColor(SceneNames.Act_Ending, Color.white, 1.8f);
+        else SceneManager.LoadScene(SceneNames.Act_Ending);
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
         GameManager.Instance?.ReleaseInput(this);
     }
 }

@@ -95,5 +95,10 @@ public class CurrencyManager : MonoBehaviour
         OnMoneyChanged?.Invoke(currentMoney);
         Debug.Log("[CurrencyManager] Reset currency.");
     }
+    public void RestoreMoney(int amount)
+    {
+        currentMoney = Mathf.Max(0, amount);
+        OnMoneyChanged?.Invoke(currentMoney);
+    }
     private void OnDestroy() { if (Instance == this) Instance = null; }
 }

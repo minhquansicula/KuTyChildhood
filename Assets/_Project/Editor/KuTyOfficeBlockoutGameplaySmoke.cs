@@ -5,7 +5,7 @@ public static class KuTyOfficeBlockoutGameplaySmoke
 {
     internal const string PendingKey = "KuTy.OfficeBlockoutGameplaySmoke.Pending";
 
-    [MenuItem("KuTy/Tests/Run Act1 Excel gameplay + edge cases")]
+    [MenuItem("KuTy/Tests/Run Act1 office task flow + edge cases")]
     public static void Run()
     {
         Prepare();

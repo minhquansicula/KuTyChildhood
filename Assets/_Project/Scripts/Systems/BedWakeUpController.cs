@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class BedWakeUpController : MonoBehaviour
@@ -16,19 +17,26 @@ public class BedWakeUpController : MonoBehaviour
     [SerializeField, Min(0f)] private float exitRightDistance = 0.55f;
 
     private FirstPersonController playerController;
+    private GameObject promptCard;
     private bool canWakeUp = false;
+    public bool CanPauseWhileWaiting => canWakeUp &&
+        (ShopUI.Instance == null || !ShopUI.Instance.IsOpen) &&
+        (JournalUI.Instance == null || !JournalUI.Instance.IsOpen) &&
+        (DialogueUI.Instance == null || !DialogueUI.Instance.IsShowing);
 
     private void Start()
     {
+        StylePrompt();
         // Automatically get on bed when the scene starts
         GetOnBed(true);
+        // A saved chapter resumes beside the bed with the next chore already selected.
+        if (Scene2Checkpoint.HomeChores > 0) GetOutOfBed();
     }
 
     public void GetOnBed(bool isInitial)
     {
         canWakeUp = false;
-        // Ensure prompt is hidden
-        if (promptText != null) promptText.gameObject.SetActive(false);
+        SetPromptVisible(false);
 
         // Find player if not cached
         if (playerController == null)
@@ -67,8 +75,8 @@ public class BedWakeUpController : MonoBehaviour
         // Show prompt
         if (promptText != null)
         {
-            promptText.text = "[E] Xuống giường";
-            promptText.gameObject.SetActive(true);
+            promptText.text = "<color=#F4C66A><b>E</b></color>   Xuống giường";
+            SetPromptVisible(true);
         }
 
         canWakeUp = true;
@@ -76,18 +84,70 @@ public class BedWakeUpController : MonoBehaviour
 
     private void Update()
     {
-        if (canWakeUp && Input.GetKeyDown(KeyCode.E))
+        bool modalOpen = GameManager.Instance != null && GameManager.Instance.IsPaused;
+        modalOpen |= ShopUI.Instance != null && ShopUI.Instance.IsOpen;
+        modalOpen |= DialogueUI.Instance != null && DialogueUI.Instance.IsShowing;
+        if (canWakeUp) SetPromptVisible(!modalOpen);
+        if (canWakeUp && !modalOpen && Input.GetKeyDown(KeyCode.E))
         {
             GetOutOfBed();
         }
     }
 
+    private void StylePrompt()
+    {
+        if (promptText == null) return;
+        var canvas = promptText.GetComponentInParent<Canvas>(true);
+        if (canvas == null) return;
+        canvas.sortingOrder = 12; // Gameplay hint sits below modal and task canvases.
+        var scaler = canvas.GetComponent<CanvasScaler>();
+        if (scaler != null)
+        {
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1280, 720);
+            scaler.matchWidthOrHeight = .5f;
+        }
+
+        promptCard = new GameObject("WakePromptCard", typeof(RectTransform), typeof(Image));
+        promptCard.transform.SetParent(canvas.transform, false);
+        var cardRect = (RectTransform)promptCard.transform;
+        cardRect.anchorMin = cardRect.anchorMax = new Vector2(.5f, 0f);
+        cardRect.pivot = new Vector2(.5f, 0f);
+        cardRect.anchoredPosition = new Vector2(0f, 42f);
+        cardRect.sizeDelta = new Vector2(320f, 62f);
+        var image = promptCard.GetComponent<Image>();
+        image.color = new Color(.055f, .105f, .13f, .93f);
+        image.raycastTarget = false;
+
+        promptText.transform.SetParent(promptCard.transform, false);
+        var textRect = promptText.rectTransform;
+        textRect.anchorMin = Vector2.zero;
+        textRect.anchorMax = Vector2.one;
+        textRect.offsetMin = new Vector2(14f, 5f);
+        textRect.offsetMax = new Vector2(-14f, -5f);
+        promptText.fontSize = 26f;
+        promptText.fontStyle = FontStyles.Normal;
+        promptText.alignment = TextAlignmentOptions.Center;
+        promptText.color = new Color(.95f, .97f, .96f);
+        promptText.raycastTarget = false;
+        SetPromptVisible(false);
+    }
+
+    private void SetPromptVisible(bool visible)
+    {
+        if (promptText != null && promptText.gameObject.activeSelf != visible)
+            promptText.gameObject.SetActive(visible);
+        if (promptCard != null && promptCard.activeSelf != visible)
+            promptCard.SetActive(visible);
+    }
+
     private void GetOutOfBed()
     {
+        StopAllCoroutines();
         canWakeUp = false;
         
         // Hide prompt
-        if (promptText != null) promptText.gameObject.SetActive(false);
+        SetPromptVisible(false);
         
         // Restore camera rotation slightly
         if (playerController != null)

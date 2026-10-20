@@ -76,7 +76,7 @@ public class MashToCompleteTask : InteractableBase
         GameManager.Instance?.ReleaseInput(this);
         
         Debug.Log(taskName + " - Hoàn thành!");
-        AudioManager.Instance?.PlaySFX("ui_select");
+        AudioManager.Instance?.PlaySFX(SfxId.UIConfirm);
         
         // Update checklist
         KitchenFlowManager.Instance?.MarkTaskCompleted(transform.parent != null ? transform.parent.name : gameObject.name);

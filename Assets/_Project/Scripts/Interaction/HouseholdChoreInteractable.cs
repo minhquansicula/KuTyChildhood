@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-/// <summary>One visible prop, one ordered household mini-game. All reward state lives in HouseholdChoreFlow.</summary>
+/// <summary>One visible prop starts a hands-on chore. Reward and checkpoint state stay in HouseholdChoreFlow.</summary>
 public sealed class HouseholdChoreInteractable : InteractableBase
 {
     [SerializeField] private HouseholdChore chore;
@@ -9,11 +10,8 @@ public sealed class HouseholdChoreInteractable : InteractableBase
     private HouseholdChoreFlow flow;
     private HouseholdWorkFeedback feedback;
     private bool running;
-    private int successes;
-    private float amount;
-    private float previousAngle;
-    private bool hasPreviousAngle;
-    private bool secondPhase;
+
+    public HouseholdChore Chore => chore;
 
     public void Configure(HouseholdChore value, Transform anchor)
     {
@@ -23,267 +21,114 @@ public sealed class HouseholdChoreInteractable : InteractableBase
         promptText = "[E] " + HouseholdChoreFlow.Titles[(int)chore];
     }
 
-    public HouseholdChore Chore => chore;
-
-    private void Awake() => flow = HouseholdChoreFlow.Instance;
+    private void Awake()
+    {
+        isOneTimeUse = false; // A cancelled mini-game must always be reopenable.
+        flow = HouseholdChoreFlow.Instance;
+    }
 
     public override string GetPromptText()
     {
         if (flow == null) flow = HouseholdChoreFlow.Instance;
         return isActiveAndEnabled && !running && flow != null && flow.IsCurrent(chore)
-            ? "[E] " + HouseholdChoreFlow.Titles[(int)chore]
-            : "";
+            ? "[E] " + HouseholdChoreFlow.Titles[(int)chore] : "";
     }
 
     protected override void OnInteract()
     {
         if (flow == null) flow = HouseholdChoreFlow.Instance;
-        if (!isActiveAndEnabled || running || flow == null || !flow.IsCurrent(chore)) return;
+        if (!isActiveAndEnabled || running || flow == null || flow.UI == null || !flow.IsCurrent(chore)) return;
+
         running = true;
-        successes = 0;
-        amount = 0;
-        secondPhase = false;
-        hasPreviousAngle = false;
         GameManager.Instance?.AcquireInput(this);
-        feedback = new HouseholdWorkFeedback(chore, effectAnchor != null ? effectAnchor : transform);
-        ShowInitialUI();
-    }
-
-    private void ShowInitialUI()
-    {
-        var ui = flow.UI;
-        switch (chore)
+        try
         {
-            case HouseholdChore.FoldBlanket:
-                ShowOrder("Mép trái", "Mép phải", "Gấp đôi"); break;
-            case HouseholdChore.ArrangeKeepsakes:
-                ShowOrder("Áo", "Khăn", "Đóng rương"); break;
-            case HouseholdChore.SortTools:
-                ShowOrder("Cào", "Cuốc", "Xẻng"); break;
-            case HouseholdChore.TuneRadio:
-                ui.ShowGame("Chỉnh radio", "Space đúng vùng xanh 3 lần để bắt sóng", true); break;
-            case HouseholdChore.GrindCorn:
-                ui.ShowGame("Xay ngô", "Xoay chuột 3 vòng; chuột phải thu bột", false); break;
-            case HouseholdChore.CarryWood:
-                ui.ShowGame("Gom củi", "Giữ F 3 giây để gom bó củi cho mẹ", false); break;
-            case HouseholdChore.ReadLetter:
-                ui.ShowGame("Lá thư của mẹ", "Giữ F 3 giây để mở lá thư", false); break;
-            case HouseholdChore.FetchWater:
-                ui.ShowGame("Múc nước", "Nhấn Space khi kim đi qua vùng xanh — 3 lần", true);
-                break;
-            case HouseholdChore.MeasureRice:
-                ui.ShowGame("Đong gạo", "Giữ chuột trái, thả khi vạch ở vùng giữa — 3 gáo", false);
-                ui.ShowMeasureZone();
-                break;
-            case HouseholdChore.WashRice:
-                ui.ShowGame("Vo gạo", "Xoay chuột 3 vòng; sau đó chuột phải để chắt nước", false);
-                break;
-            case HouseholdChore.LightFire:
-                ui.ShowGame("Nhóm lửa", "Nhấn Space 15 lần để thổi bếp", false);
-                break;
-            case HouseholdChore.CookRice:
-                ui.ShowGame("Nấu cơm", "Giữ F trong 4 giây để chăm nồi", false);
-                break;
-            case HouseholdChore.SetTable:
-                ui.ShowGame("Dọn mâm cơm", "Bấm theo thứ tự: bát → đũa → nồi cơm", false);
-                ui.ShowChoices(new[] { "Bát", "Đũa", "Nồi cơm" }, SelectChoice);
-                ui.SetExpectedChoice(0);
-                break;
-            case HouseholdChore.WashDishes:
-                ui.ShowGame("Rửa chén", "Giữ chuột trái 3 giây cho mỗi chén — 3 chén", false);
-                break;
-            case HouseholdChore.PutAwayDishes:
-                ui.ShowGame("Cất chén", "Bấm theo thứ tự: chén → đĩa → đũa", false);
-                ui.ShowChoices(new[] { "Chén", "Đĩa", "Đũa" }, SelectChoice);
-                ui.SetExpectedChoice(0);
-                break;
+            feedback = new HouseholdWorkFeedback(chore, effectAnchor != null ? effectAnchor : transform);
+            flow.UI.ShowGame(HouseholdChoreFlow.Titles[(int)chore], InstructionFor(chore), false);
+            flow.UI.Actions.Begin(chore, Finish, UpdateProgress, ShowHint, Pulse);
         }
-        ui.SetProgress(0, Counter());
-    }
-
-    private void ShowOrder(params string[] labels)
-    {
-        flow.UI.ShowGame(HouseholdChoreFlow.Titles[(int)chore], "Bấm lần lượt: " + string.Join(" → ", labels), false);
-        flow.UI.ShowChoices(labels, SelectChoice);
-        flow.UI.SetExpectedChoice(0);
+        catch (Exception error)
+        {
+            Debug.LogException(error, this);
+            EndInteraction();
+        }
     }
 
     private void Update()
     {
         if (!running) return;
-        if (Input.GetKeyDown(KeyCode.Escape)) { Cancel(); return; }
+        if ((GameManager.Instance != null && GameManager.Instance.IsPaused) ||
+            PauseUI.LastResumeFrame == Time.frameCount) return;
+        if (Input.GetKeyDown(KeyCode.Escape)) { EndInteraction(); return; }
         feedback?.Tick();
-        switch (chore)
-        {
-            case HouseholdChore.TuneRadio:
-                Timing(3, 2.6f, "Sóng rõ", true); break;
-            case HouseholdChore.GrindCorn:
-                WashRice(); break;
-            case HouseholdChore.CarryWood:
-            case HouseholdChore.ReadLetter:
-                if (Input.GetKey(KeyCode.F)) amount += Time.deltaTime;
-                feedback?.SetIntensity(amount / 3f);
-                flow.UI.SetProgress(amount / 3f, amount.ToString("0.0") + "/3 giây");
-                if (amount >= 3f) Finish();
-                break;
-            case HouseholdChore.FetchWater:
-                Timing(3, 2.9f, "Lần múc", false);
-                break;
-            case HouseholdChore.MeasureRice:
-                Measure();
-                break;
-            case HouseholdChore.WashRice:
-                WashRice();
-                break;
-            case HouseholdChore.LightFire:
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    successes++;
-                    feedback?.Pulse();
-                    flow.UI.SetProgress(successes / 15f, successes + "/15 nhịp thổi");
-                    if (successes >= 15) Finish();
-                }
-                break;
-            case HouseholdChore.CookRice:
-                if (!secondPhase)
-                {
-                    if (Input.GetKey(KeyCode.F)) amount = Mathf.Min(4f, amount + Time.deltaTime);
-                    feedback?.SetIntensity(amount / 4f);
-                    flow.UI.SetProgress(amount / 4f, amount.ToString("0.0") + "/4 giây");
-                    if (amount >= 4f)
-                    {
-                        secondPhase = true;
-                        amount = 0;
-                        flow.UI.ShowGame("Canh nồi cơm", "Nhấn Space khi kim nhiệt ở vùng xanh", true);
-                    }
-                }
-                else Timing(1, 2.4f, "Lần canh lửa", true);
-                break;
-            case HouseholdChore.WashDishes:
-                WashDishes();
-                break;
-        }
     }
 
-    private void Timing(int target, float speed, string label, bool cooking)
+    private void UpdateProgress(float value, string label)
     {
-        float needle = (Mathf.Sin(Time.unscaledTime * speed) + 1f) * .5f;
-        flow.UI.SetMeter(needle);
-        if (!Input.GetKeyDown(KeyCode.Space)) return;
-        if (needle >= .40f && needle <= .60f)
-        {
-            successes++;
-            feedback?.Pulse();
-            if (!cooking) AudioManager.Instance?.PlaySFX("water_splash");
-            flow.UI.SetProgress(successes / (float)target, label + " " + successes + "/" + target);
-            if (successes >= target) Finish();
-        }
-        else flow.UI.SetHint("Chưa đúng vùng xanh — đợi kim trở lại");
+        if (!running || flow == null) return;
+        feedback?.SetIntensity(value);
+        flow.UI.SetProgress(value, label);
     }
 
-    private void Measure()
+    private void ShowHint(string message)
     {
-        if (Input.GetMouseButton(0)) amount = Mathf.Min(1f, amount + Time.deltaTime * .62f);
-        feedback?.SetIntensity(amount);
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (amount >= .55f && amount <= .75f)
-            {
-                successes++;
-                feedback?.Pulse();
-                if (successes >= 3) { Finish(); return; }
-                flow.UI.SetHint("Gáo vừa đủ — đong gáo tiếp theo");
-            }
-            else flow.UI.SetHint("Chưa đúng lượng — đong lại gáo này");
-            amount = 0;
-        }
-        flow.UI.SetProgress(amount, successes + "/3 gáo — thả trong vùng xanh");
+        if (running && flow != null) flow.UI.SetHint(message);
     }
 
-    private void WashRice()
+    private void Pulse()
     {
-        if (secondPhase)
-        {
-            if (Input.GetMouseButtonDown(1))
-            {
-                if (chore == HouseholdChore.WashRice) AudioManager.Instance?.PlaySFX("water_splash");
-                Finish();
-            }
-            return;
-        }
-        var center = new Vector2(Screen.width * .5f, Screen.height * .5f);
-        var delta = (Vector2)Input.mousePosition - center;
-        if (delta.sqrMagnitude < 1600f) { hasPreviousAngle = false; return; }
-        float angle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
-        if (hasPreviousAngle)
-        {
-            float step = Mathf.Abs(Mathf.DeltaAngle(previousAngle, angle));
-            if (step < 45f) amount += step;
-        }
-        previousAngle = angle;
-        hasPreviousAngle = true;
-        feedback?.SetIntensity(Mathf.Clamp01(amount / 1080f));
-        flow.UI.SetProgress(amount / 1080f, Mathf.FloorToInt(Mathf.Min(3f, amount / 360f)) + "/3 vòng");
-        if (amount >= 1080f)
-        {
-            secondPhase = true;
-            feedback?.Pulse();
-            flow.UI.SetHint(chore == HouseholdChore.GrindCorn ? "Bột đã mịn — chuột phải để thu bột" : "Gạo đã sạch — nhấn chuột phải để chắt nước");
-        }
-    }
-
-    private void WashDishes()
-    {
-        if (Input.GetMouseButton(0)) amount += Time.deltaTime;
-        feedback?.SetIntensity(amount / 3f);
-        if (amount >= 3f)
-        {
-            amount = 0;
-            successes++;
-            feedback?.Pulse();
-            AudioManager.Instance?.PlaySFX("dish_clean");
-            if (successes >= 3) { Finish(); return; }
-        }
-        flow.UI.SetProgress((successes + amount / 3f) / 3f,
-            "Chén " + (successes + 1) + "/3 — " + amount.ToString("0.0") + "/3 giây");
-    }
-
-    private void SelectChoice(int selection)
-    {
-        if (!running || (chore != HouseholdChore.SetTable && chore != HouseholdChore.PutAwayDishes && chore != HouseholdChore.FoldBlanket && chore != HouseholdChore.ArrangeKeepsakes && chore != HouseholdChore.SortTools)) return;
-        if (selection != successes)
-        {
-            flow.UI.SetHint("Chưa đúng thứ tự — xem ô đang sáng");
-            return;
-        }
-        successes++;
+        if (!running) return;
         feedback?.Pulse();
-        AudioManager.Instance?.PlaySFX("button_click");
-        flow.UI.SetProgress(successes / 3f, successes + "/3 món");
-        flow.UI.SetExpectedChoice(successes);
-        if (successes >= 3) Finish();
+        SfxId sound = chore == HouseholdChore.WashDishes ? SfxId.DishClean :
+            chore == HouseholdChore.FetchWater || chore == HouseholdChore.WashRice
+                ? SfxId.WaterSplash : SfxId.TaskProgress;
+        AudioManager.Instance?.PlaySFX(sound);
     }
-
-    private string Counter() => chore == HouseholdChore.LightFire ? "0/15 nhịp thổi" : "0/3";
 
     private void Finish()
     {
+        if (!running) return;
         EndInteraction();
-        if (flow != null && flow.Complete(chore) && chore == HouseholdChore.ReadLetter)
-            DialogueUI.Instance?.ShowDialogue("Thư của mẹ", HouseholdChoreFlow.Memories[(int)chore], 10f);
+        if (flow == null || !flow.Complete(chore) || chore != HouseholdChore.ReadLetter) return;
+        var quests = QuestManager.Instance;
+        if (DialogueUI.Instance != null)
+            DialogueUI.Instance.ShowDialogue("Thư của mẹ", HouseholdChoreFlow.Memories[(int)chore], 0f,
+                () => { if (quests != null) quests.ContinueOutside(); });
+        else quests?.ContinueOutside();
     }
-
-    private void Cancel() => EndInteraction();
 
     private void EndInteraction()
     {
         if (!running) return;
         running = false;
+        flow?.UI?.HideGame();
         feedback?.Dispose();
         feedback = null;
-        flow?.UI.HideGame();
         GameManager.Instance?.ReleaseInput(this);
     }
 
     private void OnDisable() => EndInteraction();
+
+    private static string InstructionFor(HouseholdChore task)
+    {
+        switch (task)
+        {
+            case HouseholdChore.ArrangeKeepsakes: return "Kéo áo, khăn và kỷ vật vào từng ngăn; sau đó đóng nắp rương.";
+            case HouseholdChore.FoldBlanket: return "Kéo từng mép chăn vào đúng vị trí để gấp gọn.";
+            case HouseholdChore.SortTools: return "Kéo dụng cụ lên móc; giữ R hoặc lăn chuột khi kéo để xoay cuốc.";
+            case HouseholdChore.CarryWood: return "Xếp ba thanh củi thành bó rồi kéo dây buộc.";
+            case HouseholdChore.SetTable: return "Đặt bát, đũa và nồi cơm lên đúng chỗ trên mâm.";
+            case HouseholdChore.PutAwayDishes: return "Đưa chén, đĩa và đũa vào đúng ngăn tủ.";
+            case HouseholdChore.TuneRadio: return "Giữ chuột và xoay núm đến khi tiếng rè dịu đi.";
+            case HouseholdChore.GrindCorn: return "Xoay chuột quanh cối; khi bột mịn, kéo khay xuống để thu bột.";
+            case HouseholdChore.FetchWater: return "Đưa gáo vào lu, múc đầy rồi chuyển sang thau.";
+            case HouseholdChore.MeasureRice: return "Múc gạo từ lu, đưa sang thau rồi nghiêng gáo; dư thì gạt bớt.";
+            case HouseholdChore.WashRice: return "Xoay chuột trong thau cho gạo sạch rồi chắt nước.";
+            case HouseholdChore.LightFire: return "Đặt củi vào bếp, sau đó thổi khi than sáng vàng.";
+            case HouseholdChore.CookRice: return "Đẩy củi vào hoặc rút ra để giữ nồi cơm sôi đều.";
+            case HouseholdChore.WashDishes: return "Chà từng vết bẩn, tráng chén qua nước rồi đặt lên giá.";
+            case HouseholdChore.ReadLetter: return "Tháo dây, mở nếp giấy và lật trang để đọc thư.";
+            default: return "Tương tác với vật dụng để hoàn thành việc này.";
+        }
+    }
 }

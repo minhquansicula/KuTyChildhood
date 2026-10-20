@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 // One local input owner. The legacy PlayerInteraction requires HUDController/task UI,
 // so this independent scene uses an occluding raycast without adding that dependency.
@@ -27,6 +28,9 @@ public sealed class OfficeIntroController : MonoBehaviour
     public AudioSource voice, deskSlam, chairSound;
     public AudioSource[] ambience;
     public Line[] dialogue;
+    [Header("TTS dialogue (falls back to legacy Dialogue when empty)")]
+    [SerializeField] private DialogueSequence dialogueSequence;
+    [SerializeField] private DialogueVoicePlayer voicePlayer;
     [Header("Tuning")]
     public float interactionDistance = 2.7f, seatingDuration = .85f;
     public float seatedEyeHeight = 1.2f, lookSensitivity = 2f;
@@ -41,6 +45,8 @@ public sealed class OfficeIntroController : MonoBehaviour
     public bool GameplayHandoffComplete { get; private set; }
     public int DialogueIndex => lineIndex;
     public float LineElapsed => elapsed;
+    public DialogueSequence Sequence => dialogueSequence;
+    public DialogueVoicePlayer VoicePlayer => voicePlayer;
     public event Action OpeningFinished, PlayerExitedBossRoom, Seated, ReadyAtDesk;
     float elapsed, yaw, pitch, centerYaw, completionElapsed;
     int lineIndex;
@@ -57,7 +63,7 @@ public sealed class OfficeIntroController : MonoBehaviour
     {
         if (!motor || !body || !view || !spawn || !seat || !chairRoot || !hud || !door || !door.leaf ||
             !hud.subtitle || !hud.objective || !hud.prompt || !hud.crosshair || !hud.resumeButton ||
-            !hud.pausePanel || !hud.subtitlePanel || dialogue == null || dialogue.Length == 0)
+            !hud.pausePanel || !hud.subtitlePanel || DialogueCount == 0)
         { Debug.LogError("OfficeIntroController: missing required Player/Anchor/Door/HUD/Dialogue reference.", this); enabled = false; return; }
         previousMotorEnabled = motor.enabled; previousBodyEnabled = body.enabled;
         previousLocked = motor.IsMovementLocked; previousWalkingOnly = motor.LockWalkingOnly;
@@ -81,9 +87,10 @@ public sealed class OfficeIntroController : MonoBehaviour
     void BeginLine()
     {
         elapsed = 0;
-        Line line = dialogue[lineIndex];
+        ResolvedLine line = ResolveLine(lineIndex);
         hud.SetSubtitle(line.speaker, line.text);
-        if (voice) { voice.Stop(); voice.clip=line.voice; if (line.voice) voice.Play(); }
+        if (voicePlayer) voicePlayer.Play(line.clip);
+        else if (voice) { voice.Stop(); voice.clip=line.clip; if (line.clip) voice.Play(); }
         if (line.slam && deskSlam && deskSlam.clip) deskSlam.Play();
     }
     void Update()
@@ -104,11 +111,11 @@ public sealed class OfficeIntroController : MonoBehaviour
         if (State==IntroState.OpeningDialogue)
         {
             elapsed+=dt;
-            Line line=dialogue[lineIndex];
-            float duration=line.voice ? line.voice.length : Mathf.Max(.1f,line.duration);
+            ResolvedLine line=ResolveLine(lineIndex);
+            float duration=line.duration;
             if (elapsed>=duration)
             {
-                if (++lineIndex<dialogue.Length) BeginLine();
+                if (++lineIndex<DialogueCount) BeginLine();
                 else
                 {
                     hud.SetSubtitle("",""); State=IntroState.ReturnToDesk;
@@ -175,14 +182,15 @@ public sealed class OfficeIntroController : MonoBehaviour
             nearest=candidate.distance; hit=candidate;
         }
         if(!hit.collider) return 0;
-        if(hit.transform.IsChildOf(door.transform) && door.State==OfficeDoorInteractable.DoorState.Closed) return 1;
+        if(hit.transform.IsChildOf(door.transform) &&
+            (door.State==OfficeDoorInteractable.DoorState.Closed || door.State==OfficeDoorInteractable.DoorState.Open)) return 1;
         if(hit.transform.IsChildOf(chairRoot) && ExitedBossRoom) return 2;
         return 0;
     }
     public string GetInteractionPrompt()
     {
         int target=Target();
-        if(target==1) return door.PlayerBlocksSweep(body) ? "Lùi lại một chút để mở cửa." : "[E] Mở cửa";
+        if(target==1) return GetDoorPrompt();
         return target==2 ? "[E] Ngồi xuống" : "";
     }
     public bool TryInteract()
@@ -194,14 +202,22 @@ public sealed class OfficeIntroController : MonoBehaviour
     }
     public string GetDoorPrompt()
     {
-        if (IsPaused || State != IntroState.ReturnToDesk || door.State != OfficeDoorInteractable.DoorState.Closed)
+        if (IsPaused || (State != IntroState.ReturnToDesk && !GameplayHandoffComplete))
             return string.Empty;
-        return door.PlayerBlocksSweep(body) ? "Lùi lại một chút để mở cửa." : "[E] Mở cửa";
+        if (door.State == OfficeDoorInteractable.DoorState.Closed)
+            return door.PlayerBlocksSweep(body) ? "Lùi lại một chút để mở cửa." : "[E] Mở cửa";
+        if (door.State == OfficeDoorInteractable.DoorState.Open)
+            return door.PlayerBlocksSweepTo(body, 0f) ? "Lùi lại một chút để đóng cửa." : "[E] Đóng cửa";
+        return string.Empty;
     }
     public bool TryOpenDoor()
     {
-        if (string.IsNullOrEmpty(GetDoorPrompt()) || door.PlayerBlocksSweep(body)) return false;
-        return door.TryOpen(body);
+        if (string.IsNullOrEmpty(GetDoorPrompt())) return false;
+        if (door.State == OfficeDoorInteractable.DoorState.Closed)
+            return door.TryOpen(body);
+        if (door.State == OfficeDoorInteractable.DoorState.Open)
+            return door.TryClose(body);
+        return false;
     }
     public string GetChairPrompt()
     {
@@ -223,11 +239,15 @@ public sealed class OfficeIntroController : MonoBehaviour
         if (!initialized || GameplayHandoffComplete || State != IntroState.ReadyAtDesk) return;
         GameplayHandoffComplete = true;
         IsPaused = false;
-        if (voice) voice.Stop();
+        StopDialogueVoice();
         hud.SetSubtitle("", "");
         hud.SetPrompt("");
         hud.SetPaused(false);
         hud.SetObjective("");
+        // The authored EventSystem may live below OfficeIntroUI. Keep it alive
+        // when the intro HUD is disabled so gameplay modals can receive clicks.
+        EventSystem uiEvents = hud.GetComponentInChildren<EventSystem>(true);
+        if (uiEvents != null) uiEvents.transform.SetParent(null, true);
         hud.gameObject.SetActive(false);
         body.enabled = true;
         motor.enabled = true;
@@ -242,14 +262,17 @@ public sealed class OfficeIntroController : MonoBehaviour
         if(!value && GameManager.Instance && GameManager.Instance.InputBlocked) return;
         IsPaused=value; motor.IsMovementLocked=value || State!=IntroState.ReturnToDesk;
         hud.SetPaused(value); hud.SetPrompt(""); SetCursor(!value);
-        foreach(var source in ownedAudio) if(source) { if(value) source.Pause(); else source.UnPause(); }
+        AudioSource voiceSource = voicePlayer ? voicePlayer.Source : null;
+        foreach(var source in ownedAudio) if(source && source != voiceSource) { if(value) source.Pause(); else source.UnPause(); }
+        if (voicePlayer) { if (value) voicePlayer.Pause(); else voicePlayer.Resume(); }
     }
     void OnApplicationFocus(bool focused) { if(!focused) SetPaused(true); }
     void SetCursor(bool locked) { Cursor.lockState=locked?CursorLockMode.Locked:CursorLockMode.None; Cursor.visible=!locked; }
     void OnDisable()
     {
         if(!initialized) return;
-        foreach(var source in ownedAudio) if(source) source.Stop();
+        StopDialogueVoice();
+        foreach(var source in ownedAudio) if(source && (!voicePlayer || source != voicePlayer.Source)) source.Stop();
         if(hud)
         {
             if(hud.resumeButton) hud.resumeButton.onClick.RemoveListener(Resume);
@@ -271,7 +294,7 @@ public sealed class OfficeIntroController : MonoBehaviour
         if (!initialized || GameplayHandoffComplete) return;
         if (State == IntroState.OpeningDialogue)
         {
-            if (voice) voice.Stop();
+            StopDialogueVoice();
             hud.SetSubtitle("", "");
             State = IntroState.ReturnToDesk;
             motor.LockMovement(false);
@@ -297,4 +320,46 @@ public sealed class OfficeIntroController : MonoBehaviour
         ReadyAtDesk?.Invoke();
     }
 #endif
+
+    int DialogueCount => dialogueSequence && dialogueSequence.Count > 0
+        ? dialogueSequence.Count
+        : dialogue != null ? dialogue.Length : 0;
+
+    ResolvedLine ResolveLine(int index)
+    {
+        if (dialogueSequence && dialogueSequence.Count > 0)
+        {
+            DialogueSequence.DialogueLine authored = dialogueSequence.GetLine(index);
+            return new ResolvedLine(authored.speakerId, authored.text, authored.voiceClip,
+                authored.ResolveDuration(), authored.slam);
+        }
+
+        Line legacy = dialogue[index];
+        float duration = legacy.voice ? legacy.voice.length : Mathf.Max(.1f, legacy.duration);
+        return new ResolvedLine(legacy.speaker, legacy.text, legacy.voice, duration, legacy.slam);
+    }
+
+    void StopDialogueVoice()
+    {
+        if (voicePlayer) voicePlayer.Stop();
+        else if (voice) voice.Stop();
+    }
+
+    readonly struct ResolvedLine
+    {
+        public readonly string speaker;
+        public readonly string text;
+        public readonly AudioClip clip;
+        public readonly float duration;
+        public readonly bool slam;
+
+        public ResolvedLine(string speaker, string text, AudioClip clip, float duration, bool slam)
+        {
+            this.speaker = speaker;
+            this.text = text;
+            this.clip = clip;
+            this.duration = Mathf.Max(.1f, duration);
+            this.slam = slam;
+        }
+    }
 }

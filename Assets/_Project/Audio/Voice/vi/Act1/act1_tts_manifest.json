@@ -1,0 +1,53 @@
+{
+    "language": "vi-VN",
+    "sequenceAsset": "Assets/_Project/Data/Dialogue/Act1OfficeIntro.asset",
+    "status": "awaiting-voice-assets",
+    "provider": "unselected",
+    "generatedAt": "",
+    "lines": [
+        {
+            "id": "act1_intro_boss_001",
+            "speakerId": "SẾP",
+            "text": "Số liệu trong file này là sao?\nNhiều ô còn sai mà cậu đã gửi rồi à?",
+            "spokenText": "Số liệu trong file này là sao?\nNhiều ô còn sai mà cậu đã gửi rồi à?",
+            "textHash": "46564fe0",
+            "emotionDirection": "Điềm, khô, dứt câu; không quát.",
+            "expectedAssetPath": "Assets/_Project/Audio/Voice/vi/Act1/act1_intro_boss_001.wav",
+            "assignedClipPath": "",
+            "status": "missing"
+        },
+        {
+            "id": "act1_intro_boss_002",
+            "speakerId": "SẾP",
+            "text": "Khách hàng đang chờ bản chốt.\nTôi đã nhắc cậu từ sáng rồi.",
+            "spokenText": "Khách hàng đang chờ bản chốt.\nTôi đã nhắc cậu từ sáng rồi.",
+            "textHash": "3d7122fc",
+            "emotionDirection": "Điềm, khô, dứt câu; không quát.",
+            "expectedAssetPath": "Assets/_Project/Audio/Voice/vi/Act1/act1_intro_boss_002.wav",
+            "assignedClipPath": "",
+            "status": "missing"
+        },
+        {
+            "id": "act1_intro_boss_003",
+            "speakerId": "SẾP",
+            "text": "Quay về bàn, kiểm tra lại file Excel.\nXong thì in một bản, mang lại đây cho tôi ký.",
+            "spokenText": "Quay về bàn, kiểm tra lại file Excel.\nXong thì in một bản, mang lại đây cho tôi ký.",
+            "textHash": "8af94f38",
+            "emotionDirection": "Điềm, khô, dứt câu; không quát.",
+            "expectedAssetPath": "Assets/_Project/Audio/Voice/vi/Act1/act1_intro_boss_003.wav",
+            "assignedClipPath": "",
+            "status": "missing"
+        },
+        {
+            "id": "act1_intro_ty_001",
+            "speakerId": "TÝ",
+            "text": "Dạ… em kiểm tra lại ngay ạ.",
+            "spokenText": "Dạ… em kiểm tra lại ngay ạ.",
+            "textHash": "3635ae22",
+            "emotionDirection": "Mệt, dè dặt, ngắt tự nhiên.",
+            "expectedAssetPath": "Assets/_Project/Audio/Voice/vi/Act1/act1_intro_ty_001.wav",
+            "assignedClipPath": "",
+            "status": "missing"
+        }
+    ]
+}

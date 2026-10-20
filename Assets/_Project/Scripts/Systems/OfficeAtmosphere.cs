@@ -29,6 +29,7 @@ public class OfficeAtmosphere : MonoBehaviour
     [SerializeField] private AudioClip waterPour;
     [SerializeField] private AudioClip paperRustle;
     [SerializeField] private AudioClip cupSetDown;
+    [SerializeField] private AudioClip chairShift;
     [SerializeField] private AudioClip tiredSigh;
     [SerializeField] private AudioClip childhoodBridge;
     [SerializeField, Range(0f, 1f)] private float workTypingVolume = .18f;
@@ -49,6 +50,7 @@ public class OfficeAtmosphere : MonoBehaviour
     private AudioClip generatedWater;
     private AudioClip generatedRustle;
     private AudioClip generatedCup;
+    private AudioClip generatedChair;
     private AudioClip generatedSigh;
     private AudioClip generatedChildhood;
     private float flickerTimer;
@@ -158,6 +160,7 @@ public class OfficeAtmosphere : MonoBehaviour
     public void PlayWater() => Play(propSource, waterPour != null ? waterPour : generatedWater ?? (generatedWater = GenerateWater()));
     public void PlayPaper() => Play(propSource, paperRustle != null ? paperRustle : generatedRustle ?? (generatedRustle = GenerateRustle()));
     public void PlayCup() => Play(propSource, cupSetDown != null ? cupSetDown : generatedCup ?? (generatedCup = GenerateCup()));
+    public void PlayChair() => Play(propSource, chairShift != null ? chairShift : generatedChair ?? (generatedChair = GenerateChair()));
     public void PlaySigh() => Play(propSource, tiredSigh != null ? tiredSigh : generatedSigh ?? (generatedSigh = GenerateSigh()));
     public void PlayMemoryBridge() => Play(memorySource,
         childhoodBridge != null ? childhoodBridge : generatedChildhood ?? (generatedChildhood = GenerateChildhood()));
@@ -307,6 +310,19 @@ public class OfficeAtmosphere : MonoBehaviour
         float t = i / 22050f;
         return 0.24f * Mathf.Sin(2f * Mathf.PI * 180f * t) * Mathf.Exp(-18f * t);
     });
+
+    private AudioClip GenerateChair()
+    {
+        var random = new System.Random(94);
+        return Create("ChairShiftPlaceholder", .42f, i =>
+        {
+            float t = i / 22050f;
+            float envelope = Mathf.Sin(Mathf.PI * Mathf.Clamp01(t / .42f));
+            float scrape = (float)(random.NextDouble() - .5) * .12f * envelope;
+            float settle = t > .28f ? .16f * Mathf.Sin(2f * Mathf.PI * 115f * t) * Mathf.Exp(-22f * (t - .28f)) : 0f;
+            return scrape + settle;
+        });
+    }
 
     private AudioClip GenerateSigh() => Create("SighPlaceholder", 1.15f, i =>
     {

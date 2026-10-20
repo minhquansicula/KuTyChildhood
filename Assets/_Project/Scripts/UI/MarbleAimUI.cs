@@ -23,6 +23,7 @@ public class MarbleAimUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI knockedText;    // "Bi trúng: 1/3"
     [SerializeField] private Slider forceSlider;             // Thanh lực bắn
     [SerializeField] private Image forceSliderFill;
+    [SerializeField] private TextMeshProUGUI statusText;
 
     [Header("Colors")]
     [SerializeField] private Color forceLow = new Color(0.3f, 0.8f, 0.3f);   // Xanh lá nhẹ
@@ -40,6 +41,21 @@ public class MarbleAimUI : MonoBehaviour
 
         if (panel != null)
             panel.SetActive(false);
+        if (panel != null && statusText == null)
+        {
+            var labelObject = new GameObject("MarbleInstructions", typeof(RectTransform), typeof(TextMeshProUGUI));
+            labelObject.transform.SetParent(panel.transform, false);
+            var rect = labelObject.GetComponent<RectTransform>();
+            rect.anchorMin = rect.anchorMax = new Vector2(.5f, 0f);
+            rect.pivot = new Vector2(.5f, 1f);
+            rect.anchoredPosition = new Vector2(0f, -8f);
+            rect.sizeDelta = new Vector2(940f, 70f);
+            statusText = labelObject.GetComponent<TextMeshProUGUI>();
+            statusText.alignment = TextAlignmentOptions.Center;
+            statusText.fontSize = 21f;
+            statusText.color = new Color(1f, .91f, .72f);
+            statusText.raycastTarget = false;
+        }
     }
 
     // ========== PUBLIC METHODS ==========
@@ -53,6 +69,9 @@ public class MarbleAimUI : MonoBehaviour
         UpdateShots(currentShot, maxShots);
         UpdateKnocked(knocked, target);
         UpdateForceIndicator(0f);
+        if (statusText != null && HUDController.Instance != null && HUDController.Instance.ObjectiveFont != null)
+            statusText.font = HUDController.Instance.ObjectiveFont;
+        SetStatus("Kéo từ viên bi rồi thả để bắn · Chuột phải hủy ngắm · Esc rời bàn chơi");
     }
 
     /// <summary>Ẩn UI bắn bi.</summary>
@@ -62,18 +81,23 @@ public class MarbleAimUI : MonoBehaviour
             panel.SetActive(false);
     }
 
+    public void SetStatus(string message)
+    {
+        if (statusText != null) statusText.text = message;
+    }
+
     /// <summary>Cập nhật số lượt bắn.</summary>
     public void UpdateShots(int current, int max)
     {
         if (shotsText != null)
-            shotsText.text = $"Lượt: {current}/{max}";
+            shotsText.text = $"Đã bắn: {current}/{max} · Còn {Mathf.Max(0, max - current)} lượt";
     }
 
     /// <summary>Cập nhật số bi đã đẩy ra.</summary>
     public void UpdateKnocked(int knocked, int target)
     {
         if (knockedText != null)
-            knockedText.text = $"Bi trúng: {knocked}/{target}";
+            knockedText.text = $"Bi ra khỏi vòng: {knocked}/{target}";
     }
 
     /// <summary>Cập nhật thanh lực bắn (0-1).</summary>

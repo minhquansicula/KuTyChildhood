@@ -82,7 +82,7 @@ public class HoldToCompleteTask : InteractableBase
         
         Debug.Log(taskName + " - Hoàn thành!");
         // Play success sound...
-        AudioManager.Instance?.PlaySFX("ui_select");
+        AudioManager.Instance?.PlaySFX(SfxId.UIConfirm);
         
         // Update checklist
         KitchenFlowManager.Instance?.MarkTaskCompleted(transform.parent != null ? transform.parent.name : gameObject.name);

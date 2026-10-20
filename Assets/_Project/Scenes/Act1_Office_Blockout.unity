@@ -548,6 +548,7 @@ GameObject:
   m_Component:
   - component: {fileID: 12132343}
   - component: {fileID: 12132342}
+  - component: {fileID: 12132344}
   m_Layer: 0
   m_Name: DialogueVoice
   m_TagString: Untagged
@@ -611,7 +612,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.25
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -666,6 +667,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 954435346}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &12132344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12132341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54249d2b93e29ab4ba1916d1d060b9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 12132342}
+  volume: 0.85
+  muted: 0
 --- !u!1 &15518017
 GameObject:
   m_ObjectHideFlags: 0
@@ -23923,6 +23939,8 @@ MonoBehaviour:
     duration: 1
     voice: {fileID: 0}
     slam: 0
+  dialogueSequence: {fileID: 11400000, guid: e9782a380610bb949b2ea090c83e8e02, type: 2}
+  voicePlayer: {fileID: 12132344}
   interactionDistance: 2.7
   seatingDuration: 0.85
   seatedEyeHeight: 1.2
@@ -48168,6 +48186,7 @@ GameObject:
   - component: {fileID: 1813607004}
   - component: {fileID: 1813607003}
   - component: {fileID: 1813607008}
+  - component: {fileID: 1813607009}
   m_Layer: 0
   m_Name: OfficeGameplaySystems
   m_TagString: Untagged
@@ -48281,7 +48300,7 @@ MonoBehaviour:
   seatedCamY: 1.2
   objectiveDelaySeconds: 2.5
   bossReminderSeconds: 28
-  afterWorkFreedomSeconds: 15
+  printerDurationSeconds: 3
   dreamFade: {r: 1, g: 0.84, b: 0.47, a: 1}
 --- !u!4 &1813607007
 Transform:
@@ -48314,6 +48333,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f761338f99ff3d044a67517024c17c55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1813607009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1813607002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3fdb1f13b763e4419eebde226777bcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  office: {fileID: 0}
+  intro: {fileID: 0}
+  playerCamera: {fileID: 0}
+  textHintSeconds: 20
+  markerSeconds: 40
 --- !u!1 &1818807068
 GameObject:
   m_ObjectHideFlags: 0

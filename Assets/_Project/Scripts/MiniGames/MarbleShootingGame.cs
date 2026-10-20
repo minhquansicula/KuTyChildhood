@@ -66,7 +66,8 @@ public class MarbleShootingGame : MonoBehaviour
     private void Update()
     {
         if (State == PlayState.Inactive || State == PlayState.Completed) return;
-        if (GameManager.Instance != null && GameManager.Instance.IsPaused) return;
+        if ((GameManager.Instance != null && GameManager.Instance.IsPaused) ||
+            PauseUI.LastResumeFrame == Time.frameCount) return;
         if (Input.GetKeyDown(KeyCode.Escape)) { CancelGame(); return; }
         if (State == PlayState.Aiming) HandleAiming();
         else if (State == PlayState.Simulating)
@@ -115,7 +116,11 @@ public class MarbleShootingGame : MonoBehaviour
         MarbleAimUI.Instance?.UpdateForceIndicator(Mathf.InverseLerp(minForce, maxForce, force));
         if (!Input.GetMouseButtonUp(0)) return;
         ClearAim();
-        if (drag.magnitude < minimumDrag) return;
+        if (drag.magnitude < minimumDrag)
+        {
+            MarbleAimUI.Instance?.SetStatus("Kéo chuột xa viên bi hơn một chút rồi thả.");
+            return;
+        }
         Shoot(drag.normalized, force);
     }
     private void Shoot(Vector3 direction, float force)
@@ -126,9 +131,10 @@ public class MarbleShootingGame : MonoBehaviour
         State = PlayState.Simulating;
         playerMarble.WakeUp();
         playerMarble.AddForce(direction * force, ForceMode.Impulse);
-        AudioManager.Instance?.PlaySFX("marble_shoot");
+        AudioManager.Instance?.PlaySFX(SfxId.MarbleShoot);
         OnShotFired?.Invoke(shots, maxShots);
         MarbleAimUI.Instance?.UpdateShots(shots, maxShots);
+        MarbleAimUI.Instance?.SetStatus("Bi đang lăn — chờ kết quả lượt bắn…");
     }
     private bool AllStopped()
     {
@@ -162,10 +168,17 @@ public class MarbleShootingGame : MonoBehaviour
         else if (shots >= maxShots)
         {
             State = PlayState.Retrying;
+            MarbleAimUI.Instance?.SetStatus("Chưa đủ bi ra khỏi vòng. Sắp xếp lại để thử tiếp — không mất hũ bi.");
             OnGameEnded?.Invoke(false);
             StartCoroutine(Retry());
         }
-        else { ResetPlayer(); State = PlayState.Aiming; }
+        else
+        {
+            ResetPlayer();
+            State = PlayState.Aiming;
+            MarbleAimUI.Instance?.SetStatus("Đã đẩy " + knocked.Count + "/" + targetMarblesToKnock +
+                " viên ra vòng. Kéo từ viên bi để bắn tiếp.");
+        }
     }
     private IEnumerator Retry()
     {

@@ -1,0 +1,61 @@
+{
+  "selection": "Act 1 office and basic UI SFX",
+  "license": "CC0 1.0",
+  "status": "selected-CC0-sources; installation and listening review are tracked separately",
+  "notes": "Freesound files are public HQ MP3 previews; the original WAV downloads require a Freesound account. Kenney source members will be copied from its CC0 Interface Sounds archive and renamed for the installer.",
+  "sources": [
+    {
+      "role": "photocopier",
+      "author": "Sergsil",
+      "page": "https://freesound.org/people/Sergsil/sounds/186142/",
+      "download": "https://cdn.freesound.org/previews/186/186142_2413331-hq.mp3",
+      "localSource": "Assets/_Project/Audio/SFX/Source/CC0/fs186142_photocopier_hq.mp3",
+      "outputs": ["Assets/_Project/Audio/SFX/Office/sfx_office_printer_01.wav"]
+    },
+    {
+      "role": "paper rustle",
+      "author": "BenjaminNelan",
+      "page": "https://freesound.org/people/BenjaminNelan/sounds/353125/",
+      "download": "https://cdn.freesound.org/previews/353/353125_1196020-hq.mp3",
+      "localSource": "Assets/_Project/Audio/SFX/Source/CC0/fs353125_paper_rustle_hq.mp3",
+      "outputs": ["Assets/_Project/Audio/SFX/Office/sfx_office_paper_01.wav"]
+    },
+    {
+      "role": "water and cup",
+      "author": "aflor",
+      "page": "https://freesound.org/people/aflor/sounds/519478/",
+      "download": "https://cdn.freesound.org/previews/519/519478_7432083-hq.mp3",
+      "localSource": "Assets/_Project/Audio/SFX/Source/CC0/fs519478_water_cup_hq.mp3",
+      "outputs": [
+        "Assets/_Project/Audio/SFX/Office/sfx_office_water_01.wav",
+        "Assets/_Project/Audio/SFX/Office/sfx_office_cup_01.wav"
+      ]
+    },
+    {
+      "role": "office chair",
+      "author": "romeoplank",
+      "page": "https://freesound.org/people/romeoplank/sounds/338143/",
+      "download": "https://cdn.freesound.org/previews/338/338143_2932059-hq.mp3",
+      "localSource": "Assets/_Project/Audio/SFX/Source/CC0/fs338143_office_chair_hq.mp3",
+      "outputs": ["Assets/_Project/Audio/SFX/Office/sfx_office_chair_01.wav"]
+    },
+    {
+      "role": "UI confirm, back and invalid",
+      "author": "Kenney",
+      "page": "https://kenney.nl/assets/interface-sounds",
+      "download": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+      "localSources": [
+        "Assets/_Project/Audio/SFX/Source/CC0/kenney_ui_confirm.ogg",
+        "Assets/_Project/Audio/SFX/Source/CC0/kenney_ui_back.ogg",
+        "Assets/_Project/Audio/SFX/Source/CC0/kenney_ui_invalid.ogg"
+      ],
+      "archiveMembers": "Select and record exact archive members after download",
+      "outputs": [
+        "Assets/_Project/Audio/SFX/UI/sfx_ui_confirm_01.wav",
+        "Assets/_Project/Audio/SFX/UI/sfx_ui_back_01.wav",
+        "Assets/_Project/Audio/SFX/UI/sfx_ui_invalid_01.wav"
+      ]
+    }
+  ],
+  "processing": "Unity Editor: mono PCM16 WAV, 15 ms edge fades, peak capped at 0.58 with gain capped at 1.5. Short sections are selected by KuTySfxProductionSetup."
+}

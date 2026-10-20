@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54762951ca938e243b5f54aaa1041815, type: 3}
+  m_Name: Act1OfficeIntro
+  m_EditorClassIdentifier: 
+  lines:
+  - id: act1_intro_boss_001
+    speakerId: "S\u1EBEP"
+    text: "S\u1ED1 li\u1EC7u trong file n\xE0y l\xE0 sao?\nNhi\u1EC1u \xF4 c\xF2n
+      sai m\xE0 c\u1EADu \u0111\xE3 g\u1EEDi r\u1ED3i \xE0?"
+    spokenText: "S\u1ED1 li\u1EC7u trong file n\xE0y l\xE0 sao?\nNhi\u1EC1u \xF4
+      c\xF2n sai m\xE0 c\u1EADu \u0111\xE3 g\u1EEDi r\u1ED3i \xE0?"
+    fallbackDuration: 7
+    postDelay: 0.2
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: act1_intro_boss_002
+    speakerId: "S\u1EBEP"
+    text: "Kh\xE1ch h\xE0ng \u0111ang ch\u1EDD b\u1EA3n ch\u1ED1t.\nT\xF4i \u0111\xE3
+      nh\u1EAFc c\u1EADu t\u1EEB s\xE1ng r\u1ED3i."
+    spokenText: "Kh\xE1ch h\xE0ng \u0111ang ch\u1EDD b\u1EA3n ch\u1ED1t.\nT\xF4i
+      \u0111\xE3 nh\u1EAFc c\u1EADu t\u1EEB s\xE1ng r\u1ED3i."
+    fallbackDuration: 5
+    postDelay: 0.2
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: act1_intro_slam_001
+    speakerId: 
+    text: 
+    spokenText: 
+    fallbackDuration: 0.8
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 1
+    silentBeat: 1
+  - id: act1_intro_boss_003
+    speakerId: "S\u1EBEP"
+    text: "Quay v\u1EC1 b\xE0n, ki\u1EC3m tra l\u1EA1i file Excel.\nXong th\xEC in
+      m\u1ED9t b\u1EA3n, mang l\u1EA1i \u0111\xE2y cho t\xF4i k\xFD."
+    spokenText: "Quay v\u1EC1 b\xE0n, ki\u1EC3m tra l\u1EA1i file Excel.\nXong th\xEC
+      in m\u1ED9t b\u1EA3n, mang l\u1EA1i \u0111\xE2y cho t\xF4i k\xFD."
+    fallbackDuration: 5
+    postDelay: 0.25
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: act1_intro_ty_001
+    speakerId: "T\xDD"
+    text: "D\u1EA1\u2026 em ki\u1EC3m tra l\u1EA1i ngay \u1EA1."
+    spokenText: "D\u1EA1\u2026 em ki\u1EC3m tra l\u1EA1i ngay \u1EA1."
+    fallbackDuration: 3
+    postDelay: 0.25
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: act1_intro_pause_001
+    speakerId: 
+    text: 
+    spokenText: 
+    fallbackDuration: 1
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 1
