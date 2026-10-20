@@ -1,0 +1,5 @@
+Selected soundtrack validation
+PASS Childhood_ScottBuckley.mp3: 137.14s, 2 channels, 44100Hz, Streaming/Vorbis q0.7, background load, no preload
+PASS CountrysideSummer_YoshinoriTanaka.mp3: 153.72s, 2 channels, 48000Hz, Streaming/Vorbis q0.7, background load, no preload
+PASS Reverie_ScottBuckley.mp3: 223.74s, 2 channels, 44100Hz, Streaming/Vorbis q0.7, background load, no preload
+PASS bootstrap prefab references and menu/home/village/letter/ending routing

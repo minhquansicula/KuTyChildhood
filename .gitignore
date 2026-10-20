@@ -123,3 +123,6 @@ dumb/
 
 # Duplicate, unreferenced 109 MiB source FBXs (local copies remain available).
 /Assets/_Project/Art/Materials/Scene3/353a7deb6e959c9a23c51cc2b628b9e3*.fbx*
+# OpenTracks permits game BGM use, not redistribution of loose source audio.
+/Assets/_Project/Audio/Music/CountrysideSummer_YoshinoriTanaka.mp3
+/Assets/_Project/Audio/Music/CountrysideSummer_YoshinoriTanaka.mp3.meta

@@ -27,6 +27,7 @@ public sealed partial class HouseholdActionBoard
     private HouseholdChore chore;
     private ActionMode mode;
     private bool active;
+    private bool ownsLetterMusic;
     private bool dragging;
     private int draggedIndex = -1;
     private int stage;
@@ -142,12 +143,20 @@ public sealed partial class HouseholdActionBoard
         }
         root.gameObject.SetActive(true);
         active = true;
+        if (task == HouseholdChore.ReadLetter && AudioManager.Instance != null)
+        {
+            ownsLetterMusic = true;
+            AudioManager.Instance.BeginLetterMusic();
+        }
         BuildHandGuide();
         SetFont(font);
     }
 
     public void Hide()
     {
+        if (ownsLetterMusic && AudioManager.Instance != null)
+            AudioManager.Instance.EndLetterMusic();
+        ownsLetterMusic = false;
         active = dragging = false;
         draggedIndex = -1;
         root.gameObject.SetActive(false);

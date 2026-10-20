@@ -1,0 +1,21 @@
+PASS
+PASS Scene transition does not activate intro pause
+PASS Office starts behind a black fade
+PASS Black overlay fades progressively
+PASS Dialogue waits until the opening image is visible
+PASS Dialogue begins after fade without a pause panel
+PASS Existing boss visual is present
+PASS Boss head is framed in front of the player
+PASS Boss head is not hidden behind a solid desk or monitor
+PASS Explicit pause still opens the pause panel
+PASS Resume closes the pause panel
+PASS Voice playback matches act1_intro_boss_001
+PASS Subtitle duration follows clip length for act1_intro_boss_001
+PASS Voice playback matches act1_intro_boss_002
+PASS Subtitle duration follows clip length for act1_intro_boss_002
+PASS Voice playback matches act1_intro_boss_003
+PASS Subtitle duration follows clip length for act1_intro_boss_003
+PASS Voice playback matches act1_intro_ty_001
+PASS Subtitle duration follows clip length for act1_intro_ty_001
+PASS Ty subtitle and spoken script match the supplied recording
+PASS All four voice clips and silent beats finish before returning control

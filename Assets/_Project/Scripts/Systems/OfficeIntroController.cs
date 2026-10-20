@@ -37,6 +37,10 @@ public sealed class OfficeIntroController : MonoBehaviour
     public Vector2 openingPitch = new Vector2(-15,20), seatedPitch = new Vector2(-25,30);
     public float openingYaw = 30, seatedYaw = 55;
     public UnityEvent readyAtDesk = new UnityEvent();
+    [SerializeField, Min(.1f)] private float openingFadeDuration = 2.1f;
+    [SerializeField] private Transform openingLookTarget;
+    private float openingFadeElapsed;
+    public bool IsFadingIn => openingFadeElapsed < openingFadeDuration;
     [Header("Gameplay handoff")]
     [SerializeField] private bool useExternalInteractionInput;
     public IntroState State { get; private set; }
@@ -64,7 +68,7 @@ public sealed class OfficeIntroController : MonoBehaviour
         if (!motor || !body || !view || !spawn || !seat || !chairRoot || !hud || !door || !door.leaf ||
             !hud.subtitle || !hud.objective || !hud.prompt || !hud.crosshair || !hud.resumeButton ||
             !hud.pausePanel || !hud.subtitlePanel || DialogueCount == 0)
-        { Debug.LogError("OfficeIntroController: missing required Player/Anchor/Door/HUD/Dialogue reference.", this); enabled = false; return; }
+        { if (hud) hud.SetOpeningFade(0f); Debug.LogError("OfficeIntroController: missing required Player/Anchor/Door/HUD/Dialogue reference.", this); enabled = false; return; }
         previousMotorEnabled = motor.enabled; previousBodyEnabled = body.enabled;
         previousLocked = motor.IsMovementLocked; previousWalkingOnly = motor.LockWalkingOnly;
         previousCursor = Cursor.lockState; previousCursorVisible = Cursor.visible;
@@ -78,11 +82,19 @@ public sealed class OfficeIntroController : MonoBehaviour
         view.transform.localPosition = Vector3.up * 1.65f;
         motor.SetPitch(0); motor.LockMovement(true); motor.enabled = false;
         centerYaw = spawn.eulerAngles.y; yaw = 0; pitch = 0;
+        if (openingLookTarget)
+        {
+            Vector3 direction = openingLookTarget.position - view.transform.position;
+            pitch = Mathf.Clamp(-Mathf.Atan2(direction.y, new Vector2(direction.x, direction.z).magnitude) * Mathf.Rad2Deg, openingPitch.x, openingPitch.y);
+            motor.SetPitch(pitch);
+            view.transform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+        }
         door.Initialize();
         hud.resumeButton.onClick.AddListener(Resume);
         hud.SetPaused(false); hud.SetPrompt(""); hud.SetObjective("");
         hud.crosshair.gameObject.SetActive(false);
-        State = IntroState.OpeningDialogue; lineIndex=0; BeginLine(); SetCursor(true);
+        State = IntroState.OpeningDialogue; lineIndex=0; elapsed=0f;
+        openingFadeElapsed = 0f; hud.SetOpeningFade(1f); hud.SetSubtitle("", ""); SetCursor(true);
     }
     void BeginLine()
     {
@@ -104,8 +116,15 @@ public sealed class OfficeIntroController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) SetPaused(!IsPaused);
         if (IsPaused) return;
         // Respect other systems' input ownership if this scene is later loaded additively.
-        if (GameManager.Instance && GameManager.Instance.InputBlocked) { SetPaused(true); return; }
+        if (GameManager.Instance && GameManager.Instance.InputBlocked) return;
         float dt=Time.deltaTime;
+        if (State == IntroState.OpeningDialogue && IsFadingIn)
+        {
+            openingFadeElapsed = Mathf.Min(openingFadeDuration, openingFadeElapsed + dt);
+            hud.SetOpeningFade(1f - Mathf.SmoothStep(0f, 1f, openingFadeElapsed / openingFadeDuration));
+            if (!IsFadingIn) BeginLine();
+            return;
+        }
         door.Tick(dt, body);
         if (State==IntroState.OpeningDialogue || State==IntroState.ReadyAtDesk) LimitedLook();
         if (State==IntroState.OpeningDialogue)
@@ -266,7 +285,11 @@ public sealed class OfficeIntroController : MonoBehaviour
         foreach(var source in ownedAudio) if(source && source != voiceSource) { if(value) source.Pause(); else source.UnPause(); }
         if (voicePlayer) { if (value) voicePlayer.Pause(); else voicePlayer.Resume(); }
     }
-    void OnApplicationFocus(bool focused) { if(!focused) SetPaused(true); }
+    void OnApplicationFocus(bool focused)
+    {
+        // Editor tab/focus changes during a scene load must not open an in-game pause dialog.
+        if (!Application.isEditor && !focused && initialized && !IsFadingIn) SetPaused(true);
+    }
     void SetCursor(bool locked) { Cursor.lockState=locked?CursorLockMode.Locked:CursorLockMode.None; Cursor.visible=!locked; }
     void OnDisable()
     {
@@ -277,6 +300,7 @@ public sealed class OfficeIntroController : MonoBehaviour
         {
             if(hud.resumeButton) hud.resumeButton.onClick.RemoveListener(Resume);
             hud.SetSubtitle("",""); hud.SetPrompt(""); hud.SetPaused(false);
+            hud.SetOpeningFade(0f);
         }
         // Restore to a clear spawn before re-enabling collision (seat overlaps the chair).
         if(body && motor && spawn && view)
@@ -292,6 +316,8 @@ public sealed class OfficeIntroController : MonoBehaviour
     public void SkipToReadyAtDeskForTests()
     {
         if (!initialized || GameplayHandoffComplete) return;
+        openingFadeElapsed = openingFadeDuration;
+        hud.SetOpeningFade(0f);
         if (State == IntroState.OpeningDialogue)
         {
             StopDialogueVoice();

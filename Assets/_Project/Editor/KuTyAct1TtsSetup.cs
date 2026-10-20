@@ -157,6 +157,44 @@ public static class KuTyAct1TtsSetup
         else Debug.Log("[KuTy TTS] Act1 TTS pilot validation passed with all voice clips assigned.");
     }
 
+    [MenuItem("KuTy/TTS/Assign supplied Act1 voice clips")]
+    public static void AssignSuppliedClips()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode)
+            throw new InvalidOperationException("Stop Play Mode before importing voice assets.");
+        var sequence = AssetDatabase.LoadAssetAtPath<DialogueSequence>(SequencePath);
+        if (sequence == null) throw new InvalidOperationException("Act1 dialogue sequence is missing.");
+        Undo.RecordObject(sequence, "Assign supplied Vietnamese TTS");
+        foreach (var line in sequence.Lines)
+        {
+            if (line == null || line.silentBeat) continue;
+            string path = VoiceFolder + "/" + line.id + ".wav";
+            AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
+            var importer = AssetImporter.GetAtPath(path) as AudioImporter;
+            if (importer == null) throw new InvalidOperationException("Voice file missing: " + path);
+            var settings = importer.defaultSampleSettings;
+            settings.loadType = AudioClipLoadType.DecompressOnLoad;
+            settings.compressionFormat = AudioCompressionFormat.PCM;
+            settings.sampleRateSetting = AudioSampleRateSetting.PreserveSampleRate;
+            settings.preloadAudioData = true;
+            importer.defaultSampleSettings = settings;
+            importer.forceToMono = true;
+            importer.loadInBackground = false;
+            importer.SaveAndReimport();
+            line.voiceClip = AssetDatabase.LoadAssetAtPath<AudioClip>(path);
+            if (line.voiceClip == null || line.voiceClip.length <= 0f)
+                throw new InvalidOperationException("Invalid voice clip: " + path);
+            if (line.id == "act1_intro_ty_001")
+                line.text = line.spokenText = "Dạ dạ sếp, em kiểm tra lại ngay ạ";
+        }
+        var issues = sequence.CollectValidationIssues(true);
+        if (issues.Count != 0) throw new InvalidOperationException(string.Join("\n", issues));
+        EditorUtility.SetDirty(sequence);
+        AssetDatabase.SaveAssetIfDirty(sequence);
+        WriteManifest(sequence, new HashSet<string>());
+        Debug.Log("[KuTy TTS] Four supplied voice clips assigned; Ty subtitle updated. Scene edits were not saved.");
+    }
+
     private static List<DialogueSequence.DialogueLine> CreatePilotLines()
     {
         return new List<DialogueSequence.DialogueLine>
@@ -165,7 +203,7 @@ public static class KuTyAct1TtsSetup
             Line("act1_intro_boss_002", "SẾP", "Khách hàng đang chờ bản chốt.\nTôi đã nhắc cậu từ sáng rồi.", 5f, .2f),
             Beat("act1_intro_slam_001", .8f, true),
             Line("act1_intro_boss_003", "SẾP", "Quay về bàn, kiểm tra lại file Excel.\nXong thì in một bản, mang lại đây cho tôi ký.", 5f, .25f),
-            Line("act1_intro_ty_001", "TÝ", "Dạ… em kiểm tra lại ngay ạ.", 3f, .25f),
+            Line("act1_intro_ty_001", "TÝ", "Dạ dạ sếp, em kiểm tra lại ngay ạ", 3f, .25f),
             Beat("act1_intro_pause_001", 1f, false)
         };
     }
@@ -197,6 +235,13 @@ public static class KuTyAct1TtsSetup
     private static void WriteManifest(DialogueSequence sequence, HashSet<string> staleTextIds)
     {
         var manifest = new VoiceManifest();
+        if (File.Exists(ManifestPath))
+        {
+            var previous = JsonUtility.FromJson<VoiceManifest>(File.ReadAllText(ManifestPath));
+            if (previous != null) { manifest.provider = previous.provider; manifest.generatedAt = previous.generatedAt; }
+        }
+        if (sequence.Lines.All(line => line == null || line.silentBeat || line.voiceClip != null) && manifest.provider == "unselected")
+            manifest.provider = "user-supplied (provider unspecified)";
         foreach (DialogueSequence.DialogueLine line in sequence.Lines)
         {
             if (line == null || line.silentBeat) continue;

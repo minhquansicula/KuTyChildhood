@@ -159,6 +159,7 @@ public static class KuTySfxSetup
             Spec(SfxId.UIConfirm, SfxCategory.UI, 720f, .09f, .62f, .98f, 1.02f, .05f),
             Spec(SfxId.UIBack, SfxCategory.UI, 420f, .11f, .55f, .98f, 1.02f, .08f),
             Spec(SfxId.UIInvalid, SfxCategory.UI, 145f, .18f, .68f, 1f, 1f, .18f),
+            Spec(SfxId.UIHover, SfxCategory.UI, 920f, .055f, .2f, 1.12f, 1.16f, .055f),
             Spec(SfxId.TaskProgress, SfxCategory.UI, 880f, .12f, .55f, .98f, 1.03f, .08f),
             Spec(SfxId.TaskComplete, SfxCategory.UI, 1046f, .25f, .72f, 1f, 1f, .3f, "Assets/_Project/Generated/Complete.wav"),
             Spec(SfxId.WaterSplash, SfxCategory.Gameplay, 510f, .24f, .62f, .92f, 1.05f, .12f),

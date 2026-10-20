@@ -38,6 +38,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private float fadeDuration = 1.5f;
     [SerializeField, Range(1, 12)] private int sfxPoolSize = 6;
     private Coroutine musicRoutine;
+    private bool letterMusicActive;
     private readonly List<AudioSource> sfxPool = new List<AudioSource>();
     private readonly Dictionary<SfxId, float> nextPlayTimes = new Dictionary<SfxId, float>();
     private readonly Dictionary<SfxId, int> lastVariantIndices = new Dictionary<SfxId, int>();
@@ -73,6 +74,8 @@ public class AudioManager : MonoBehaviour
         if (bgmSource != null)
         {
             bgmSource.loop = true;
+            bgmSource.playOnAwake = false;
+            bgmSource.spatialBlend = 0f;
             bgmSource.volume = bgmVolume;
         }
 
@@ -121,7 +124,7 @@ public class AudioManager : MonoBehaviour
     {
         if (bgmSource == null || clip == null) return;
 
-        if (bgmSource.clip == clip && bgmSource.isPlaying) return; // Đang play rồi
+        if (bgmSource.clip == clip && bgmSource.isPlaying && musicRoutine == null) return;
 
         if (musicRoutine != null) StopCoroutine(musicRoutine);
         musicRoutine = StartCoroutine(CrossFadeBGM(clip));
@@ -133,6 +136,30 @@ public class AudioManager : MonoBehaviour
         if (bgmSource == null) return;
         if (musicRoutine != null) StopCoroutine(musicRoutine);
         musicRoutine = StartCoroutine(FadeOutBGM());
+    }
+
+    public void BeginLetterMusic()
+    {
+        if (soundLibrary == null || soundLibrary.bgmLetter == null) return;
+        letterMusicActive = true;
+        PlayBGM(soundLibrary.bgmLetter);
+    }
+
+    public void EndLetterMusic()
+    {
+        if (!letterMusicActive) return;
+        letterMusicActive = false;
+        if (GameManager.Instance != null) OnGameStateChanged(GameManager.Instance.CurrentState);
+        else StopBGM();
+    }
+
+    private void Update()
+    {
+        // These are complete songs, not authored seamless loops. Fade the tail before restarting.
+        if (musicRoutine == null && bgmSource != null && bgmSource.isPlaying &&
+            bgmSource.clip != null && bgmSource.clip.length > fadeDuration * 2f &&
+            bgmSource.clip.length - bgmSource.time <= fadeDuration * .5f)
+            musicRoutine = StartCoroutine(CrossFadeBGM(bgmSource.clip));
     }
 
     /// <summary>Play sound effect (1 lần).</summary>
@@ -209,6 +236,7 @@ public class AudioManager : MonoBehaviour
     private void OnGameStateChanged(GameState newState)
     {
         if (soundLibrary == null) return;
+        letterMusicActive = false;
 
         switch (newState)
         {
@@ -217,11 +245,16 @@ public class AudioManager : MonoBehaviour
                 StopAmbient();
                 break;
             case GameState.Act1_RealWorld:
-                PlayBGM(soundLibrary.bgmAct1);
+                if (soundLibrary.bgmAct1 != null) PlayBGM(soundLibrary.bgmAct1);
+                else StopBGM();
+                StopAmbient();
                 break;
             case GameState.Act2_MemoryWorld_Home:
-            case GameState.Act3_MemoryWorld_OutSide:
                 PlayBGM(soundLibrary.bgmAct2);
+                PlayAmbient(soundLibrary.ambBirds);
+                break;
+            case GameState.Act3_MemoryWorld_OutSide:
+                PlayBGM(soundLibrary.bgmVillage != null ? soundLibrary.bgmVillage : soundLibrary.bgmAct2);
                 PlayAmbient(soundLibrary.ambBirds);
                 break;
             case GameState.Act_Ending:
@@ -238,7 +271,7 @@ public class AudioManager : MonoBehaviour
         switch ((name ?? string.Empty).ToLowerInvariant())
         {
             case "ui_select": case "button_click": id = SfxId.UIConfirm; return true;
-            case "button_hover": id = SfxId.TaskProgress; return true;
+            case "button_hover": id = SfxId.UIHover; return true;
             case "water_splash": id = SfxId.WaterSplash; return true;
             case "dish_clean": id = SfxId.DishClean; return true;
             case "marble_shoot": id = SfxId.MarbleShoot; return true;
@@ -323,7 +356,7 @@ public class AudioManager : MonoBehaviour
             return new SfxCue
             {
                 id = id,
-                category = id == SfxId.UIConfirm || id == SfxId.UIBack || id == SfxId.UIInvalid ? SfxCategory.UI : SfxCategory.Gameplay,
+                category = id == SfxId.UIConfirm || id == SfxId.UIBack || id == SfxId.UIInvalid || id == SfxId.UIHover ? SfxCategory.UI : SfxCategory.Gameplay,
                 variants = new[] { legacy },
                 volume = 1f,
                 pitchMin = 1f,
@@ -350,6 +383,7 @@ public class AudioManager : MonoBehaviour
             case SfxId.MemoryCollected: return soundLibrary.sfxMemoryCollected;
             case SfxId.AllMemoriesComplete: return soundLibrary.sfxAllMemoriesComplete;
             case SfxId.UIConfirm: return soundLibrary.sfxButtonClick;
+            case SfxId.UIHover: return soundLibrary.sfxButtonHover;
             default: return null;
         }
     }
@@ -398,6 +432,7 @@ public class AudioManager : MonoBehaviour
         }
 
         // Switch clip
+        bgmSource.volume = 0f;
         bgmSource.clip = newClip;
         bgmSource.Play();
 
@@ -411,6 +446,7 @@ public class AudioManager : MonoBehaviour
         }
 
         bgmSource.volume = bgmVolume;
+        musicRoutine = null;
     }
 
     private System.Collections.IEnumerator FadeOutBGM()
@@ -427,5 +463,6 @@ public class AudioManager : MonoBehaviour
 
         bgmSource.Stop();
         bgmSource.volume = bgmVolume;
+        musicRoutine = null;
     }
 }

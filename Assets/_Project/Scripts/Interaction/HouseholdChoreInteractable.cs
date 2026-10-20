@@ -92,8 +92,15 @@ public sealed class HouseholdChoreInteractable : InteractableBase
         if (flow == null || !flow.Complete(chore) || chore != HouseholdChore.ReadLetter) return;
         var quests = QuestManager.Instance;
         if (DialogueUI.Instance != null)
+        {
+            AudioManager.Instance?.BeginLetterMusic();
             DialogueUI.Instance.ShowDialogue("Thư của mẹ", HouseholdChoreFlow.Memories[(int)chore], 0f,
-                () => { if (quests != null) quests.ContinueOutside(); });
+                () =>
+                {
+                    AudioManager.Instance?.EndLetterMusic();
+                    if (quests != null) quests.ContinueOutside();
+                });
+        }
         else quests?.ContinueOutside();
     }
 

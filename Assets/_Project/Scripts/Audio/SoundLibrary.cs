@@ -15,6 +15,8 @@ public class SoundLibrary : ScriptableObject
     public AudioClip bgmAct1;           // Tông xám lạnh, buồn
     public AudioClip bgmAct2;           // Lo-fi/acoustic ấm áp, hoài niệm
     public AudioClip bgmAct3;           // Nhẹ nhàng, cảm động
+    public AudioClip bgmVillage;
+    public AudioClip bgmLetter;
 
     [Header("SFX - Rửa chén")]
     public AudioClip sfxWaterSplash;    // Tiếng nước rửa

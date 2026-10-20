@@ -1,6 +1,16 @@
 # Kế hoạch tích hợp TTS vào KuTy
 
-Ngày: 20/10/2026. Trạng thái: đã triển khai nền runtime và pilot Scene 1; còn thiếu 4 clip TTS tiếng Việt thật để nghe duyệt và nghiệm thu toàn bộ đợt A.
+Ngày cập nhật: 21/10/2026. Trạng thái: đã nhập và gán đủ 4 clip TTS tiếng Việt do người dùng cung cấp; còn bước người dùng nghe duyệt giọng/mix để nghiệm thu toàn bộ đợt A.
+
+## Clip người dùng cung cấp — 21/10/2026
+
+- Đã nhập ba câu sếp và một câu Tý từ Downloads, giữ nguyên WAV nguồn. Mỗi file mono PCM 16-bit, 22.050 Hz; không có mẫu clipping. Thời lượng lần lượt: sếp 001 = 8,404 s; sếp 002 = 7,113 s; sếp 003 = 10,734 s; Tý 001 = 2,168 s.
+- Phụ đề và `spokenText` của `act1_intro_ty_001`: “Dạ dạ sếp, em kiểm tra lại ngay ạ”. Phần tạo dữ liệu pilot cũng được cập nhật để lần cài lại không trả về câu cũ.
+- Import Unity: PCM, Decompress On Load, preload, mono, giữ sample rate nguồn. Bốn clip ngắn có tổng WAV khoảng 659 KiB; không cần streaming hoặc nén mất chất lượng thêm.
+- Manifest đã ghi clip được gán và hash văn bản mới. Nhà cung cấp không được suy đoán từ tên file; ghi nhận là audio do người dùng cung cấp.
+- Lệnh `KuTy/TTS/Assign supplied Act1 voice clips` chỉ cập nhật asset thoại và manifest, không lưu scene đang có chỉnh sửa chưa lưu. Runtime lấy thời lượng từng clip cộng post-delay để chuyển phụ đề.
+
+Các mục dưới ghi lại nền triển khai và kết quả kiểm tra trước khi nhập giọng thật.
 
 ## Kết quả triển khai đợt A
 

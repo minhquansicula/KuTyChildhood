@@ -8,6 +8,7 @@ public enum SfxId
     UIConfirm = 10,
     UIBack = 11,
     UIInvalid = 12,
+    UIHover = 13,
     TaskProgress = 20,
     TaskComplete = 21,
     WaterSplash = 30,

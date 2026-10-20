@@ -1,0 +1,114 @@
+{
+  "status": "completed",
+  "mode": "execute",
+  "dryRun": false,
+  "executed": 5,
+  "failed": 0,
+  "results": [
+    {
+      "index": 0,
+      "skill": "model_get_mesh_info",
+      "status": "success",
+      "result": {
+        "success": true,
+        "name": "Mesh_0",
+        "vertexCount": 551517,
+        "triangles": 999956,
+        "subMeshCount": 1,
+        "bounds": {
+          "center": "(0.00, 0.00, 0.00)",
+          "size": "(0.01, 0.01, 0.01)"
+        },
+        "hasNormals": true,
+        "hasTangents": true,
+        "hasUV": true,
+        "hasUV2": false,
+        "hasColors": false,
+        "blendShapeCount": 0,
+        "isReadable": false
+      }
+    },
+    {
+      "index": 1,
+      "skill": "model_get_mesh_info",
+      "status": "success",
+      "result": {
+        "success": true,
+        "name": "Mesh_0",
+        "vertexCount": 559864,
+        "triangles": 999644,
+        "subMeshCount": 1,
+        "bounds": {
+          "center": "(0.00, 0.00, 0.00)",
+          "size": "(0.01, 0.00, 0.01)"
+        },
+        "hasNormals": true,
+        "hasTangents": true,
+        "hasUV": true,
+        "hasUV2": false,
+        "hasColors": false,
+        "blendShapeCount": 0,
+        "isReadable": false
+      }
+    },
+    {
+      "index": 2,
+      "skill": "model_get_mesh_info",
+      "status": "success",
+      "result": {
+        "success": true,
+        "name": "SM_TimberColumn_Single",
+        "vertexCount": 92572,
+        "triangles": 169278,
+        "subMeshCount": 1,
+        "bounds": {
+          "center": "(0.00, 2.15, 0.00)",
+          "size": "(0.90, 4.30, 0.94)"
+        },
+        "hasNormals": true,
+        "hasTangents": true,
+        "hasUV": true,
+        "hasUV2": false,
+        "hasColors": false,
+        "blendShapeCount": 0,
+        "isReadable": true
+      }
+    },
+    {
+      "index": 3,
+      "skill": "texture_get_info",
+      "status": "success",
+      "result": {
+        "success": true,
+        "name": "T_StovePot_BaseColor",
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_StovePot_BaseColor.png",
+        "width": 2048,
+        "height": 2048,
+        "format": "DXT1",
+        "mipmapCount": 12,
+        "isReadable": false,
+        "filterMode": "Bilinear",
+        "wrapMode": "Repeat",
+        "memorySizeKB": 2731.34375
+      }
+    },
+    {
+      "index": 4,
+      "skill": "texture_get_info",
+      "status": "success",
+      "result": {
+        "success": true,
+        "name": "T_DishRack_Normal",
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_DishRack_Normal.png",
+        "width": 2048,
+        "height": 2048,
+        "format": "DXT5",
+        "mipmapCount": 12,
+        "isReadable": false,
+        "filterMode": "Bilinear",
+        "wrapMode": "Repeat",
+        "memorySizeKB": 5462.02344
+      }
+    }
+  ]
+}

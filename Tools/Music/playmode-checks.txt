@@ -1,0 +1,25 @@
+PASS
+PASS Bootstrap creates AudioManager in an empty scene
+PASS Menu plays Childhood in 2D
+PASS Office stops menu music when no office BGM is assigned
+PASS Home plays countryside guitar
+PASS Opening letter plays Reverie
+PASS Completing and closing letter restores home music
+PASS Cancelling letter restores home music
+PASS Village uses countryside track
+PASS Pause freezes music playback
+PASS Resume continues music
+PASS Track tail fades and restarts
+PASS Ending state takes priority over closing letter
+PASS Every menu button, including hidden panels, has exactly one SFX binding
+PASS Pointer entry plays one hover cue
+PASS Rapid repeated hover is rate limited
+PASS Settings click plays confirm audio
+PASS Back click plays audio and preserves panel action
+PASS Disabled button is silent and does not run its action
+PASS Repeated binding does not duplicate the component
+PASS Dynamically created credits button plays click sound
+PASS Music attribution opens from menu
+PASS Credits back button plays back sound
+PASS Music attribution closes without navigating or changing saves
+Soundtrack checks passed; no scene navigation or checkpoint writes.

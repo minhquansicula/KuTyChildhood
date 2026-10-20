@@ -139,3 +139,12 @@ MonoBehaviour:
     pitchMax: 1
     cooldownSeconds: 0.5
     avoidImmediateRepeat: 1
+  - id: 13
+    category: 1
+    variants:
+    - {fileID: 8300000, guid: 7f78fa197bbb01946b931122ca7c3a1d, type: 3}
+    volume: 0.2
+    pitchMin: 1.12
+    pitchMax: 1.16
+    cooldownSeconds: 0.055
+    avoidImmediateRepeat: 1

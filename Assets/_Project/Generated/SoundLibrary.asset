@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa79351613ae9f948884b2d7a451a02d, type: 3}
   m_Name: SoundLibrary
   m_EditorClassIdentifier: 
-  bgmMainMenu: {fileID: 0}
+  bgmMainMenu: {fileID: 8300000, guid: 164352a858b4328409f129a433eaa3be, type: 3}
   bgmAct1: {fileID: 0}
-  bgmAct2: {fileID: 0}
-  bgmAct3: {fileID: 0}
+  bgmAct2: {fileID: 8300000, guid: 7017039a0d3a13d4aab13b6a3e8642d4, type: 3}
+  bgmAct3: {fileID: 8300000, guid: b150672e1af46984f897fdb0835d5564, type: 3}
+  bgmVillage: {fileID: 8300000, guid: 7017039a0d3a13d4aab13b6a3e8642d4, type: 3}
+  bgmLetter: {fileID: 8300000, guid: b150672e1af46984f897fdb0835d5564, type: 3}
   sfxWaterSplash: {fileID: 0}
   sfxDishClean: {fileID: 8300000, guid: 0ac9348509c312242ba2b85c6032944b, type: 3}
   sfxMarbleShoot: {fileID: 8300000, guid: ba2d63395deaff8429e65ebbcf701146, type: 3}
@@ -25,8 +27,8 @@ MonoBehaviour:
   sfxPurchaseFail: {fileID: 8300000, guid: abcfd5f47c3f08f47ad5f12b4911afad, type: 3}
   sfxMemoryCollected: {fileID: 8300000, guid: c2995b821dde011479c26f5ef3060bbe, type: 3}
   sfxAllMemoriesComplete: {fileID: 8300000, guid: a918281e6d7ed424ba7ac18b56a6b4fa, type: 3}
-  sfxButtonClick: {fileID: 0}
-  sfxButtonHover: {fileID: 0}
+  sfxButtonClick: {fileID: 8300000, guid: e471d9553bf72b34087a7ff4b4d05185, type: 3}
+  sfxButtonHover: {fileID: 8300000, guid: 7f78fa197bbb01946b931122ca7c3a1d, type: 3}
   ambBirds: {fileID: 0}
   ambWindChime: {fileID: 0}
   ambKitchen: {fileID: 0}

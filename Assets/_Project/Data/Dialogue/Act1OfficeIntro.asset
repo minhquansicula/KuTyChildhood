@@ -21,7 +21,7 @@ MonoBehaviour:
       c\xF2n sai m\xE0 c\u1EADu \u0111\xE3 g\u1EEDi r\u1ED3i \xE0?"
     fallbackDuration: 7
     postDelay: 0.2
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: d03e491d2f483954b82544167a9cbfd5, type: 3}
     slam: 0
     silentBeat: 0
   - id: act1_intro_boss_002
@@ -32,7 +32,7 @@ MonoBehaviour:
       \u0111\xE3 nh\u1EAFc c\u1EADu t\u1EEB s\xE1ng r\u1ED3i."
     fallbackDuration: 5
     postDelay: 0.2
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 5ea314f7ec0e55b4d8e39aff3fafa8c7, type: 3}
     slam: 0
     silentBeat: 0
   - id: act1_intro_slam_001
@@ -52,16 +52,16 @@ MonoBehaviour:
       in m\u1ED9t b\u1EA3n, mang l\u1EA1i \u0111\xE2y cho t\xF4i k\xFD."
     fallbackDuration: 5
     postDelay: 0.25
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 8f0e1bd90e160174fb349e443f5c734a, type: 3}
     slam: 0
     silentBeat: 0
   - id: act1_intro_ty_001
     speakerId: "T\xDD"
-    text: "D\u1EA1\u2026 em ki\u1EC3m tra l\u1EA1i ngay \u1EA1."
-    spokenText: "D\u1EA1\u2026 em ki\u1EC3m tra l\u1EA1i ngay \u1EA1."
+    text: "D\u1EA1 d\u1EA1 s\u1EBFp, em ki\u1EC3m tra l\u1EA1i ngay \u1EA1"
+    spokenText: "D\u1EA1 d\u1EA1 s\u1EBFp, em ki\u1EC3m tra l\u1EA1i ngay \u1EA1"
     fallbackDuration: 3
     postDelay: 0.25
-    voiceClip: {fileID: 0}
+    voiceClip: {fileID: 8300000, guid: 5f814ff3df2a4bd4d9126b4f83b6472f, type: 3}
     slam: 0
     silentBeat: 0
   - id: act1_intro_pause_001

@@ -7,10 +7,32 @@ public sealed class OfficeIntroHUD : MonoBehaviour
     public TMP_Text subtitle, objective, prompt, crosshair;
     public GameObject subtitlePanel, pausePanel;
     public Button resumeButton;
+    private Image openingFade;
+    public float OpeningFadeAlpha => openingFade != null ? openingFade.color.a : 0f;
 
     private void Awake()
     {
         ConfigurePresentation();
+        SetPaused(false);
+        SetOpeningFade(1f);
+    }
+
+    public void SetOpeningFade(float alpha)
+    {
+        if (openingFade == null)
+        {
+            var obj = new GameObject("OfficeOpeningFade", typeof(RectTransform), typeof(Canvas), typeof(Image));
+            obj.transform.SetParent(transform, false);
+            var rect = (RectTransform)obj.transform;
+            rect.anchorMin = Vector2.zero; rect.anchorMax = Vector2.one;
+            rect.offsetMin = rect.offsetMax = Vector2.zero;
+            var canvas = obj.GetComponent<Canvas>();
+            canvas.overrideSorting = true; canvas.sortingOrder = 1000;
+            openingFade = obj.GetComponent<Image>();
+            openingFade.raycastTarget = false;
+        }
+        openingFade.color = new Color(0f, 0f, 0f, Mathf.Clamp01(alpha));
+        openingFade.gameObject.SetActive(alpha > 0f);
     }
 
     public void SetSubtitle(string speaker, string text)

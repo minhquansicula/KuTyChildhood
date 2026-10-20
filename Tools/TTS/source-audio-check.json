@@ -1,0 +1,42 @@
+[
+  {
+    "name": "act1_intro_boss_001.wav",
+    "duration": 8.404,
+    "sampleRate": 22050,
+    "channels": 1,
+    "bits": 16,
+    "peakDb": -0.56,
+    "rmsDb": -16.98,
+    "clippedSamples": 0
+  },
+  {
+    "name": "act1_intro_boss_002.wav",
+    "duration": 7.113,
+    "sampleRate": 22050,
+    "channels": 1,
+    "bits": 16,
+    "peakDb": -1.58,
+    "rmsDb": -18.87,
+    "clippedSamples": 0
+  },
+  {
+    "name": "act1_intro_boss_003.wav",
+    "duration": 10.734,
+    "sampleRate": 22050,
+    "channels": 1,
+    "bits": 16,
+    "peakDb": -0.84,
+    "rmsDb": -18.59,
+    "clippedSamples": 0
+  },
+  {
+    "name": "act1_intro_ty_001.wav",
+    "duration": 2.168,
+    "sampleRate": 22050,
+    "channels": 1,
+    "bits": 16,
+    "peakDb": -4.44,
+    "rmsDb": -21.66,
+    "clippedSamples": 0
+  }
+]

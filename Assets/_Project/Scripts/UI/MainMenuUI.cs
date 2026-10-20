@@ -14,6 +14,8 @@ public class MainMenuUI : MonoBehaviour
 
     private void Start()
     {
+        if (GetComponent<MusicCreditsUI>() == null) gameObject.AddComponent<MusicCreditsUI>();
+        StartCoroutine(BindButtonSounds());
         // The authored menu already reserves a slot for Continue; keep its layout intact.
         if (continueButton != null)
         {
@@ -48,6 +50,13 @@ public class MainMenuUI : MonoBehaviour
         }
         var quitRect = quit != null ? quit.transform as RectTransform : null;
         if (quitRect != null) quitRect.anchoredPosition += Vector2.down * 73f;
+    }
+
+    private System.Collections.IEnumerator BindButtonSounds()
+    {
+        // Include buttons authored inactive and buttons created during menu Start.
+        yield return null;
+        foreach (var button in GetComponentsInChildren<Button>(true)) MenuButtonSfx.Attach(button);
     }
 
     public void OnContinueButtonClicked()
