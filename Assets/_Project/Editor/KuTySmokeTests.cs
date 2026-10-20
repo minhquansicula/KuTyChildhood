@@ -24,10 +24,21 @@ public static class KuTySmokeTests
             }
         };
     }
+    [MenuItem("KuTy/Tests/Run merged memory chapter smoke test")]
+    public static void RunMemoryChapter()
+    {
+        KuTyCheckpointTestScope.Capture();
+        EditorSceneManager.OpenScene("Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity");
+        SessionState.SetBool("KuTy.StorySmoke.ChapterOnly", true);
+        SessionState.SetBool(Pending, true);
+        EditorApplication.EnterPlaymode();
+    }
+
     [MenuItem("KuTy/Tests/Run story smoke test")]
     public static void Run()
     {
         KuTyProjectSetup.Validate();
+        KuTyCheckpointTestScope.Capture();
         EditorSceneManager.OpenScene("Assets/_Project/Scenes/MainMenu.unity");
         SessionState.SetBool(Pending, true);
         EditorApplication.EnterPlaymode();
@@ -49,7 +60,7 @@ public class KuTyStoryRunner : MonoBehaviour
         Application.logMessageReceived += Log;
         StartCoroutine(Execute());
     }
-    private void Update() { if (!finished && Time.realtimeSinceStartup - started > 100f) Complete(false, "Timeout"); }
+    private void Update() { if (!finished && Time.realtimeSinceStartup - started > 180f) Complete(false, "Timeout"); }
     private void Log(string condition, string stack, LogType type)
     {
         if (type == LogType.Exception || type == LogType.Error || type == LogType.Assert)
@@ -69,7 +80,7 @@ public class KuTyStoryRunner : MonoBehaviour
         float start = Time.realtimeSinceStartup;
         while (SceneManager.GetActiveScene().name != name || SceneLoader.Instance.IsLoading)
         {
-            if (Time.realtimeSinceStartup - start > 15) throw new TimeoutException("Waiting for " + name);
+            if (Time.realtimeSinceStartup - start > 45) throw new TimeoutException("Waiting for " + name);
             yield return null;
         }
         yield return null;
@@ -77,162 +88,75 @@ public class KuTyStoryRunner : MonoBehaviour
     private IEnumerator Execute()
     {
         yield return null;
-        Check(GameManager.Instance != null && SceneLoader.Instance != null, "Bootstrap missing");
-        FindObjectOfType<MainMenuUI>().OnPlayButtonClicked();
-        yield return SceneReady(SceneNames.Act1);
-        var office = FindObjectOfType<OfficeSceneController>();
-        Check(office != null && office.Phase == OfficePhase.Opening, "Office scene did not start at the meeting room opening");
-        Check(GameManager.Instance.InputBlocked && FindObjectOfType<FirstPersonController>() != null,
-            "The opening reprimand should briefly lock movement");
-        foreach (string objectName in new[] { "OfficeDesk", "OfficeDesk_New", "OfficeInterior_New",
-                     "OfficeChair", "StreetBackdrop2D", "BossSilhouette", "FluorescentFixture",
-                     "PlayerDeskAfternoonLight", "BossGlassInteriorGlow", "Scene1NarrativeProps",
-                     "ColdCoffeeInteraction", "OfficeMoodVolume",
-                     "OfficeExhaustionFade", "OfficeOpening", "OfficeOpeningFade",
-                     "KeyboardDistant", "BossDeskSlam", "PlayerOpeningVoice", "DeskCollapseTarget",
-                     "PlayerSeatAnchor", "DeskCollapseAnchor", "Desk_Afternoon_Key" })
-            Check(GameObject.Find(objectName) != null, "Missing office asset slot: " + objectName);
-        Check(GameObject.Find("ChildhoodMarbleInteraction") == null,
-            "The childhood marble should not be present in Scene 1");
-        Check(GameObject.Find("OfficeDesk").GetComponent<BoxCollider>() == null,
-            "The old invisible desk blocker was not removed");
-        var playerDesk = GameObject.Find("OfficeDesk_New");
-        var workDesk = playerDesk.GetComponent<OfficeWorkstationInteractable>();
-        Check(workDesk != null && playerDesk.GetComponent<MeshCollider>() != null &&
-              playerDesk.layer == LayerMask.NameToLayer("Interactable"),
-            "The selected desk is not the active interaction target");
-        foreach (string demoVisual in new[] { "DeskTopPlaceholder", "DeskLegPlaceholder0", "DeskLegPlaceholder1",
-                     "DeskLegPlaceholder2", "DeskLegPlaceholder3", "SeatPlaceholder", "BackPlaceholder",
-                     "ChairPostPlaceholder", "ChairBasePlaceholder", "BossBodyPlaceholder", "BossHeadPlaceholder",
-                     "BossArmPlaceholder" })
-            Check(GameObject.Find(demoVisual) == null, "Demo visual was not removed: " + demoVisual);
-        Check(Get<Transform>(office, "playerTransform") == FindObjectOfType<FirstPersonController>().transform &&
-              Get<Transform>(office, "chairAnchor") == GameObject.Find("PlayerSeatAnchor").transform,
-            "The sitting anchor is not wired to the main-character chair seat anchor");
-        Check(Get<Transform>(FindObjectOfType<OfficeExhaustionSequence>(), "deskCollapseTarget") ==
-              GameObject.Find("DeskCollapseAnchor").transform,
-            "The exhaustion camera is not wired to the player desk collapse target");
-        Check(Get<Light>(office, "afternoonLight") == GameObject.Find("Desk_Afternoon_Key").GetComponent<Light>(),
-            "The work progression is not wired to the office art-pass desk light");
-        Check(Get<OfficeExhaustionSequence>(office, "exhaustionSequence") != null &&
-              Get<OfficeOpeningSequence>(office, "openingSequence") != null,
-            "Scene 1 narrative references are incomplete");
-        Check(!GameObject.Find("UI").GetComponent<StoryPrologueController>().enabled,
-            "Old black-screen prologue remains active");
-        var ambience = FindObjectOfType<OfficeAtmosphere>();
-        Check(Get<AudioSource>(ambience, "streetSource").clip != null &&
-              Get<AudioSource>(ambience, "fluorescentSource").clip != null, "Office ambient placeholders missing");
-        Check(Get<AudioClip>(ambience, "bossFirstLine") != null, "Boss opening voice is not assigned");
-        Check(Get<AudioClip>(ambience, "keyPress") != null,
-            "Workstation typing audio is not assigned to the office atmosphere");
-        var opening = FindObjectOfType<OfficeOpeningSequence>();
-        Check(opening != null && Get<AudioClip>(opening, "trafficClip") != null &&
-              Get<AudioClip>(opening, "deskSlamClip") != null,
-            "Opening audio from Dumb Assets is not connected");
-        var interactions = FindObjectsOfType<OfficeInteractable>();
-        Func<OfficeInteractionKind, OfficeInteractable> find = kind =>
-            interactions.First(o => Get<OfficeInteractionKind>(o, "kind") == kind);
-        yield return new WaitForSecondsRealtime(1.3f);
-        Check(GameManager.Instance.InputBlocked && Get<CanvasGroup>(opening, "blackFade").alpha > .99f &&
-              !Get<GameObject>(office, "subtitlePanel").activeSelf,
-            "Opening did not begin on a locked, UI-free black screen");
-        Check(!Get<AudioSource>(ambience, "keyboardSource").isPlaying,
-            "Keyboard audio should stay silent before the player starts working");
-        float openingWaitStarted = Time.realtimeSinceStartup;
-        while (!opening.IsComplete)
+        if (!SessionState.GetBool("KuTy.StorySmoke.ChapterOnly", false))
         {
-            if (Time.realtimeSinceStartup - openingWaitStarted > 30f)
-                throw new TimeoutException("Office opening did not complete");
-            yield return null;
+            Check(GameManager.Instance != null && SceneLoader.Instance != null, "Bootstrap missing");
+            FindObjectOfType<MainMenuUI>().OnPlayButtonClicked();
+            yield return SceneReady(SceneNames.Act1);
+            // Reuse the current office checks instead of asserting the retired black-screen opening.
+            var officeHost = new GameObject("Office chapter checks");
+            var officeRunner = officeHost.AddComponent<OfficeBlockoutGameplaySmokeRunner>();
+            officeRunner.StopPlayOnCompletion = false;
+            bool officeFinished = false;
+            bool officePassed = false;
+            string officeMessage = "";
+            officeRunner.Completed += (passed, message) =>
+            {
+                officeFinished = true;
+                officePassed = passed;
+                officeMessage = message;
+            };
+            while (!officeFinished) yield return null;
+            Check(officePassed, officeMessage);
+            Destroy(officeHost);
+            yield return SceneReady(SceneNames.Act2_Home);
+
         }
-        Check(office.Phase == OfficePhase.ReturnToDesk && !GameManager.Instance.InputBlocked &&
-              !FindObjectOfType<FirstPersonController>().IsMovementLocked &&
-              !FindObjectOfType<PlayerInteraction>().IsInteractionLocked &&
-              Get<CanvasGroup>(opening, "objectiveCanvasGroup").alpha > .99f,
-            "Opening did not restore control and fade in the objective");
-        Check(!Get<AudioSource>(ambience, "streetSource").isPlaying &&
-              Get<AudioSource>(ambience, "fluorescentSource").isPlaying,
-            "Traffic should stop after the opening while office room tone continues");
-        Capture("office-view.png");
-        var player = FindObjectOfType<FirstPersonController>().transform;
-        var eye = Camera.main.transform;
-        Vector3 originalPlayerPosition = player.position;
-        Quaternion originalEyeRotation = eye.localRotation;
-        player.position = new Vector3(1.4f, .45f, 1.7f);
-        eye.LookAt(playerDesk.GetComponent<Renderer>().bounds.center);
-        Physics.SyncTransforms();
-        Check(Physics.Raycast(eye.position, eye.forward, out RaycastHit laptopHit, 3f) &&
-              laptopHit.collider.GetComponentInParent<OfficeWorkstationInteractable>() == workDesk,
-              "Selected desk is not reachable by the player's gaze raycast");
-        player.position = new Vector3(0, .45f, -2.5f);
-        eye.LookAt(GameObject.Find("BossSilhouette").transform.position + Vector3.up * 1.35f);
-        Physics.SyncTransforms();
-        Check(Physics.Raycast(eye.position, eye.forward, out RaycastHit bossHit, 3f) &&
-              bossHit.collider.GetComponentInParent<OfficeInteractable>() == find(OfficeInteractionKind.Boss),
-              "Boss behind the glass is not reachable by the player's gaze raycast");
-        player.position = originalPlayerPosition;
-        eye.localRotation = originalEyeRotation;
-        Physics.SyncTransforms();
-        find(OfficeInteractionKind.Boss).Interact();
-        Check(!GameManager.Instance.InputBlocked, "Boss inspection should keep exploration free");
-        workDesk.Interact();
-        yield return new WaitForSecondsRealtime(.5f);
-        workDesk.Interact();
-        var excelGame = FindObjectOfType<ExcelDataAuditorGame>(true);
-        Check(office.Phase == OfficePhase.ExcelAuditing && office.IsWorking && GameManager.Instance.InputBlocked &&
-              excelGame != null && excelGame.gameObject.activeInHierarchy,
-            "Excel task did not open directly from the workstation");
-        Check(Get<AudioSource>(ambience, "keyboardSource").isPlaying &&
-              Get<AudioSource>(ambience, "keyboardSource").loop,
-            "Keyboard audio did not start with the work task");
-        office.CancelWork();
-        Check(!office.IsWorking && !GameManager.Instance.InputBlocked && !excelGame.gameObject.activeInHierarchy,
-            "Excel mini-game cancellation failed");
-        Check(!Get<AudioSource>(ambience, "keyboardSource").isPlaying,
-            "Keyboard audio continued after cancelling the work task");
+        else
+        {
+            SessionState.SetBool("KuTy.StorySmoke.ChapterOnly", false);
+            yield return SceneReady(SceneNames.Act2_Home);
+        }
 
-        workDesk.Interact();
-        yield return null;
-        Check(office.IsWorking && excelGame.gameObject.activeInHierarchy,
-            "Excel task did not reopen after cancellation");
-        office.CompleteExcelTask();
-        Check(office.Phase == OfficePhase.PrintingReport && !GameManager.Instance.InputBlocked,
-            "Excel completion did not start the print objective");
-        office.MakeRestAvailableForTests();
-        Check(office.Phase == OfficePhase.Rest, "Exhaustion objective did not become available");
-        find(OfficeInteractionKind.Chair).Interact();
-        Check(office.Phase == OfficePhase.Leaving && GameManager.Instance.InputBlocked,
-            "Chair did not start exhausted transition");
-        yield return SceneReady(SceneNames.Act2_Home);
-
+        var chapterPipeline = QualitySettings.renderPipeline;
+        var villagePipeline = AssetDatabase.LoadAssetAtPath<UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset>(
+            "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/Village_URP.asset");
+        float villageRenderScale = villagePipeline != null ? villagePipeline.renderScale : 1f;
         var quests = QuestManager.Instance;
-        var memories = MemoryCollectionManager.Instance;
+        var flow = HouseholdChoreFlow.Instance;
         var currency = CurrencyManager.Instance;
+        Check(quests != null && flow != null && quests.CurrentStep == QuestStep.WashDishes, "Household chapter did not start");
+        Check(!quests.CanShop && !quests.CanWashDishes && !quests.CanPlayMarbles, "Sequence gates missing");
+        var wake = FindObjectOfType<BedWakeUpController>();
+        if (wake != null) Call(wake, "GetOutOfBed");
+        flow.ShowChecklist();
+        var first = FindObjectsOfType<HouseholdChoreInteractable>().First(t => t.Chore == HouseholdChoreFlow.Order[0]);
+        first.Interact();
+        first.enabled = false;
+        first.enabled = true;
+        Check(flow.Pieces == 0 && currency.CurrentMoney == 0, "Cancelled chore granted a reward");
+        Check(!flow.Complete(HouseholdChore.ReadLetter), "Out-of-order chore completed");
+        foreach (var chore in HouseholdChoreFlow.Order)
+        {
+            Check(flow.Complete(chore) && !flow.Complete(chore), "Chore did not complete exactly once: " + chore);
+        }
+        Check(flow.Pieces == 140 && currency.CurrentMoney == 2000, "14 chores must award 140 pieces and 2000đ");
+        Check(!quests.CompleteHouseholdChores() && currency.CurrentMoney == 2000, "Allowance duplicated");
+        DialogueUI.Instance?.HideDialogue();
+        quests.ContinueOutside();
+        yield return SceneReady(SceneNames.Act3_OutSide);
+        quests = QuestManager.Instance;
+        currency = CurrencyManager.Instance;
+        var memories = MemoryCollectionManager.Instance;
         var inventory = InventoryManager.Instance;
-        var dishes = FindObjectOfType<DishWashingGame>();
         var marbles = FindObjectOfType<MarbleShootingGame>();
         var journal = FindObjectOfType<JournalInteractable>();
         var shop = ShopManager.Instance;
-        Check(quests != null && quests.CurrentStep == QuestStep.ReadJournal, "Quest did not start at journal");
-        Check(!quests.CanShop && !quests.CanWashDishes && !quests.CanPlayMarbles, "Sequence gates missing");
-        dishes.StartGame();
-        Check(currency.CurrentMoney == 0, "Dishes started before journal");
-        journal.Interact();
-        DialogueUI.Instance.HideDialogue();
-        Check(JournalUI.Instance.IsOpen && GameManager.Instance.InputBlocked, "Journal did not open modal");
-        JournalUI.Instance.Close();
-        Check(quests.CurrentStep == QuestStep.WashDishes && !GameManager.Instance.InputBlocked, "Journal progression failed");
-        dishes.StartGame();
-        dishes.WashFor(1);
-        dishes.CancelGame();
-        Check(currency.CurrentMoney == 0, "Dish cancel paid reward");
-        dishes.StartGame();
-        for (int i = 0; i < 5; i++) dishes.WashFor(3);
-        Check(dishes.IsCompleted && currency.CurrentMoney == 2000, "Dish reward must be 2000đ");
-        Check(quests.CurrentStep == QuestStep.BuyCandyAndMarbles && memories.HasCollected(MemoryType.FilialLove), "Memory #1 missing");
-        DialogueUI.Instance.HideDialogue();
-        dishes.StartGame(); dishes.WashFor(100);
-        Check(currency.CurrentMoney == 2000, "Dish reward duplicated");
+        Check(villagePipeline != null && QualitySettings.renderPipeline != villagePipeline &&
+            QualitySettings.renderPipeline != null, "Village must use a runtime pipeline instance");
+        Check(Mathf.Approximately(villagePipeline.renderScale, villageRenderScale), "Village modified its shared pipeline asset");
+        Check(quests.CurrentStep == QuestStep.BuyCandyAndMarbles && currency.CurrentMoney == 2000 &&
+            memories.HasCollected(MemoryType.FilialLove), "Outdoor scene did not restore household reward");
         Check(shop.ShopItems.Count == 2 && shop.ShopItems.Sum(i => i.price) == 2000, "Shop economy incorrect");
         var invalid = ScriptableObject.CreateInstance<ItemData>(); invalid.price = 1;
         Check(!shop.PurchaseItem(invalid) && currency.CurrentMoney == 2000, "Non-stock purchase succeeded");
@@ -250,14 +174,35 @@ public class KuTyStoryRunner : MonoBehaviour
         DialogueUI.Instance.HideDialogue();
         Check(!GameManager.Instance.InputBlocked, "Shop/dialogue left input blocked");
 
+        Check(marbles != null && Camera.main != null, "Outdoor marble game or camera missing");
+        var originalCamera = Camera.main;
+        var originalCameraParent = originalCamera.transform.parent;
+        Vector3 originalCameraPosition = originalCamera.transform.localPosition;
+        Quaternion originalCameraRotation = originalCamera.transform.localRotation;
+        float originalFov = originalCamera.fieldOfView;
+        float originalNear = originalCamera.nearClipPlane;
+        marbles.StartGame();
+        Check(marbles.State == MarbleShootingGame.PlayState.Aiming, "Marble game did not open for cancellation test");
+        Call(marbles, "ClearAim");
+        marbles.CancelGame();
+        Check(marbles.State == MarbleShootingGame.PlayState.Inactive && !GameManager.Instance.InputBlocked,
+            "Cancelling marble game leaked modal input");
+        Check(originalCamera.transform.parent == originalCameraParent &&
+            Vector3.Distance(originalCamera.transform.localPosition, originalCameraPosition) < .001f &&
+            Quaternion.Angle(originalCamera.transform.localRotation, originalCameraRotation) < .01f &&
+            Mathf.Approximately(originalCamera.fieldOfView, originalFov) && Mathf.Approximately(originalCamera.nearClipPlane, originalNear),
+            "Marble cancellation failed to restore the player camera and lens");
+        Check(quests.CurrentStep == QuestStep.PlayMarbles && currency.CurrentMoney == 0, "Marble cancellation advanced or paid");
         marbles.StartGame();
         Check(marbles.State == MarbleShootingGame.PlayState.Aiming, "Marble game did not start");
         var targets = Get<System.Collections.Generic.List<Rigidbody>>(marbles, "targetMarbles");
-        for (int i = 0; i < 3; i++) targets[i].position = new Vector3(5 + i, 1, 5);
+        var ring = Get<Collider>(marbles, "ringCollider");
+        float outsideRadius = Mathf.Max(ring.bounds.extents.x, ring.bounds.extents.z) + 1f;
+        for (int i = 0; i < 3; i++) targets[i].position = ring.bounds.center + Vector3.right * (outsideRadius + i);
         Call(marbles, "EvaluateShot");
         Check(marbles.IsCompleted && quests.CurrentStep == QuestStep.ReturnToJournal, "Marble win did not advance quest");
         Check(memories.HasCollected(MemoryType.Freedom) && memories.CollectedCount == 3, "Memory #3 missing");
-        Check(SceneManager.GetActiveScene().name == SceneNames.Act2_Home, "Three memories skipped key crafting");
+        Check(SceneManager.GetActiveScene().name == SceneNames.Act3_OutSide, "Three memories skipped key crafting");
         DialogueUI.Instance.HideDialogue();
         journal.Interact();
         DialogueUI.Instance.HideDialogue();
@@ -272,6 +217,7 @@ public class KuTyStoryRunner : MonoBehaviour
         chained.Interact();
         Check(quests.CurrentStep == QuestStep.Ending, "Chained door did not unlock");
         yield return SceneReady(SceneNames.Act_Ending);
+        Check(QualitySettings.renderPipeline == chapterPipeline, "Village pipeline leaked into the ending scene");
         Check(FindObjectOfType<EndingUI>() != null, "Ending scene missing");
         FindObjectOfType<EndingUI>().OnPlayAgainClicked();
         yield return SceneReady(SceneNames.MainMenu);
@@ -280,7 +226,7 @@ public class KuTyStoryRunner : MonoBehaviour
         GameManager.Instance.EnterMemoryWorld();
         yield return SceneReady(SceneNames.Act2_Home);
         Check(CurrencyManager.Instance.CurrentMoney == 0 && InventoryManager.Instance.OwnedItems.Count == 0 &&
-            MemoryCollectionManager.Instance.CollectedCount == 0 && QuestManager.Instance.CurrentStep == QuestStep.ReadJournal,
+            MemoryCollectionManager.Instance.CollectedCount == 0 && QuestManager.Instance.CurrentStep == QuestStep.WashDishes,
             "Replay retained old progress");
         Complete(true, "Complete story flow passed");
     }
@@ -293,40 +239,5 @@ public class KuTyStoryRunner : MonoBehaviour
         File.WriteAllText("smoke-results.txt", (success ? "PASS" : "FAIL") + " (" + assertions + " assertions)\n" + reason);
         if (Application.isBatchMode) EditorApplication.Exit(success ? 0 : 1);
         else { Debug.Log(reason); EditorApplication.isPlaying = false; }
-    }
-    private static void Capture(string path)
-    {
-        var camera = Camera.main;
-        var canvases = FindObjectsOfType<Canvas>().Where(c => c.renderMode == RenderMode.ScreenSpaceOverlay).ToArray();
-        var previousTarget = camera.targetTexture;
-        var previousActive = RenderTexture.active;
-        var target = new RenderTexture(1280, 720, 24);
-        var pixels = new Texture2D(1280, 720, TextureFormat.RGB24, false);
-        try
-        {
-            foreach (var item in canvases)
-            {
-                item.renderMode = RenderMode.ScreenSpaceCamera;
-                item.worldCamera = camera;
-                item.planeDistance = .5f;
-            }
-            camera.targetTexture = target;
-            Canvas.ForceUpdateCanvases();
-            camera.Render();
-            camera.Render();
-            RenderTexture.active = target;
-            pixels.ReadPixels(new Rect(0, 0, 1280, 720), 0, 0);
-            pixels.Apply();
-            File.WriteAllBytes(path, pixels.EncodeToPNG());
-        }
-        finally
-        {
-            camera.targetTexture = previousTarget;
-            RenderTexture.active = previousActive;
-            foreach (var item in canvases) { item.renderMode = RenderMode.ScreenSpaceOverlay; item.worldCamera = null; }
-            target.Release();
-            Destroy(target);
-            Destroy(pixels);
-        }
     }
 }

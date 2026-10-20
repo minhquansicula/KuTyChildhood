@@ -761,7 +761,7 @@ public static class KuTyProjectSetup
     {
         foreach (string scene in Scenes)
             if (!File.Exists(ScenePath(scene))) throw new InvalidOperationException("Missing scene: " + scene);
-        var items = AssetDatabase.FindAssets("t:ItemData", new[] { Root + "/ScriptableObjects/Items" })
+        var items = AssetDatabase.FindAssets("t:ItemData", new[] { Root })
             .Select(g => AssetDatabase.LoadAssetAtPath<ItemData>(AssetDatabase.GUIDToAssetPath(g))).ToArray();
         var candy = items.FirstOrDefault(i => i != null && i.itemName == "Kẹo mút");
         var marbles = items.FirstOrDefault(i => i != null && i.itemName == "Hũ bi ve");

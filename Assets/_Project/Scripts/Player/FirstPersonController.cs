@@ -24,6 +24,8 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float walkSpeed = 3.5f;
     [SerializeField] private float runSpeed = 6f;
     [SerializeField] private float gravity = -19.62f;   // -9.81 * 2 cho cảm giác nặng hơn
+    [SerializeField] private bool enableJump;
+    [SerializeField] private float jumpHeight = .85f;
 
     [Header("Mouse Look")]
     [SerializeField] private float mouseSensitivity = 100f;
@@ -52,6 +54,8 @@ public class FirstPersonController : MonoBehaviour
     public bool LockWalkingOnly { get; set; } = false;
 
     public Transform PlayerCamera => playerCamera;
+    public float WaterSpeedMultiplier { get; set; } = 1f;
+    public float VerticalSpeed => velocity.y;
 
     public void ResetCameraVerticalRotation(float angle = 0f)
     {
@@ -101,7 +105,7 @@ public class FirstPersonController : MonoBehaviour
         moveDirection = Vector3.ClampMagnitude(moveDirection, 1f);
 
         // Chạy nhanh khi giữ Shift
-        float currentSpeed = running ? runSpeed : walkSpeed;
+        float currentSpeed = (running ? runSpeed : walkSpeed) * Mathf.Clamp(WaterSpeedMultiplier, .4f, 1f);
 
         // Tính trọng lực trước rồi chỉ Move một lần. Hai lần Move trong cùng frame
         // khiến CharacterController tự giải va chạm hai lần và làm camera nảy ở
@@ -110,6 +114,12 @@ public class FirstPersonController : MonoBehaviour
         {
             velocity.y = -2f;
         }
+
+        if (enableJump && isGrounded && velocity.y <= 0f && Input.GetButtonDown("Jump"))
+        {
+            velocity.y = Mathf.Sqrt(Mathf.Max(.1f, jumpHeight) * -2f * gravity);
+        }
+
         velocity.y += gravity * deltaTime;
 
         Vector3 frameVelocity = moveDirection * currentSpeed;
@@ -145,6 +155,7 @@ public class FirstPersonController : MonoBehaviour
         // Xoay ngang (nhìn trái/phải) — xoay body (player transform)
         transform.Rotate(Vector3.up * mouseX);
     }
+
 
     // ========== GROUND CHECK ==========
     private void HandleGroundCheck()

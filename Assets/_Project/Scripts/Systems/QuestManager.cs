@@ -137,6 +137,8 @@ public class QuestManager : MonoBehaviour
     {
         // Safety net if the letter's dialogue is unavailable or interrupted by another UI.
         yield return new WaitForSecondsRealtime(20f);
+        // Reading the letter has no deadline; only recover once its modal has closed.
+        while (DialogueUI.Instance != null && DialogueUI.Instance.IsShowing) yield return null;
         outsideFallback = null;
         ContinueOutside();
     }

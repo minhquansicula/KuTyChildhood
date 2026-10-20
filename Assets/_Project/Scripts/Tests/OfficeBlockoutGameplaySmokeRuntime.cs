@@ -28,6 +28,8 @@ public static class OfficeBlockoutGameplaySmokeBootstrap
 public sealed class OfficeBlockoutGameplaySmokeRunner : MonoBehaviour
 {
     private const string ResultPath = "Assets/Screenshots/OfficeBlockoutGameplay_Integration.txt";
+    public bool StopPlayOnCompletion { get; set; } = true;
+    public event Action<bool, string> Completed;
     private int assertions;
     private bool finished;
     private bool previousRunInBackground;
@@ -574,7 +576,8 @@ public sealed class OfficeBlockoutGameplaySmokeRunner : MonoBehaviour
         File.WriteAllText(ResultPath, result);
         if (success) Debug.Log("[KuTy] " + result);
         else Debug.LogError("[KuTy] " + result);
-        EditorApplication.isPlaying = false;
+        Completed?.Invoke(success, message);
+        if (StopPlayOnCompletion) EditorApplication.isPlaying = false;
     }
 }
 #endif

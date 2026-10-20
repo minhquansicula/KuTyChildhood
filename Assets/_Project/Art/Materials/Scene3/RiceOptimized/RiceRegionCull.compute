@@ -1,0 +1,13 @@
+#pragma kernel CullRice
+struct RiceInstance {float4x4 objectToWorld;float4x4 worldToObject;float4 sphere;};
+StructuredBuffer<RiceInstance> _RiceInstances;
+AppendStructuredBuffer<uint> _VisibleNear,_VisibleMiddle,_VisibleFar;
+float4 _RicePlanes[6],_RiceEye,_RiceDistances;uint _RiceCount;
+[numthreads(64,1,1)]
+void CullRice(uint3 id:SV_DispatchThreadID)
+{
+    if(id.x>=_RiceCount)return;float4 sphere=_RiceInstances[id.x].sphere;
+    for(uint i=0;i<6;i++)if(dot(_RicePlanes[i].xyz,sphere.xyz)+_RicePlanes[i].w < -sphere.w)return;
+    float2 delta=sphere.xz-_RiceEye.xz;float distance=dot(delta,delta);if(distance>_RiceDistances.z)return;
+    if(distance<_RiceDistances.x)_VisibleNear.Append(id.x);else if(distance<_RiceDistances.y)_VisibleMiddle.Append(id.x);else _VisibleFar.Append(id.x);
+}
