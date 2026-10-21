@@ -28515,7 +28515,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1.2214842, y: -1.4400018, z: 2.6273947}
-  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
+  m_LocalScale: {x: 0.66, y: 0.66, z: 0.66}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1999306729}
@@ -31298,8 +31298,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92caeb8e184d4a0589699d4c98ec656b, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   table: {fileID: 1178828081}
   letterModel: {fileID: 7777777777777204}
   width: 0.4
@@ -31313,47 +31313,47 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a6a91e72face49138c7d5fdc5d4b7d42, type: 3}
       propertyPath: m_LocalScale.x
-      value: 44.58043
+      value: 46.989902
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6a91e72face49138c7d5fdc5d4b7d42, type: 3}
       propertyPath: m_LocalScale.y
-      value: 50.833508
+      value: 57.955795
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6a91e72face49138c7d5fdc5d4b7d42, type: 3}
       propertyPath: m_LocalScale.z
-      value: 41.618237
+      value: 41.495567
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6a91e72face49138c7d5fdc5d4b7d42, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.4988
+      value: -0.4614
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6a91e72face49138c7d5fdc5d4b7d42, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.6109
+      value: -0.6374
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6a91e72face49138c7d5fdc5d4b7d42, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.616
+      value: 0.548
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6a91e72face49138c7d5fdc5d4b7d42, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7064114
+      value: 0.70563024
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6a91e72face49138c7d5fdc5d4b7d42, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7064114
+      value: -0.70563024
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6a91e72face49138c7d5fdc5d4b7d42, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.03135273
+      value: 0.045672346
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6a91e72face49138c7d5fdc5d4b7d42, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.03135273
+      value: -0.045672346
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6a91e72face49138c7d5fdc5d4b7d42, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -84.918
+      value: -82.593
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a6a91e72face49138c7d5fdc5d4b7d42, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -31408,8 +31408,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec427bc37a51f5b4482e0ebdca0bd1a2, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   promptText: "[E] M\u1EDF th\u01B0 c\u1EE7a m\u1EB9"
   isOneTimeUse: 0
   chore: 14
