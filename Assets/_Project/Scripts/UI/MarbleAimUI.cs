@@ -41,6 +41,13 @@ public class MarbleAimUI : MonoBehaviour
 
         if (panel != null)
             panel.SetActive(false);
+        ConfigureLayout();
+    }
+
+    // Keep the entire HUD in a shallow top strip, including messages that used
+    // to sit below the panel and cover the scoring circle.
+    private void ConfigureLayout()
+    {
         if (panel != null && statusText == null)
         {
             var labelObject = new GameObject("MarbleInstructions", typeof(RectTransform), typeof(TextMeshProUGUI));
@@ -56,6 +63,44 @@ public class MarbleAimUI : MonoBehaviour
             statusText.color = new Color(1f, .91f, .72f);
             statusText.raycastTarget = false;
         }
+        if (panel == null) return;
+        var panelRect = panel.GetComponent<RectTransform>();
+        if (panelRect == null) return;
+        panelRect.anchorMin = new Vector2(0f, .88f);
+        panelRect.anchorMax = Vector2.one;
+        panelRect.offsetMin = Vector2.zero;
+        panelRect.offsetMax = Vector2.zero;
+        foreach (var label in panel.GetComponentsInChildren<TextMeshProUGUI>(true))
+        {
+            if (label != shotsText && label != knockedText && label != statusText)
+                label.enabled = false; // Replaced by the live instruction/status row.
+            label.raycastTarget = false;
+        }
+        PlaceLabel(statusText, new Vector2(.02f, .50f), new Vector2(.98f, .98f));
+        PlaceLabel(shotsText, new Vector2(.02f, .04f), new Vector2(.35f, .50f));
+        PlaceLabel(knockedText, new Vector2(.67f, .04f), new Vector2(.98f, .50f));
+        if (forceSlider != null)
+        {
+            var bar = forceSlider.GetComponent<RectTransform>();
+            bar.anchorMin = new Vector2(.40f, .18f);
+            bar.anchorMax = new Vector2(.60f, .32f);
+            bar.offsetMin = bar.offsetMax = Vector2.zero;
+        }
+        foreach (var graphic in panel.GetComponentsInChildren<Graphic>(true))
+            graphic.raycastTarget = false;
+    }
+
+    private static void PlaceLabel(TextMeshProUGUI label, Vector2 min, Vector2 max)
+    {
+        if (label == null) return;
+        var rect = label.rectTransform;
+        rect.anchorMin = min; rect.anchorMax = max;
+        rect.offsetMin = rect.offsetMax = Vector2.zero;
+        label.alignment = TextAlignmentOptions.Center;
+        label.enableAutoSizing = true;
+        label.fontSizeMin = 12f;
+        label.fontSizeMax = 21f;
+        label.enableWordWrapping = false;
     }
 
     // ========== PUBLIC METHODS ==========
@@ -63,6 +108,7 @@ public class MarbleAimUI : MonoBehaviour
     /// <summary>Hiện UI bắn bi.</summary>
     public void Show(int currentShot, int maxShots, int knocked, int target)
     {
+        ConfigureLayout();
         if (panel != null)
             panel.SetActive(true);
 

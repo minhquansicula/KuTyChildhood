@@ -215,7 +215,7 @@ public static partial class Scene3VillageComposition
         {
             float a = angles[i] * Mathf.Deg2Rad;
             Vector3 foot = center + new Vector3(Mathf.Cos(a), 0, Mathf.Sin(a)) * (i == 3 ? 2.9f : 2.25f);
-            Mesh mesh = i == 3 ? ShoulderPoseMesh(0) : ArtCrouchMesh(i);
+            Mesh mesh = i == 3 ? ArtSpectatorMesh() : ArtCrouchMesh(i);
             var child = MeshProp(root, "BanChoiBi_" + (i + 1), foot, mesh, material);
             child.transform.rotation = Quaternion.LookRotation(new Vector3(center.x - foot.x, 0, center.z - foot.z));
             child.GetComponent<Renderer>().shadowCastingMode = ShadowCastingMode.On;
@@ -223,11 +223,11 @@ public static partial class Scene3VillageComposition
         }
     }
 
-    private static Mesh ArtCrouchMesh(int variant)
+    private static Mesh ArtCrouchMesh(int variant, bool rebuild = false)
     {
         string path = ArtAssets + "/TreNgoiXom_" + variant + ".asset";
         var existing = AssetDatabase.LoadAssetAtPath<Mesh>(path);
-        if (existing) return existing;
+        if (existing && !rebuild) return existing;
         Mesh source = NormalizedChildMesh();
         var pose = new ChildPose();
         ArmBones(-1, false, false, out pose.leftUpper, out pose.leftLower);
@@ -237,10 +237,10 @@ public static partial class Scene3VillageComposition
             Vector3 hip = new Vector3(side * .105f, .505f, -.045f);
             Vector3 knee = new Vector3(side * (side < 0 ? .245f : .255f), .285f, .015f);
             Vector3 ankle = new Vector3(side * (side < 0 ? .315f : .365f), .065f, -.065f);
-            Vector3 targetHip = hip + Vector3.down * .235f;
-            Vector3 targetKnee = targetHip + new Vector3(side * .09f, -.09f, .23f);
+            Vector3 targetHip = new Vector3(hip.x, .20f, -.10f);
+            Vector3 targetKnee = targetHip + new Vector3(side * .075f, .07f, .22f);
             var upper = new PoseBone { source = hip, target = targetHip, rotation = Quaternion.FromToRotation(knee - hip, targetKnee - targetHip) };
-            var lower = new PoseBone { source = knee, target = upper.Point(knee), rotation = Quaternion.FromToRotation(ankle - knee, new Vector3(side * .025f, -.15f, -.18f)) };
+            var lower = new PoseBone { source = knee, target = upper.Point(knee), rotation = Quaternion.FromToRotation(ankle - knee, new Vector3(side * .008f, -.215f, -.13f)) };
             if (side < 0) { pose.leftThigh = upper; pose.leftCalf = lower; }
             else { pose.rightThigh = upper; pose.rightCalf = lower; }
         }
@@ -254,9 +254,12 @@ public static partial class Scene3VillageComposition
             var upper = p.x < 0 ? pose.leftThigh : pose.rightThigh;
             var lower = p.x < 0 ? pose.leftCalf : pose.rightCalf;
             Vector3 leg = Vector3.Lerp(upper.Point(p), lower.Point(p), 1 - Smooth(.23f, .35f, p.y));
-            Vector3 body = pose.Vertex(p) + Vector3.down * .235f;
-            // Small torso lean varies the silhouettes without touching the face or UVs.
-            body.z += Smooth(.52f, .9f, p.y) * (.035f + variant * .025f);
+            // An ankle joint decouples the foot from the sharply bent calf.
+            Vector3 ankle = new Vector3((p.x < 0 ? -1 : 1) * (p.x < 0 ? .315f : .365f), .065f, -.065f);
+            Vector3 foot = lower.Point(ankle) + Quaternion.Euler(-5, p.x < 0 ? -8 : 8, 0) * (p - ankle);
+            leg = Vector3.Lerp(leg, foot, 1 - Smooth(.08f, .16f, p.y));
+            Vector3 body = p.y > .56f ? pose.Vertex(p) : p;
+            body = new Vector3(0,.20f,-.10f) + Quaternion.Euler(18 + variant * 2,0,0) * (body - new Vector3(0,.505f,-.045f));
             vertices[i] = Vector3.Lerp(body, leg, legWeight);
         }
         float bottom = vertices.Min(p => p.y);
@@ -265,6 +268,7 @@ public static partial class Scene3VillageComposition
         mesh.RecalculateNormals(); mesh.RecalculateBounds();
         // Source tangents describe the old pose; this material uses albedo only.
         mesh.tangents = new Vector4[0];
+        if(existing){Undo.RegisterCompleteObjectUndo(existing,"Correct child squat");existing.vertices=mesh.vertices;existing.normals=mesh.normals;existing.tangents=mesh.tangents;existing.bounds=mesh.bounds;UnityEngine.Object.DestroyImmediate(mesh);EditorUtility.SetDirty(existing);return existing;}
         AssetDatabase.CreateAsset(mesh, path);
         return mesh;
     }

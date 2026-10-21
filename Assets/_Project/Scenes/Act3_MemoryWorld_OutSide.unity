@@ -18982,641 +18982,577 @@ MonoBehaviour:
     materials:
     - {fileID: 2100000, guid: 647b29477b7a15a46847850deda234d5, type: 2}
     maxDistance: 155
+  - name: Bambusa_Source01
+    near: {fileID: 4300000, guid: cff30035aee6289418baae5e441211d5, type: 2}
+    middle: {fileID: 4300000, guid: 71d8d6733edf57649932c2f2a3dc4944, type: 2}
+    far: {fileID: 4300000, guid: 44089fa7c6ff6bd489e07b1344646fca, type: 2}
+    materials:
+    - {fileID: 2100000, guid: 475c93a06e4959642a3beb760219a786, type: 2}
+    maxDistance: 155
+  - name: Bambusa_Source02
+    near: {fileID: 4300000, guid: e13e15ea988e1e941996bc3d5024368a, type: 2}
+    middle: {fileID: 4300000, guid: 55ab3fc36f5072d4caf334f1febe1ffd, type: 2}
+    far: {fileID: 4300000, guid: 5c5bceae4261a3f4cae6230095848593, type: 2}
+    materials:
+    - {fileID: 2100000, guid: 475c93a06e4959642a3beb760219a786, type: 2}
+    maxDistance: 155
+  - name: Bambusa_Source04
+    near: {fileID: 4300000, guid: 38f2be1f5c5dbd14ea2568d267c7c994, type: 2}
+    middle: {fileID: 4300000, guid: 425c44002ca28784ca9dc346fc7d2ed9, type: 2}
+    far: {fileID: 4300000, guid: f69868760a03d1e419f5920d9f42cbc7, type: 2}
+    materials:
+    - {fileID: 2100000, guid: 475c93a06e4959642a3beb760219a786, type: 2}
+    maxDistance: 155
   plants:
-  - position: {x: 5.3405237, y: 0.16548163, z: -5.4164677}
+  - position: {x: 5.3405237, y: 0.175, z: -5.4164677}
     yaw: 207.28476
-    scale: 0.8837483
-    prototype: 4
+    scale: 1.5872093
+    prototype: 5
     paddy: 0
-  - position: {x: 6.8145523, y: 0.1566818, z: -6.112092}
+  - position: {x: 6.8145523, y: 0.16494258, z: -6.112092}
     yaw: 40.49345
-    scale: 1.0864991
-    prototype: 4
+    scale: 2.0677762
+    prototype: 6
     paddy: 0
-  - position: {x: 5.6924353, y: 0.1665349, z: -3.9502962}
+  - position: {x: 5.6924353, y: 0.175, z: -3.9502962}
     yaw: 337.21124
-    scale: 1.0535566
-    prototype: 4
+    scale: 2.0050814
+    prototype: 6
     paddy: 0
-  - position: {x: 6.8698573, y: 0.15456454, z: -4.517494}
+  - position: {x: 6.8698573, y: 0.16360798, z: -4.517494}
     yaw: 320.62524
-    scale: 0.96031684
-    prototype: 4
+    scale: 1.4884274
+    prototype: 7
     paddy: 0
-  - position: {x: 5.4474874, y: 0.16539906, z: -2.790491}
+  - position: {x: 5.4474874, y: 0.175, z: -2.790491}
     yaw: 76.7674
-    scale: 0.87043756
-    prototype: 4
+    scale: 1.6565776
+    prototype: 6
     paddy: 0
-  - position: {x: 6.592325, y: 0.16048378, z: -2.4885354}
+  - position: {x: 6.592325, y: 0.16953735, z: -2.4885354}
     yaw: 66.50224
-    scale: 0.9586819
-    prototype: 4
+    scale: 1.8245202
+    prototype: 6
     paddy: 0
-  - position: {x: 5.0768814, y: 0.16656184, z: -1.2392641}
+  - position: {x: 5.0768814, y: 0.175, z: -1.2392641}
     yaw: 37.667046
-    scale: 1.0579017
-    prototype: 4
+    scale: 1.8999884
+    prototype: 5
     paddy: 0
-  - position: {x: 6.645426, y: 0.1599036, z: -1.5373261}
+  - position: {x: 6.645426, y: 0.16855499, z: -1.5373261}
     yaw: 27.776155
-    scale: 1.0235225
-    prototype: 4
+    scale: 1.5863919
+    prototype: 7
     paddy: 0
-  - position: {x: 5.160345, y: 0.16565742, z: 0.31077543}
+  - position: {x: 5.160345, y: 0.175, z: 0.31077543}
     yaw: 284.7345
-    scale: 0.91208905
-    prototype: 4
+    scale: 1.4136776
+    prototype: 7
     paddy: 0
-  - position: {x: 6.720071, y: 0.15835868, z: 0.6154145}
+  - position: {x: 6.720071, y: 0.1670497, z: 0.6154145}
     yaw: 145.73651
-    scale: 1.0171329
-    prototype: 4
+    scale: 1.9357616
+    prototype: 6
     paddy: 0
-  - position: {x: 5.0956964, y: 0.16550872, z: 2.604958}
+  - position: {x: 5.0956964, y: 0.175, z: 2.604958}
     yaw: 274.59262
-    scale: 0.88811505
-    prototype: 4
+    scale: 1.6902206
+    prototype: 6
     paddy: 0
-  - position: {x: 7.134584, y: 0.14796029, z: 2.8590987}
+  - position: {x: 7.134584, y: 0.15625, z: 2.8590987}
     yaw: 14.064513
-    scale: 1.0818341
-    prototype: 4
+    scale: 1.676771
+    prototype: 7
     paddy: 0
-  - position: {x: 5.504825, y: 0.16558607, z: 4.086263}
+  - position: {x: 5.504825, y: 0.175, z: 4.086263}
     yaw: 116.17369
-    scale: 0.90058637
-    prototype: 4
+    scale: 1.3958491
+    prototype: 7
     paddy: 0
-  - position: {x: 6.3382573, y: 0.163661, z: 3.6832862}
+  - position: {x: 6.3382573, y: 0.1731647, z: 3.6832862}
     yaw: 273.92612
-    scale: 0.8861142
-    prototype: 4
+    scale: 1.6864126
+    prototype: 6
     paddy: 0
-  - position: {x: 5.4798584, y: 0.16604215, z: 6.531952}
+  - position: {x: 5.4798584, y: 0.175, z: 6.531952}
     yaw: 92.478096
-    scale: 0.9741152
-    prototype: 4
+    scale: 1.509814
+    prototype: 7
     paddy: 0
-  - position: {x: 6.884657, y: 0.15469494, z: 6.3836355}
+  - position: {x: 6.884657, y: 0.1632385, z: 6.3836355}
     yaw: 233.16046
-    scale: 1.0409083
-    prototype: 4
+    scale: 1.9810098
+    prototype: 6
     paddy: 0
-  - position: {x: 5.0525293, y: 0.16647081, z: 7.9369483}
+  - position: {x: 5.0525293, y: 0.175, z: 7.9369483}
     yaw: 150.94923
-    scale: 1.0432241
-    prototype: 4
+    scale: 1.6169281
+    prototype: 7
     paddy: 0
-  - position: {x: 6.3947473, y: 0.16351517, z: 7.8136196}
+  - position: {x: 6.3947473, y: 0.17251682, z: 7.8136196}
     yaw: 28.56022
-    scale: 0.9670523
-    prototype: 4
+    scale: 1.7368231
+    prototype: 5
     paddy: 0
-  - position: {x: 5.6923275, y: 0.16545293, z: 9.549006}
+  - position: {x: 5.6923275, y: 0.175, z: 9.549006}
     yaw: 258.24783
-    scale: 0.879121
-    prototype: 4
+    scale: 1.5788988
+    prototype: 5
     paddy: 0
-  - position: {x: 6.725964, y: 0.15773709, z: 9.54387}
+  - position: {x: 6.725964, y: 0.16692479, z: 9.54387}
     yaw: 115.33767
-    scale: 0.93705934
-    prototype: 4
+    scale: 1.4523798
+    prototype: 7
     paddy: 0
-  - position: {x: 5.326312, y: 0.16619803, z: 11.414692}
+  - position: {x: 5.326312, y: 0.175, z: 11.414692}
     yaw: 333.59985
-    scale: 0.99924767
-    prototype: 4
+    scale: 1.9017233
+    prototype: 6
     paddy: 0
-  - position: {x: 7.1410465, y: 0.14638278, z: 10.824375}
+  - position: {x: 7.1410465, y: 0.15605137, z: 10.824375}
     yaw: 10.593462
-    scale: 0.85953057
-    prototype: 4
+    scale: 1.6358198
+    prototype: 6
     paddy: 0
-  - position: {x: 5.004933, y: 0.16575193, z: 12.68459}
+  - position: {x: 5.004933, y: 0.175, z: 12.68459}
     yaw: 168.7234
-    scale: 0.92732626
-    prototype: 4
+    scale: 1.6654752
+    prototype: 5
     paddy: 0
-  - position: {x: 7.169244, y: 0.14671318, z: 12.580612}
+  - position: {x: 7.169244, y: 0.15517467, z: 12.580612}
     yaw: 90.087265
-    scale: 1.0541377
-    prototype: 4
+    scale: 1.6338435
+    prototype: 7
     paddy: 0
-  - position: {x: 5.8079143, y: 0.16636865, z: 14.408379}
+  - position: {x: 5.8079143, y: 0.175, z: 14.408379}
     yaw: 33.80617
-    scale: 1.026753
-    prototype: 4
+    scale: 1.9540701
+    prototype: 6
     paddy: 0
-  - position: {x: 7.2801466, y: 0.14330235, z: 14.416873}
+  - position: {x: 7.2801466, y: 0.15157202, z: 14.416873}
     yaw: 306.80612
-    scale: 1.0850635
-    prototype: 4
+    scale: 2.0650442
+    prototype: 6
     paddy: 0
-  - position: {x: 5.948205, y: 0.16624527, z: 15.57414}
+  - position: {x: 5.948205, y: 0.175, z: 15.57414}
     yaw: 129.74226
-    scale: 1.0068628
-    prototype: 4
+    scale: 1.9162159
+    prototype: 6
     paddy: 0
-  - position: {x: 6.3133726, y: 0.1642091, z: 15.999571}
+  - position: {x: 6.3133726, y: 0.17342028, z: 15.999571}
     yaw: 290.03943
-    scale: 0.9332724
-    prototype: 4
+    scale: 1.4465103
+    prototype: 7
     paddy: 0
-  - position: {x: 5.60125, y: 0.16670908, z: 24.14994}
+  - position: {x: 5.60125, y: 0.175, z: 24.14994}
     yaw: 283.84103
-    scale: 1.0816385
-    prototype: 4
+    scale: 1.6764679
+    prototype: 7
     paddy: 0
-  - position: {x: 6.5456486, y: 0.1618562, z: 25.076548}
+  - position: {x: 6.5456486, y: 0.17033863, z: 25.076548}
     yaw: 244.07094
-    scale: 1.0507636
-    prototype: 4
+    scale: 1.6286138
+    prototype: 7
     paddy: 0
-  - position: {x: 5.7017794, y: 0.16591153, z: 26.6457}
+  - position: {x: 5.7017794, y: 0.175, z: 26.6457}
     yaw: 218.07121
-    scale: 0.95305735
-    prototype: 4
+    scale: 1.4771757
+    prototype: 7
     paddy: 0
-  - position: {x: 6.641515, y: 0.15922579, z: 25.602633}
+  - position: {x: 6.641515, y: 0.16862988, z: 25.602633}
     yaw: 99.93735
-    scale: 0.902173
-    prototype: 4
+    scale: 1.6203
+    prototype: 5
     paddy: 0
-  - position: {x: 5.8576956, y: 0.16667643, z: 28.514229}
-    yaw: 331.19223
-    scale: 1.0763751
-    prototype: 4
-    paddy: 0
-  - position: {x: 7.263965, y: 0.14290968, z: 27.658737}
+  - position: {x: 7.263965, y: 0.15211268, z: 27.658737}
     yaw: 293.13333
-    scale: 0.934591
-    prototype: 4
+    scale: 1.7786716
+    prototype: 6
     paddy: 0
-  - position: {x: 5.8518887, y: 0.16678308, z: 30.046597}
-    yaw: 257.99747
-    scale: 1.0935675
-    prototype: 4
-    paddy: 0
-  - position: {x: 7.0441775, y: 0.14923263, z: 29.94991}
-    yaw: 207.60004
-    scale: 0.8538401
-    prototype: 4
-    paddy: 0
-  - position: {x: 5.1540523, y: 0.16661152, z: 31.407574}
-    yaw: 248.65805
-    scale: 1.0659096
-    prototype: 4
-    paddy: 0
-  - position: {x: 6.7841525, y: 0.15592307, z: 30.744413}
-    yaw: 348.30893
-    scale: 0.8509855
-    prototype: 4
-    paddy: 0
-  - position: {x: 5.699364, y: 0.16587716, z: 32.44516}
-    yaw: 83.95919
-    scale: 0.9475166
-    prototype: 4
-    paddy: 0
-  - position: {x: 6.397682, y: 0.16354102, z: 32.874}
-    yaw: 340.6774
-    scale: 0.97705835
-    prototype: 4
-    paddy: 0
-  - position: {x: 5.9142966, y: 0.166048, z: 34.59389}
-    yaw: 52.58475
-    scale: 0.97505945
-    prototype: 4
-    paddy: 0
-  - position: {x: 6.8188252, y: 0.15641385, z: 34.680954}
-    yaw: 124.20417
-    scale: 1.0595013
-    prototype: 4
-    paddy: 0
-  - position: {x: 5.838291, y: 0.16671833, z: 35.962845}
-    yaw: 179.30954
-    scale: 1.0831299
-    prototype: 4
-    paddy: 0
-  - position: {x: 7.161928, y: 0.14711776, z: 35.925953}
-    yaw: 8.379278
-    scale: 1.082442
-    prototype: 4
-    paddy: 0
-  - position: {x: 5.7308726, y: 0.16596921, z: 38.672794}
-    yaw: 300.99933
-    scale: 0.9623561
-    prototype: 4
-    paddy: 0
-  - position: {x: 6.4344525, y: 0.16350327, z: 38.22713}
-    yaw: 297.3513
-    scale: 1.047483
-    prototype: 4
-    paddy: 0
-  - position: {x: 5.86271, y: 0.16561218, z: 40.518692}
-    yaw: 335.41644
-    scale: 0.9047943
-    prototype: 4
-    paddy: 0
-  - position: {x: 7.1641116, y: 0.14671391, z: 39.34983}
-    yaw: 184.79565
-    scale: 1.0283345
-    prototype: 4
-    paddy: 0
-  - position: {x: 5.236842, y: 0.166511, z: 40.945}
-    yaw: 140.90552
-    scale: 1.049703
-    prototype: 4
-    paddy: 0
-  - position: {x: 6.4758034, y: 0.161787, z: 42.11799}
-    yaw: 266.07196
-    scale: 0.86424905
-    prototype: 4
-    paddy: 0
-  - position: {x: 5.663706, y: 0.16658834, z: 43.33139}
+  - position: {x: 5.663706, y: 0.175, z: 43.33139}
     yaw: 132.42252
-    scale: 1.0621732
-    prototype: 4
+    scale: 1.646298
+    prototype: 7
     paddy: 0
-  - position: {x: 6.3951607, y: 0.1629462, z: 43.309128}
+  - position: {x: 6.3951607, y: 0.17251173, z: 43.309128}
     yaw: 219.38484
-    scale: 0.87614447
-    prototype: 4
+    scale: 1.3579658
+    prototype: 7
     paddy: 0
-  - position: {x: 5.098456, y: 0.16604745, z: 51.616405}
+  - position: {x: 5.098456, y: 0.175, z: 51.616405}
     yaw: 93.592285
-    scale: 0.9749716
-    prototype: 4
+    scale: 1.7510462
+    prototype: 5
     paddy: 0
-  - position: {x: 7.1868663, y: 0.14614424, z: 52.044476}
+  - position: {x: 7.1868663, y: 0.15461855, z: 52.044476}
     yaw: 142.1724
-    scale: 1.0520719
-    prototype: 4
+    scale: 1.6306417
+    prototype: 7
     paddy: 0
-  - position: {x: 5.559322, y: 0.16570911, z: 53.74743}
+  - position: {x: 5.559322, y: 0.175, z: 53.74743}
     yaw: 207.68733
-    scale: 0.92042357
-    prototype: 4
+    scale: 1.4265956
+    prototype: 7
     paddy: 0
-  - position: {x: 6.494349, y: 0.16216503, z: 54.073997}
+  - position: {x: 6.494349, y: 0.1711507, z: 54.073997}
     yaw: 263.25897
-    scale: 0.96962935
-    prototype: 4
+    scale: 1.8453548
+    prototype: 6
     paddy: 0
-  - position: {x: 5.3997355, y: 0.16567494, z: 55.09255}
+  - position: {x: 5.3997355, y: 0.175, z: 55.09255}
     yaw: 298.72537
-    scale: 0.9149139
-    prototype: 4
+    scale: 1.4180559
+    prototype: 7
     paddy: 0
-  - position: {x: 6.587599, y: 0.16120186, z: 55.259365}
+  - position: {x: 6.587599, y: 0.16962117, z: 55.259365}
     yaw: 309.91962
-    scale: 1.0609392
-    prototype: 4
+    scale: 1.6443853
+    prototype: 7
     paddy: 0
-  - position: {x: 5.7798624, y: 0.16553769, z: 57.197674}
+  - position: {x: 5.7798624, y: 0.175, z: 57.197674}
     yaw: 220.33382
-    scale: 0.89278543
-    prototype: 4
+    scale: 1.6991091
+    prototype: 6
     paddy: 0
-  - position: {x: 6.9669476, y: 0.15249155, z: 56.79587}
+  - position: {x: 6.9669476, y: 0.1610911, z: 56.79587}
     yaw: 128.23126
-    scale: 1.0318809
-    prototype: 4
+    scale: 1.599347
+    prototype: 7
     paddy: 0
-  - position: {x: 5.8363194, y: 0.16655873, z: 58.755714}
+  - position: {x: 5.8363194, y: 0.175, z: 58.755714}
     yaw: 178.29385
-    scale: 1.0573982
-    prototype: 4
+    scale: 2.0123925
+    prototype: 6
     paddy: 0
-  - position: {x: 6.904669, y: 0.15396991, z: 58.539253}
+  - position: {x: 6.904669, y: 0.1627307, z: 58.539253}
     yaw: 202.4017
-    scale: 1.005886
-    prototype: 4
+    scale: 1.8065683
+    prototype: 5
     paddy: 0
-  - position: {x: 5.220262, y: 0.16655691, z: 60.170433}
+  - position: {x: 5.220262, y: 0.175, z: 60.170433}
     yaw: 179.66866
-    scale: 1.0571057
-    prototype: 4
+    scale: 1.6384437
+    prototype: 7
     paddy: 0
-  - position: {x: 6.8866262, y: 0.1543019, z: 60.273323}
+  - position: {x: 6.8866262, y: 0.16318893, z: 60.273323}
     yaw: 271.33868
-    scale: 0.98553115
-    prototype: 4
+    scale: 1.7700111
+    prototype: 5
     paddy: 0
-  - position: {x: 5.0415144, y: 0.16676708, z: 61.46963}
+  - position: {x: 5.0415144, y: 0.175, z: 61.46963}
     yaw: 241.89252
-    scale: 1.0909878
-    prototype: 4
+    scale: 1.6909589
+    prototype: 7
     paddy: 0
-  - position: {x: 6.545272, y: 0.16111338, z: 61.686146}
+  - position: {x: 6.545272, y: 0.17034486, z: 61.686146}
     yaw: 200.18253
-    scale: 0.9299998
-    prototype: 4
+    scale: 1.7699338
+    prototype: 6
     paddy: 0
-  - position: {x: 5.521379, y: 0.1660131, z: 63.898064}
+  - position: {x: 5.521379, y: 0.175, z: 63.898064}
     yaw: 62.73135
-    scale: 0.969434
-    prototype: 4
+    scale: 1.8449832
+    prototype: 6
     paddy: 0
-  - position: {x: 6.8022118, y: 0.15662637, z: 63.27979}
+  - position: {x: 6.8022118, y: 0.1652303, z: 63.27979}
     yaw: 48.135994
-    scale: 1.0311737
-    prototype: 4
+    scale: 1.851985
+    prototype: 5
     paddy: 0
-  - position: {x: 5.945909, y: 0.16641556, z: 65.99804}
+  - position: {x: 5.945909, y: 0.175, z: 65.99804}
     yaw: 209.92949
-    scale: 1.0343158
-    prototype: 4
+    scale: 1.6031209
+    prototype: 7
     paddy: 0
-  - position: {x: 6.376731, y: 0.1632005, z: 66.07991}
+  - position: {x: 6.376731, y: 0.17273358, z: 66.07991}
     yaw: 339.52933
-    scale: 0.88137776
-    prototype: 4
+    scale: 1.6773984
+    prototype: 6
     paddy: 0
-  - position: {x: 5.7967825, y: 0.16621307, z: 67.37863}
+  - position: {x: 5.7967825, y: 0.175, z: 67.37863}
     yaw: 316.85727
-    scale: 1.0016701
-    prototype: 4
+    scale: 1.9063334
+    prototype: 6
     paddy: 0
-  - position: {x: 7.010311, y: 0.15059264, z: 66.887764}
+  - position: {x: 7.010311, y: 0.15989758, z: 66.887764}
     yaw: 107.614784
-    scale: 0.91815746
-    prototype: 4
+    scale: 1.747396
+    prototype: 6
     paddy: 0
-  - position: {x: 5.167873, y: 0.16615279, z: 68.68617}
+  - position: {x: 5.167873, y: 0.175, z: 68.68617}
     yaw: 196.48677
-    scale: 0.99195385
-    prototype: 4
+    scale: 1.8878419
+    prototype: 6
     paddy: 0
-  - position: {x: 6.757506, y: 0.15668404, z: 68.18246}
+  - position: {x: 6.757506, y: 0.16624135, z: 68.18246}
     yaw: 201.78557
-    scale: 0.877472
-    prototype: 4
+    scale: 1.669965
+    prototype: 6
     paddy: 0
-  - position: {x: 5.289408, y: 0.166776, z: 70.18808}
+  - position: {x: 5.289408, y: 0.175, z: 70.18808}
     yaw: 346.7554
-    scale: 1.0924269
-    prototype: 4
+    scale: 1.9619955
+    prototype: 5
     paddy: 0
-  - position: {x: 7.276482, y: 0.14205894, z: 70.43309}
+  - position: {x: 7.276482, y: 0.1516949, z: 70.43309}
     yaw: 7.353767
-    scale: 0.86479044
-    prototype: 4
+    scale: 1.3403679
+    prototype: 7
     paddy: 0
-  - position: {x: -36.46161, y: 0.16647726, z: -5}
+  - position: {x: -36.46161, y: 0.175, z: -5}
     yaw: 199.14136
-    scale: 1.0442652
-    prototype: 4
+    scale: 1.9873984
+    prototype: 6
     paddy: 0
-  - position: {x: -36.521606, y: 0.16654974, z: -2.6}
+  - position: {x: -36.521606, y: 0.175, z: -2.6}
     yaw: 346.17676
-    scale: 1.0559498
-    prototype: 4
+    scale: 1.8964828
+    prototype: 5
     paddy: 0
-  - position: {x: -36.469036, y: 0.1653678, z: -0.19999981}
+  - position: {x: -36.469036, y: 0.175, z: -0.19999981}
     yaw: 358.03613
-    scale: 0.86539674
-    prototype: 4
+    scale: 1.3413075
+    prototype: 7
     paddy: 0
-  - position: {x: -38.425095, y: 0.16678251, z: 2.2000003}
+  - position: {x: -38.425095, y: 0.175, z: 2.2000003}
     yaw: 196.65315
-    scale: 1.0934772
-    prototype: 4
+    scale: 1.6948172
+    prototype: 7
     paddy: 0
-  - position: {x: -36.50118, y: 0.16603395, z: 4.6000004}
+  - position: {x: -36.50118, y: 0.175, z: 4.6000004}
     yaw: 304.47058
-    scale: 0.9727934
-    prototype: 4
+    scale: 1.8513765
+    prototype: 6
     paddy: 0
-  - position: {x: -37.98104, y: 0.16590539, z: 7.0000005}
+  - position: {x: -37.98104, y: 0.175, z: 7.0000005}
     yaw: 65.22709
-    scale: 0.9520678
-    prototype: 4
+    scale: 1.8119326
+    prototype: 6
     paddy: 0
-  - position: {x: -38.480858, y: 0.16541554, z: 9.400001}
+  - position: {x: -38.480858, y: 0.175, z: 9.400001}
     yaw: 226.55202
-    scale: 0.87309486
-    prototype: 4
+    scale: 1.6616348
+    prototype: 6
     paddy: 0
-  - position: {x: -37.95346, y: 0.16643898, z: 11.800001}
+  - position: {x: -37.95346, y: 0.175, z: 11.800001}
     yaw: 319.32645
-    scale: 1.0380942
-    prototype: 4
+    scale: 1.608977
+    prototype: 7
     paddy: 0
-  - position: {x: -36.051296, y: 0.16558227, z: 14.200001}
+  - position: {x: -36.051296, y: 0.175, z: 14.200001}
     yaw: 105.74253
-    scale: 0.8999733
-    prototype: 4
+    scale: 1.3948989
+    prototype: 7
     paddy: 0
-  - position: {x: -36.10139, y: 0.1652916, z: 16.6}
+  - position: {x: -36.10139, y: 0.175, z: 16.6}
     yaw: 58.82278
-    scale: 0.8531144
-    prototype: 4
+    scale: 1.623609
+    prototype: 6
     paddy: 0
-  - position: {x: -35.600033, y: 0.16586633, z: 19}
+  - position: {x: -35.600033, y: 0.175, z: 19}
     yaw: 230.03929
-    scale: 0.9457713
-    prototype: 4
+    scale: 1.7999494
+    prototype: 6
     paddy: 0
-  - position: {x: -36.73269, y: 0.16561787, z: 21.4}
+  - position: {x: -36.73269, y: 0.175, z: 21.4}
     yaw: 4.2983675
-    scale: 0.905714
-    prototype: 4
+    scale: 1.4037966
+    prototype: 7
     paddy: 0
-  - position: {x: -36.114334, y: 0.16633295, z: 23.8}
+  - position: {x: -36.114334, y: 0.175, z: 23.8}
     yaw: 201.09149
-    scale: 1.0209982
-    prototype: 4
+    scale: 1.5824795
+    prototype: 7
     paddy: 0
-  - position: {x: -37.881187, y: 0.16655208, z: 26.199999}
+  - position: {x: -37.881187, y: 0.175, z: 26.199999}
     yaw: 185.27345
-    scale: 1.0563269
-    prototype: 4
+    scale: 1.89716
+    prototype: 5
     paddy: 0
-  - position: {x: -36.846245, y: 0.16601822, z: 28.599998}
+  - position: {x: -36.846245, y: 0.175, z: 28.599998}
     yaw: 66.14995
-    scale: 0.9702581
-    prototype: 4
+    scale: 1.5038358
+    prototype: 7
     paddy: 0
-  - position: {x: -36.806, y: 0.16681549, z: 30.999998}
+  - position: {x: -36.806, y: 0.175, z: 30.999998}
     yaw: 305.19492
-    scale: 1.0987947
-    prototype: 4
+    scale: 1.703059
+    prototype: 7
     paddy: 0
-  - position: {x: -37.205673, y: 0.1666543, z: 33.399998}
+  - position: {x: -37.205673, y: 0.175, z: 33.399998}
     yaw: 214.56427
-    scale: 1.0728077
-    prototype: 4
+    scale: 1.6627808
+    prototype: 7
     paddy: 0
-  - position: {x: -36.114113, y: 0.16604115, z: 35.8}
+  - position: {x: -36.114113, y: 0.175, z: 35.8}
     yaw: 351.53564
-    scale: 0.9739559
-    prototype: 4
+    scale: 1.509567
+    prototype: 7
     paddy: 0
-  - position: {x: -37.326653, y: 0.16613002, z: 38.2}
+  - position: {x: -37.326653, y: 0.175, z: 38.2}
     yaw: 7.979734
-    scale: 0.9882835
-    prototype: 4
+    scale: 1.5317738
+    prototype: 7
     paddy: 0
-  - position: {x: -36.50154, y: 0.16672741, z: 40.600002}
+  - position: {x: -36.50154, y: 0.175, z: 40.600002}
     yaw: 201.6965
-    scale: 1.0845934
-    prototype: 4
+    scale: 2.0641494
+    prototype: 6
     paddy: 0
-  - position: {x: -36.49638, y: 0.1667865, z: 43.000004}
+  - position: {x: -36.49638, y: 0.175, z: 43.000004}
     yaw: 15.882481
-    scale: 1.0941203
-    prototype: 4
+    scale: 2.0822804
+    prototype: 6
     paddy: 0
-  - position: {x: -36.006554, y: 0.16537201, z: 45.400005}
+  - position: {x: -36.006554, y: 0.175, z: 45.400005}
     yaw: 191.00177
-    scale: 0.8660753
-    prototype: 4
+    scale: 1.3423593
+    prototype: 7
     paddy: 0
-  - position: {x: -35.778217, y: 0.16540457, z: 47.800007}
+  - position: {x: -35.778217, y: 0.175, z: 47.800007}
     yaw: 86.741776
-    scale: 0.871325
-    prototype: 4
+    scale: 1.6582667
+    prototype: 6
     paddy: 0
-  - position: {x: -35.998566, y: 0.16592364, z: 50.20001}
+  - position: {x: -35.998566, y: 0.175, z: 50.20001}
     yaw: 270.86435
-    scale: 0.9550094
-    prototype: 4
+    scale: 1.817531
+    prototype: 6
     paddy: 0
-  - position: {x: -36.632202, y: 0.16665295, z: 52.60001}
+  - position: {x: -36.632202, y: 0.175, z: 52.60001}
     yaw: 123.058846
-    scale: 1.0725888
-    prototype: 4
+    scale: 1.6624415
+    prototype: 7
     paddy: 0
-  - position: {x: -38.156013, y: 0.1663608, z: 55.00001}
+  - position: {x: -38.156013, y: 0.175, z: 55.00001}
     yaw: 87.72014
-    scale: 1.025489
-    prototype: 4
+    scale: 1.9516644
+    prototype: 6
     paddy: 0
-  - position: {x: -36.390198, y: 0.16570573, z: 57.400013}
+  - position: {x: -36.390198, y: 0.175, z: 57.400013}
     yaw: 102.89962
-    scale: 0.9198767
-    prototype: 4
+    scale: 1.4257479
+    prototype: 7
     paddy: 0
-  - position: {x: -37.1621, y: 0.16590694, z: 59.800014}
+  - position: {x: -37.1621, y: 0.175, z: 59.800014}
     yaw: 75.91027
-    scale: 0.9523173
-    prototype: 4
+    scale: 1.7103591
+    prototype: 5
     paddy: 0
-  - position: {x: -36.797844, y: 0.16556722, z: 62.200016}
+  - position: {x: -36.797844, y: 0.175, z: 62.200016}
     yaw: 323.5537
-    scale: 0.89754707
-    prototype: 4
+    scale: 1.7081712
+    prototype: 6
     paddy: 0
-  - position: {x: -36.51247, y: 0.1656132, z: 64.60001}
+  - position: {x: -36.51247, y: 0.175, z: 64.60001}
     yaw: 253.22777
-    scale: 0.9049602
-    prototype: 4
+    scale: 1.4026283
+    prototype: 7
     paddy: 0
-  - position: {x: -35.530678, y: 0.16549419, z: 67.000015}
+  - position: {x: -35.530678, y: 0.175, z: 67.000015}
     yaw: 277.7639
-    scale: 0.8857737
-    prototype: 4
+    scale: 1.3728905
+    prototype: 7
     paddy: 0
-  - position: {x: -35.505043, y: 0.16620103, z: 69.40002}
+  - position: {x: -35.505043, y: 0.175, z: 69.40002}
     yaw: 311.1286
-    scale: 0.9997291
-    prototype: 4
+    scale: 1.5495138
+    prototype: 7
     paddy: 0
-  - position: {x: -37.08841, y: 0.1665148, z: 71.80002}
+  - position: {x: -37.08841, y: 0.175, z: 71.80002}
     yaw: 134.7211
-    scale: 1.0503154
-    prototype: 4
+    scale: 1.6279192
+    prototype: 7
     paddy: 0
-  - position: {x: -35, y: 0.1663493, z: 72.30638}
+  - position: {x: -35, y: 0.175, z: 72.30638}
     yaw: 294.14603
-    scale: 1.0236353
-    prototype: 4
+    scale: 1.5865668
+    prototype: 7
     paddy: 0
-  - position: {x: -32.7, y: 0.16626781, z: 72.21363}
+  - position: {x: -32.7, y: 0.175, z: 72.21363}
     yaw: 152.32727
-    scale: 1.0104973
-    prototype: 4
+    scale: 1.5662038
+    prototype: 7
     paddy: 0
-  - position: {x: -30.400002, y: 0.16568851, z: 72.687225}
+  - position: {x: -30.400002, y: 0.175, z: 72.687225}
     yaw: 232.45583
-    scale: 0.9171025
-    prototype: 4
+    scale: 1.421448
+    prototype: 7
     paddy: 0
-  - position: {x: -28.100002, y: 0.16582996, z: 72.26932}
+  - position: {x: -28.100002, y: 0.175, z: 72.26932}
     yaw: 311.88858
-    scale: 0.9399068
-    prototype: 4
+    scale: 1.4567932
+    prototype: 7
     paddy: 0
-  - position: {x: -25.800003, y: 0.16676575, z: 72.557}
+  - position: {x: -25.800003, y: 0.175, z: 72.557}
     yaw: 212.99861
-    scale: 1.090775
-    prototype: 4
+    scale: 2.075914
+    prototype: 6
     paddy: 0
-  - position: {x: -23.500004, y: 0.1657556, z: 71.548874}
+  - position: {x: -23.500004, y: 0.175, z: 71.548874}
     yaw: 183.36835
-    scale: 0.9279183
-    prototype: 4
+    scale: 1.4382119
+    prototype: 7
     paddy: 0
-  - position: {x: -21.200005, y: 0.16581266, z: 72.66651}
+  - position: {x: -21.200005, y: 0.175, z: 72.66651}
     yaw: 319.3032
-    scale: 0.93711776
-    prototype: 4
+    scale: 1.4524704
+    prototype: 7
     paddy: 0
-  - position: {x: -18.900005, y: 0.16578674, z: 72.2636}
+  - position: {x: -18.900005, y: 0.175, z: 72.2636}
     yaw: 316.50565
-    scale: 0.932939
-    prototype: 4
+    scale: 1.6755557
+    prototype: 5
     paddy: 0
-  - position: {x: -16.600006, y: 0.16660373, z: 72.07508}
+  - position: {x: -16.600006, y: 0.175, z: 72.07508}
     yaw: 89.53006
-    scale: 1.0646542
-    prototype: 4
+    scale: 2.026202
+    prototype: 6
     paddy: 0
-  - position: {x: -14.300006, y: 0.16630414, z: 72.96167}
+  - position: {x: -14.300006, y: 0.175, z: 72.96167}
     yaw: 94.21626
-    scale: 1.0163542
-    prototype: 4
+    scale: 1.9342796
+    prototype: 6
     paddy: 0
-  - position: {x: -12.000006, y: 0.1663312, z: 71.95517}
+  - position: {x: -12.000006, y: 0.175, z: 71.95517}
     yaw: 327.8966
-    scale: 1.0207177
-    prototype: 4
+    scale: 1.942584
+    prototype: 6
     paddy: 0
-  - position: {x: -9.700006, y: 0.16552135, z: 72.738884}
+  - position: {x: -9.700006, y: 0.175, z: 72.738884}
     yaw: 213.8979
-    scale: 0.8901527
-    prototype: 4
+    scale: 1.5987117
+    prototype: 5
     paddy: 0
-  - position: {x: -7.4000053, y: 0.16659707, z: 71.93752}
+  - position: {x: -7.4000053, y: 0.175, z: 71.93752}
     yaw: 277.3669
-    scale: 1.0635803
-    prototype: 4
+    scale: 2.024158
+    prototype: 6
     paddy: 0
-  - position: {x: -5.100005, y: 0.16643979, z: 72.57546}
+  - position: {x: -5.100005, y: 0.175, z: 72.57546}
     yaw: 359.5186
-    scale: 1.0382218
-    prototype: 4
+    scale: 1.9758971
+    prototype: 6
     paddy: 0
-  - position: {x: -2.8000052, y: 0.16549104, z: 71.506096}
+  - position: {x: -2.8000052, y: 0.175, z: 71.506096}
     yaw: 331.7523
-    scale: 0.8852677
-    prototype: 4
+    scale: 1.3721062
+    prototype: 7
     paddy: 0
-  - position: {x: -0.50000525, y: 0.1657411, z: 72.6741}
+  - position: {x: -0.50000525, y: 0.175, z: 72.6741}
     yaw: 59.826633
-    scale: 0.9255815
-    prototype: 4
+    scale: 1.43459
+    prototype: 7
     paddy: 0
-  - position: {x: 1.7999947, y: 0.16643994, z: 71.35981}
+  - position: {x: 1.7999947, y: 0.175, z: 71.35981}
     yaw: 113.93669
-    scale: 1.0382459
-    prototype: 4
+    scale: 1.9759429
+    prototype: 6
     paddy: 0
-  - position: {x: 4.0999947, y: 0.16632186, z: 71.70978}
+  - position: {x: 4.0999947, y: 0.175, z: 71.70978}
     yaw: 164.28242
-    scale: 1.0192106
-    prototype: 4
+    scale: 1.5797088
+    prototype: 7
     paddy: 0
   - position: {x: 8.069273, y: 0.11504331, z: -5.3744226}
     yaw: 337.6404
@@ -26682,6 +26618,41 @@ MonoBehaviour:
     yaw: 100.06491
     scale: 0.54841715
     prototype: 1
+    paddy: 0
+  - position: {x: 5.9, y: 0.175, z: 28.7}
+    yaw: 29
+    scale: 1.5394702
+    prototype: 5
+    paddy: 0
+  - position: {x: 7.2, y: 0.1542, z: 29.8}
+    yaw: 166.508
+    scale: 1.7533709
+    prototype: 6
+    paddy: 0
+  - position: {x: 6.4, y: 0.17245185, z: 33.7}
+    yaw: 304.016
+    scale: 1.301688
+    prototype: 7
+    paddy: 0
+  - position: {x: 7.3, y: 0.15090184, z: 34.9}
+    yaw: 81.52399
+    scale: 1.8421011
+    prototype: 5
+    paddy: 0
+  - position: {x: 6.1, y: 0.17483518, z: 39.4}
+    yaw: 219.03198
+    scale: 1.4936122
+    prototype: 6
+    paddy: 0
+  - position: {x: 7.2, y: 0.1542, z: 40.4}
+    yaw: 356.53998
+    scale: 1.467861
+    prototype: 7
+    paddy: 0
+  - position: {x: 6.4, y: 0.17245185, z: 42.5}
+    yaw: 134.04797
+    scale: 1.6421016
+    prototype: 5
     paddy: 0
   nearDistance: 10
   middleDistance: 24
@@ -69161,7 +69132,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1334812935}
-  m_Mesh: {fileID: 4300000, guid: 1c817fda746ad954ea8050f25705f1ac, type: 2}
+  m_Mesh: {fileID: 4300000, guid: ef5b44c0351f3b84c8d8f1c9d7573b32, type: 2}
 --- !u!1001 &1335725480
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79902,6 +79873,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 728022521134549393, guid: 9e6699237969c624aba461ba6e5de35d, type: 3}
   m_PrefabInstance: {fileID: 1561574036}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1561599729
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1561599730}
+  m_Layer: 0
+  m_Name: BambooArtSample_15m
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1561599730
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561599729}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1562371982
 GameObject:
   m_ObjectHideFlags: 0
@@ -100756,6 +100758,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2079747166}
   m_Mesh: {fileID: 4300000, guid: 66d4cac7748a8be499ff1552c73796c8, type: 2}
+--- !u!1 &2080204916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2080204917}
+  m_Layer: 0
+  m_Name: BambusaImported_WholeVillage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2080204917
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080204916}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2081198829
 GameObject:
   m_ObjectHideFlags: 0
@@ -101802,6 +101835,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1513689315}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2105541573
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2105541574}
+  m_Layer: 0
+  m_Name: BambusaImported_15m
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2105541574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105541573}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2105966999
 GameObject:
@@ -136108,3 +136172,6 @@ SceneRoots:
   - {fileID: 550853116}
   - {fileID: 1083657722}
   - {fileID: 256538749}
+  - {fileID: 1561599730}
+  - {fileID: 2105541574}
+  - {fileID: 2080204917}
