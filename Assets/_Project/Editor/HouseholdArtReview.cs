@@ -23,7 +23,7 @@ public static class HouseholdArtReview
                 Review(chore);
                 count++;
             }
-            File.WriteAllText(Output + "/result.txt", "PASS: " + count + " task surfaces built; sprites, wood tie gate, dish stage gates and cancellation verified. Visual review in Game View remains.");
+            File.WriteAllText(Output + "/result.txt", "PASS: " + count + " task surfaces built; keepsake item and compartment backgrounds, rice wash gate, letter reading gate, wood tie gate, dish stage gates and cancellation verified. Visual review in Game View remains.");
             Debug.Log("[HouseholdArtReview] PASS " + count + " surfaces");
         }
         catch (Exception error)
@@ -91,9 +91,62 @@ public static class HouseholdArtReview
                 if (image.sprite != null && image.sprite.name != "Task_Worktop" &&
                     image.sprite.name != "HouseholdUIRoundSprite") { hasDetail = true; break; }
             Require(hasDetail, chore + ": no task-specific illustration");
+            if (chore == HouseholdChore.ArrangeKeepsakes)
+            {
+                foreach (var item in Get<RectTransform[]>(ui.Actions, "items"))
+                {
+                    Require(item.GetComponent<Image>().color.a == 0f,
+                        "Keepsake item still has a colored card behind the sprite");
+                    Require(!item.GetComponent<Image>().enabled,
+                        "Keepsake item card image is still rendered");
+                    Require(item.Find("ItemName") == null,
+                        "Keepsake item still has a label over the object");
+                }
+                foreach (var target in Get<RectTransform[]>(ui.Actions, "targets"))
+                    Require(!target.GetComponent<Image>().enabled,
+                        "Keepsake compartment still has a colored overlay");
+                typeof(HouseholdActionBoard).GetMethod("Place", Private).Invoke(ui.Actions, new object[] { 0 });
+                Require(Get<RectTransform[]>(ui.Actions, "items")[0].GetComponent<Image>().color.a == 0f,
+                    "Keepsake item gains a card after placement");
+                Require(!Get<RectTransform[]>(ui.Actions, "targets")[0].GetComponent<Image>().enabled,
+                    "Keepsake compartment gains a colored overlay after placement");
+            }
             if (chore == HouseholdChore.SetTable)
+            {
                 foreach (var item in Get<RectTransform[]>(ui.Actions, "items"))
                     Require(item.Find("PropIcon").GetComponent<Image>().sprite != null, "Meal item missing artwork");
+                Require(Get<RectTransform[]>(ui.Actions, "items")[2].Find("PropIcon")
+                    .GetComponent<Image>().sprite.name == "Rice_Pot_Served", "Meal uses stove instead of rice pot");
+            }
+            if (chore == HouseholdChore.WashRice)
+            {
+                Require(Get<RectTransform>(ui.Actions, "actionArea").GetComponent<Image>().sprite.name ==
+                    "Rice_Washing_Pot", "Rice washing pot artwork missing");
+                Require(!Get<RectTransform>(ui.Actions, "rinseZone").gameObject.activeSelf,
+                    "Drain action available before washing");
+                typeof(HouseholdActionBoard).GetField("amount", Private).SetValue(ui.Actions, 720f);
+                Call(ui.Actions, "TickWashRice");
+                Require(Get<int>(ui.Actions, "stage") == 1 && completion == 0 &&
+                    Get<RectTransform>(ui.Actions, "rinseZone").gameObject.activeSelf,
+                    "Rice wash did not unlock drain action after two rounds");
+                Call(ui.Actions, "TickWashRice");
+                Require(Get<int>(ui.Actions, "stage") == 1 && completion == 0,
+                    "Rice washing completed without draining");
+            }
+            if (chore == HouseholdChore.ReadLetter)
+            {
+                Require(Get<RectTransform>(ui.Actions, "actionArea").GetComponent<Image>().sprite.name ==
+                    "Letter_Envelope", "Letter envelope artwork missing");
+                Require(!Get<RectTransform>(ui.Actions, "letterReadButton").gameObject.activeSelf,
+                    "Read confirmation available before opening letter");
+                Call(ui.Actions, "AdvanceLetter");
+                Require(Get<int>(ui.Actions, "stage") == 1 && completion == 0,
+                    "Letter completed before unfolding");
+                Call(ui.Actions, "AdvanceLetter");
+                Require(Get<int>(ui.Actions, "stage") == 2 && completion == 0 &&
+                    Get<RectTransform>(ui.Actions, "letterReadButton").gameObject.activeSelf,
+                    "Letter reading stage missing");
+            }
             if (chore == HouseholdChore.FoldBlanket)
                 foreach (var item in Get<RectTransform[]>(ui.Actions, "items"))
                     Require(item.Find("PropIcon").GetComponent<Image>().sprite.name == "Fold_Blanket", "Blanket artwork missing");

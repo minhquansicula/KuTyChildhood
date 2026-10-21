@@ -6,7 +6,7 @@ public sealed class HouseholdTaskArtImporter : AssetPostprocessor
 {
     private static readonly string[] Names =
         { "Task_Worktop", "Dish_Sponge", "Letter_Page", "Fire_Kindling", "Dish_Rack", "Fold_Blanket",
-          "Wood_Mat", "Wood_Rope", "Wood_Log_Dark" };
+          "Wood_Mat", "Wood_Rope", "Wood_Log_Dark", "Rice_Pot_Served" };
 
     [InitializeOnLoadMethod]
     private static void ScheduleExistingSprites()
@@ -53,7 +53,8 @@ public sealed class HouseholdTaskArtImporter : AssetPostprocessor
         string name = System.IO.Path.GetFileNameWithoutExtension(assetPath);
         if (name != "Task_Worktop" && name != "Dish_Sponge" && name != "Letter_Page" &&
             name != "Fire_Kindling" && name != "Dish_Rack" && name != "Fold_Blanket" &&
-            name != "Wood_Mat" && name != "Wood_Rope" && name != "Wood_Log_Dark") return;
+            name != "Wood_Mat" && name != "Wood_Rope" && name != "Wood_Log_Dark" &&
+            name != "Rice_Pot_Served") return;
         Apply((TextureImporter)assetImporter, name);
     }
 }

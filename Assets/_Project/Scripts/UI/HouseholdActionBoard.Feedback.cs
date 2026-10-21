@@ -81,13 +81,19 @@ public sealed partial class HouseholdActionBoard
         }
         else if (mode == ActionMode.WashRice && stage == 1)
             from = to = rinseZone.anchoredPosition;
+        else if (mode == ActionMode.WashRice && stage == 2)
+        {
+            tutorialHand.gameObject.SetActive(false);
+            return;
+        }
+        else if (mode == ActionMode.Letter && stage == 2)
+            from = to = letterReadButton.anchoredPosition;
         else if (mode == ActionMode.Heat)
         { from = heatHandle.anchoredPosition; to = Vector2.zero; }
         else if (actionArea != null)
         {
             from = actionArea.anchoredPosition;
-            to = from + (mode == ActionMode.Letter && stage == 1 ? Vector2.up :
-                mode == ActionMode.Letter && stage == 2 ? Vector2.left : Vector2.right) * 75f;
+            to = from + (mode == ActionMode.Letter && stage == 1 ? Vector2.up : Vector2.right) * 75f;
         }
         float t = Mathf.SmoothStep(0f, 1f, Mathf.Repeat(Time.unscaledTime * .55f, 1f));
         tutorialHand.anchoredPosition = Vector2.Lerp(from, to, t) + new Vector2(4f, -15f);

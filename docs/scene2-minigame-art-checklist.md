@@ -16,20 +16,20 @@ Cập nhật: 22/10/2026. Tài liệu này ghi lại ảnh nguồn, sprite đã 
 
 | Thứ tự | Nhiệm vụ | Ảnh nguồn | Import | Gắn vào mini game | Chơi thử |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Xếp đồ vào rương | Áo gốc; rương, nắp, khăn và hộp được tạo bổ sung | 5 sprite | Đã gắn | Chưa thử Play Mode |
+| 1 | Xếp đồ vào rương | Áo gốc; rương, nắp, khăn và hộp được tạo bổ sung | 5 sprite | Áo, khăn và hộp có alpha; tắt hoàn toàn Image nền của thẻ kéo và lớp màu phủ ba ngăn rương, kể cả sau khi đặt vật; giữ nhãn tên ngăn | Bài kiểm tra Editor qua; cần xem trong Play Mode sau khi chạy lại |
 | 2 | Chỉnh radio | Radio và kim dò gốc đã tách nền | 2 sprite | Đã gắn | Chưa thử Play Mode |
 | 3 | Xếp dụng cụ | Cào, cuốc, xẻng gốc đã tách nền; giá treo tạo bổ sung | 4 sprite | Đã gắn | Chưa thử Play Mode |
 | 4 | Xay ngô | Tự tạo từ ảnh cối gốc: đế cố định, mặt đá nằm ngang và tay quay UI rời | `Corn_Mill_Base.png`, `Corn_Mill_UpperDisk.png` | Đế và mặt đá giữ đúng mặt phẳng ảnh; tay quay/dấu đá đi theo quỹ đạo elip ngang | Cần thử Play Mode bản mới |
 | 5 | Gom củi | Tự tạo: nia tre trống, hai loại khúc củi, dây thừng và bó đã buộc | `Wood_Mat.png`, `Firewood_Log.png`, `Wood_Log_Dark.png`, `Wood_Rope.png`, `Wood_Bundle.png` | Kéo 3 khúc củi lên nia, sau đó kéo dây ngang; ảnh bó chỉ hiện sau khi buộc xong | Chưa thử Play Mode |
 | 6 | Múc nước | Tự tạo từ bộ ảnh gốc: lu, thau và gáo tre tách riêng | `Water_Jar.png`, `Water_Basin.png`, `Water_Scoop.png` | Gáo tre là vật người chơi kéo để múc và chuyển nước | Người dùng đã thấy thiếu vật múc nước; cần thử lại bản sửa |
 | 7 | Đong gạo | Tự tạo: lu gạo, gáo gạo và rá tre trống tách rời | `Rice_Jar.png`, `Rice_Scoop.png`, `Rice_Basket_Empty.png` | Kéo gáo từ lu vào rá ba lần; mức gạo tăng rõ sau mỗi lượt | Cần thử Play Mode bản mới |
-| 8 | Vo gạo | `SM_RiceWashingPot.fbx` người dùng cung cấp; texture gốc của FBX và sprite tạo theo chính model nồi hai quai đặt trên kệ gỗ | `Rice_Washing_Pot.png` | Scene dùng model mới dưới `noivogao`; thêm vùng nhận E khi đứng gần và nhìn nồi để vượt collider đồ bếp chặn raycast; nồi đứng yên, gợn nước và hạt gạo đi theo elip ngang, cuối cùng bấm chắt nước | Cần thử E và Play Mode trong Unity Editor |
+| 8 | Vo gạo | `SM_RiceWashingPot.fbx` người dùng cung cấp; texture gốc của FBX và sprite tạo theo chính model nồi hai quai đặt trên kệ gỗ | `Rice_Washing_Pot.png` | Scene dùng model mới dưới `noivogao`; thêm vùng nhận E khi đứng gần và nhìn nồi; đếm hai vòng khuấy, gợn nước và hạt gạo chuyển động, sau đó bấm chắt nước với hiệu ứng giọt và tiến độ trước khi hoàn thành | Bài kiểm tra Editor qua; cần thử E và chuột trong Play Mode |
 | 9 | Nhóm lửa | Tự tạo: bếp củi, bó củi và mồi khô | `Fire_Hearth.png`, `Wood_Bundle.png`, `Fire_Kindling.png` | Củi và mồi khô là hai vật kéo riêng | Chưa thử Play Mode |
 | 10 | Nấu cơm | Tự tạo: nồi cơm và thanh củi | `Cook_Pot.png`, `Firewood_Log.png` | Thanh củi trượt để chỉnh lửa, nồi và hơi nước phản hồi | Chưa thử Play Mode |
-| 11 | Dọn mâm cơm | Tự tạo: mâm tre trống, dùng lại bát, đũa và nồi | `Meal_Tray_Empty.png`, `Dish_Bowl.png`, `Dish_Chopsticks.png`, `Cook_Pot.png` | Kéo ba món vào đúng chỗ trên mâm | Chưa thử Play Mode |
+| 11 | Dọn mâm cơm | Tự tạo: mâm tre trống, bát, đũa và nồi cơm riêng không kèm bếp lửa | `Meal_Tray_Empty.png`, `Dish_Bowl.png`, `Dish_Chopsticks.png`, `Rice_Pot_Served.png` | Kéo ba món vào đúng chỗ trên mâm; chỉ nhiệm vụ nấu cơm còn dùng `Cook_Pot.png` có bếp củi | Bài kiểm tra Editor qua; cần thử kéo thả trong Play Mode |
 | 12 | Rửa chén | Tự tạo: chén, miếng bọt biển rửa chén, thau và giá tre | `Clean_Dish.png`, `Dish_Sponge.png`, `Water_Basin.png`, `Dish_Rack.png` | Chà từng vết đến sạch, kéo chén vào thau tráng 1,1 giây, kéo lên giá; có bọt xà phòng và chỉ báo 3 bước | Chưa thử Play Mode |
 | 13 | Cất chén | Tự tạo: tủ gỗ, chén, đĩa và đũa tách rời | `Dish_Cabinet.png`, `Dish_Bowl.png`, `Dish_Plate.png`, `Dish_Chopsticks.png` | Kéo từng vật từ khay bên phải vào ngăn tủ cùng tên | Chưa thử Play Mode |
-| 14 | Mở thư của mẹ | Sprite phong bì và trang giấy; `SM_Letter.fbx` người dùng cung cấp trên bàn `tripo_part_4` trong Scene 2 | `Letter_Envelope.png`, `Letter_Page.png` | Sau khi tháo dây, mini game hiện trang giấy mở; model 3D và điểm tương tác trong scene được giữ | Cần thử Play Mode trong Unity Editor |
+| 14 | Mở thư của mẹ | Sprite phong bì và trang giấy; `SM_Letter.fbx` người dùng cung cấp trên bàn `tripo_part_4` trong Scene 2 | `Letter_Envelope.png`, `Letter_Page.png` | Kéo sang phải để tháo dây, kéo lên để mở giấy, đọc đúng lời mẹ đã ghi trong `HouseholdChoreFlow.Memories`, rồi bấm ĐÃ ĐỌC; Enter là phím thay thế từng bước | Bài kiểm tra Editor qua; cần thử chuột và độ đọc trong Play Mode |
 
 ## Nhiệm vụ 1: Xếp đồ vào rương
 
