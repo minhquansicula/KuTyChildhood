@@ -2,6 +2,8 @@
 
 Ngày: 20/10/2026. Phạm vi: đề xuất bố cục và lộ trình triển khai, chưa thay đổi scene, gameplay hoặc save của người chơi.
 
+Triển khai bắt đầu ngày 21/10/2026: đã lưu bản sao/ảnh nền và dựng mẫu ban đầu quanh sân bi hiện có. Xem [tiến độ, giới hạn và cách kiểm tra](scene3-village-art-direction-implementation.md). Đây chưa phải bản hoàn thiện toàn làng; vị trí sân và tuyến nhiệm vụ vẫn giữ nguyên.
+
 ## 1. Đích đến
 
 Một đoạn ngõ quê Việt Nam thân thuộc: mái ngói đỏ nâu, tường vôi cũ, cửa gỗ xanh xám, cây che hiên, sân đất có trẻ chơi bi. Nắng chiều dẫn mắt từ sân bi tới cổng làng; ao và ruộng mở ra qua các khoảng hở giữa nhà, tạo cảm giác làng còn kéo dài ngoài vùng chơi.
