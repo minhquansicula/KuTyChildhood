@@ -1,0 +1,70 @@
+PASS
+PASS Fifteen supplied recordings are available in Scene 2
+PASS Voice plays at its home interaction: act2_mom_wakeup_001
+PASS Matching text and clear mono narration: act2_mom_wakeup_001
+PASS Mother's updated wakeup script matches the recording entry
+PASS Pause freezes home narration at its playback position
+PASS Resume continues the same home recording
+PASS Repeated checklist display does not replay wakeup voice
+PASS Chore completion succeeds: ArrangeKeepsakes
+PASS Voice plays at its home interaction: act2_ty_keepsakes_001
+PASS Matching text and clear mono narration: act2_ty_keepsakes_001
+PASS Completed chore cannot replay its voice or reward: ArrangeKeepsakes
+PASS Chore completion succeeds: TuneRadio
+PASS Voice plays at its home interaction: act2_ty_radio_001
+PASS Matching text and clear mono narration: act2_ty_radio_001
+PASS Completed chore cannot replay its voice or reward: TuneRadio
+PASS Chore completion succeeds: SortTools
+PASS Missing tools recording keeps text and stops previous narration
+PASS Completed chore cannot replay its voice or reward: SortTools
+PASS Chore completion succeeds: GrindCorn
+PASS Voice plays at its home interaction: act2_ty_grind_corn_001
+PASS Matching text and clear mono narration: act2_ty_grind_corn_001
+PASS Completed chore cannot replay its voice or reward: GrindCorn
+PASS Chore completion succeeds: CarryWood
+PASS Voice plays at its home interaction: act2_ty_firewood_001
+PASS Matching text and clear mono narration: act2_ty_firewood_001
+PASS Completed chore cannot replay its voice or reward: CarryWood
+PASS Chore completion succeeds: FetchWater
+PASS Voice plays at its home interaction: act2_ty_fetch_water_001
+PASS Matching text and clear mono narration: act2_ty_fetch_water_001
+PASS Updated fetch-water text matches in both UI and voice data
+PASS Completed chore cannot replay its voice or reward: FetchWater
+PASS Chore completion succeeds: MeasureRice
+PASS Voice plays at its home interaction: act2_ty_measure_rice_001
+PASS Matching text and clear mono narration: act2_ty_measure_rice_001
+PASS Completed chore cannot replay its voice or reward: MeasureRice
+PASS Chore completion succeeds: WashRice
+PASS Voice plays at its home interaction: act2_ty_wash_rice_001
+PASS Matching text and clear mono narration: act2_ty_wash_rice_001
+PASS Completed chore cannot replay its voice or reward: WashRice
+PASS Chore completion succeeds: LightFire
+PASS Voice plays at its home interaction: act2_ty_light_fire_001
+PASS Matching text and clear mono narration: act2_ty_light_fire_001
+PASS Completed chore cannot replay its voice or reward: LightFire
+PASS Chore completion succeeds: CookRice
+PASS Voice plays at its home interaction: act2_ty_cook_rice_001
+PASS Matching text and clear mono narration: act2_ty_cook_rice_001
+PASS Completed chore cannot replay its voice or reward: CookRice
+PASS Chore completion succeeds: SetTable
+PASS Voice plays at its home interaction: act2_ty_set_table_001
+PASS Matching text and clear mono narration: act2_ty_set_table_001
+PASS Completed chore cannot replay its voice or reward: SetTable
+PASS Chore completion succeeds: WashDishes
+PASS Voice plays at its home interaction: act2_ty_wash_dishes_001
+PASS Matching text and clear mono narration: act2_ty_wash_dishes_001
+PASS Completed chore cannot replay its voice or reward: WashDishes
+PASS Chore completion succeeds: PutAwayDishes
+PASS Voice plays at its home interaction: act2_ty_put_away_dishes_001
+PASS Matching text and clear mono narration: act2_ty_put_away_dishes_001
+PASS Completed chore cannot replay its voice or reward: PutAwayDishes
+PASS Voice plays at its home interaction: act2_ty_mom_memory_001
+PASS Matching text and clear mono narration: act2_ty_mom_memory_001
+PASS Final memory is displayed before the mother's letter
+PASS Voice plays at its home interaction: act2_mom_letter_001
+PASS Matching text and clear mono narration: act2_mom_letter_001
+PASS Mother's updated letter text matches its supplied recording
+PASS Voice sequence preserves all chore rewards and the mother's memory
+PASS Letter has no deadline and stays open after the voice finishes
+PASS Closing the letter stops narration before leaving home
+PASS Closing the letter continues to Scene 3

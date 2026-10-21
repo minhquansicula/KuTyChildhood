@@ -34,7 +34,11 @@ public class MemoryCollectionManager : MonoBehaviour
         if (!Enum.IsDefined(typeof(MemoryType), type) || !collected.Add(type)) return false;
         OnMemoryCollected?.Invoke(type, collected.Count);
         AudioManager.Instance?.PlaySFX(SfxId.MemoryCollected);
-        DialogueUI.Instance?.ShowDialogue(GetMemoryName(type), GetMemoryDescription(type), 3f);
+        HouseholdVoicePlayer homeVoice = type == MemoryType.FilialLove && HouseholdChoreFlow.Instance != null
+            ? HouseholdChoreFlow.Instance.Voice : null;
+        float seconds = homeVoice ? homeVoice.Play("act2_ty_mom_memory_001") : 0f;
+        DialogueUI.Instance?.ShowDialogue(GetMemoryName(type), GetMemoryDescription(type),
+            seconds > 0f ? seconds : 3f, homeVoice ? (Action)homeVoice.Stop : null);
         if (collected.Count == TOTAL_MEMORIES) OnAllMemoriesCollected?.Invoke();
         return true;
     }

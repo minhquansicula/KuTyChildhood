@@ -60,11 +60,13 @@ public class DialogueUI : MonoBehaviour
         StartCoroutine(Present(displayDuration));
     }
     public void ShowText(string text, float duration = 3f) => ShowDialogue("", text, duration);
+    public void AddOnClosed(Action callback) => onClosed += callback;
     private IEnumerator Present(float duration)
     {
         int count = bodyText != null ? bodyText.textInfo.characterCount : 0;
         for (int i = 0; i <= count; i++)
         {
+            while (GameManager.Instance != null && GameManager.Instance.IsPaused) yield return null;
             if (bodyText != null) bodyText.maxVisibleCharacters = i;
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -86,6 +88,7 @@ public class DialogueUI : MonoBehaviour
         float elapsed = 0;
         while (duration <= 0 || elapsed < duration)
         {
+            if (GameManager.Instance != null && GameManager.Instance.IsPaused) { yield return null; continue; }
             if (Input.GetKeyDown(KeyCode.Space)) break;
             elapsed += Time.unscaledDeltaTime;
             yield return null;

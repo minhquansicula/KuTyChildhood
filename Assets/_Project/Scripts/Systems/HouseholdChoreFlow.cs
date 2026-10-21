@@ -23,6 +23,8 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     public const int PiecesPerChore = 10;
     public const int ChoreCount = 14;
     public const int TotalPieces = PiecesPerChore * ChoreCount;
+    public const string WakeupText = "Con dậy rồi đấy à. Vào dọn đồ, phụ mẹ một tay nhé.";
+    public const string ResumeText = "Mình tiếp tục việc đang làm nhé.";
 
     public static readonly string[] Titles =
     {
@@ -46,20 +48,21 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         "Phòng kho · bộ dụng cụ", "Phòng kho · cối xay", "Phòng kho · giỏ tre", "Nhà chính · thư của mẹ"
     };
     public static readonly string[] Memories = {
-        "Gáo nước mát mẹ để dành từ sáng.", "Mẹ luôn đong thêm một chút cho con.",
+        "Gáo nước mát nhờ mẹ để dành từ sáng.", "Mẹ luôn đong thêm một chút cho con.",
         "Nước đục đi, hạt gạo lại trắng.", "Bếp bắt lửa, cả nhà bắt đầu ấm.",
         "Mùi cơm chín khiến con biết sắp được gọi về.", "Mâm cơm đủ người là bữa ngon nhất.",
         "Mẹ rửa, con tráng, hai mẹ con chuyện trò.", "Tiếng chén khẽ chạm nhau, việc nhà đã xong.",
         "Mẹ bảo: chăn gọn thì ngày mới cũng gọn.", "Chiếc rương giữ cả những mùa áo cũ.",
         "Tiếng radio mở đầu mỗi buổi sáng của nhà mình.", "Dùng xong nhớ cất, mai còn tìm được con nhé.",
         "Tiếng cối quay đều như nhịp tay mẹ.", "Bó củi nhỏ mang theo hơi ấm cho cả nhà.",
-        "Sau này đi đâu, con cũng nhớ ăn cơm đúng bữa. Nhà mình vẫn có một chỗ chờ con."
+        "Sau này đi đâu làm gì, con cũng nhớ phải ăn cơm đúng bữa nhé. Nhà mình luôn có một chỗ chờ con."
     };
     public string CurrentTitle => ActiveIndex < ChoreCount ? Titles[(int)Order[ActiveIndex]] : "Đã hoàn tất";
     public string CurrentLocation => ActiveIndex < ChoreCount ? Locations[(int)Order[ActiveIndex]] : "";
 
     private readonly bool[] completed = new bool[15];
     private HouseholdChoreUI ui;
+    public HouseholdVoicePlayer Voice { get; private set; }
     private bool checklistVisible;
     private int pieces;
 
@@ -82,6 +85,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(this); return; }
         Instance = this;
+        Voice = gameObject.AddComponent<HouseholdVoicePlayer>();
         int restored = Scene2Checkpoint.HomeChores;
         for (int i = 0; i < restored; i++) completed[(int)Order[i]] = true;
         pieces = restored * PiecesPerChore;
@@ -104,9 +108,9 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         // The original compact checklist remains a fallback when the shared Scene 2 board is unavailable.
         ui.SetChecklistVisible(GetComponent<Scene2QuestHUD>() == null);
         RefreshUI();
-        ui.Notify(ActiveIndex > 0
-            ? "Mẹ: Mình tiếp tục việc đang làm nhé. Tab: bảng nhiệm vụ · H: gợi ý."
-            : "Mẹ: Con dậy rồi thì dọn đồ, phụ mẹ một tay nhé. Tab: bảng nhiệm vụ · H: gợi ý.");
+        bool resumed = ActiveIndex > 0;
+        float seconds = Voice.Play(resumed ? "act2_mom_resume_001" : "act2_mom_wakeup_001");
+        ui.Notify("Mẹ: " + (resumed ? ResumeText : WakeupText) + " Tab: bảng nhiệm vụ · H: gợi ý.", Mathf.Max(7f, seconds));
         QuestManager.Instance?.RefreshHouseholdObjective();
     }
 
@@ -127,9 +131,10 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         pieces += PiecesPerChore;
         if (ActiveIndex < ChoreCount) Scene2Checkpoint.SaveHome(ActiveIndex);
         RefreshUI();
+        float voiceSeconds = chore != HouseholdChore.ReadLetter ? Voice.Play(HouseholdVoicePlayer.ChoreId(chore)) : 0f;
         ui.Notify(ActiveIndex == ChoreCount
             ? TotalPieces + "/" + TotalPieces + " — Nhà mình vẫn có một chỗ chờ con."
-            : "+10 mảnh ký ức — " + Memories[index]);
+            : "+10 mảnh ký ức — " + Memories[index], Mathf.Max(7f, voiceSeconds));
         ui.PlayMemoryReward(ActiveIndex == ChoreCount);
         AudioManager.Instance?.PlaySFX(SfxId.MemoryCollected);
         OnChoreCompleted?.Invoke(chore, pieces);
@@ -280,11 +285,11 @@ public sealed class HouseholdChoreUI
         checklistText.text = text;
     }
 
-    public void Notify(string message)
+    public void Notify(string message, float seconds = 7f)
     {
         ApplyHudFont();
         notificationText.text = message;
-        notificationUntil = Time.time + 7f;
+        notificationUntil = Time.time + seconds;
     }
 
     public void Tick()

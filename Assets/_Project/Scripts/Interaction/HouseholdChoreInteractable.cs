@@ -93,13 +93,21 @@ public sealed class HouseholdChoreInteractable : InteractableBase
         var quests = QuestManager.Instance;
         if (DialogueUI.Instance != null)
         {
-            AudioManager.Instance?.BeginLetterMusic();
-            DialogueUI.Instance.ShowDialogue("Thư của mẹ", HouseholdChoreFlow.Memories[(int)chore], 0f,
-                () =>
-                {
-                    AudioManager.Instance?.EndLetterMusic();
-                    if (quests != null) quests.ContinueOutside();
-                });
+            Action showLetter = () =>
+            {
+                AudioManager.Instance?.BeginLetterMusic();
+                flow.Voice.Play("act2_mom_letter_001");
+                DialogueUI.Instance.ShowDialogue("Thư của mẹ", HouseholdChoreFlow.Memories[(int)chore], 0f,
+                    () =>
+                    {
+                        flow.Voice.Stop();
+                        AudioManager.Instance?.EndLetterMusic();
+                        if (quests != null) quests.ContinueOutside();
+                    });
+            };
+            // The final memory has its own Ty narration. Finish it before opening the letter.
+            if (DialogueUI.Instance.IsShowing) DialogueUI.Instance.AddOnClosed(showLetter);
+            else showLetter();
         }
         else quests?.ContinueOutside();
     }

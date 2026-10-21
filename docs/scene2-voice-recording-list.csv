@@ -1,0 +1,18 @@
+﻿filename,speaker,trigger,text,status
+act2_mom_wakeup_001.wav,MẸ,Tý xuống giường,"Con dậy rồi đấy à. Vào dọn đồ, phụ mẹ một tay nhé.",Đã nhập / gán trong Scene 2
+act2_mom_resume_001.wav,MẸ,Tiếp tục tiến độ đã lưu,Mình tiếp tục việc đang làm nhé.,Chưa có bản thu; giữ chữ
+act2_mom_tools_001.wav,MẸ,Xếp dụng cụ xong,"Dùng xong nhớ cất, mai còn tìm được con nhé.",Chưa có bản thu; giữ chữ
+act2_mom_letter_001.wav,MẸ,Đọc thư cuối Scene 2,"Sau này đi đâu làm gì, con cũng nhớ phải ăn cơm đúng bữa nhé. Nhà mình luôn có một chỗ chờ con.",Đã nhập / gán trong Scene 2
+act2_ty_keepsakes_001.wav,TÝ,Xếp đồ vào rương,Chiếc rương giữ cả những mùa áo cũ.,Đã nhập / gán trong Scene 2
+act2_ty_radio_001.wav,TÝ,Chỉnh radio,Tiếng radio mở đầu mỗi buổi sáng của nhà mình.,Đã nhập / gán trong Scene 2
+act2_ty_grind_corn_001.wav,TÝ,Xay ngô,Tiếng cối quay đều như nhịp tay mẹ.,Đã nhập / gán trong Scene 2
+act2_ty_firewood_001.wav,TÝ,Gom củi,Bó củi nhỏ mang theo hơi ấm cho cả nhà.,Đã nhập / gán trong Scene 2
+act2_ty_fetch_water_001.wav,TÝ,Múc nước,Gáo nước mát nhờ mẹ để dành từ sáng.,Đã nhập / gán trong Scene 2
+act2_ty_measure_rice_001.wav,TÝ,Đong gạo,Mẹ luôn đong thêm một chút cho con.,Đã nhập / gán trong Scene 2
+act2_ty_wash_rice_001.wav,TÝ,Vo gạo,"Nước đục đi, hạt gạo lại trắng.",Đã nhập / gán trong Scene 2
+act2_ty_light_fire_001.wav,TÝ,Nhóm lửa,"Bếp bắt lửa, cả nhà bắt đầu ấm.",Đã nhập / gán trong Scene 2
+act2_ty_cook_rice_001.wav,TÝ,Nấu cơm,Mùi cơm chín khiến con biết sắp được gọi về.,Đã nhập / gán trong Scene 2
+act2_ty_set_table_001.wav,TÝ,Dọn mâm cơm,Mâm cơm đủ người là bữa ngon nhất.,Đã nhập / gán trong Scene 2
+act2_ty_wash_dishes_001.wav,TÝ,Rửa chén,"Mẹ rửa, con tráng, hai mẹ con chuyện trò.",Đã nhập / gán trong Scene 2
+act2_ty_put_away_dishes_001.wav,TÝ,Cất chén,"Tiếng chén khẽ chạm nhau, việc nhà đã xong.",Đã nhập / gán trong Scene 2
+act2_ty_mom_memory_001.wav,TÝ,Nhận mảnh ký ức về mẹ,Mẹ xoa đầu khen mình ngoan. Cảm giác thật bình yên.,Đã nhập / gán trong Scene 2
