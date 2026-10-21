@@ -65,6 +65,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     [SerializeField] private Transform riceWashingPot;
     [SerializeField] private HouseholdChoreInteractable riceWashingTarget;
     [SerializeField] private Collider riceWashingPotBaseCollider;
+    private bool riceWashingUsesMeshColliders;
     private HouseholdChoreUI ui;
     public HouseholdVoicePlayer Voice { get; private set; }
     private bool checklistVisible;
@@ -304,17 +305,46 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
 
     private void BindRiceWashingTarget()
     {
-        if (riceWashingPot == null || riceWashingTarget == null) return;
-        // The trigger travels with the actual imported pot, including its hidden state.
-        riceWashingTarget.transform.SetParent(riceWashingPot, true);
-        riceWashingTarget.Configure(HouseholdChore.WashRice, riceWashingPot);
+        if (riceWashingPot == null || riceWashingPotBaseCollider == null) return;
+
+        // Imported FBX renderers have no colliders. Give their visible meshes precise
+        // raycast surfaces instead of using the large noivogao box around empty space.
+        int interactionLayer = LayerMask.NameToLayer("Interactable");
+        foreach (MeshFilter mesh in riceWashingPot.GetComponentsInChildren<MeshFilter>(true))
+        {
+            if (mesh.sharedMesh == null || mesh.GetComponent<Renderer>() == null) continue;
+            var collider = mesh.GetComponent<MeshCollider>();
+            if (collider == null) collider = mesh.gameObject.AddComponent<MeshCollider>();
+            collider.sharedMesh = mesh.sharedMesh;
+            collider.isTrigger = false;
+            collider.enabled = true;
+            if (interactionLayer >= 0) mesh.gameObject.layer = interactionLayer;
+            riceWashingUsesMeshColliders = true;
+        }
+
+        GameObject potObject = riceWashingUsesMeshColliders
+            ? riceWashingPot.gameObject : riceWashingPotBaseCollider.gameObject;
+        var target = potObject.GetComponent<HouseholdChoreInteractable>();
+        if (target == null) target = potObject.AddComponent<HouseholdChoreInteractable>();
+        if (interactionLayer >= 0) potObject.layer = interactionLayer;
+        target.Configure(HouseholdChore.WashRice, riceWashingPot);
+        riceWashingPotBaseCollider.enabled = false;
+
+        // Retire the former floating trigger; it could be focused without looking at the pot.
+        if (riceWashingTarget != null && riceWashingTarget != target)
+            riceWashingTarget.gameObject.SetActive(false);
     }
 
     private void RefreshRiceWashingPot()
     {
         bool show = completed[(int)HouseholdChore.MeasureRice] && !completed[(int)HouseholdChore.WashRice];
         if (riceWashingPot != null) riceWashingPot.gameObject.SetActive(show);
-        if (riceWashingPotBaseCollider != null) riceWashingPotBaseCollider.enabled = show;
+        if (riceWashingPotBaseCollider != null)
+        {
+            if (show && !riceWashingUsesMeshColliders && riceWashingPotBaseCollider is BoxCollider potBox)
+                FitSolidBoxToVisualBounds(potBox.transform, potBox);
+            riceWashingPotBaseCollider.enabled = show && !riceWashingUsesMeshColliders;
+        }
     }
 
     private void RefreshUI()

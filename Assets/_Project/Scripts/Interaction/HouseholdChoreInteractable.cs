@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 /// <summary>One visible prop starts a hands-on chore. Reward and checkpoint state stay in HouseholdChoreFlow.</summary>
-public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInteractable
+public sealed class HouseholdChoreInteractable : InteractableBase
 {
     [SerializeField] private HouseholdChore chore;
     [SerializeField] private Transform effectAnchor;
@@ -33,23 +33,6 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
         return isActiveAndEnabled && !running && flow != null && flow.IsCurrent(chore)
             ? "[E] " + HouseholdChoreFlow.Titles[(int)chore] +
               (HouseholdChoreFlow.IsOptional(chore) ? " · Tùy chọn (+5 mảnh)" : "") : "";
-    }
-
-    public bool TryGetProximityDistance(Vector3 playerPosition, out float distance)
-    {
-        distance = float.PositiveInfinity;
-        if ((chore != HouseholdChore.WashRice && chore != HouseholdChore.SetTable &&
-             chore != HouseholdChore.ReadLetter) ||
-            string.IsNullOrEmpty(GetPromptText())) return false;
-
-        Collider interactionCollider = GetComponent<Collider>();
-        Vector3 center = chore == HouseholdChore.SetTable && interactionCollider != null
-            ? interactionCollider.ClosestPoint(playerPosition)
-            : effectAnchor != null ? effectAnchor.position : transform.position;
-        Vector3 offset = playerPosition - center;
-        distance = new Vector2(offset.x, offset.z).magnitude;
-        return Mathf.Abs(offset.y) <= 1.5f && distance <=
-            (chore == HouseholdChore.SetTable ? 2.1f : 1.6f);
     }
 
     protected override void OnInteract()
