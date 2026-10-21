@@ -1,0 +1,53 @@
+{
+  "status": "success",
+  "result": {
+    "success": true,
+    "action": "preview",
+    "totalAssets": 6,
+    "existingAssets": 6,
+    "totalBytes": 330619050,
+    "totalMB": 315.3028964996338,
+    "confirmToken": "3cf7668e",
+    "message": "⚠️ PREVIEW ONLY - 6 assets will be deleted (315.30 MB). To confirm, call again with confirmToken='3cf7668e'",
+    "expiresIn": "5 minutes",
+    "assetsToDelete": [
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_01.fbx",
+        "exists": true,
+        "sizeBytes": 102476508,
+        "sizeMB": 97.72921371459961
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_02.fbx",
+        "exists": true,
+        "sizeBytes": 66315564,
+        "sizeMB": 63.24345016479492
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_03.fbx",
+        "exists": true,
+        "sizeBytes": 44149308,
+        "sizeMB": 42.104061126708984
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_TimberColumn.fbx",
+        "exists": true,
+        "sizeBytes": 64433660,
+        "sizeMB": 61.448726654052734
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_ImportedPanel_02.fbx",
+        "exists": true,
+        "sizeBytes": 50978364,
+        "sizeMB": 48.616756439208984
+      },
+      {
+        "path": "Assets/_Project/UI/Sprites/bacground.png",
+        "exists": true,
+        "sizeBytes": 2265646,
+        "sizeMB": 2.1606884002685547
+      }
+    ]
+  },
+  "workflowEndMs": 0
+}

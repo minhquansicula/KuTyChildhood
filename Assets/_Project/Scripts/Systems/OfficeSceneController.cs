@@ -175,7 +175,7 @@ public sealed class OfficeSceneController : MonoBehaviour
         if (IsWorking || seatRoutine != null || Phase == OfficePhase.Opening || Phase == OfficePhase.Leaving) return string.Empty;
         if (kind == OfficeInteractionKind.Window) return "[E] Nhìn ra phố";
         if (kind == OfficeInteractionKind.Boss)
-            return Phase == OfficePhase.DeliverReport ? "[E] Gõ cửa và nộp báo cáo" : "[E] Nhìn về phía phòng sếp";
+            return Phase == OfficePhase.DeliverReport ? "[E] Đặt báo cáo lên bàn sếp" : string.Empty;
         if (kind == OfficeInteractionKind.Chair)
         {
             if (!IsSeated) return "[E] Ngồi vào ghế";
@@ -395,15 +395,27 @@ public sealed class OfficeSceneController : MonoBehaviour
         if (Phase == OfficePhase.Leaving || !IsSeated) return;
         SetPhase(OfficePhase.Leaving);
         GameManager.Instance?.AcquireInput(this);
+        SceneLoader.Instance?.PrepareSleepTransition(SceneNames.Act2_Home);
         atmosphere?.PlaySigh();
-        ShowSubtitle("TÝ", "Mệt quá... chỉ nghỉ một chút thôi...", 3f);
-        if (exhaustionSequence != null && exhaustionSequence.Play(LoadMemoryWorld)) return;
-        StartCoroutine(FallbackLeaveOffice());
+        SetBuiltInObjectiveVisible(false);
+        SetControlsHintVisible(false);
+        HUDController.Instance?.SetCrosshairVisible(false);
+        float speechSeconds = ShowSubtitle("TÝ", "Mệt quá... chỉ nghỉ một chút thôi...", 3f);
+        int token = gameplayVoice != null ? gameplayVoice.PlaybackToken : -1;
+        sleepDialogueProtected = true;
+        bool VoiceActive() => gameplayVoice != null && gameplayVoice.PlaybackToken == token &&
+            (gameplayVoice.IsPlaying || gameplayVoice.IsPaused);
+        if (exhaustionSequence != null && exhaustionSequence.Play(LoadMemoryWorld, speechSeconds, VoiceActive)) return;
+        StartCoroutine(FallbackLeaveOffice(speechSeconds, VoiceActive));
     }
 
-    private IEnumerator FallbackLeaveOffice()
+    private bool sleepDialogueProtected;
+
+    private IEnumerator FallbackLeaveOffice(float speechSeconds, Func<bool> voiceActive)
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(speechSeconds);
+        while (voiceActive()) yield return null;
+        yield return new WaitForSeconds(.45f);
         LoadMemoryWorld();
     }
 
@@ -411,7 +423,11 @@ public sealed class OfficeSceneController : MonoBehaviour
     {
         if (memoryTransitionRequested) return;
         memoryTransitionRequested = true;
-        if (SceneLoader.Instance != null) SceneLoader.Instance.LoadSceneWithColor(SceneNames.Act2_Home, dreamFade, 1.8f);
+        if (SceneLoader.Instance != null)
+        {
+            if (SceneLoader.Instance.IsSleepTransitionCovered) SceneLoader.Instance.CompleteSleepTransition();
+            else SceneLoader.Instance.LoadSceneWithColor(SceneNames.Act2_Home, Color.black, .2f);
+        }
         GameManager.Instance?.ReleaseInput(this);
     }
 
@@ -426,7 +442,7 @@ public sealed class OfficeSceneController : MonoBehaviour
             case OfficePhase.ExcelAuditing: ObjectiveText = "Đối chiếu số liệu và hoàn thiện báo cáo Excel."; break;
             case OfficePhase.PrintingReport: ObjectiveText = "Chờ máy photo in báo cáo."; break;
             case OfficePhase.CollectPrint: ObjectiveText = "Lấy bản báo cáo ở máy photo."; break;
-            case OfficePhase.DeliverReport: ObjectiveText = "Mang bản báo cáo đến cửa phòng sếp."; break;
+            case OfficePhase.DeliverReport: ObjectiveText = "Vào phòng sếp, đến bàn và đưa bản báo cáo đã photo."; break;
             case OfficePhase.WaterBreak: ObjectiveText = "Đến bình nước uống một chút."; break;
             case OfficePhase.AfterWork: ObjectiveText = "Báo cáo đã hoàn tất."; break;
             case OfficePhase.Rest:
@@ -622,6 +638,7 @@ public sealed class OfficeSceneController : MonoBehaviour
 
     private float ShowSubtitle(string speaker, string line, float seconds)
     {
+        if (sleepDialogueProtected) return CurrentSubtitleSeconds;
         gameplayVoice?.Stop();
         if (gameplayVoices != null)
         {
@@ -647,6 +664,7 @@ public sealed class OfficeSceneController : MonoBehaviour
 
     public void ShowGuidanceHint(string line)
     {
+        if (sleepDialogueProtected) return;
         if (string.IsNullOrEmpty(line)) return;
         gameplayVoice?.Stop();
         SpeakerChanged?.Invoke(string.Empty, 0f);
@@ -672,6 +690,7 @@ public sealed class OfficeSceneController : MonoBehaviour
 
     public void HideCinematicSubtitle()
     {
+        if (sleepDialogueProtected) return;
         gameplayVoice?.Stop();
         SpeakerChanged?.Invoke(string.Empty, 0f);
         if (subtitleRoutine != null) StopCoroutine(subtitleRoutine);
@@ -722,7 +741,20 @@ public sealed class OfficeSceneController : MonoBehaviour
     {
         if (subtitleText != null) subtitleText.text = BuildStyledSubtitle(speaker, line);
         if (subtitlePanel != null) subtitlePanel.SetActive(true);
-        yield return new WaitForSeconds(seconds);
+        CanvasGroup group = subtitlePanel != null ? subtitlePanel.GetComponent<CanvasGroup>() : null;
+        float elapsed = 0f;
+        while (elapsed < seconds)
+        {
+            elapsed += Time.deltaTime;
+            if (group != null) group.alpha = Mathf.Clamp01(elapsed / .15f);
+            yield return null;
+        }
+        while (gameplayVoice != null && (gameplayVoice.IsPlaying || gameplayVoice.IsPaused)) yield return null;
+        for (float fade = 0f; fade < .2f; fade += Time.deltaTime)
+        {
+            if (group != null) group.alpha = 1f - Mathf.Clamp01(fade / .2f);
+            yield return null;
+        }
         if (subtitlePanel != null) subtitlePanel.SetActive(false);
         subtitleRoutine = null;
         guidanceSubtitleActive = false;
@@ -754,13 +786,30 @@ public sealed class OfficeSceneController : MonoBehaviour
             RectTransform panelRect = subtitlePanel.GetComponent<RectTransform>();
             if (panelRect != null)
             {
-                panelRect.anchorMin = new Vector2(.5f, 0f);
-                panelRect.anchorMax = new Vector2(.5f, 0f);
-                panelRect.anchoredPosition = new Vector2(0f, 154f);
-                panelRect.sizeDelta = new Vector2(1120f, 126f);
+                panelRect.anchorMin = new Vector2(.12f, 0f);
+                panelRect.anchorMax = new Vector2(.88f, 0f);
+                panelRect.anchoredPosition = new Vector2(0f, 112f);
+                panelRect.sizeDelta = new Vector2(0f, 110f);
             }
             Image panelImage = subtitlePanel.GetComponent<Image>();
-            if (panelImage != null) panelImage.color = new Color(.018f, .028f, .055f, .9f);
+            if (panelImage != null) panelImage.enabled = false;
+            if (subtitlePanel.GetComponentInChildren<CinematicSubtitleBackdrop>(true) == null)
+            {
+                var backdrop = new GameObject("SubtitleScrim", typeof(RectTransform), typeof(CanvasRenderer), typeof(CinematicSubtitleBackdrop));
+                backdrop.transform.SetParent(subtitlePanel.transform, false);
+                backdrop.transform.SetAsFirstSibling();
+                var rect = (RectTransform)backdrop.transform;
+                rect.anchorMin = Vector2.zero;
+                rect.anchorMax = Vector2.one;
+                rect.offsetMin = new Vector2(-30f, -14f);
+                rect.offsetMax = new Vector2(30f, 14f);
+                backdrop.GetComponent<CinematicSubtitleBackdrop>().raycastTarget = false;
+            }
+            if (subtitlePanel.GetComponent<CanvasGroup>() == null) subtitlePanel.AddComponent<CanvasGroup>();
+            Canvas subtitleCanvas = subtitlePanel.GetComponent<Canvas>();
+            if (subtitleCanvas == null) subtitleCanvas = subtitlePanel.AddComponent<Canvas>();
+            subtitleCanvas.overrideSorting = true;
+            subtitleCanvas.sortingOrder = 950;
         }
 
         if (objectiveText != null)

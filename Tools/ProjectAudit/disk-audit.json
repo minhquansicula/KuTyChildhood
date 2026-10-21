@@ -1,0 +1,1705 @@
+{
+  "root": "E:\\FPT\\FALL26\\PRU213\\KuTy",
+  "folders": [
+    {
+      "path": "Library",
+      "bytes": 5112144063,
+      "files": 21877
+    },
+    {
+      "path": ".git",
+      "bytes": 5055752383,
+      "files": 4738
+    },
+    {
+      "path": "Assets",
+      "bytes": 4952259314,
+      "files": 4095
+    },
+    {
+      "path": ".unity-validation",
+      "bytes": 1902988854,
+      "files": 16476
+    },
+    {
+      "path": "Builds",
+      "bytes": 231667191,
+      "files": 451
+    },
+    {
+      "path": "dumb",
+      "bytes": 81333793,
+      "files": 136
+    },
+    {
+      "path": "SourceAssets",
+      "bytes": 50975400,
+      "files": 1
+    },
+    {
+      "path": "UnityChairValidation",
+      "bytes": 12093432,
+      "files": 340
+    },
+    {
+      "path": "Tools",
+      "bytes": 9466052,
+      "files": 75
+    },
+    {
+      "path": "docs",
+      "bytes": 4014335,
+      "files": 37
+    },
+    {
+      "path": ".agents",
+      "bytes": 2173068,
+      "files": 178
+    },
+    {
+      "path": "Temp",
+      "bytes": 1078651,
+      "files": 4
+    },
+    {
+      "path": "office-view.png",
+      "bytes": 291981,
+      "files": 1
+    },
+    {
+      "path": "go_skills.json",
+      "bytes": 182494,
+      "files": 1
+    },
+    {
+      "path": "asset_skills.json",
+      "bytes": 116544,
+      "files": 1
+    },
+    {
+      "path": "scene_skills.json",
+      "bytes": 96254,
+      "files": 1
+    },
+    {
+      "path": "ProjectSettings",
+      "bytes": 57605,
+      "files": 23
+    },
+    {
+      "path": "Logs",
+      "bytes": 34677,
+      "files": 4
+    },
+    {
+      "path": "UserSettings",
+      "bytes": 33314,
+      "files": 3
+    },
+    {
+      "path": "Packages",
+      "bytes": 12546,
+      "files": 2
+    },
+    {
+      "path": "cene 3 rural environment and sunset\uf022",
+      "bytes": 4467,
+      "files": 1
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 2740,
+      "files": 1
+    },
+    {
+      "path": "README.md",
+      "bytes": 1394,
+      "files": 1
+    },
+    {
+      "path": "modify_scene.log",
+      "bytes": 148,
+      "files": 1
+    },
+    {
+      "path": "smoke-results.txt",
+      "bytes": 47,
+      "files": 1
+    }
+  ],
+  "largestFiles": [
+    {
+      "path": ".git/objects/pack/pack-ee833ea63a3d2ce2d7d0247395279ec50f8946d6.pack",
+      "bytes": 1232971074,
+      "tracked": false
+    },
+    {
+      "path": ".git/objects/pack/pack-183dfec0fe119d8e5aa10923061948ae0b75cf93.pack",
+      "bytes": 729636565,
+      "tracked": false
+    },
+    {
+      "path": ".git/objects/pack/pack-f7e80e0a1fac5e4ec964320bf06bdd3b0333edff.pack",
+      "bytes": 588286376,
+      "tracked": false
+    },
+    {
+      "path": ".git/objects/pack/pack-ed868a0f8bc1787fc61af3199c913b95b0793c55.pack",
+      "bytes": 587094452,
+      "tracked": false
+    },
+    {
+      "path": ".git/objects/pack/pack-6511fea3d95d536929b1f8392b7a8e6c9da951b3.pack",
+      "bytes": 417881337,
+      "tracked": false
+    },
+    {
+      "path": "Library/PackageCache/com.unity.burst@1.8.21/.Runtime/libburst-llvm-19.dylib",
+      "bytes": 137702224,
+      "tracked": false
+    },
+    {
+      "path": ".unity-validation/Library/PackageCache/com.unity.burst@1.8.21/.Runtime/libburst-llvm-19.dylib",
+      "bytes": 137702224,
+      "tracked": false
+    },
+    {
+      "path": "Library/PackageCache/com.unity.burst@1.8.21/.Runtime/libburst-llvm-18.dylib",
+      "bytes": 133813984,
+      "tracked": false
+    },
+    {
+      "path": ".unity-validation/Library/PackageCache/com.unity.burst@1.8.21/.Runtime/libburst-llvm-18.dylib",
+      "bytes": 133813984,
+      "tracked": false
+    },
+    {
+      "path": "Library/Artifacts/39/39c236a69fa7cc4635668d8b8db2a6e2",
+      "bytes": 133074508,
+      "tracked": false
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_01.fbx",
+      "bytes": 102476508,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_02.fbx",
+      "bytes": 101379356,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Textures/Scene3/HDRI/golf_course_sunrise_4k.exr",
+      "bytes": 96718835,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Models/Scene3/caylua.fbx",
+      "bytes": 96183340,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_RiceCookingStove.fbx",
+      "bytes": 94741292,
+      "tracked": true
+    },
+    {
+      "path": ".git/objects/pack/pack-6eb93a1a54478d531956a15d158a0b60aa4a8090.pack",
+      "bytes": 93048063,
+      "tracked": false
+    },
+    {
+      "path": "Library/PackageCache/com.unity.burst@1.8.21/.Runtime/libburst-llvm-10.dylib",
+      "bytes": 78363520,
+      "tracked": false
+    },
+    {
+      "path": ".unity-validation/Library/PackageCache/com.unity.burst@1.8.21/.Runtime/libburst-llvm-10.dylib",
+      "bytes": 78363520,
+      "tracked": false
+    },
+    {
+      "path": "Library/PackageCache/com.unity.burst@1.8.21/.Runtime/libburst-llvm-19.so",
+      "bytes": 74018088,
+      "tracked": false
+    },
+    {
+      "path": ".unity-validation/Library/PackageCache/com.unity.burst@1.8.21/.Runtime/libburst-llvm-19.so",
+      "bytes": 74018088,
+      "tracked": false
+    },
+    {
+      "path": "Library/PackageCache/com.unity.burst@1.8.21/.Runtime/libburst-llvm-18.so",
+      "bytes": 71903048,
+      "tracked": false
+    },
+    {
+      "path": ".unity-validation/Library/PackageCache/com.unity.burst@1.8.21/.Runtime/libburst-llvm-18.so",
+      "bytes": 71903048,
+      "tracked": false
+    },
+    {
+      "path": "Library/PackageCache/com.unity.burst@1.8.21/.Runtime/hostmac/dsymutil",
+      "bytes": 71878160,
+      "tracked": false
+    },
+    {
+      "path": ".unity-validation/Library/PackageCache/com.unity.burst@1.8.21/.Runtime/hostmac/dsymutil",
+      "bytes": 71878160,
+      "tracked": false
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_ToolSet.fbx",
+      "bytes": 71567132,
+      "tracked": true
+    },
+    {
+      "path": ".git/objects/22/9a634cc56d8e625f97d03b7f6639d49e0c6c48",
+      "bytes": 68964272,
+      "tracked": false
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishRack.fbx",
+      "bytes": 68787148,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_02.fbx",
+      "bytes": 66315564,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_01.fbx",
+      "bytes": 66315564,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_TimberColumn.fbx",
+      "bytes": 64433660,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenCurtain.fbx",
+      "bytes": 64250668,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_Roof.fbx",
+      "bytes": 64028940,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Radio.fbx",
+      "bytes": 63763436,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishCabinet.fbx",
+      "bytes": 62756236,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_PottedPlant.fbx",
+      "bytes": 61689740,
+      "tracked": true
+    },
+    {
+      "path": "Library/PackageCache/com.unity.burst@1.8.21/.Runtime/burst-llvm-19.dll",
+      "bytes": 59168256,
+      "tracked": false
+    },
+    {
+      "path": ".unity-validation/Library/PackageCache/com.unity.burst@1.8.21/.Runtime/burst-llvm-19.dll",
+      "bytes": 59168256,
+      "tracked": false
+    },
+    {
+      "path": "Library/PackageCache/com.unity.burst@1.8.21/.Runtime/burst-llvm-18.dll",
+      "bytes": 57245696,
+      "tracked": false
+    },
+    {
+      "path": ".unity-validation/Library/PackageCache/com.unity.burst@1.8.21/.Runtime/burst-llvm-18.dll",
+      "bytes": 57245696,
+      "tracked": false
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_WallBasin.fbx",
+      "bytes": 57187788,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_GrainPile.fbx",
+      "bytes": 56678668,
+      "tracked": true
+    },
+    {
+      "path": "Library/PackageCache/com.unity.burst@1.8.21/.Runtime/burst-llvm-19-arm64.dll",
+      "bytes": 55445504,
+      "tracked": false
+    },
+    {
+      "path": ".unity-validation/Library/PackageCache/com.unity.burst@1.8.21/.Runtime/burst-llvm-19-arm64.dll",
+      "bytes": 55445504,
+      "tracked": false
+    },
+    {
+      "path": "Library/PackageCache/com.unity.burst@1.8.21/.Runtime/burst-llvm-18-arm64.dll",
+      "bytes": 53147136,
+      "tracked": false
+    },
+    {
+      "path": ".unity-validation/Library/PackageCache/com.unity.burst@1.8.21/.Runtime/burst-llvm-18-arm64.dll",
+      "bytes": 53147136,
+      "tracked": false
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_ImportedPanel_02.fbx",
+      "bytes": 50978364,
+      "tracked": true
+    },
+    {
+      "path": "SourceAssets/RetroOfficePack/RetroOfficePack_Unity.blend",
+      "bytes": 50975400,
+      "tracked": true
+    },
+    {
+      "path": ".git/objects/b1/97624fffe9b559e575b3aa4140a738470d4377",
+      "bytes": 50838340,
+      "tracked": false
+    },
+    {
+      "path": "Assets/_Project/Art/Materials/Scene3/tiemtaphoa.fbx",
+      "bytes": 50436364,
+      "tracked": true
+    },
+    {
+      "path": "Library/UnitySkills/workflow_files/4FFB23FDC704E7E703BD10359F2939258D4ACBAA",
+      "bytes": 49978748,
+      "tracked": false
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_HouseFacade.fbx",
+      "bytes": 49978748,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_GrainMill.fbx",
+      "bytes": 48323308,
+      "tracked": true
+    },
+    {
+      "path": ".git/objects/f1/3421532a47d33572bf265089b45b574769eaf7",
+      "bytes": 47193861,
+      "tracked": false
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_RiceJar.fbx",
+      "bytes": 46760300,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_StorageChest.fbx",
+      "bytes": 46380828,
+      "tracked": true
+    },
+    {
+      "path": ".git/objects/58/b44891d1f4e64673c8eaaa24b1314853a8dcce",
+      "bytes": 46256140,
+      "tracked": false
+    },
+    {
+      "path": "dumb/bed.fbx",
+      "bytes": 45280940,
+      "tracked": false
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Bed.fbx",
+      "bytes": 45280940,
+      "tracked": true
+    },
+    {
+      "path": ".git/objects/25/b1dcc5576fcb88be5436ec455732eb9735a1d4",
+      "bytes": 45167527,
+      "tracked": false
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodPile.fbx",
+      "bytes": 44500444,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_03.fbx",
+      "bytes": 44149308,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_01.fbx",
+      "bytes": 44149308,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_StovePot.fbx",
+      "bytes": 43342668,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_TelevisionStand.fbx",
+      "bytes": 42969788,
+      "tracked": true
+    },
+    {
+      "path": ".git/objects/90/2292bd29c0a11979801482d611d261ff89c3c5",
+      "bytes": 42944124,
+      "tracked": false
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_CornPeanuts.fbx",
+      "bytes": 42131692,
+      "tracked": true
+    },
+    {
+      "path": ".git/objects/25/46b0c73fc579c9c022da9d86d2a8380e25150f",
+      "bytes": 41304058,
+      "tracked": false
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Certificate.fbx",
+      "bytes": 40915916,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_BambooBasket.fbx",
+      "bytes": 40804988,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_Rake.fbx",
+      "bytes": 40602220,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Materials/Scene3/xichdu.fbx",
+      "bytes": 40309708,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_BambooTable.fbx",
+      "bytes": 40145564,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishwashingStation.fbx",
+      "bytes": 40022124,
+      "tracked": true
+    },
+    {
+      "path": "Library/PackageCache/com.unity.burst@1.8.21/.Runtime/hostlin/dsymutil",
+      "bytes": 39791144,
+      "tracked": false
+    },
+    {
+      "path": ".unity-validation/Library/PackageCache/com.unity.burst@1.8.21/.Runtime/hostlin/dsymutil",
+      "bytes": 39791144,
+      "tracked": false
+    },
+    {
+      "path": "Assets/_Project/Art/Materials/Scene3/buichuoi.fbx",
+      "bytes": 39788940,
+      "tracked": true
+    },
+    {
+      "path": "Library/Artifacts/97/97e055088ab321c200de82e847b81e56",
+      "bytes": 39768900,
+      "tracked": false
+    },
+    {
+      "path": "Library/Artifacts/51/510b850ff4ad17a02f4d94c60a77b3e4",
+      "bytes": 39768884,
+      "tracked": false
+    },
+    {
+      "path": ".git/objects/9a/3215665374902664395e4df17a28e5e7649cca",
+      "bytes": 39181860,
+      "tracked": false
+    },
+    {
+      "path": "Library/Artifacts/1a/1a25fb3d548b0c4a355e862d70f681c6",
+      "bytes": 38902956,
+      "tracked": false
+    }
+  ],
+  "largestAssets": [
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_01.fbx",
+      "bytes": 102476508,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_02.fbx",
+      "bytes": 101379356,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Textures/Scene3/HDRI/golf_course_sunrise_4k.exr",
+      "bytes": 96718835,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Models/Scene3/caylua.fbx",
+      "bytes": 96183340,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_RiceCookingStove.fbx",
+      "bytes": 94741292,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_ToolSet.fbx",
+      "bytes": 71567132,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishRack.fbx",
+      "bytes": 68787148,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_02.fbx",
+      "bytes": 66315564,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_01.fbx",
+      "bytes": 66315564,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_TimberColumn.fbx",
+      "bytes": 64433660,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenCurtain.fbx",
+      "bytes": 64250668,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_Roof.fbx",
+      "bytes": 64028940,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Radio.fbx",
+      "bytes": 63763436,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishCabinet.fbx",
+      "bytes": 62756236,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_PottedPlant.fbx",
+      "bytes": 61689740,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_WallBasin.fbx",
+      "bytes": 57187788,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_GrainPile.fbx",
+      "bytes": 56678668,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_ImportedPanel_02.fbx",
+      "bytes": 50978364,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Materials/Scene3/tiemtaphoa.fbx",
+      "bytes": 50436364,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_HouseFacade.fbx",
+      "bytes": 49978748,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_GrainMill.fbx",
+      "bytes": 48323308,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_RiceJar.fbx",
+      "bytes": 46760300,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_StorageChest.fbx",
+      "bytes": 46380828,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Bed.fbx",
+      "bytes": 45280940,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodPile.fbx",
+      "bytes": 44500444,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_03.fbx",
+      "bytes": 44149308,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_01.fbx",
+      "bytes": 44149308,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_StovePot.fbx",
+      "bytes": 43342668,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_TelevisionStand.fbx",
+      "bytes": 42969788,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_CornPeanuts.fbx",
+      "bytes": 42131692,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Certificate.fbx",
+      "bytes": 40915916,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_BambooBasket.fbx",
+      "bytes": 40804988,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_Rake.fbx",
+      "bytes": 40602220,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Materials/Scene3/xichdu.fbx",
+      "bytes": 40309708,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_BambooTable.fbx",
+      "bytes": 40145564,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishwashingStation.fbx",
+      "bytes": 40022124,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Materials/Scene3/buichuoi.fbx",
+      "bytes": 39788940,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_Broom.fbx",
+      "bytes": 38143596,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FishBasket.fbx",
+      "bytes": 38040924,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_SpiceJars.fbx",
+      "bytes": 37888460,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Materials/Scene3/contrau.fbx",
+      "bytes": 36814236,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_02.fbx",
+      "bytes": 36757724,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Textures/Scene3/brown_mud_dry_diff_4k.png",
+      "bytes": 36177150,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_WallHook.fbx",
+      "bytes": 35984716,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_WallArt.fbx",
+      "bytes": 35325532,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_ToolSet_02.fbx",
+      "bytes": 32296444,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Materials/Scene3/Babantaphoa.fbx",
+      "bytes": 32242572,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_ClayJarSet.fbx",
+      "bytes": 31886700,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_Refrigerator.fbx",
+      "bytes": 30300652,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Materials/Scene3/trecon.fbx",
+      "bytes": 29984060,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Materials/Scene3/nguoidatrau.fbx",
+      "bytes": 28549964,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Office/Floor/Models/OfficeFloor.fbx",
+      "bytes": 28248684,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/Radio/texture_pbr_20250901.png",
+      "bytes": 26329192,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Textures/Yard/GrainPile/texture_pbr_20250901.png",
+      "bytes": 25309064,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/FirewoodPile/texture_pbr_20250901.png",
+      "bytes": 24669948,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Textures/Scene3/Grocery/tiemtaphoa/texture_pbr_20250901.png",
+      "bytes": 24203196,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Models/OfficeSceneNew/office_ground.fbx",
+      "bytes": 24012012,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Textures/Yard/GrainMill/texture_pbr_20250901.png",
+      "bytes": 22189443,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Textures/Yard/ToolSet/texture_pbr_20250901.png",
+      "bytes": 21772081,
+      "tracked": true
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenStructure_01_BaseColor.png",
+      "bytes": 21591238,
+      "tracked": true
+    }
+  ],
+  "assetGroups": [
+    {
+      "path": "Assets/_Project/Art",
+      "bytes": 4843988035
+    },
+    {
+      "path": "Assets/_Project/Audio",
+      "bytes": 29573811
+    },
+    {
+      "path": "Assets/_Project/UI",
+      "bytes": 18788368
+    },
+    {
+      "path": "Assets/_Project/Scenes",
+      "bytes": 18451630
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources",
+      "bytes": 2836719
+    },
+    {
+      "path": "Assets/_Project/Generated",
+      "bytes": 2655346
+    },
+    {
+      "path": "Assets/Screenshots/scene2-depth-final.png",
+      "bytes": 1226951
+    },
+    {
+      "path": "Assets/_Project/Editor",
+      "bytes": 1160588
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockout_Seated.png",
+      "bytes": 1142854
+    },
+    {
+      "path": "Assets/Screenshots/scene2-depth-after.png",
+      "bytes": 1137444
+    },
+    {
+      "path": "Assets/Screenshots/scene2-depth-test.png",
+      "bytes": 1087107
+    },
+    {
+      "path": "Assets/Screenshots/OfficeSunset_Window.png",
+      "bytes": 940593
+    },
+    {
+      "path": "Assets/Screenshots/OfficeShift_HUD_1366.png",
+      "bytes": 894456
+    },
+    {
+      "path": "Assets/Screenshots/act2_player_view.png",
+      "bytes": 890270
+    },
+    {
+      "path": "Assets/Screenshots/OfficeShift_Complete_1366.png",
+      "bytes": 887621
+    },
+    {
+      "path": "Assets/Screenshots/scene2-bedroom-check.png",
+      "bytes": 858862
+    },
+    {
+      "path": "Assets/Screenshots/office-player-desk-boss-final.png",
+      "bytes": 838870
+    },
+    {
+      "path": "Assets/Screenshots/CityExterior_Preview.png",
+      "bytes": 810272
+    },
+    {
+      "path": "Assets/Screenshots/OfficeSunset_TyDeskView.png",
+      "bytes": 740958
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockout_Workspace.png",
+      "bytes": 740109
+    },
+    {
+      "path": "Assets/Screenshots/act2_altar_room_after.png",
+      "bytes": 716927
+    },
+    {
+      "path": "Assets/TextMesh Pro/Documentation",
+      "bytes": 694553
+    },
+    {
+      "path": "Assets/Screenshots/scene2-interior-before.png",
+      "bytes": 693136
+    },
+    {
+      "path": "Assets/Screenshots/act2_traditional_house.png",
+      "bytes": 673644
+    },
+    {
+      "path": "Assets/Screenshots/OfficeSunset_TyApproach.png",
+      "bytes": 662207
+    },
+    {
+      "path": "Assets/Screenshots/OfficeSunset_Desk.png",
+      "bytes": 658131
+    },
+    {
+      "path": "Assets/_Project/Scripts",
+      "bytes": 652433
+    },
+    {
+      "path": "Assets/Screenshots/act2_sceneview_test.png",
+      "bytes": 635372
+    },
+    {
+      "path": "Assets/Screenshots/OfficeSunset_Workspace.png",
+      "bytes": 630476
+    },
+    {
+      "path": "Assets/Screenshots/act2_altar_direct_view.png",
+      "bytes": 619208
+    },
+    {
+      "path": "Assets/Screenshots/scene2_saved_verification.png",
+      "bytes": 617753
+    },
+    {
+      "path": "Assets/Screenshots/act2_bedroom_overview.png",
+      "bytes": 608366
+    },
+    {
+      "path": "Assets/Screenshots/act2_traditional_house_after.png",
+      "bytes": 592527
+    },
+    {
+      "path": "Assets/Screenshots/act2_kitchen_after_lighting.png",
+      "bytes": 577965
+    },
+    {
+      "path": "Assets/Screenshots/act2_kitchen_pans_view.png",
+      "bytes": 572249
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockout_Boss.png",
+      "bytes": 560334
+    },
+    {
+      "path": "Assets/Screenshots/scene2_final_kitchen_jars.png",
+      "bytes": 547642
+    },
+    {
+      "path": "Assets/Screenshots/act2_bedroom_inside.png",
+      "bytes": 526725
+    },
+    {
+      "path": "Assets/Screenshots/OfficeFloor_CleanSceneView.png",
+      "bytes": 519081
+    },
+    {
+      "path": "Assets/Screenshots/Scene1_OfficeArtPass_CLI.png",
+      "bytes": 509367
+    },
+    {
+      "path": "Assets/Screenshots/OfficeSunset_Boss.png",
+      "bytes": 500165
+    },
+    {
+      "path": "Assets/Screenshots/scene2_final_veranda_view.png",
+      "bytes": 484972
+    },
+    {
+      "path": "Assets/Screenshots/office-scene-final.png",
+      "bytes": 483532
+    },
+    {
+      "path": "Assets/Screenshots/OfficeIntro_HUD_1920.png",
+      "bytes": 445804
+    },
+    {
+      "path": "Assets/Screenshots/act2_bedroom_view.png",
+      "bytes": 432087
+    },
+    {
+      "path": "Assets/Screenshots/scene2_final_kitchen_stoves.png",
+      "bytes": 422050
+    },
+    {
+      "path": "Assets/Screenshots/OfficeExcel_UI_1920.png",
+      "bytes": 418565
+    },
+    {
+      "path": "Assets/Screenshots/OfficeFloor_NoSceneGrid.png",
+      "bytes": 399748
+    },
+    {
+      "path": "Assets/Screenshots/act2-new-bedroom-preview.png",
+      "bytes": 383368
+    },
+    {
+      "path": "Assets/Screenshots/act2_player_view_after.png",
+      "bytes": 380762
+    },
+    {
+      "path": "Assets/Screenshots/OfficeCeilingLights_Imported.png",
+      "bytes": 361215
+    },
+    {
+      "path": "Assets/Screenshots/BossOfficeDoor_Imported.png",
+      "bytes": 360334
+    },
+    {
+      "path": "Assets/TextMesh Pro/Fonts",
+      "bytes": 355260
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockout_Overview.png",
+      "bytes": 337293
+    },
+    {
+      "path": "Assets/Screenshots/Scene1_Opening_Playtest.png",
+      "bytes": 326060
+    },
+    {
+      "path": "Assets/Screenshots/BossOfficeDoor_OpenTest.png",
+      "bytes": 296235
+    },
+    {
+      "path": "Assets/Screenshots/Backdrop_Current.png",
+      "bytes": 288881
+    },
+    {
+      "path": "Assets/Screenshots/OfficeIntro_HUD_1366.png",
+      "bytes": 277130
+    },
+    {
+      "path": "Assets/Screenshots/scene2_final_bedroom_view.png",
+      "bytes": 268211
+    },
+    {
+      "path": "Assets/Screenshots/scene2-light-before.png",
+      "bytes": 266153
+    },
+    {
+      "path": "Assets/Screenshots/OfficeExcel_Tutorial_1366.png",
+      "bytes": 256431
+    },
+    {
+      "path": "Assets/Screenshots/OfficeExcel_UI_1366.png",
+      "bytes": 252120
+    },
+    {
+      "path": "Assets/Screenshots/Act1_Office_Blockout_Gameplay_Runtime.png",
+      "bytes": 238172
+    },
+    {
+      "path": "Assets/_Project/Prefabs",
+      "bytes": 221627
+    },
+    {
+      "path": "Assets/Screenshots/OfficeExcel_Chat_1366.png",
+      "bytes": 190831
+    },
+    {
+      "path": "Assets/Screenshots/scene2_final_altar_view.png",
+      "bytes": 182007
+    },
+    {
+      "path": "Assets/Screenshots/scene2-overview.png",
+      "bytes": 178316
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockout_Play.png",
+      "bytes": 170437
+    },
+    {
+      "path": "Assets/Screenshots/OfficeIntro_Runtime.png",
+      "bytes": 154734
+    },
+    {
+      "path": "Assets/Screenshots/act2-bedroom-top2.png",
+      "bytes": 137517
+    },
+    {
+      "path": "Assets/TextMesh Pro/Sprites",
+      "bytes": 126747
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders",
+      "bytes": 97954
+    },
+    {
+      "path": "Assets/Screenshots/scene2_lighting_current.png",
+      "bytes": 88826
+    },
+    {
+      "path": "Assets/Screenshots/act2-before-new-houses.png",
+      "bytes": 81370
+    },
+    {
+      "path": "Assets/Screenshots/act2-bedroom-inside.png",
+      "bytes": 78989
+    },
+    {
+      "path": "Assets/Screenshots/act2-bedroom-isolated.png",
+      "bytes": 78989
+    },
+    {
+      "path": "Assets/Screenshots/act2-bedroom-top.png",
+      "bytes": 74414
+    },
+    {
+      "path": "Assets/Screenshots/OfficeWorkstation_Import.txt",
+      "bytes": 30605
+    },
+    {
+      "path": "Assets/_Project/Resources",
+      "bytes": 21273
+    },
+    {
+      "path": "Assets/Screenshots/OfficeOriginalMaterials_Report.txt",
+      "bytes": 7642
+    },
+    {
+      "path": "Assets/_Project/Data",
+      "bytes": 7070
+    },
+    {
+      "path": "Assets/Screenshots/Act1_Office_Blockout_Gameplay_Runtime.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2-bedroom-inside.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2-bedroom-isolated.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2-bedroom-top.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2-bedroom-top2.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2-before-new-houses.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2-new-bedroom-preview.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2_altar_direct_view.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2_altar_room_after.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2_bedroom_inside.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2_bedroom_overview.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2_bedroom_view.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2_kitchen_after_lighting.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2_kitchen_pans_view.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2_player_view.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2_player_view_after.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2_sceneview_test.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2_traditional_house.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/act2_traditional_house_after.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/Backdrop_Current.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/BossOfficeDoor_Imported.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/BossOfficeDoor_OpenTest.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/CityExterior_Preview.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/office-player-desk-boss-final.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/office-scene-final.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockout_Boss.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockout_Overview.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockout_Play.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockout_Seated.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockout_Workspace.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeCeilingLights_Imported.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeExcel_Chat_1366.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeExcel_Tutorial_1366.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeExcel_UI_1366.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeExcel_UI_1920.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeFloor_CleanSceneView.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeFloor_NoSceneGrid.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeIntro_HUD_1366.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeIntro_HUD_1920.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeIntro_Runtime.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeShift_Complete_1366.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeShift_HUD_1366.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeSunset_Boss.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeSunset_Desk.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeSunset_TyApproach.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeSunset_TyDeskView.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeSunset_Window.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/OfficeSunset_Workspace.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/Scene1_OfficeArtPass_CLI.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/Scene1_Opening_Playtest.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2-bedroom-check.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2-depth-after.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2-depth-final.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2-depth-test.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2-interior-before.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2-light-before.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2-overview.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2_final_altar_view.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2_final_bedroom_view.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2_final_kitchen_jars.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2_final_kitchen_stoves.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2_final_veranda_view.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2_lighting_current.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Screenshots/scene2_saved_verification.png.meta",
+      "bytes": 2591
+    },
+    {
+      "path": "Assets/Editor/TableMoverEditor.cs",
+      "bytes": 1447
+    },
+    {
+      "path": "Assets/Screenshots/OfficeWorkstation_Placement.txt",
+      "bytes": 1192
+    },
+    {
+      "path": "Assets/UniversalRenderPipelineGlobalSettings.asset",
+      "bytes": 933
+    },
+    {
+      "path": "Assets/Screenshots/OfficeIntro_Integration.txt",
+      "bytes": 727
+    },
+    {
+      "path": "Assets/Screenshots/CityExterior_Import.txt",
+      "bytes": 469
+    },
+    {
+      "path": "Assets/Editor/TableMoverEditor.cs.meta",
+      "bytes": 254
+    },
+    {
+      "path": "Assets/UniversalRenderPipelineGlobalSettings.asset.meta",
+      "bytes": 189
+    },
+    {
+      "path": "Assets/Editor.meta",
+      "bytes": 180
+    },
+    {
+      "path": "Assets/_Project/Models.meta",
+      "bytes": 180
+    },
+    {
+      "path": "Assets/Screenshots.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/TextMesh Pro.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/_Project.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/TextMesh Pro/Documentation.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/TextMesh Pro/Fonts.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/TextMesh Pro/Resources.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/TextMesh Pro/Shaders.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/TextMesh Pro/Sprites.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/_Project/Art.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/_Project/Audio.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/_Project/Data.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/_Project/Editor.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/_Project/Generated.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/_Project/Prefabs.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/_Project/Resources.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/_Project/Scenes.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/_Project/Scripts.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/_Project/Settings.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/_Project/UI.meta",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/Screenshots/OfficeIntro_VisualChecks.txt",
+      "bytes": 166
+    },
+    {
+      "path": "Assets/Screenshots/CityExterior_Import.txt.meta",
+      "bytes": 158
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockoutGameplay_Integration.txt.meta",
+      "bytes": 158
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockout_Validation.txt.meta",
+      "bytes": 158
+    },
+    {
+      "path": "Assets/Screenshots/OfficeIntro_Integration.txt.meta",
+      "bytes": 158
+    },
+    {
+      "path": "Assets/Screenshots/OfficeIntro_VisualChecks.txt.meta",
+      "bytes": 158
+    },
+    {
+      "path": "Assets/Screenshots/OfficeOriginalMaterials_Report.txt.meta",
+      "bytes": 158
+    },
+    {
+      "path": "Assets/Screenshots/OfficeWorkstation_Import.txt.meta",
+      "bytes": 158
+    },
+    {
+      "path": "Assets/Screenshots/OfficeWorkstation_Placement.txt.meta",
+      "bytes": 158
+    },
+    {
+      "path": "Assets/Screenshots/PlayerMovementStability.txt.meta",
+      "bytes": 158
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockoutGameplay_Integration.txt",
+      "bytes": 93
+    },
+    {
+      "path": "Assets/Screenshots/PlayerMovementStability.txt",
+      "bytes": 75
+    },
+    {
+      "path": "Assets/Screenshots/OfficeBlockout_Validation.txt",
+      "bytes": 37
+    },
+    {
+      "path": "Assets/_Project/Settings",
+      "bytes": 2
+    }
+  ],
+  "assetExtensions": [
+    [
+      ".fbx",
+      2617778220
+    ],
+    [
+      ".png",
+      1991370804
+    ],
+    [
+      ".asset",
+      133538779
+    ],
+    [
+      ".exr",
+      96718835
+    ],
+    [
+      ".obj",
+      24697473
+    ],
+    [
+      ".mp3",
+      21399045
+    ],
+    [
+      ".jpg",
+      20094565
+    ],
+    [
+      ".unity",
+      18449860
+    ],
+    [
+      ".jpeg",
+      11540393
+    ],
+    [
+      ".wav",
+      8394146
+    ],
+    [
+      ".meta",
+      2301422
+    ],
+    [
+      ".cs",
+      1766328
+    ],
+    [
+      ".prefab",
+      1195388
+    ],
+    [
+      ".mat",
+      1160317
+    ],
+    [
+      ".pdf",
+      694398
+    ],
+    [
+      ".json",
+      369947
+    ],
+    [
+      ".ttf",
+      350200
+    ],
+    [
+      ".shadergraph",
+      144527
+    ],
+    [
+      ".shader",
+      127084
+    ],
+    [
+      ".anim",
+      80618
+    ],
+    [
+      ".txt",
+      46108
+    ],
+    [
+      ".csv",
+      16179
+    ],
+    [
+      ".cginc",
+      13994
+    ],
+    [
+      ".controller",
+      5295
+    ],
+    [
+      ".md",
+      3473
+    ],
+    [
+      ".compute",
+      804
+    ],
+    [
+      ".hlsl",
+      689
+    ],
+    [
+      ".physicmaterial",
+      353
+    ],
+    [
+      "",
+      70
+    ]
+  ],
+  "totalBytes": 17416780747,
+  "trackedFiles": 4080,
+  "trackedAssetBytes": 4910056348
+}

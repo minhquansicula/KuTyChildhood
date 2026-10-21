@@ -161,13 +161,20 @@ public class OfficeAtmosphere : MonoBehaviour
     public void PlayPaper() => Play(propSource, paperRustle != null ? paperRustle : generatedRustle ?? (generatedRustle = GenerateRustle()));
     public void PlayCup() => Play(propSource, cupSetDown != null ? cupSetDown : generatedCup ?? (generatedCup = GenerateCup()));
     public void PlayChair() => Play(propSource, chairShift != null ? chairShift : generatedChair ?? (generatedChair = GenerateChair()));
-    public void PlaySigh() => Play(propSource, tiredSigh != null ? tiredSigh : generatedSigh ?? (generatedSigh = GenerateSigh()));
+    // A missing breath recording should be quiet, rather than an electronic placeholder sigh.
+    public void PlaySigh()
+    {
+        if (propSource != null && tiredSigh != null) propSource.PlayOneShot(tiredSigh, .55f);
+        if (propSource != null && chairShift != null) propSource.PlayOneShot(chairShift, .18f);
+    }
     public void PlayMemoryBridge() => Play(memorySource,
         childhoodBridge != null ? childhoodBridge : generatedChildhood ?? (generatedChildhood = GenerateChildhood()));
 
     public void SetMuffle(float amount)
     {
         float cutoff = Mathf.Lerp(22000f, 620f, Mathf.Clamp01(amount));
+        if (streetSource != null) streetSource.volume = Mathf.Lerp(.68f, 0f, amount);
+        if (fluorescentSource != null) fluorescentSource.volume = Mathf.Lerp(.24f, 0f, amount);
         for (int i = 0; i < officeFilters.Count; i++)
             if (officeFilters[i] != null) officeFilters[i].cutoffFrequency = cutoff;
     }

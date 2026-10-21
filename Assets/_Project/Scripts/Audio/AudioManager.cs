@@ -38,6 +38,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private float fadeDuration = 1.5f;
     [SerializeField, Range(1, 12)] private int sfxPoolSize = 6;
     private Coroutine musicRoutine;
+    private AudioClip transitioningTo;
     private bool letterMusicActive;
     private readonly List<AudioSource> sfxPool = new List<AudioSource>();
     private readonly Dictionary<SfxId, float> nextPlayTimes = new Dictionary<SfxId, float>();
@@ -125,8 +126,10 @@ public class AudioManager : MonoBehaviour
         if (bgmSource == null || clip == null) return;
 
         if (bgmSource.clip == clip && bgmSource.isPlaying && musicRoutine == null) return;
+        if (musicRoutine != null && transitioningTo == clip) return;
 
         if (musicRoutine != null) StopCoroutine(musicRoutine);
+        transitioningTo = clip;
         musicRoutine = StartCoroutine(CrossFadeBGM(clip));
     }
 
@@ -134,8 +137,15 @@ public class AudioManager : MonoBehaviour
     public void StopBGM()
     {
         if (bgmSource == null) return;
+        transitioningTo = null;
         if (musicRoutine != null) StopCoroutine(musicRoutine);
         musicRoutine = StartCoroutine(FadeOutBGM());
+    }
+
+    // The persistent music source bridges the black frame without a synthetic transition sting.
+    public void BeginHomeTransition()
+    {
+        if (soundLibrary != null) PlayBGM(soundLibrary.bgmAct2);
     }
 
     public void BeginLetterMusic()

@@ -9,6 +9,49 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private Image fadeImage;
     [SerializeField] private float defaultFadeDuration = 0.7f;
     public bool IsLoading { get; private set; }
+    public bool IsSleepTransitionCovered { get; private set; }
+    private bool activateSleepScene;
+
+    // Begin loading during the collapse, but activate only after the eyes have closed.
+    public bool PrepareSleepTransition(string sceneName)
+    {
+        if (IsLoading || !Application.CanStreamedLevelBeLoaded(sceneName)) return false;
+        StartCoroutine(SleepTransition(sceneName));
+        return true;
+    }
+
+    public void CompleteSleepTransition() => activateSleepScene = true;
+
+    private IEnumerator SleepTransition(string sceneName)
+    {
+        IsLoading = true;
+        IsSleepTransitionCovered = true;
+        activateSleepScene = false;
+        GameManager.Instance?.SetPaused(false);
+        GameManager.Instance?.AcquireInput(this);
+        try
+        {
+            var operation = SceneManager.LoadSceneAsync(sceneName);
+            if (operation == null) yield break;
+            operation.allowSceneActivation = false;
+            while (!activateSleepScene) yield return null;
+            fadeImage.color = Color.black;
+            fadeImage.raycastTarget = true;
+            AudioManager.Instance?.BeginHomeTransition();
+            operation.allowSceneActivation = true;
+            yield return operation;
+            // Give destination Start() a frame to position the camera and create closed eyelids.
+            yield return null;
+        }
+        finally
+        {
+            IsSleepTransitionCovered = false;
+            IsLoading = false;
+            fadeImage.color = Color.clear;
+            fadeImage.raycastTarget = false;
+            GameManager.Instance?.ReleaseInput(this);
+        }
+    }
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }

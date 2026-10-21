@@ -137,14 +137,18 @@ public sealed class OfficeBlockoutGameplaySmokeRunner : MonoBehaviour
         Destroy(validationSequence);
         yield return RunVoicePlayerLifecycle();
 
+        yield return WaitUntilOrFail(() => !intro.IsFadingIn, 5f,
+            "Opening fade did not finish before the dialogue pause test");
         float introElapsedBeforePause = intro.LineElapsed;
+        int introLineBeforePause = Get<int>(intro, "lineIndex");
         intro.SetPaused(true);
         yield return new WaitForSecondsRealtime(.15f);
         Check(intro.IsPaused && Mathf.Abs(intro.LineElapsed - introElapsedBeforePause) < .01f,
             "Intro subtitle timing advanced while paused");
         intro.SetPaused(false);
         yield return new WaitForSecondsRealtime(.12f);
-        Check(!intro.IsPaused && intro.LineElapsed > introElapsedBeforePause,
+        Check(!intro.IsPaused && (intro.LineElapsed > introElapsedBeforePause ||
+              Get<int>(intro, "lineIndex") > introLineBeforePause),
             "Intro subtitle timing did not resume after pause");
         yield return WaitUntilOrFail(
             () => intro.State == OfficeIntroController.IntroState.ReturnToDesk,
@@ -226,6 +230,54 @@ public sealed class OfficeBlockoutGameplaySmokeRunner : MonoBehaviour
             "Chair could not be focused nearby when the camera ray missed its collider");
         Set(playerInteraction, "raycastOrigin", originalRayOrigin);
         Destroy(upwardRayOrigin);
+        CheckPropTargeting(playerInteraction, intro.motor, water,
+            new[] { .85f, 1.4f, 2.1f }, new[] { .9f, 1.3f, 1.75f });
+        CheckPropTargeting(playerInteraction, intro.motor, printer,
+            new[] { 1.15f, 1.7f, 2.2f }, new[] { 1.2f, 1.65f });
+        var clock = Array.Find(FindObjectsOfType<OfficeMicroInteractable>(),
+            item => item.Kind == OfficeMicroInteractionKind.Clock);
+        CheckPropTargeting(playerInteraction, intro.motor, clock,
+            new[] { 2f, 2.6f }, new[] { 2.07f });
+        var coffee = Array.Find(FindObjectsOfType<OfficeMicroInteractable>(),
+            item => item.Kind == OfficeMicroInteractionKind.ColdCoffee);
+        CheckPropTargeting(playerInteraction, intro.motor, coffee,
+            new[] { .85f, 1.2f }, new[] { .85f });
+        if (SessionState.GetBool("KuTy.OfficeSpatialOnly", false))
+        {
+            SessionState.SetBool("KuTy.OfficeSpatialOnly", false);
+            chair.Interact();
+            yield return new WaitForSeconds(.7f);
+            originalRayOrigin.rotation = Quaternion.LookRotation(workstation.transform.position - originalRayOrigin.position);
+            Physics.SyncTransforms();
+            Call(playerInteraction, "HandleRaycast");
+            Check(office.IsSeated && playerInteraction.CurrentTarget == workstation,
+                "Seated player cannot select the visible computer monitor");
+            office.StandUp(true);
+            office.MakeReportDeliveryAvailableForTests();
+            doorAdapter.Interact();
+            Check(office.Phase == OfficePhase.DeliverReport, "Door incorrectly accepted the printed report");
+            intro.motor.TeleportTo(new Vector3(boss.transform.position.x, .08f,
+                boss.transform.position.z - 2f), Quaternion.identity);
+            originalRayOrigin.rotation = Quaternion.LookRotation(boss.transform.position + Vector3.up - originalRayOrigin.position);
+            Physics.SyncTransforms();
+            Call(playerInteraction, "HandleRaycast");
+            Check(playerInteraction.CurrentTarget == boss, "Boss desk cannot be selected from the visitor side");
+            playerInteraction.CurrentTarget.Interact();
+            Check(office.Phase == OfficePhase.WaterBreak && office.ReportDelivered,
+                "Handing the report to the selected boss desk did not start the water break");
+            intro.motor.TeleportTo(new Vector3(water.transform.position.x, .08f,
+                water.transform.position.z - 1.1f), Quaternion.identity);
+            originalRayOrigin.rotation = Quaternion.LookRotation(water.transform.position + Vector3.up * 1.1f - originalRayOrigin.position);
+            Physics.SyncTransforms();
+            Call(playerInteraction, "HandleRaycast");
+            Check(playerInteraction.CurrentTarget == water, "Actual water dispenser did not receive focus");
+            playerInteraction.CurrentTarget.Interact();
+            Check(office.Phase == OfficePhase.Rest && office.WaterBreakCompleted,
+                "Using the selected water dispenser did not complete the drink step");
+            CaptureUI("OfficeInteractions_Water", 1366, 768);
+            Complete(true, "Spatial targeting, clear standing positions, distance/occlusion, boss desk delivery and drinking passed");
+            yield break;
+        }
         AudioSource officePropSource = Get<AudioSource>(atmosphere, "propSource");
         Check(officePropSource.isPlaying, "Standing up did not play the chair SFX");
         yield return new WaitForSecondsRealtime(.5f);
@@ -390,14 +442,34 @@ public sealed class OfficeBlockoutGameplaySmokeRunner : MonoBehaviour
         printer.Interact();
         Check(office.Phase == OfficePhase.DeliverReport && office.HasPrintedReport && officePropSource.isPlaying,
             "Taking the printout did not start report delivery with paper SFX");
-        Check(guidance.CurrentTarget == doorAdapter.transform,
-            "Report delivery guidance still points inside the boss room instead of the door");
-        Check(doorAdapter.GetPromptText() == "[E] Gõ cửa và nộp báo cáo",
-            "Boss-door delivery prompt did not appear with the printed report");
+        Check(boss != null && guidance.CurrentTarget == boss.transform,
+            "Report delivery guidance did not point to the boss's desk");
+        Check(!boss.TryGetProximityDistance(doorAdapter.transform.position, out _),
+            "Report delivery can still be reached from the doorway");
+        Check(boss.TryGetProximityDistance(boss.transform.position + Vector3.back * 2f, out _),
+            "Report delivery is not reachable from the visitor side of the desk");
+        Check(!doorAdapter.GetPromptText().Contains("nộp") &&
+            !doorAdapter.GetPromptText().Contains("báo cáo"),
+            "Door still advertises report delivery");
         doorAdapter.Interact();
+        Check(office.Phase == OfficePhase.DeliverReport && !office.ReportDelivered,
+            "Using the door incorrectly delivered the report");
+        Check(!Get<bool>(HUDController.Instance, "interactionPromptsVisible"),
+            "Scene 1 still shows text over the crosshair");
+        boss.Interact();
         Check(office.Phase == OfficePhase.WaterBreak && office.ReportDelivered,
-            "Delivering the report at the boss door did not unlock the water break");
-        water.Interact();
+            "Delivering the report at the boss's desk did not unlock the water break");
+        office.StandUp(true);
+        Vector3 waterStand = new Vector3(water.transform.position.x, .08f,
+            water.transform.position.z - 1.1f);
+        intro.motor.TeleportTo(waterStand, Quaternion.identity);
+        originalRayOrigin.rotation = Quaternion.LookRotation(
+            water.transform.position + Vector3.up * 1.1f - originalRayOrigin.position);
+        Physics.SyncTransforms();
+        Call(playerInteraction, "HandleRaycast");
+        Check(playerInteraction.CurrentTarget == water,
+            "Looking at the actual water dispenser did not select the drinking interaction");
+        playerInteraction.CurrentTarget.Interact();
         Check(office.Phase == OfficePhase.Rest && office.WaterBreakCompleted && officePropSource.isPlaying,
             "Drinking water did not unlock the final rest objective with water SFX");
         yield return null;
@@ -537,6 +609,70 @@ public sealed class OfficeBlockoutGameplaySmokeRunner : MonoBehaviour
     {
         if (!condition) throw new InvalidOperationException(message);
         assertions++;
+    }
+
+    private void CheckPropTargeting(PlayerInteraction interaction, FirstPersonController motor,
+        OfficeMicroInteractable prop, float[] distances, float[] aimHeights)
+    {
+        Check(prop != null, "Missing prop for spatial interaction checks");
+        Transform origin = Get<Transform>(interaction, "raycastOrigin");
+        Vector3 savedPosition = motor.transform.position;
+        Quaternion savedRotation = motor.transform.rotation;
+        Quaternion savedViewRotation = origin.rotation;
+        var probe = new GameObject("OfficeInteractionSpatialProbe");
+        Set(interaction, "raycastOrigin", probe.transform);
+        try
+        {
+            foreach (float distance in distances)
+            foreach (float side in new[] { -.25f, 0f, .25f })
+            {
+                Vector3 feet = prop.transform.position + new Vector3(side, 0f, -distance);
+                feet.y = .08f;
+                motor.TeleportTo(feet, Quaternion.identity);
+                Physics.SyncTransforms();
+                var body = motor.GetComponent<CharacterController>();
+                Vector3 center = body.transform.TransformPoint(body.center);
+                float half = body.height * .5f - body.radius;
+                var overlaps = Physics.OverlapCapsule(center + Vector3.up * half,
+                    center - Vector3.up * half, body.radius * .95f, ~0, QueryTriggerInteraction.Ignore);
+                Check(!Array.Exists(overlaps, c => !c.transform.IsChildOf(motor.transform)),
+                    $"{prop.Kind}: standing position is obstructed at {feet}");
+                foreach (float height in aimHeights)
+                {
+                    probe.transform.position = origin.position;
+                    probe.transform.rotation = Quaternion.LookRotation(new Vector3(
+                        prop.transform.position.x, height, prop.transform.position.z) - probe.transform.position);
+                    Call(interaction, "HandleRaycast");
+                    Check(interaction.CurrentTarget == prop,
+                        $"{prop.Kind}: cannot target from {feet}, aiming at height {height}");
+                }
+            }
+            probe.transform.position = prop.transform.position + new Vector3(0f, 1.65f, -4.5f);
+            probe.transform.rotation = Quaternion.LookRotation(prop.transform.position + Vector3.up - probe.transform.position);
+            Call(interaction, "HandleRaycast");
+            Check(interaction.CurrentTarget != prop, $"{prop.Kind}: can interact from too far away");
+            // A wall must block use even when the prop's trigger is on the ray.
+            probe.transform.position = prop.transform.position + new Vector3(0f, 1.65f, -1.8f);
+            Vector3 point = prop.transform.position + Vector3.up * aimHeights[0];
+            probe.transform.rotation = Quaternion.LookRotation(point - probe.transform.position);
+            var wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            wall.name = "InteractionOcclusionTest";
+            wall.transform.position = Vector3.Lerp(probe.transform.position, point, .5f);
+            wall.transform.localScale = new Vector3(1f, 3f, .1f);
+            Physics.SyncTransforms();
+            Call(interaction, "HandleRaycast");
+            Check(interaction.CurrentTarget != prop, $"{prop.Kind}: interaction passes through a wall");
+            wall.SetActive(false);
+            Destroy(wall);
+        }
+        finally
+        {
+            motor.TeleportTo(savedPosition, savedRotation);
+            origin.rotation = savedViewRotation;
+            Set(interaction, "raycastOrigin", origin);
+            Destroy(probe);
+            Physics.SyncTransforms();
+        }
     }
 
     private static T Get<T>(object instance, string field)

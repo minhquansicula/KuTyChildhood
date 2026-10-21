@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public sealed partial class HouseholdActionBoard
 {
     private enum ActionMode { Placement, Dial, Rotary, Fetch, Measure, Fire, Heat, Scrub, Letter }
+    private const string MiniGameArtPath = "Scene2/MiniGames/";
     private static Sprite circleSprite;
 
     private readonly RectTransform root;
@@ -36,6 +37,7 @@ public sealed partial class HouseholdActionBoard
     private float heldTime;
     private float lastAngle;
     private float dialFrequency;
+    private bool radioHasArt;
     private float idleSeconds;
     private float lastReported = -1f;
     private string lastMessage;
@@ -90,6 +92,7 @@ public sealed partial class HouseholdActionBoard
         for (int i = 0; i < 3; i++) stainRemaining[i] = 1f;
         amount = heldTime = idleSeconds = 0f;
         dialFrequency = 0f;
+        radioHasArt = false;
         idleHintShown = false;
         draggedIndex = -1;
         lastReported = -1f;
@@ -109,6 +112,9 @@ public sealed partial class HouseholdActionBoard
             child.SetActive(false);
             UnityEngine.Object.Destroy(child);
         }
+        root.sizeDelta = task == HouseholdChore.ArrangeKeepsakes ||
+            task == HouseholdChore.SortTools || task == HouseholdChore.TuneRadio
+            ? new Vector2(570f, 310f) : new Vector2(570f, 200f);
 
         switch (task)
         {
@@ -167,6 +173,20 @@ public sealed partial class HouseholdActionBoard
         pulse = null;
     }
 
+    public bool Restart()
+    {
+        if (!active) return false;
+
+        var task = chore;
+        var onComplete = completed;
+        var onProgress = progress;
+        var onHint = hint;
+        var onPulse = pulse;
+        Begin(task, onComplete, onProgress, onHint, onPulse);
+        Report(0f, "");
+        return true;
+    }
+
     public void Tick()
     {
         if (!active || !root.gameObject.activeInHierarchy ||
@@ -202,7 +222,11 @@ public sealed partial class HouseholdActionBoard
     private void BuildPlacement(string[] itemNames, string[] targetNames)
     {
         mode = ActionMode.Placement;
-        if (chore == HouseholdChore.ArrangeKeepsakes || chore == HouseholdChore.PutAwayDishes)
+        bool illustrated = chore == HouseholdChore.ArrangeKeepsakes || chore == HouseholdChore.SortTools;
+        if (illustrated)
+            AddArtBackground(chore == HouseholdChore.ArrangeKeepsakes ? "Chest_Open" : "Tool_Rack");
+        if (chore == HouseholdChore.PutAwayDishes ||
+            (chore == HouseholdChore.ArrangeKeepsakes && LoadArt("Chest_Open") == null))
         {
             Shape(root, "WoodFrame", 0f, 37f, 558f, 80f, new Color(.40f, .26f, .15f));
             Shape(root, "LowerTrim", 0f, -4f, 562f, 7f, new Color(.70f, .49f, .25f));
@@ -212,15 +236,17 @@ public sealed partial class HouseholdActionBoard
             var tray = Circle("MealTray", root, new Vector2(0f, 35f), 535f, new Color(.55f, .59f, .55f));
             tray.sizeDelta = new Vector2(550f, 85f);
         }
-        Label("PlacementGuide", root, new Vector2(0f, 87f), new Vector2(520f, 28f),
+        Label("PlacementGuide", root, new Vector2(0f, illustrated ? 137f : 87f), new Vector2(520f, 28f),
             "KÉO VẬT DỤNG VÀO ĐÚNG CHỖ", 19f, new Color(.97f, .80f, .47f));
         for (int i = 0; i < 3; i++)
         {
             float x = (i - 1) * 180f;
-            targets[i] = Box("Compartment" + i, root, new Vector2(x, 39f),
-                new Vector2(164f, 65f), new Color(.20f, .27f, .28f));
-            Box("ShelfEdge", targets[i], new Vector2(0f, -29f), new Vector2(156f, 4f),
-                new Color(.66f, .51f, .30f));
+            targets[i] = Box("Compartment" + i, root, new Vector2(x, illustrated ? 25f : 39f),
+                new Vector2(164f, illustrated ? 80f : 65f), illustrated
+                    ? new Color(.08f, .12f, .12f, .55f) : new Color(.20f, .27f, .28f));
+            if (!illustrated)
+                Box("ShelfEdge", targets[i], new Vector2(0f, -29f), new Vector2(156f, 4f),
+                    new Color(.66f, .51f, .30f));
             Label("CompartmentName", targets[i], Vector2.zero, new Vector2(155f, 60f),
                 targetNames[i], 13f, new Color(.75f, .85f, .83f));
             DrawProp(targets[i], i);
@@ -228,15 +254,15 @@ public sealed partial class HouseholdActionBoard
             targets[i].Find("PropIcon").gameObject.AddComponent<CanvasGroup>().alpha = .3f;
             targets[i].GetComponentInChildren<TextMeshProUGUI>().rectTransform.anchoredPosition = new Vector2(0f, -21f);
             // Keep the visual order different from the destination order: this is a sorting task.
-            itemHome[i] = new Vector2((((i + 1) % 3) - 1) * 180f, -50f);
+            itemHome[i] = new Vector2((((i + 1) % 3) - 1) * 180f, illustrated ? -85f : -50f);
             items[i] = Box("MovableItem" + i, root, itemHome[i],
-                new Vector2(150f, 58f), new Color(.52f, .36f, .21f));
+                new Vector2(150f, illustrated ? 75f : 58f), new Color(.52f, .36f, .21f));
             DrawProp(items[i], i);
             items[i].Find("PropIcon").localPosition = Vector3.zero;
             items[i].Find("PropIcon").localScale = Vector3.one * 1.25f;
             if (chore == HouseholdChore.SortTools && i == 1)
                 items[i].Find("PropIcon").localRotation = Quaternion.Euler(0f, 0f, 90f);
-            Label("ItemName", items[i], new Vector2(0f, -27f), new Vector2(150f, 22f),
+            Label("ItemName", items[i], new Vector2(0f, illustrated ? -30f : -27f), new Vector2(150f, 22f),
                 itemNames[i], 17f, new Color(1f, .96f, .86f));
         }
         Report(0f, "0/3 món đã xếp");
@@ -245,6 +271,7 @@ public sealed partial class HouseholdActionBoard
     private void TickPlacement()
     {
         if (stage == 1) { TickActionSwipe(chore == HouseholdChore.ArrangeKeepsakes ? Vector2.down : Vector2.right); return; }
+        bool illustrated = chore == HouseholdChore.ArrangeKeepsakes || chore == HouseholdChore.SortTools;
         if (dragging && chore == HouseholdChore.SortTools && draggedIndex == 1)
             items[1].Find("PropIcon").Rotate(0f, 0f, Input.mouseScrollDelta.y * 15f + (Input.GetKey(KeyCode.R) ? Time.deltaTime * 100f : 0f));
         for (int i = 0; i < 3; i++)
@@ -257,8 +284,9 @@ public sealed partial class HouseholdActionBoard
             }
             if (targets[i] != null && !placed[i])
                 targets[i].GetComponent<Image>().color = dragging && Inside(targets[i])
-                    ? i == draggedIndex ? new Color(.25f, .49f, .35f) : new Color(.48f, .26f, .23f)
-                    : new Color(.20f, .27f, .28f);
+                    ? i == draggedIndex ? new Color(.25f, .49f, .35f, illustrated ? .72f : 1f)
+                        : new Color(.48f, .26f, .23f, illustrated ? .72f : 1f)
+                    : new Color(.20f, .27f, .28f, illustrated ? .52f : 1f);
         }
         if (successes == 0 && items[0] != null && !dragging)
             items[0].GetComponent<Image>().color = Color.Lerp(new Color(.52f, .36f, .21f),
@@ -313,9 +341,11 @@ public sealed partial class HouseholdActionBoard
         returning[index] = false;
         items[index].SetParent(targets[index], false);
         items[index].anchoredPosition = Vector2.zero;
-        items[index].sizeDelta = new Vector2(147f, 53f);
+        items[index].sizeDelta = new Vector2(147f,
+            chore == HouseholdChore.ArrangeKeepsakes || chore == HouseholdChore.SortTools ? 69f : 53f);
         items[index].GetComponent<Image>().color = new Color(.28f, .52f, .36f);
-        targets[index].GetComponent<Image>().color = new Color(.23f, .43f, .32f);
+        targets[index].GetComponent<Image>().color = new Color(.23f, .43f, .32f,
+            chore == HouseholdChore.ArrangeKeepsakes || chore == HouseholdChore.SortTools ? .58f : 1f);
         successes++;
         mistakes = 0;
         pulse?.Invoke();
@@ -331,6 +361,14 @@ public sealed partial class HouseholdActionBoard
             string label = chore == HouseholdChore.ArrangeKeepsakes ? "KÉO NẮP RƯƠNG XUỐNG" : "KÉO DÂY BUỘC SANG PHẢI";
             actionArea = Box("FinalGesture", root, new Vector2(0f, 55f),
                 new Vector2(548f, chore == HouseholdChore.ArrangeKeepsakes ? 75f : 18f), new Color(.40f, .28f, .17f));
+            if (chore == HouseholdChore.ArrangeKeepsakes && LoadArt("Chest_Lid") is Sprite lid)
+            {
+                actionArea.anchoredPosition = new Vector2(0f, 25f);
+                actionArea.sizeDelta = new Vector2(548f, 108f);
+                var lidImage = actionArea.GetComponent<Image>();
+                lidImage.sprite = lid;
+                lidImage.color = Color.white;
+            }
             gestureHome = actionArea.anchoredPosition;
             Shape(actionArea, "BrassClasp", 0f, -8f, 22f, 27f, new Color(.86f, .66f, .30f));
             Label("FinalGestureText", actionArea, Vector2.zero, new Vector2(370f, 52f),
@@ -343,22 +381,43 @@ public sealed partial class HouseholdActionBoard
     private void BuildDial()
     {
         mode = ActionMode.Dial;
-        Label("RadioBody", root, new Vector2(0f, 72f), new Vector2(500f, 35f),
+        Sprite radioArt = LoadArt("Radio_Body");
+        radioHasArt = radioArt != null;
+        Label("RadioBody", root, new Vector2(0f, radioArt != null ? 130f : 72f), new Vector2(500f, 35f),
             "RADIO CỦA NHÀ MÌNH", 22f, new Color(.97f, .80f, .47f));
-        Box("RadioCase", root, new Vector2(0f, -5f), new Vector2(425f, 125f),
-            new Color(.48f, .31f, .19f));
-        Box("Speaker", root, new Vector2(-112f, -5f), new Vector2(132f, 86f),
-            new Color(.18f, .23f, .23f));
-        for (int i = 0; i < 6; i++)
-            Shape(root, "SpeakerGrille", -164f + i * 20f, -5f, 5f, 71f,
-                new Color(.59f, .48f, .32f));
-        actionArea = Circle("RadioDial", root, new Vector2(111f, -5f),
-            102f, new Color(.19f, .27f, .27f));
-        Circle("DialCenter", actionArea, Vector2.zero, 70f, new Color(.76f, .65f, .44f));
+        if (radioArt != null)
+        {
+            var body = Box("RadioPhoto", root, new Vector2(0f, 0f), new Vector2(385f, 230f), Color.white);
+            body.GetComponent<Image>().sprite = radioArt;
+        }
+        else
+        {
+            Box("RadioCase", root, new Vector2(0f, -5f), new Vector2(425f, 125f),
+                new Color(.48f, .31f, .19f));
+            Box("Speaker", root, new Vector2(-112f, -5f), new Vector2(132f, 86f),
+                new Color(.18f, .23f, .23f));
+            for (int i = 0; i < 6; i++)
+                Shape(root, "SpeakerGrille", -164f + i * 20f, -5f, 5f, 71f,
+                    new Color(.59f, .48f, .32f));
+        }
+        actionArea = Circle("RadioDial", root, new Vector2(radioArt != null ? 119f : 111f, -5f),
+            radioArt != null ? 67f : 102f, radioArt != null
+                ? new Color(.22f, .34f, .30f, .14f) : new Color(.19f, .27f, .27f));
+        if (radioArt == null)
+            Circle("DialCenter", actionArea, Vector2.zero, 70f, new Color(.76f, .65f, .44f));
         dialNeedle = Box("NeedlePivot", actionArea, Vector2.zero, Vector2.one, Color.clear);
-        Shape(dialNeedle, "FrequencyNeedle", 0f, 25f, 6f, 43f, new Color(.21f, .27f, .26f));
-        Circle("NeedleHub", actionArea, Vector2.zero, 17f, new Color(.19f, .27f, .27f));
-        status = Label("RadioStatus", root, new Vector2(0f, -83f), new Vector2(510f, 28f),
+        var needle = Shape(dialNeedle, "FrequencyNeedle", 0f, radioArt != null ? 16f : 25f,
+            radioArt != null ? 14f : 6f, radioArt != null ? 32f : 43f, new Color(.21f, .27f, .26f));
+        if (radioArt != null && LoadArt("Radio_Needle") is Sprite needleArt)
+        {
+            var image = needle.GetComponent<Image>();
+            image.sprite = needleArt;
+            image.color = Color.white;
+            image.preserveAspect = true;
+        }
+        Circle("NeedleHub", actionArea, Vector2.zero, radioArt != null ? 9f : 17f,
+            new Color(.19f, .27f, .27f));
+        status = Label("RadioStatus", root, new Vector2(0f, radioArt != null ? -130f : -83f), new Vector2(510f, 28f),
             "Kéo quanh núm để dò sóng", 19f, new Color(.82f, .89f, .86f));
         Report(0f, "Đang tìm tần số");
     }
@@ -383,8 +442,9 @@ public sealed partial class HouseholdActionBoard
         bool clear = Mathf.Abs(dialFrequency - .68f) <= .065f;
         heldTime = clear ? heldTime + Time.deltaTime : 0f;
         UpdateRadioAudio(closeness);
-        actionArea.GetComponent<Image>().color = Color.Lerp(new Color(.32f, .40f, .39f),
-            new Color(.30f, .62f, .43f), closeness);
+        actionArea.GetComponent<Image>().color = radioHasArt
+            ? Color.Lerp(new Color(.32f, .40f, .39f, .12f), new Color(.30f, .72f, .43f, .33f), closeness)
+            : Color.Lerp(new Color(.32f, .40f, .39f), new Color(.30f, .62f, .43f), closeness);
         status.text = clear ? "SÓNG RÕ — GIỮ NÚM MỘT CHÚT" : closeness > .65f ? "Sắp nghe rõ rồi…" : "Tiếng rè vẫn còn";
         Report(Mathf.Clamp01(closeness * .8f + heldTime / .8f * .2f), clear ? "Đang giữ đúng sóng" : "Đang dò sóng");
         if (heldTime >= .75f) Complete();
@@ -921,11 +981,38 @@ public sealed partial class HouseholdActionBoard
     private static Vector2 ClampToSurface(Vector2 point) =>
         new Vector2(Mathf.Clamp(point.x, -260f, 260f), Mathf.Clamp(point.y, -90f, 90f));
 
+    private static Sprite LoadArt(string name) => Resources.Load<Sprite>(MiniGameArtPath + name);
+
+    private void AddArtBackground(string name)
+    {
+        Sprite sprite = LoadArt(name);
+        if (sprite == null) return;
+        var background = Box(name + "Background", root, Vector2.zero, new Vector2(558f, 278f), Color.white);
+        background.GetComponent<Image>().sprite = sprite;
+        background.SetAsFirstSibling();
+    }
+
     private void DrawProp(RectTransform card, int index)
     {
-        // Tiny native-UGUI silhouettes keep the props readable without importing a texture atlas.
         var icon = Box("PropIcon", card, new Vector2(-47f, 0f), new Vector2(46f, 46f),
             Color.clear);
+        string spriteName = null;
+        if (chore == HouseholdChore.ArrangeKeepsakes)
+            spriteName = index == 0 ? "Old_Shirt" : index == 1 ? "Old_Towel" : "Keepsake_Box";
+        else if (chore == HouseholdChore.SortTools)
+            spriteName = index == 0 ? "Tool_Rake" : index == 1 ? "Tool_Hoe" : "Tool_Shovel";
+        Sprite art = spriteName == null ? null : LoadArt(spriteName);
+        if (art != null)
+        {
+            icon.sizeDelta = chore == HouseholdChore.SortTools
+                ? new Vector2(112f, 65f) : new Vector2(96f, 57f);
+            var image = icon.GetComponent<Image>();
+            image.sprite = art;
+            image.color = Color.white;
+            image.preserveAspect = true;
+            return;
+        }
+        // Keep the native UGUI silhouette as a fallback when an art asset is missing.
         Color cream = new Color(.95f, .85f, .64f);
         Color clay = new Color(.68f, .38f, .23f);
         Color wood = new Color(.58f, .34f, .18f);

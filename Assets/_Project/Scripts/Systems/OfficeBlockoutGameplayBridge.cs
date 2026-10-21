@@ -28,6 +28,7 @@ public sealed class OfficeBlockoutGameplayBridge : MonoBehaviour
 
     private void Start()
     {
+        HUDController.Instance?.SetInteractionPromptsVisible(false);
         HUDController.Instance?.SetCrosshairVisible(false);
         if (playerInteraction != null) playerInteraction.LockInteraction(true);
         if (pauseUI != null) pauseUI.enabled = false;

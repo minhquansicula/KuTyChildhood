@@ -126,3 +126,6 @@ dumb/
 # OpenTracks permits game BGM use, not redistribution of loose source audio.
 /Assets/_Project/Audio/Music/CountrysideSummer_YoshinoriTanaka.mp3
 /Assets/_Project/Audio/Music/CountrysideSummer_YoshinoriTanaka.mp3.meta
+
+# Local recovery archives from verified project cleanup (not game assets).
+/Tools/CleanupRecovery/

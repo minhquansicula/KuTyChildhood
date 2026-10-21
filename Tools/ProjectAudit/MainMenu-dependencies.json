@@ -1,0 +1,102 @@
+{
+  "status": "success",
+  "result": {
+    "success": true,
+    "assetPath": "Assets/_Project/Scenes/MainMenu.unity",
+    "dependencyCount": 23,
+    "dependencies": [
+      {
+        "path": "Assets/_Project/Generated/Vietnamese.asset",
+        "type": "TMP_FontAsset"
+      },
+      {
+        "path": "Assets/_Project/UI/Selectedbutton.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Layout/CanvasScaler.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/UI/5dc091f5-efc3-4024-849f-d5926236f2f9.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Font Asset Icon.psd",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TextMeshProUGUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/UI/newtitle.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Text Component Icon.psd",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/MainMenuUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/GraphicRaycaster.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Button.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/EventSystem/InputModules/StandaloneInputModule.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/UI/MainMenu_Canvas.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Image.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAsset.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalLightData.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Layout/VerticalLayoutGroup.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/UI/d1213377-4512-4bee-be96-6648f3569405.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/UI/bacground.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/UI/button.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+        "type": "Font"
+      }
+    ]
+  }
+}

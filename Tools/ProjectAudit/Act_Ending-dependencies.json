@@ -1,0 +1,66 @@
+{
+  "status": "success",
+  "result": {
+    "success": true,
+    "assetPath": "Assets/_Project/Scenes/Act_Ending.unity",
+    "dependencyCount": 14,
+    "dependencies": [
+      {
+        "path": "Assets/_Project/Generated/Vietnamese.asset",
+        "type": "TMP_FontAsset"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Layout/CanvasScaler.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Font Asset Icon.psd",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TextMeshProUGUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Text Component Icon.psd",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/GraphicRaycaster.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Button.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/EventSystem/InputModules/StandaloneInputModule.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Image.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAsset.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+        "type": "Font"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/EndingUI.cs",
+        "type": "MonoScript"
+      }
+    ]
+  }
+}

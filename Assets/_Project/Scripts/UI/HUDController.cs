@@ -130,6 +130,7 @@ public class HUDController : MonoBehaviour
     /// </summary>
     public void ShowInteractPrompt(string text)
     {
+        if (!interactionPromptsVisible) { HideInteractPrompt(); return; }
         if (promptPanel != null)
             promptPanel.SetActive(true);
 
@@ -144,6 +145,13 @@ public class HUDController : MonoBehaviour
     {
         if (promptPanel != null)
             promptPanel.SetActive(false);
+    }
+
+    private bool interactionPromptsVisible = true;
+    public void SetInteractionPromptsVisible(bool visible)
+    {
+        interactionPromptsVisible = visible;
+        if (!visible) HideInteractPrompt();
     }
 
     /// <summary>Scene-specific objective views can replace only this label, keeping the shared crosshair and prompt.</summary>

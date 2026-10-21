@@ -1,0 +1,4343 @@
+{
+  "archive": "Tools/CleanupRecovery/cleanup-20261021.zip",
+  "archiveBytes": 408135495,
+  "assets": [
+    "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_01.fbx",
+    "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_02.fbx",
+    "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_03.fbx",
+    "Assets/_Project/Art/Scene2/Models/Architecture/SM_TimberColumn.fbx",
+    "Assets/_Project/Art/Scene2/Models/Architecture/SM_ImportedPanel_02.fbx",
+    "Assets/_Project/UI/Sprites/bacground.png"
+  ],
+  "directories": [
+    ".unity-validation",
+    "UnityChairValidation",
+    "Builds",
+    "dumb"
+  ],
+  "directoryBytesBefore": {
+    ".unity-validation": 1902988854,
+    "UnityChairValidation": 12093432,
+    "Builds": 231667191,
+    "dumb": 81333793
+  },
+  "assetBytesBefore": 330636820,
+  "archiveEntries": [
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_01.fbx",
+      "bytes": 102476508,
+      "sha256": "6e4349194ef04da38587a3b673430830f53a8a5b0540e788385cc19de4303c51"
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_01.fbx.meta",
+      "bytes": 3124,
+      "sha256": "06bf5058354fc90518aa1b379db17fcaae6b079504476f6b5cd74209302e45f3"
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_02.fbx",
+      "bytes": 66315564,
+      "sha256": "5b7cb9e681a3271e89df4aa0fa8aa6420d10066957541b76c5b39fe288959197"
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_02.fbx.meta",
+      "bytes": 2939,
+      "sha256": "1523f7b815c45977bc4de863971a9b501e23371c9bb6064ba763aa8e3cf0b22b"
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_03.fbx",
+      "bytes": 44149308,
+      "sha256": "549ee145001157e416a6f4b9d63f87bf0739df5e78f6ee47f27a5b205d70b427"
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_03.fbx.meta",
+      "bytes": 2939,
+      "sha256": "82caa5593bd0f947ad80a70887be1c1ed57a74b6116dfa4491b37ea67463aa6b"
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_TimberColumn.fbx",
+      "bytes": 64433660,
+      "sha256": "d6a034e83127adaa0c5037796647f8ef27924443fb9856cf5308aba0f50c51a4"
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_TimberColumn.fbx.meta",
+      "bytes": 3124,
+      "sha256": "8a6c9502dbd3740ee9dac6f2c1f40ae418f96245e291e9cb8e8d57ffc1d5a57c"
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_ImportedPanel_02.fbx",
+      "bytes": 50978364,
+      "sha256": "ebc51d6f23673d0a0eed812be12fc48fd4917851f66789961fbb35d74c589e24"
+    },
+    {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_ImportedPanel_02.fbx.meta",
+      "bytes": 2939,
+      "sha256": "76e2a028004e566989920ef53021465295ef0289b743475bf799436b6991739d"
+    },
+    {
+      "path": "Assets/_Project/UI/Sprites/bacground.png",
+      "bytes": 2265646,
+      "sha256": "6a39a2bcfb774812ec923009195c9c2ae266d86f06076d191f1d8dfcd8c9e1a5"
+    },
+    {
+      "path": "Assets/_Project/UI/Sprites/bacground.png.meta",
+      "bytes": 2705,
+      "sha256": "5843d5f4775ee5a525197cadd2dbf4f18c61a9f2150382057d7d025fd97cbeb9"
+    },
+    {
+      "path": ".unity-validation/Act1-before-asset-cleanup.unity",
+      "bytes": 322450,
+      "sha256": "23d8c8b65af49bf24575d6298477beece839548a55b7298c892ebb82d3be6daa"
+    },
+    {
+      "path": ".unity-validation/Act1-before-desk-boss-rewire.unity",
+      "bytes": 245851,
+      "sha256": "29e5e676a79c1738ef9391cffa8a1e64fc0bd70b68d183a01dad3525ec5da1ef"
+    },
+    {
+      "path": ".unity-validation/office-view.png",
+      "bytes": 265197,
+      "sha256": "1b4c370d8c649227b9c6c00e670a50eac8f96395fb0da874fc5315f764112128"
+    },
+    {
+      "path": ".unity-validation/smoke-act2.png",
+      "bytes": 174787,
+      "sha256": "47c58c51acdd99c677268a2bc6e4c00af4630855a1000e844321e768b5a6d814"
+    },
+    {
+      "path": ".unity-validation/smoke-marbles.png",
+      "bytes": 87702,
+      "sha256": "496006e5d386db98e7f9763113a445aece37d94c61d42250cad1e55f66a761ef"
+    },
+    {
+      "path": ".unity-validation/smoke-results.txt",
+      "bytes": 47,
+      "sha256": "3796356fa122141d43cebf368a7a56a1af0ff85dd528a498eae50e389fd820a4"
+    },
+    {
+      "path": ".unity-validation/smoke-shop.png",
+      "bytes": 167556,
+      "sha256": "4d844f9383fa0e7119ad84558ae15c3bcefbef78459006d4c1e5da52cd657a03"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro.meta",
+      "bytes": 172,
+      "sha256": "8529d84d190a68aeb1a16e0a90308081bd30a738dbcc63c63b2a93c53b9a11b3"
+    },
+    {
+      "path": ".unity-validation/Assets/UniversalRenderPipelineGlobalSettings.asset",
+      "bytes": 933,
+      "sha256": "bdac5e6c90cf14fc41a2ee0152632b26464873a2c46926eff322ba060f4dd5c5"
+    },
+    {
+      "path": ".unity-validation/Assets/UniversalRenderPipelineGlobalSettings.asset.meta",
+      "bytes": 189,
+      "sha256": "accd276a2a5ce16c966493eed4ec12bc5ac747c331e20e56f141abaed543a571"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project.meta",
+      "bytes": 172,
+      "sha256": "951027dd55be4fd87e7b9254a083a2b81e7730b3bb48068b2c10d015ab888400"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Documentation.meta",
+      "bytes": 172,
+      "sha256": "07a8d45855ad4e331c57cd451654a5a454b001ef9677b725b856810b7d58b77b"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Fonts.meta",
+      "bytes": 172,
+      "sha256": "11e80153fa39b86efadb8917ecde12a0402fe0729f2c88f6f8d1999f3fb04748"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources.meta",
+      "bytes": 172,
+      "sha256": "167448559db07c9857b206a0f5a0aedcd6a6dad900d618b35b0702d636573805"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders.meta",
+      "bytes": 172,
+      "sha256": "c109eb7e331affedb377f7051df3d4881f8529b65f9593234585713e6e94ed30"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Sprites.meta",
+      "bytes": 172,
+      "sha256": "41e002b97ba2235689fba502d1ee4419f50ea0095cd3632cdc50bc90ca8a94de"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf",
+      "bytes": 694398,
+      "sha256": "93d6d3ca8a7d8423b01faacd00fa3921fe055fb2187873653a925e4cc1af85c0"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta",
+      "bytes": 155,
+      "sha256": "942ef57b7129d587bdee03541cc260cf55af7564d9d2d582ea11eacd3de278ca"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt",
+      "bytes": 4469,
+      "sha256": "37f8552e9a874ec10710dc0ede6a9adf168e6609fbd02a507f35629373b85a48"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt.meta",
+      "bytes": 177,
+      "sha256": "5dbec32c014c17d94674af5f1494d49b42ba00edd50397f895f088c868ccbf86"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+      "bytes": 350200,
+      "sha256": "e5b0af421ea2bfbc1ac8d251d647268087ae82786234c57f757d1f0b90fa8b49"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Fonts/LiberationSans.ttf.meta",
+      "bytes": 414,
+      "sha256": "e2e35a015703584fb119355fa02631764d111c3e112d32519801d46bd697b596"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Fonts & Materials.meta",
+      "bytes": 191,
+      "sha256": "8917470a9265beb1ef55a28c6a3718eb12ec8004554499998cc345056247995f"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt",
+      "bytes": 269,
+      "sha256": "3a73e5ffe2510756dd3c2e982fdc1218b4be82c6e21abde88070d6860e1bc8e6"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt.meta",
+      "bytes": 179,
+      "sha256": "d5a86d8b7db6aa3ca6f4a63750eb94e0c42a64909b47d8c6c6f2565845534490"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt",
+      "bytes": 95,
+      "sha256": "62d3f4d5f64aaf885692d2d13a8313f6918e6e4c5aeb3990a43f614652bfd89c"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt.meta",
+      "bytes": 179,
+      "sha256": "6a925814d5e251a0ced6de210db2bacf2de29b4f0dc2991e85c908632e9565e4"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Sprite Assets.meta",
+      "bytes": 191,
+      "sha256": "5605affac803b81f876f35577f075c9b7e5ea73cf812fdfcc74277bf0f40140e"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Style Sheets.meta",
+      "bytes": 191,
+      "sha256": "1fdf0423552f46284fb97894f36adcd34d32e595aaf5c7cf1ce38a2349faaf89"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/TMP Settings.asset",
+      "bytes": 1683,
+      "sha256": "a699a043195b71622df343e8c353312cdfdc49c4b8c7043eb14584c34451991c"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/TMP Settings.asset.meta",
+      "bytes": 179,
+      "sha256": "a65193b095ec3606789a3191751a837704cf52d4f461993ae7903024c6d43f45"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat",
+      "bytes": 2975,
+      "sha256": "b6b65c34e4907dd3006c2217fc8a4cef81b6da24df0a3de8e2288199eb6c5a9d"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat.meta",
+      "bytes": 179,
+      "sha256": "ef2eee63b288d47823da38109e3e8c879f4717a82dc662ac2d5e2460dacde698"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+      "bytes": 9266,
+      "sha256": "6f33cdcd6d203e175a012087a4209442c2b6811baeebce6c875bb8c8d7c64e51"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset.meta",
+      "bytes": 179,
+      "sha256": "d6d86504040cf6e736767fda9bdef494afb06d5304384243e2dd703eba3a4a3d"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat",
+      "bytes": 2889,
+      "sha256": "25874340976d40e9f9e8abf731b7f32e5a478541dead9288140bd60c7a3287d9"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat.meta",
+      "bytes": 179,
+      "sha256": "a8cf0ee9888a163e892368b4660b9c62a7375e7f8afdb8ee02e5c91ca1cdb355"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+      "bytes": 2256862,
+      "sha256": "c3ff50e3133d989180b187748ffc67903f1fede099a5b85b4fcbd8cb6e8be958"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset.meta",
+      "bytes": 179,
+      "sha256": "37233890984555987cb585551bc885069f2849a9b0d1c2191af073b9376aa10f"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+      "bytes": 13441,
+      "sha256": "155fff99f467baa93dd2d0886df466bd242cd5e3c8c60c9d43e9cdad269f7f54"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset.meta",
+      "bytes": 179,
+      "sha256": "097525b164260b0fb34b4e0c73b3187c693f4dfe2991f475b5b416dbf07dfbbc"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset",
+      "bytes": 4953,
+      "sha256": "01222ac025a1f5b90f3f129eee7bfac7fb05223a1edd84aecf2171ec34b10708"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset.meta",
+      "bytes": 181,
+      "sha256": "b832663ca09ec7af8c8e816fd91a718b2af6c21ab4f126fa818871ad53bce763"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMPro.cginc",
+      "bytes": 2277,
+      "sha256": "14edb7d7b88caf2b82cae68200abe895e5b5b3474c3fffbf0e9b4b09a4e2467e"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMPro.cginc.meta",
+      "bytes": 204,
+      "sha256": "277459ef190430ad8e4ceb2bb38a8895d11fbbe6c2b2672e818ff970cb59efed"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc",
+      "bytes": 5311,
+      "sha256": "31aa22debdf974d1dc73e90b7feadf7f2e37ad60cf6f9f9e54a6adc71cd792b5"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc.meta",
+      "bytes": 204,
+      "sha256": "2e16fa15ef884a60a402d8b696f8b09e5315cbb468ba223d256030c7fe2b0667"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc",
+      "bytes": 2843,
+      "sha256": "26c70831a9bdd6a56a37ec1e2358929453d66a064d10a61da49a1d4b05280e06"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc.meta",
+      "bytes": 204,
+      "sha256": "edace33591894d86d9a4144466fb3606e538d3341030fe22f908551755120ea5"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc",
+      "bytes": 3563,
+      "sha256": "434adb97dfcd9d5772fc11bb3a76f36af13614a664aca840ebcbf635e6e2df24"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc.meta",
+      "bytes": 204,
+      "sha256": "247746f3a4e39dd24d1ad99e4fae03ae8976586307948b2846529a876dcb0a63"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader",
+      "bytes": 3497,
+      "sha256": "f45e54dd8d92ae0702621bfc3aaaedac7f9c2509dcb84f721c11aa257171d523"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader.meta",
+      "bytes": 204,
+      "sha256": "91be1d5618a7da33c878e20cf2be3e13b897d4976c70bde0cda7a67dbd502cd2"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader",
+      "bytes": 3549,
+      "sha256": "86216818723945b88960d3958e744cf7a2433eb306f4f6bfba84f1f09320a25e"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader.meta",
+      "bytes": 204,
+      "sha256": "7430f3e97ae1b46f34e1ca75508705bb7b944307c41dc568ea728011f327086d"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader",
+      "bytes": 3499,
+      "sha256": "05b182e4a8eefe246a83b8065a38f47524e9492128ea0c5a0f1bafc28cc59974"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader.meta",
+      "bytes": 204,
+      "sha256": "3d462e6f8ba57f45dc5e6000020db066c36ed5a1a24f74f749727812373c2325"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader",
+      "bytes": 10585,
+      "sha256": "5d014fd30168464ef417514fdc25d19b15ce5705dc352bc7f9703c95008f6dd0"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader.meta",
+      "bytes": 204,
+      "sha256": "fb8fc84b612e19c169cdf3596195b416e68d227a8987a0eaa90d8c137fb69797"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader",
+      "bytes": 12000,
+      "sha256": "699f0e1291b37a9103fcf5059f44eca257cc63f02728939046311b431e804039"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader.meta",
+      "bytes": 204,
+      "sha256": "bea74d576f181a8bb04b8cf02eedd0136540325ecb2824928a3aa52c75adcb13"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader",
+      "bytes": 7822,
+      "sha256": "c11c36263a42ec618251c21d1f9b5f2e9df5f0f21f10f82ab6b4388913f7aed7"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader.meta",
+      "bytes": 204,
+      "sha256": "3744d078f9a8b6d3c5d9bca51e43f9223544fcafaf9396e121f49ea84a0609d3"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader",
+      "bytes": 7643,
+      "sha256": "b2f29604a41934625338b7d1e6bd37fe008366f98932ac49f026dec16fd465d0"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader.meta",
+      "bytes": 204,
+      "sha256": "1eeca1536c7506f79d4d877b866a5fb88db8f402634e091b6d78aa9d21c9d18b"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader",
+      "bytes": 3071,
+      "sha256": "598b92ea8c4d65802c9273bec594786b8ca896013afaf8f31e2c973518f293b1"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader.meta",
+      "bytes": 204,
+      "sha256": "e3412891b9306b017e60cba4ae4f6d258ee8b161d986dcde9cefb3d60345514d"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+      "bytes": 7674,
+      "sha256": "970db4b1e73b8289c1dd56cff60877f426b49c9682620b2d14da6cd70b64cb9c"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader.meta",
+      "bytes": 204,
+      "sha256": "f2112f50c72762d4e6731391495ea11f76975d677b698e9bcfdd38275ea18f9d"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader",
+      "bytes": 3524,
+      "sha256": "79b6e02dbdf65168f2bd81e1a41966ab492bf473be8ba7abd659ab8876c781b1"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader.meta",
+      "bytes": 204,
+      "sha256": "95aa060f371ee503a22c0a0b018e029c0328bd82b9317feaa784432b0a787343"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader",
+      "bytes": 4355,
+      "sha256": "a1ec7f5beb83b6c2f00570246f542cc3c9d12516e69b4a2c39d58675b5b76d15"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader.meta",
+      "bytes": 204,
+      "sha256": "42439f5ac7491998f562e8ede73d64c3512953eb99fb1b49e833f5d9999a7660"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
+      "bytes": 10600,
+      "sha256": "bbae422625f31bfa560ac5ce44c402fafd16dba55d496c6279ca985b652b58bf"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta",
+      "bytes": 204,
+      "sha256": "0897fb06d170043fffa2d28783b347bbaee87a3f09f08374ca44b2c3848697d6"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_Sprite.shader",
+      "bytes": 2673,
+      "sha256": "c5d35f56a73324cf1639a4b9b0650a7412230bacaa9b0fdd4ee34f437a9b3f31"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Shaders/TMP_Sprite.shader.meta",
+      "bytes": 204,
+      "sha256": "9609584c5249687f3765f0018a93dfd6445c7e35d5aee4e87556f111c8852819"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt",
+      "bytes": 187,
+      "sha256": "095907d2631301d08dbff9388fc0c278904fd86e18ba76bb0d401a790ade8f83"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt.meta",
+      "bytes": 158,
+      "sha256": "9fffc8ac513116b8ac394d86d81ca9ac4ec52ee92c63c114d355808384ea16fc"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Sprites/EmojiOne.json",
+      "bytes": 4122,
+      "sha256": "fa35c4a1b7cfc12e872bcba7d0d20702077a5478472b87d619b2c72bf5bb48d0"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Sprites/EmojiOne.json.meta",
+      "bytes": 177,
+      "sha256": "ac2c551b5bc7f7d636d54ded634dfc3493e249567283b2efc06d1299f9360061"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Sprites/EmojiOne.png",
+      "bytes": 112319,
+      "sha256": "a87b965a701de3dc31d7401e542b1fc946587f912c51d7a26e46ade9f098bd1a"
+    },
+    {
+      "path": ".unity-validation/Assets/TextMesh Pro/Sprites/EmojiOne.png.meta",
+      "bytes": 9784,
+      "sha256": "eb63c0321658b980b138ce5f675d44689b8c7144df43976931e132e7706d1e1a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art.meta",
+      "bytes": 172,
+      "sha256": "2b423ca49dbe6f279f8d7168b7fcd68cce933401c3a61e8ca83c0b34afaefd1f"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Audio.meta",
+      "bytes": 172,
+      "sha256": "767286585a088ef9812fbc55dc774fffa28f65f5152592b682c626bef731d50b"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Editor.meta",
+      "bytes": 172,
+      "sha256": "d75b56fc714e2760202378e6e966448dc4db364d93d4d2fe710430dbda960cbd"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated.meta",
+      "bytes": 172,
+      "sha256": "6f27917f89955eeca97b73ae98db6ad7415d8f62d1960b9b82cc37d3b581a291"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs.meta",
+      "bytes": 172,
+      "sha256": "7e3f7092b33840e83368a402fcdffc16d5361523c6940cea280aeead4e64e5b3"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Resources.meta",
+      "bytes": 172,
+      "sha256": "b1d2fc8a5b864e523bf4f01a7c99c81af0b04f103eb9eb58cfa58ff4fa74dfda"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scenes.meta",
+      "bytes": 172,
+      "sha256": "52cbcd69ef5d3481fafd47a13b0f5047fe765269a0ddd7e413e0d379584efc9e"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/ScriptableObjects.meta",
+      "bytes": 172,
+      "sha256": "326d8d77d3416525d2a10f65323da0a6d9cc0965e9964d530ecc6fe9550669fb"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts.meta",
+      "bytes": 172,
+      "sha256": "0dec5fdea1c0919fc81506487c06389465f3bff8add23585e654082d2095cdaf"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Settings.meta",
+      "bytes": 172,
+      "sha256": "8a85368ec0c7a3b834a21ea6b82571192dc65531a11bb05fb0f66193e526c6c8"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/UI.meta",
+      "bytes": 172,
+      "sha256": "8f1d0e949f25da5ea5034c6573e530aa56a6eca0f69d1dac22f5e069a5dbbfdd"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Animations.meta",
+      "bytes": 172,
+      "sha256": "ac7a9f6c07ac84fffa6cd92ca9bc3ebe9485f8631f43f149245f62d739fee7d8"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Materials.meta",
+      "bytes": 172,
+      "sha256": "8897d851c275158ae3972ff0e7be26155b7de9526221b7eef764525e675792a1"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Models.meta",
+      "bytes": 172,
+      "sha256": "66bd37670de1280d484270e8d85a7c3734806feef86611533a505ab9032d4bbc"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures.meta",
+      "bytes": 172,
+      "sha256": "cfd4e5a7d328a0499fdc10b640e14e172ccd2ff49b17b61a361d31795a3cdb57"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Animations/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Materials/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Materials/OfficeDesk_Imported.mat",
+      "bytes": 3790,
+      "sha256": "7ab85aee8b3d460fe1504caf9fe1e74d6b7cf869ab6606a9316334e928a95299"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Materials/OfficeDesk_Imported.mat.meta",
+      "bytes": 188,
+      "sha256": "fec88864ddb5c123bd32edad4ea43ccf189f33ebca251f47d860ddb1a9860c96"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Models/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Models/office-desk.fbx",
+      "bytes": 1154604,
+      "sha256": "8b9ea649c16fb43cbb255609dde1ced922fdb4aaad96480735ae57089eb361c8"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Models/office-desk.fbx.meta",
+      "bytes": 2830,
+      "sha256": "b1eebfd9e23220e2c38b1073e34884165ed68d49207c191762039a530a857cbf"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Models/OfficeSceneNew/office-chair.fbx",
+      "bytes": 1195612,
+      "sha256": "45e12ac98e4aafa65e8a26ba7d15eb04fe2adde1c9bf4a710007fc896cb19d6f"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/office_desk_3d_model_basecolor.JPEG",
+      "bytes": 254390,
+      "sha256": "e8a7014465ca3b06dc3ea69d24c9794dfd9b280519ed438bbfce3eec1feaf11f"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/office_desk_3d_model_basecolor.JPEG.meta",
+      "bytes": 2591,
+      "sha256": "d2d8eb9a29b46058991f116420a1b166ace494a3dd5818d98c1149639cd1d3c2"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/office_desk_3d_model_metallic.JPEG",
+      "bytes": 116695,
+      "sha256": "a9c8552d23e7d2d07d5af666ae05c2133408fd422b838cb9614aaa4bb8d6b442"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/office_desk_3d_model_metallic.JPEG.meta",
+      "bytes": 2591,
+      "sha256": "433e5b2cd177a52aadf36aafc497a1b759c4e0a0f45b8c1cedd0c51c53fad1a2"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/office_desk_3d_model_normal.JPEG",
+      "bytes": 62224,
+      "sha256": "e4ff92ce05d31c0657d0e9529eedecdbda3bef434f4fba22ef549d712c8cff25"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/office_desk_3d_model_normal.JPEG.meta",
+      "bytes": 2591,
+      "sha256": "77daf6982fa3f4be63e957a91e898546e2f75ac7fb726edeffd0e48fc61f75d9"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/office_desk_3d_model_rm.JPEG",
+      "bytes": 401529,
+      "sha256": "083dce59ad278d0ac09f76dc6be0d4e13299e0fdde08b2f5bc140ec1c6adb328"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/office_desk_3d_model_rm.JPEG.meta",
+      "bytes": 2591,
+      "sha256": "b2c77c1df1a1fd5adf2804b1eaa3fa3b06a8fbf33925399228f4142ad5a5e0f3"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/office_desk_3d_model_roughness.JPEG",
+      "bytes": 121875,
+      "sha256": "d22d90dc64231381a3698844a6b95358a2e30bd481723315abf6da516d73bb4f"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/office_desk_3d_model_roughness.JPEG.meta",
+      "bytes": 2591,
+      "sha256": "93f6064ceae23ee5f1a119aca7456a512af529598eb28d8cd129c28fb7f0aa6d"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_basecolor.JPEG",
+      "bytes": 202619,
+      "sha256": "28e32746405ccc9c5982f6265430cf03287b74d6eb61df65c38f348553f0dd3c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_metallic.JPEG",
+      "bytes": 101314,
+      "sha256": "15737a61c812a125a23a9dc7ba84be858300209c8e3617616a549b8c7820e2da"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_normal.JPEG",
+      "bytes": 83487,
+      "sha256": "37b22cf6863223e97d4e298b5043c10512aaf3bac259f00cf493e7954810c4a0"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_rm.JPEG",
+      "bytes": 335186,
+      "sha256": "c48df41269509c37f03930e7e9ab6fbc7edfc8fbcc96ca0cfe5996a38e97de78"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_roughness.JPEG",
+      "bytes": 104908,
+      "sha256": "cd9b08c3f307049bdf60f07022077ddb79fc6331e02916b7709308e79f027868"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Audio/BGM.meta",
+      "bytes": 172,
+      "sha256": "3d0acd651be99f06ad5b634231b374da2a112d89128e934b0b42cb340717ed6d"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Audio/SFX.meta",
+      "bytes": 172,
+      "sha256": "7661d73ae15be38299fe64c0a719228497da1efc579f45272e3801a6afabbe2f"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Audio/BGM/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Audio/SFX/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Editor/KuTyOfficeChairSetup.cs",
+      "bytes": 7369,
+      "sha256": "5354a31c2090698dfc8295115fd428cf546025b1217074c62a38b0829d05fb9b"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Editor/KuTyOfficeSetup.cs",
+      "bytes": 24969,
+      "sha256": "bbcc340d548ab00315fc4ddead119a95e8a4ef3319cc423c5de79f03176dd701"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Editor/KuTyOfficeSetup.cs.meta",
+      "bytes": 243,
+      "sha256": "1b3d890f108e2b83bdfb21e6138d518e9dab171474f2849adb0bfefb16d142da"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Editor/KuTyProjectSetup.cs",
+      "bytes": 34369,
+      "sha256": "a15f31e6d74838409ec00606470fde1719c0cbb0aeb41e86dee475c49387cc80"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Editor/KuTyProjectSetup.cs.meta",
+      "bytes": 243,
+      "sha256": "d9e9fe71cc781e3182b3ea49d2e861654cfccc92810d44ef048e98716ffb998c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Editor/KuTySmokeTests.cs",
+      "bytes": 14868,
+      "sha256": "f6bd2a75df335a8b7a7df458580086f8de84d08dfbe3c215fe54d3a753b180f3"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Editor/KuTySmokeTests.cs.meta",
+      "bytes": 243,
+      "sha256": "ce4b79ba1a2794eb89b6a5c8c3a9f57dab64452bb506fc78afeb1450fa713d01"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Editor/KuTyStorySetup.cs",
+      "bytes": 13367,
+      "sha256": "23dc6db9521a2795db94d9a7d65456c0137791e2dab57b078bf9be242769e03a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Editor/KuTyStorySetup.cs.meta",
+      "bytes": 243,
+      "sha256": "f3071dfcfc706e35d39a3a62f8af9290eb6024bb632770eae063ed441a1641f4"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Blue.mat",
+      "bytes": 3610,
+      "sha256": "4b7c27d67ca861ffe8878023c7bcb396d806ba286f544f6a0ad7a919a5f0f339"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Blue.mat.meta",
+      "bytes": 188,
+      "sha256": "1959a4ac47c263cffc86ff56e33b0db85a6ddaa3676cd79f08ae77f5912b968b"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Clean.mat",
+      "bytes": 3613,
+      "sha256": "2c38770a543a44024898ed443a7d58bf5295fae46b4ac2b3046fe81763edef18"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Clean.mat.meta",
+      "bytes": 188,
+      "sha256": "2ba33bb4fa5fdbe5e858192d3bebb140f97bec3c84186937e50cfe02856c99c8"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Complete.wav",
+      "bytes": 11068,
+      "sha256": "c5f7a1588d3420feb748d82232649ea743b1b2abe299dcc34b7331c522a0f049"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Complete.wav.meta",
+      "bytes": 485,
+      "sha256": "6f93ff4b2d3c5f0a0e72b085a9c1c1380fe60cf42756ba31765bb6242347e84f"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Dirty.mat",
+      "bytes": 3612,
+      "sha256": "f43aa0d0135f7c7c93f926d687cdb649b2a5ac345c2da6666e3e207b293cc897"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Dirty.mat.meta",
+      "bytes": 188,
+      "sha256": "9a8d33b267f23249695d70f3e9f9c0fca6f117cc5464df9ee01a9df4a80762d0"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/DishClean.wav",
+      "bytes": 11068,
+      "sha256": "c04b18434ec89e46fdbf2ac903c0543372a71ea5c8ae79fe99f772c07cc4fa78"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/DishClean.wav.meta",
+      "bytes": 485,
+      "sha256": "82d191c8e535216f6973d63b5f230f65431a92441aa8b89a559adf0da3bf9b6c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Ground.mat",
+      "bytes": 3612,
+      "sha256": "d8e75d65c755cc2caca086e4f05f705cd43dcd79b27bcaded24a3980f7a0cec3"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Ground.mat.meta",
+      "bytes": 188,
+      "sha256": "1f53f49e458d30fc62c13fdbdedb4f10c078fad26374f46417839b82367b61e0"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/MarbleShoot.wav",
+      "bytes": 11068,
+      "sha256": "59eb7834d25492cf51e6335118af0105c11f255c74daaef2ff8371836c56911c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/MarbleShoot.wav.meta",
+      "bytes": 485,
+      "sha256": "4b057afdd0432c20ab88139f2e9a18424e14089117580f74a1ea6341f43a324e"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Memory.wav",
+      "bytes": 11068,
+      "sha256": "56d18f5523043d1563f3e02839bb9b222607e28d589f814a3156b0d64814d3c5"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Memory.wav.meta",
+      "bytes": 485,
+      "sha256": "891ba7bd2b890345a9d6a58914070eee13a2b26e90fde8dc4702d3db24771e72"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeCar.mat",
+      "bytes": 3618,
+      "sha256": "a9022740f24f4031f90ab6fa0bafccd2c63a085b2051fa547f42dae97b95ce89"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeCar.mat.meta",
+      "bytes": 188,
+      "sha256": "afaf9f2015ca029cd4d29be5c50731734c5476381b80f7ec07236bb719a232f0"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeCity.mat",
+      "bytes": 3618,
+      "sha256": "1541af791a73ffa5df3a590b3af160dfc5f4310afe2270a5eda567d85bb7f757"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeCity.mat.meta",
+      "bytes": 188,
+      "sha256": "3bcd044784c6603a652288c7e5edec56df386f2060cc872bd46473a24f1e2026"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeDark.mat",
+      "bytes": 3616,
+      "sha256": "05b6072a3053e319c424cfa376f553e23714a4d8df2d2ef19f978678bcaf34b6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeDark.mat.meta",
+      "bytes": 188,
+      "sha256": "5c537e3a9dc68082aa6e75714cde6bd01b1d412d37e3e7f4e1ad624667423d2c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeDesk.mat",
+      "bytes": 3616,
+      "sha256": "23aa5c4325c1cbfad3717b3ab70d9ec070e0a12213cd00845d764e286a819624"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeDesk.mat.meta",
+      "bytes": 188,
+      "sha256": "33f8f2f884a646204be565e18364c7e46eb4da8c55a3aa232baabf812fe58ba1"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeFloor.mat",
+      "bytes": 3620,
+      "sha256": "fa32fd123abfa20051def59c9a79438c6087293a22d6151ca6077bc9af9ef041"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeFloor.mat.meta",
+      "bytes": 188,
+      "sha256": "0ad855be8ee8b841e1b91e22e2c9160b554543450244ef5efaa23294fb431639"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeLight.mat",
+      "bytes": 3613,
+      "sha256": "3794aea3faced3154b7462a97a9935434822b409df9001148c4b6a02e23933e1"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeLight.mat.meta",
+      "bytes": 188,
+      "sha256": "d9a9854410a451a5c3cb7236a03af69d49e42c2bdd333ed34cc196b387970dac"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficePaper.mat",
+      "bytes": 3619,
+      "sha256": "21b103cf3b4c8b395decc36bf6b5320ead3644dc85d4e8640a33b3b7097df75a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficePaper.mat.meta",
+      "bytes": 188,
+      "sha256": "16d400efaac46b47c00f9208eba3c24b3ca59c927721e542778a3ce8ca4f2087"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeScreenBlack.mat",
+      "bytes": 1719,
+      "sha256": "92275995961c1915e0dcf2919e721f255d38788c5e0e26f7cdb57e7c730ae59f"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeScreenBlack.mat.meta",
+      "bytes": 188,
+      "sha256": "0f9cb6a6d2443a7232fa10d267e67cdfc911e5c74f48c3a1c84d07de858a8b7c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeWall.mat",
+      "bytes": 3619,
+      "sha256": "6c47d4d947575a192fed3e9d115b99f1202b5a449eb6435cf7ff681dcad750ab"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/OfficeWall.mat.meta",
+      "bytes": 188,
+      "sha256": "bb8ad4c0efe22ecaa7978ec6b4eb0e73eda5070967ea70650458363f0f11a33e"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Prototype.ttf",
+      "bytes": 1045720,
+      "sha256": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Prototype.ttf.meta",
+      "bytes": 470,
+      "sha256": "68f4bfe5141910995523b2e02bc868a8d569c0bea0b40507c8146b5881f56834"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Purchase.wav",
+      "bytes": 11068,
+      "sha256": "01cd5edc09f1179401ecf6dac45f13de1cb591bc00e90f569059385ab554ff87"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Purchase.wav.meta",
+      "bytes": 485,
+      "sha256": "b16668b1ad308fc67223db992dc9a0210361681f72f697399cb0062f9e2b0ff4"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/PurchaseFail.wav",
+      "bytes": 11068,
+      "sha256": "04a109d3edc0cddcd4e212d0374d6d0f724df882f1f085b7580af479d6ba6acf"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/PurchaseFail.wav.meta",
+      "bytes": 485,
+      "sha256": "c9d854b05c7fca0ecadffc4a719e23501140b1db88ddfc196e82916ff98deb60"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Red.mat",
+      "bytes": 3611,
+      "sha256": "62f86bac7fdc852abc79ad1abc488b84f12a1d91787e397cf9b31bc041e887e1"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Red.mat.meta",
+      "bytes": 188,
+      "sha256": "26d0ce45d6cc0e2f40c3505cb1d44cc4e1f4a42eafd97ce5af062dddd0d7bf20"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Renderer.asset",
+      "bytes": 1706,
+      "sha256": "008eff0d512b684eb09caa04cff390b8a1c5d433ec7d91c0eb1c43c404de5ebc"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Renderer.asset.meta",
+      "bytes": 189,
+      "sha256": "807d55e9df42775dc6574e9723432cda964f07b1edda42235a4143f40bba185b"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/SoundLibrary.asset",
+      "bytes": 1240,
+      "sha256": "1905b13701ac830f5f08eb89f20954c6db4e41c13313d7e77cd13a2a876780ad"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/SoundLibrary.asset.meta",
+      "bytes": 189,
+      "sha256": "9f750f092b00810f0e52b36a2c2fcdfdac128f822da5233351ada5a3af1c6111"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/URP.asset",
+      "bytes": 3636,
+      "sha256": "9079a3a4123ad67a0bb559e72fabbb6bfa7af1dcb9a74d4efca77316bedea41b"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/URP.asset.meta",
+      "bytes": 189,
+      "sha256": "e485ac085824341ef03cb45a2ba6351ab95ac14dec679ef1e67cafd190a14765"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Vietnamese.asset",
+      "bytes": 2246669,
+      "sha256": "68fd20bda5c6be848526d7ddcb74c90c044c05551b8f20c8594bb91ba7c772ca"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Vietnamese.asset.meta",
+      "bytes": 189,
+      "sha256": "e13f904cb4f4aa8e00d40ed755260d27483cd8a874106caa85651db16f5c1461"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Wood.mat",
+      "bytes": 3612,
+      "sha256": "65a5c76f89c8dad7e2d22aad59c5b2d730b2f89b4f11e53a715536c1dc5a6692"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Generated/Wood.mat.meta",
+      "bytes": 188,
+      "sha256": "ed3fb7a8ac3f356bfe60fb7f420a4177da15dea1a1dfd4d470b1b1ff4140827c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/Environment.meta",
+      "bytes": 172,
+      "sha256": "bb6cb9ab91ccf141f422a62151ff8544738a4787ae274bfcd0bcdb77ecb924e4"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/Interactables.meta",
+      "bytes": 172,
+      "sha256": "d29befe0d544f98f0eaa2d6ae5ed74297084f1e490294ef01b954b828e0c80b7"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/MiniGames.meta",
+      "bytes": 172,
+      "sha256": "ccf7c01a803602f46bbe956a8a7f687b94c97df796e489396c0dbbe0ecc72c9f"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/Player.meta",
+      "bytes": 172,
+      "sha256": "888bab11540b86e5b53311b370de86844c02b61cf4f4cabe38724013c24fa464"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/UI.meta",
+      "bytes": 172,
+      "sha256": "604e08491c2299ea43bc65910e97ce397c3ed0572d1a5bd63e4dde5935486087"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/Environment/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/Interactables/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/MiniGames/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/Player/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/Player/Player.prefab",
+      "bytes": 6454,
+      "sha256": "d273e084848a3214f236e32490d496eed303c020e138dcc08e57b424e9c3db96"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/Player/Player.prefab.meta",
+      "bytes": 154,
+      "sha256": "daad302b6f2a7049df496124129074fb6c5cbbde7b51b4cab3dea2a74ea0a410"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/UI/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/UI/ShopItemSlot.prefab",
+      "bytes": 22168,
+      "sha256": "137c9f7d30a57193fd7548a428ab62b4abc437cb4e492aaeef34934fdc86a324"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Prefabs/UI/ShopItemSlot.prefab.meta",
+      "bytes": 154,
+      "sha256": "2c985b805a2954bec14ddc90dff344c9ad130f83e8b2cfbef777c7ad6fdac207"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Resources/KuTyAudio.prefab",
+      "bytes": 7882,
+      "sha256": "67590cf25fbcbbd3a75f4b784592472d5b05d58fa25f4873fffaae36f66fb841"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Resources/KuTyAudio.prefab.meta",
+      "bytes": 154,
+      "sha256": "e9086cdf6a7460f898f699ed0b4f2987a28a4b8d3755f264cce66019b3680eab"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scenes/.gitkeep",
+      "bytes": 38,
+      "sha256": "ba517e37c091c13ed85681779ba92a669b48fe6f6119d1a81dc340a9f4c9fc5c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scenes/Act1_RealWorld.unity",
+      "bytes": 254306,
+      "sha256": "b3f55a67c92f7d9de3632062a15a18ee81751993bef3f66b0a17b4969f22c265"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scenes/Act1_RealWorld.unity.meta",
+      "bytes": 155,
+      "sha256": "33538b9a99bcd7c38eefd4f99bcd1efd7c04d7f7320937c974d33bb4e0860124"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scenes/Act2_MemoryWorld.unity",
+      "bytes": 275071,
+      "sha256": "771b78d7ce4b3c9bad687415da4968b6cd241cc63b7d0df3c014e27706412a7e"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scenes/Act2_MemoryWorld.unity.meta",
+      "bytes": 155,
+      "sha256": "301d9d299ee1841db07b024926e242a8c9ab81840b91aacc9422caf1b371da25"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scenes/Act3_Ending.unity",
+      "bytes": 40776,
+      "sha256": "d6c480fb2462a9c884a6fd2aefa758eab49b55b3c3e785cd0482659932c46f9b"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scenes/Act3_Ending.unity.meta",
+      "bytes": 155,
+      "sha256": "bbc5677a373206a96ddde326dbd863b0e37430493f7fe60b4879320a916828f3"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scenes/MainMenu.unity",
+      "bytes": 40341,
+      "sha256": "9c48e72fd9961acdc5af505b8bef4321745f255d5ed90fd7b72dd70af133c631"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scenes/MainMenu.unity.meta",
+      "bytes": 155,
+      "sha256": "6011eb8773336488112281fb56fb09971fc0f62b2c990939d980170d37bb964c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/ScriptableObjects/Audio.meta",
+      "bytes": 172,
+      "sha256": "e022da5c2cb8ccfe0e24948995d4ce1ecdea578b875fecce8bf2121a1e398f8a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/ScriptableObjects/Items.meta",
+      "bytes": 172,
+      "sha256": "64e33461b48e4c06956a8832772c1537a1ab6038f083a4a2d701476364d099b2"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/ScriptableObjects/Audio/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/ScriptableObjects/Items/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/ScriptableObjects/Items/Item0.asset",
+      "bytes": 588,
+      "sha256": "874e1cf57c5705cde21cf0a62e6e4ffd8ad3ea74d820290e62123323a787a73a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/ScriptableObjects/Items/Item0.asset.meta",
+      "bytes": 189,
+      "sha256": "8393002782b0d4782900ff222ff0615807dd4370f84658ce0cdd0b813be879c3"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/ScriptableObjects/Items/Item1.asset",
+      "bytes": 570,
+      "sha256": "a948b4d0531c4f341c8c475f22cdcf488d444a7df8b03fa8a3c819463cae8bcf"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/ScriptableObjects/Items/Item1.asset.meta",
+      "bytes": 189,
+      "sha256": "69daf3fe69ce25aba1f74164f5131d3d859251cc443a01e5c48b0ed830ad387d"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/ScriptableObjects/Items/Item2.asset",
+      "bytes": 557,
+      "sha256": "72dc9df9180c5fac418c481242d1291f1d49941bb70721a8ef420ce62f1a8620"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/ScriptableObjects/Items/Item2.asset.meta",
+      "bytes": 189,
+      "sha256": "b291496791bcedb9ce7d4a2753c01ac608d121798764cbfb5b01e7a43deef810"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/ScriptableObjects/Items/Item3.asset",
+      "bytes": 581,
+      "sha256": "f6ed42e43e27880f1f21b14311c530ed61807b5908215cc13a1550c029f9dd18"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/ScriptableObjects/Items/Item3.asset.meta",
+      "bytes": 189,
+      "sha256": "a3b187dd063adf9e6325f179646df3c7630fa1cee4d484f06bc6929fe94e6593"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Audio.meta",
+      "bytes": 172,
+      "sha256": "a4b69422b455b88c7e390d52183c944c0ca054129416dfad1d3ef301a844ee3b"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Core.meta",
+      "bytes": 172,
+      "sha256": "f1631468084f0fbf8d35674fb2ce45298772e23e48ab37e10e2e8b997016f341"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Data.meta",
+      "bytes": 172,
+      "sha256": "1a589be8fbb9710de7209a47873e0416ccf2ee5ef30661373d5530fb7535e306"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction.meta",
+      "bytes": 172,
+      "sha256": "315a8f7adddf6ecf3dc2e3b7d2184a7623d5ded5fba5d2030612a6632a6b036a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/MiniGames.meta",
+      "bytes": 172,
+      "sha256": "548571e0d28fd3df21d1600bce93ec7d431773453b3a8138ad44eab795d1a077"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Player.meta",
+      "bytes": 172,
+      "sha256": "a48ad560ca38cd12687a68237348c70485c029a3feeb3bc055874df83a89693b"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems.meta",
+      "bytes": 172,
+      "sha256": "c759a7a60a59daf4b10d512f4fb6008d5af3192834a0e90b4c28ce1b81e3b97b"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI.meta",
+      "bytes": 172,
+      "sha256": "b20db5da3e9530f0596ab14da846476cc8a01217c94ef8a5a524ab1e0e29756a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Audio/AudioManager.cs",
+      "bytes": 6975,
+      "sha256": "92e385c344db174d073ce4b61d91449b70cfe8d09340dc63b7a73443ae633a5c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Audio/AudioManager.cs.meta",
+      "bytes": 243,
+      "sha256": "d12cf11e03caf3f097ffac5a4efa18bc00d1dfbc9430a2bd76c24e26e843be81"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Audio/SoundLibrary.cs",
+      "bytes": 1814,
+      "sha256": "32cb91f3d7a8b0d4ac3a2adfebf8dd30ea9e588912bc178cff0d9083c2385ac7"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Audio/SoundLibrary.cs.meta",
+      "bytes": 243,
+      "sha256": "7baf0e4045e7fc1a418c07ff14e4890010ccfecd316b0c391fad1fdb98ecb623"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Core/GameBootstrap.cs",
+      "bytes": 606,
+      "sha256": "d0bd47572ccf7f82b987d7bc039c6f27ad9bd332c28477935fa0e10c82d2a834"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Core/GameBootstrap.cs.meta",
+      "bytes": 243,
+      "sha256": "7720a1c44d467d9b413109417c6210c8cc0f3c853103879221457c0dbe996a3a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Core/GameManager.cs",
+      "bytes": 3247,
+      "sha256": "7900b88663bb9c770c01b09282187675a33059f314db9df7fc22eff7fed15826"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Core/GameManager.cs.meta",
+      "bytes": 243,
+      "sha256": "e9ca2fbefa5f3fb60bfd389f84daddac1851cc7c7ba6ba81ff59300ecf3cf185"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Core/GameState.cs",
+      "bytes": 444,
+      "sha256": "b2dca0a7b95f368478efa4b186c93529cfebf963ee845b2f327460a6642e7954"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Core/GameState.cs.meta",
+      "bytes": 243,
+      "sha256": "3ae2c1ecc703dc9e8147e339bd6ab1a259156605d33c94826ab71801cb1b5bc1"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Core/SceneLoader.cs",
+      "bytes": 3085,
+      "sha256": "e035320875855f2e1e8689e33401d3c63ebd069f98bc68f4b2c508b0cf9a982d"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Core/SceneLoader.cs.meta",
+      "bytes": 243,
+      "sha256": "3944d3bd6db214d3295976890b65249fa23fe8a2ec64937b7964493cfcfe5761"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Core/SceneNames.cs",
+      "bytes": 229,
+      "sha256": "a0ed5f818200f594d2f2ce1a8f27e4df79dce01c8e750972accab74d35591eff"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Core/SceneNames.cs.meta",
+      "bytes": 243,
+      "sha256": "b082f7c2a23188077edf9fb0aa804128268e237e8ef772260b8ca3c9c808592e"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Data/ItemData.cs",
+      "bytes": 1193,
+      "sha256": "ab8ad3be49fc6cdac62f5d41020d5d8229a9c3705b9747f8dc02c82de00fbe20"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Data/ItemData.cs.meta",
+      "bytes": 243,
+      "sha256": "bda151a294b65b318b37dcfaaff28b760775cbaa50fb6e647b14f59b238880d4"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/ChainedDoorInteractable.cs",
+      "bytes": 1558,
+      "sha256": "0c75661684b1ee8fd2374a9fa3c59effd180f49c5f9898929311c6b6e031cc91"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/ChainedDoorInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "43dfe07a4125bb3ea7b20f715584c58edf7913a51caa5ddd1ab268522b67cdf4"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/DishInteractable.cs",
+      "bytes": 533,
+      "sha256": "5398853f36f6cd7df2f7adc0c17c9c9e8641844ecdd59127f4a8cc4352ec9e22"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/DishInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "5eafa083c0673200f3f6d1d0bb9c9e97c9dd1e9290fb9c4f1240c05bc75e981c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/DreamKeyInteractable.cs",
+      "bytes": 616,
+      "sha256": "e1139449dacdbccdf638466231401ab91f5bb142b19bafe4f167ab6790ce7c97"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/DreamKeyInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "e80c130dd7ee1e7487f67280edebb6cc04ea1b1fd3c6f829af896187315db17a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/IInteractable.cs",
+      "bytes": 959,
+      "sha256": "40d1fc8d65d7757412be95a67edd4fa3c30d0796e435fc7197c1bc527a7fbdf4"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/IInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "231297598bf5dd0fb04abcdca37d0f3ebfd87992fe4ff612a7ae612f4f6c8473"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/InteractableBase.cs",
+      "bytes": 1852,
+      "sha256": "bc0ba1f59f35d0260e4a2baa829ba22163acbedace7b2a6e02795001be2e3c15"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/InteractableBase.cs.meta",
+      "bytes": 243,
+      "sha256": "89ec9d7574971743fbc60cb16a1cd9fe3f0adae5fb320b27d2cb8e6e4f3d909f"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/JournalInteractable.cs",
+      "bytes": 1156,
+      "sha256": "830874269f78bcaa392b55b6b20be9418a105818d86cb38a78d3a994b150d066"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/JournalInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "279d6fa11c81d343b35b8e416a7c1f260194bc3703425a0f89799a8aa93b25e5"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/MarbleInteractable.cs",
+      "bytes": 511,
+      "sha256": "06ebda672fe4eee0824bfdeb5765ea3d5d5e0a5e16a440b6f0a2fa08f769a5f6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/MarbleInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "bacc60c2aaaa40d342ca41826f6fc14b87f5f325ec6328bc05dc1913978e0939"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/MemoryTrigger.cs",
+      "bytes": 1057,
+      "sha256": "1598522fe016c7cf38271dcdb0dba7720ce806c6f110a09f06383f43f267e159"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/MemoryTrigger.cs.meta",
+      "bytes": 243,
+      "sha256": "a76a3c003badf9ff7dc78580942aa2f6a21bfd06c9e6c1699888aa5fdaf72a86"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/OfficeInteractable.cs",
+      "bytes": 412,
+      "sha256": "f504ab23f3d3069e0c3914517f707130cdb06306c1ddb6090b6c0e047147710c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/OfficeInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "9008bd9575fc7ede0938777f41459eb38de132a438bbf36807b8cbff2476af2c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/ShopInteractable.cs",
+      "bytes": 981,
+      "sha256": "3519a3c9f3270102f6b13e874da7681b5a2940fe731d2396a5535ad9634453ab"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Interaction/ShopInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "6103517ae1974d164d7cd99c54eb72045f1f14a581c2024df75594d46c63e222"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/MiniGames/DishWashingGame.cs",
+      "bytes": 3430,
+      "sha256": "ba4fef2d46f21897a9f4d119a1e1d94b0e510fa5d33fb8487094c255694a6512"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/MiniGames/DishWashingGame.cs.meta",
+      "bytes": 243,
+      "sha256": "89b349cb7410b4acb73554d46993b900829c7226599b64b2c66d369c72436f48"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/MiniGames/MarbleShootingGame.cs",
+      "bytes": 9555,
+      "sha256": "09eefb69f53f1b552fe3c34ff1c59d296c0b9c5697e0aab93c15fa7ff0bd7f00"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/MiniGames/MarbleShootingGame.cs.meta",
+      "bytes": 243,
+      "sha256": "0d62686a8a92b5604f056f7c8accdbb9672eb0b79dc7fe0cbf7ce3ac6adac161"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Player/FirstPersonController.cs",
+      "bytes": 5629,
+      "sha256": "02e6d8d91de39828259261e4c565e1e94285132f69f538896a85e6bf77fe64e3"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Player/FirstPersonController.cs.meta",
+      "bytes": 243,
+      "sha256": "3e1a83a43cf2014874481ef9ae8cbf041d56c2e933f6213b72968db57e9176e0"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Player/PlayerInteraction.cs",
+      "bytes": 4693,
+      "sha256": "e7f6567a94acbcb018ca7f3e964915dcce6195b29cc72cc4a32723d966642c64"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Player/PlayerInteraction.cs.meta",
+      "bytes": 243,
+      "sha256": "12ac9bfda4cdd340943b7b01310bb8066d6684297da790874edf07e0158c61e7"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/CurrencyManager.cs",
+      "bytes": 2912,
+      "sha256": "0a0a3eb6c262fc28a4e4582306d30a4948c6acc5bab5d24933801678cf6dd6c0"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/CurrencyManager.cs.meta",
+      "bytes": 243,
+      "sha256": "aa8d95d63c0876743584035d976679a8ed99681a8f1f755fd53389e9ac836d33"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/DreamKeyController.cs",
+      "bytes": 822,
+      "sha256": "0d11ab154421017cf4850db7981927e3fa14d273ede17f34caf2c1757f62c2e1"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/DreamKeyController.cs.meta",
+      "bytes": 243,
+      "sha256": "d623581e7afa4d1d7a11e38bef4ec6544293fe9b98218d5754c77dd4782d73bc"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/InventoryManager.cs",
+      "bytes": 2838,
+      "sha256": "e7d3198b769292e81751aa3d392c541d805ba299abcf7cbaa3a492057cccc60c"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/InventoryManager.cs.meta",
+      "bytes": 243,
+      "sha256": "ce5817aa83b23747960e57deb5ca092a355e3c9c6d827c026eaa1b3341cff09a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/MemoryCollectionManager.cs",
+      "bytes": 2464,
+      "sha256": "e250635537ab2756d778ba46ce4d53a8d2e44007cc1b9cbc0fb38795e1d56cbc"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/MemoryCollectionManager.cs.meta",
+      "bytes": 243,
+      "sha256": "41d64ccfd5667719949ec57d99392b281fec0bbafaff3f4fa5d51eb00352d95d"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/OfficeAtmosphere.cs",
+      "bytes": 4631,
+      "sha256": "a8634f4da48a2867916b4b742c3f5083b81058f4f335b21d3a2c3a7970e338b2"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/OfficeAtmosphere.cs.meta",
+      "bytes": 243,
+      "sha256": "d583b663c966e839972ffb893a2b84b6bb5e93843841bc921ea86c30998e55eb"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/OfficeSceneController.cs",
+      "bytes": 9235,
+      "sha256": "335e327f1283136f92e6350d420cf22462a185083fa7deeff0bc8a2a4af1d07a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/OfficeSceneController.cs.meta",
+      "bytes": 243,
+      "sha256": "c3af10feffe0bb3ecbfe99531ad0ad618bc52e580aedbbbec52118d7419fcf44"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/OfficeStreetMotion.cs",
+      "bytes": 1835,
+      "sha256": "8f59e14d04dc21526e9a6e7c3379d7b8d1eba5e3f2a3aba787af895b6e33f7bb"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/OfficeStreetMotion.cs.meta",
+      "bytes": 243,
+      "sha256": "ed2fc1398f5daade9289f8f392850f2ec757781b74c9786a266d9799c45d944f"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/QuestManager.cs",
+      "bytes": 5406,
+      "sha256": "2e388bae304d5ca4329f07537a13c6ac34897405639c010cd16805099fbacb38"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/QuestManager.cs.meta",
+      "bytes": 243,
+      "sha256": "8371ee43d5f02784105b35d944ecd338312c6b124a949d4b4ff600431b3b00ca"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/ShopManager.cs",
+      "bytes": 2291,
+      "sha256": "62b7c1aacc9d2408d52aaae426cb6a99f30dafa0d2bde8d261b348ab52dafa68"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/ShopManager.cs.meta",
+      "bytes": 243,
+      "sha256": "dda816b7bcb035a9241140f66aadcb1c3eb01f45ac171cf18a32daadee97c065"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/StoryPrologueController.cs",
+      "bytes": 2427,
+      "sha256": "69f4bd34b71be559745427aef332de116af2ab183762e0c056a6ed6fe1712b91"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/Systems/StoryPrologueController.cs.meta",
+      "bytes": 243,
+      "sha256": "0468107db36bd92a3291b626ff1509154f18ef2c46e649eeff950d8ef31db7f1"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/DialogueUI.cs",
+      "bytes": 2717,
+      "sha256": "27428cb16712f299743b8e2d534318dd44e5c8b675e32efb56078b1bd2fb8eda"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/DialogueUI.cs.meta",
+      "bytes": 243,
+      "sha256": "43fb9e893dd62a548b4332e801130bb79dfae310c793a7d67d066a7e493e073f"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/EndingUI.cs",
+      "bytes": 2050,
+      "sha256": "7adfa412bc72d1993cbcec6fd7df33d15f0695d4b6d1758eda424c84ca04593a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/EndingUI.cs.meta",
+      "bytes": 243,
+      "sha256": "342f9265c6977de772979abd9c178f9a1d51d9cbaf15704ba6486043ae429ad3"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/HUDController.cs",
+      "bytes": 6407,
+      "sha256": "62d74e3576579838408e129cb34e8bd645ce6829d44654fe0c4650dfda1233fe"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/HUDController.cs.meta",
+      "bytes": 243,
+      "sha256": "11611015d1d35398165a851de9f9a1dbd28a46442e2154696e28f2cd6b997ad2"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/JournalUI.cs",
+      "bytes": 3012,
+      "sha256": "8b12923da4505184560d20a9c874ce890837b6505de5c57c88e0928c02a9590a"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/JournalUI.cs.meta",
+      "bytes": 243,
+      "sha256": "fc7ba1bdc5a5d4937fe59a4cda07c9c3315b36aa022bdcf21d8ecc5dd03d08e6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/MainMenuUI.cs",
+      "bytes": 1313,
+      "sha256": "8b88ba924dbc6486f2bbb0f88fecce9ba5d5a56d540409830e1ff85ced5d4f7e"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/MainMenuUI.cs.meta",
+      "bytes": 243,
+      "sha256": "c47e8d7b263753a1b65a7e5096ebf9b3bc1dd4d836f6583d102469989b268c3e"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/MarbleAimUI.cs",
+      "bytes": 2776,
+      "sha256": "4368ad9e44b07136497d29312d265c4d51b53809ef48aa5e208eb354d7781232"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/MarbleAimUI.cs.meta",
+      "bytes": 243,
+      "sha256": "b91af7c755712997e95116031b54a6ecd5ec2b4dd5994d05239d06a6eb040248"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/PauseUI.cs",
+      "bytes": 955,
+      "sha256": "168ef9a75351fb5cc30d9ffc6ee312071d99d973b75dda8ef2ea0df5c4b07742"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/PauseUI.cs.meta",
+      "bytes": 243,
+      "sha256": "8c1efec8467a22226a8f71e5c87d62fd957e6f33e4bae38d8c1ff56791a86f93"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/ProgressBarUI.cs",
+      "bytes": 2395,
+      "sha256": "00194f343a9eec7e9af3eb08c09aeecb7c5bdec1647b587cc1f3cb2e4dc04f13"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/ProgressBarUI.cs.meta",
+      "bytes": 243,
+      "sha256": "da4a3af8818e771987ce85cf96fa4ffb96ab94d2a226800c29c2a2c7b44f69c7"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/ShopItemSlotUI.cs",
+      "bytes": 1209,
+      "sha256": "496876c12fd494316a624cb31a163ebe982fefa6c27feea7225801647e6d9a26"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/ShopItemSlotUI.cs.meta",
+      "bytes": 243,
+      "sha256": "dfdc52cfb517658828a350676ded3392f22ded0f689e69ebf9c6f9f0aeeaa809"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/ShopUI.cs",
+      "bytes": 3885,
+      "sha256": "1a330b88692dea5892626b5b16b9f1e858f48ccc42409fc13132bd580daead42"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Scripts/UI/ShopUI.cs.meta",
+      "bytes": 243,
+      "sha256": "20fd532e5a07856e27b648e1375bbc5ceae2d3bbf22e23825efe1cdf24bb0245"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/Settings/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/UI/Fonts.meta",
+      "bytes": 172,
+      "sha256": "0c938d7bbd857a1ee517d3156b82e772fb45f06d9da222228363ea654f43fe55"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/UI/Sprites.meta",
+      "bytes": 172,
+      "sha256": "c97a6b34393311ec26e0b76f221ece475ab79d2eef7c1c4c8e9e4a81f7ef86a8"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/UI/Fonts/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Assets/_Project/UI/Sprites/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": ".unity-validation/Packages/manifest.json",
+      "bytes": 1543,
+      "sha256": "71261a0f040b74ff4dbde674bf8ffafd7a0ae1e9f53bb9cc415d1fee817a6a8c"
+    },
+    {
+      "path": ".unity-validation/Packages/packages-lock.json",
+      "bytes": 8611,
+      "sha256": "623e5bafe45e32004250a56c34439fa8406bf21cee167b576f7f4186f297b31a"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/AudioManager.asset",
+      "bytes": 443,
+      "sha256": "9a554916fe138ebcad8443ee9b079363ecc72795c39d0e80f5f7ca99e2c6f5e7"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/ClusterInputManager.asset",
+      "bytes": 114,
+      "sha256": "40e65dd214bf254955d2c8829ca8ce2130fd3510485560ce012e9a1ddd93e623"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/DynamicsManager.asset",
+      "bytes": 1394,
+      "sha256": "62fd35da36080a098d3e9f90cf4af6c655fe582091c33e505b812cf9aa36fee1"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/EditorBuildSettings.asset",
+      "bytes": 598,
+      "sha256": "be84c9c6970ed6f79eb6eed249728256c0f2a76a9d4e277e8f77080be68d4f2a"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/EditorSettings.asset",
+      "bytes": 1502,
+      "sha256": "6f8761b516f06ff2f0373b6310571cf7951f63afb86c56bfd7be832e06a9987b"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/GraphicsSettings.asset",
+      "bytes": 2574,
+      "sha256": "bccd7a9d6040a40b9da0621976214876c1d661a31123180693b66a465f6da8d0"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/InputManager.asset",
+      "bytes": 9754,
+      "sha256": "60c83ae48e29a782141f99032eb38e803d18475124ff5224fbd1fd81b233f051"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/MemorySettings.asset",
+      "bytes": 1192,
+      "sha256": "1e8379a461b10ae09f3f696911088c16875d63e87ed5f2d95df9e1892703f9fd"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/NavMeshAreas.asset",
+      "bytes": 1361,
+      "sha256": "7ebbf8f53b8033104e1878b95ca07a28d0954092d81c220f14196a42f651e658"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/PackageManagerSettings.asset",
+      "bytes": 952,
+      "sha256": "6abe87b4264edd5241d1fd4e0c7516be432bdb849c5d568a040b598f73790ddc"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/Physics2DSettings.asset",
+      "bytes": 1635,
+      "sha256": "531861618163b01648a075414f6e864506ad8fe0a0d4d0096aa1fbbfcd3937dc"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/PresetManager.asset",
+      "bytes": 146,
+      "sha256": "29c125923fe6e29f90190d4fce1c82d660e7051546e2c9d02908d18c9cf2436c"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/ProjectSettings.asset",
+      "bytes": 19567,
+      "sha256": "dd8df0df22b9ccdaf877b0d09471fecabe956911d3b7c6bf8faba6c0d026e16e"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/ProjectVersion.txt",
+      "bytes": 85,
+      "sha256": "b51164d22c4d2716ba8aee7f0b59d6b7dd0efa8552fd1db2a8c3b123fae3a1ec"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/QualitySettings.asset",
+      "bytes": 9183,
+      "sha256": "944b52d523bcb15b945bc80924b9289f59185ab19bce8a00e99eec345bde6440"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/SceneTemplateSettings.json",
+      "bytes": 3534,
+      "sha256": "5baf593374ad67246277a435d8d0ded7167696eef6e05d2d245670e490625d8c"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/ShaderGraphSettings.asset",
+      "bytes": 490,
+      "sha256": "733eb0b08f2d9e57a51cef99c450140b18ddd101065cad1b9cde9330899ed8c7"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/TagManager.asset",
+      "bytes": 396,
+      "sha256": "343f0192fbb7a87ecc2894b067951e101b33ba3e8549bc143835452c5df13934"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/TimeManager.asset",
+      "bytes": 202,
+      "sha256": "1a83e54adbbda7c9f4851103a0c6ab7f6448a3343d4ea5b7620452fa08416ecd"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/UnityConnectSettings.asset",
+      "bytes": 943,
+      "sha256": "d6034acbef6c9e3179866486c31eab81fcbe5e7ed350ce71e0fa2b1449b77109"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/URPProjectSettings.asset",
+      "bytes": 410,
+      "sha256": "3e9d9f824875297ef6b9315fa7a3ac7ec1b047042395404a23c368fc971a8f3e"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/VersionControlSettings.asset",
+      "bytes": 188,
+      "sha256": "e7bda45bf7a394745fee1316e6c71fa676004d591ad1f3aa247fd3e4ceb86071"
+    },
+    {
+      "path": ".unity-validation/ProjectSettings/VFXManager.asset",
+      "bytes": 465,
+      "sha256": "3f31266c7c1910447586e71b041dabd58d8371715ac3142d3e38ace46121f4ab"
+    },
+    {
+      "path": ".unity-validation/scene2-curved-backdrop-20261019-142700/Before.unity",
+      "bytes": 564937,
+      "sha256": "65f4547be137ac33db23230035999294c22527828eb6421d7859f4ae23114c2d"
+    },
+    {
+      "path": ".unity-validation/scene2-curved-backdrop-20261019-142700/curved-backdrops.txt",
+      "bytes": 486,
+      "sha256": "70ab4df7d783ef8ae12d8b4fa3de877ff1e31d72a7805406058aae4e5073cc3c"
+    },
+    {
+      "path": ".unity-validation/scene2-organization-20261019-132519/asset-moves.json",
+      "bytes": 36925,
+      "sha256": "5a5a6b21013cc775e060ee52238d654d711aa16c4f66e79782042f2c568915d5"
+    },
+    {
+      "path": ".unity-validation/scene2-organization-20261019-132519/Before.unity",
+      "bytes": 562467,
+      "sha256": "5158153f46335b9a865f8a3c79ffec2e78222ac1a77ee818f9749cd82e04d3b0"
+    },
+    {
+      "path": ".unity-validation/scene2-organization-20261019-132519/hierarchy-renames.json",
+      "bytes": 4940,
+      "sha256": "8276ad2f18ad79db07e9fa25a4e8a1da11ff29f86c4af59a5b8cc2b59239a725"
+    },
+    {
+      "path": ".unity-validation/scene2-texture-recovery-20261019-133623/Bedroom.fbx.meta",
+      "bytes": 2939,
+      "sha256": "31afad388d9cbb60a5cab5be0e061b7683f44a5f182af5ac3e316cdf99e8a852"
+    },
+    {
+      "path": ".unity-validation/scene2-texture-recovery-20261019-133623/Before.unity",
+      "bytes": 562660,
+      "sha256": "3958473dc22c360b1248e67ba8a9cf007d60cf3c51e439c171679c8931a03241"
+    },
+    {
+      "path": ".unity-validation/scene2-texture-recovery-20261019-133623/House.fbx.meta",
+      "bytes": 2939,
+      "sha256": "339fb2c9fb5761c9641fcf1e30fa476504cd34608b45ed7253dc976add5bf580"
+    },
+    {
+      "path": ".unity-validation/scene2-texture-recovery-20261019-133623/restored-materials.txt",
+      "bytes": 7020,
+      "sha256": "eb61e3fa13ce9978d2d222f8bb69880eda2736142ee6b752fb9fc1fb98813a01"
+    },
+    {
+      "path": ".unity-validation/scene2-window-backdrop-20261019-141759/Before.unity",
+      "bytes": 567047,
+      "sha256": "f08f264a1073d7f15ede392d70e87bda2139981f81c6e322820e093cad7b9e12"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_00.mat",
+      "bytes": 3661,
+      "sha256": "27ee097cef3cdace03c2cd83ea3a32f17dc53e4f7c36aa54f8caaf107e583786"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_01.mat",
+      "bytes": 3662,
+      "sha256": "84a22af44aea793856fafe0827795cbef30ab6909d8cd17929c5cdb406542271"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_02.mat",
+      "bytes": 3662,
+      "sha256": "a32d4635aafafba43f968fb358ba2cb5971514ffa08b0d60503c90831def53bc"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_03.mat",
+      "bytes": 3661,
+      "sha256": "f939acb0501d704df1c59e90ea61e1814284a558f79875185110c1350a10b4e6"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_04.mat",
+      "bytes": 3662,
+      "sha256": "b29002253192a32c46b4b0893e6eca130f7c1206fe9a054a50625e6f8a7fbb92"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_05.mat",
+      "bytes": 3661,
+      "sha256": "c7b24664982a2cf091433fd82bab79d66b883598807123b4a7713cced72d3b6d"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_06.mat",
+      "bytes": 3661,
+      "sha256": "206854d257e42e80057843ea61f12bdc964ba044b876c3cc27e053b021a0135a"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_07.mat",
+      "bytes": 3662,
+      "sha256": "4440de43cfd9436a9d7c0423df63c5ed66d99f0ae9a552c4f977693afd4dcaad"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_08.mat",
+      "bytes": 3662,
+      "sha256": "1ced74b627f7ca8101da8c1df1e4c35ffe37df2051be45eae31b63f9c7ee1745"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_09.mat",
+      "bytes": 3661,
+      "sha256": "d3928ffb03fa3867e08dcd279120639ce726de610bfd65d09d7788518c65c55c"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_10.mat",
+      "bytes": 3661,
+      "sha256": "6b3b8e6d62f6809191fa21eff1c0a708644dda2e8c5f912b44506917064ffcc0"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_11.mat",
+      "bytes": 3662,
+      "sha256": "255e7465e7bef79cdaff32772162eb6cba51dae42393f4ab1b429c4029633c92"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_12.mat",
+      "bytes": 3660,
+      "sha256": "c2b2a40fe369d39407b189ee4a1776fedb9e6bb005c855c63764b68eb311384f"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_13.mat",
+      "bytes": 3661,
+      "sha256": "3a87da6e2c889e1508c1e4cb99c4d701635a82c29bf3232a14ba19cebcc4ab88"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_14.mat",
+      "bytes": 3662,
+      "sha256": "6fbef62d74efbdc8621beeb78fcdf5b0d41712f62bcede6d94e4318c62b0b0e6"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_15.mat",
+      "bytes": 3662,
+      "sha256": "473c1b349ed7deb5f555deca772a57e6a3d9e92638be321fbcb15cebf8435898"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_16.mat",
+      "bytes": 3662,
+      "sha256": "166ba6576e96ba6f842a1cc32d7809779a4a1d51a25d1ea6abd9c975a73423b3"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_17.mat",
+      "bytes": 3661,
+      "sha256": "d572d86b59158ef5ef9ea94cf4ed843bb1aaf1c1e472b1d87919421507889085"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_18.mat",
+      "bytes": 3661,
+      "sha256": "3bf1c1a83ed2295e4f98b56296bafac8cf2112d4aa40ee9dbe48c8ff6e4ec429"
+    },
+    {
+      "path": ".unity-validation/village-textures-20261019-140109/MAT_Village_19.mat",
+      "bytes": 3661,
+      "sha256": "151c4e170e6cba7f0bf93554803a857dddab7ea4762500efac8807c01417c117"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro.meta",
+      "bytes": 172,
+      "sha256": "8529d84d190a68aeb1a16e0a90308081bd30a738dbcc63c63b2a93c53b9a11b3"
+    },
+    {
+      "path": "UnityChairValidation/Assets/UniversalRenderPipelineGlobalSettings.asset",
+      "bytes": 933,
+      "sha256": "bdac5e6c90cf14fc41a2ee0152632b26464873a2c46926eff322ba060f4dd5c5"
+    },
+    {
+      "path": "UnityChairValidation/Assets/UniversalRenderPipelineGlobalSettings.asset.meta",
+      "bytes": 189,
+      "sha256": "accd276a2a5ce16c966493eed4ec12bc5ac747c331e20e56f141abaed543a571"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project.meta",
+      "bytes": 172,
+      "sha256": "951027dd55be4fd87e7b9254a083a2b81e7730b3bb48068b2c10d015ab888400"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Documentation.meta",
+      "bytes": 172,
+      "sha256": "07a8d45855ad4e331c57cd451654a5a454b001ef9677b725b856810b7d58b77b"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Fonts.meta",
+      "bytes": 172,
+      "sha256": "11e80153fa39b86efadb8917ecde12a0402fe0729f2c88f6f8d1999f3fb04748"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources.meta",
+      "bytes": 172,
+      "sha256": "167448559db07c9857b206a0f5a0aedcd6a6dad900d618b35b0702d636573805"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders.meta",
+      "bytes": 172,
+      "sha256": "c109eb7e331affedb377f7051df3d4881f8529b65f9593234585713e6e94ed30"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Sprites.meta",
+      "bytes": 172,
+      "sha256": "41e002b97ba2235689fba502d1ee4419f50ea0095cd3632cdc50bc90ca8a94de"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf",
+      "bytes": 694398,
+      "sha256": "93d6d3ca8a7d8423b01faacd00fa3921fe055fb2187873653a925e4cc1af85c0"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta",
+      "bytes": 155,
+      "sha256": "942ef57b7129d587bdee03541cc260cf55af7564d9d2d582ea11eacd3de278ca"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt",
+      "bytes": 4469,
+      "sha256": "37f8552e9a874ec10710dc0ede6a9adf168e6609fbd02a507f35629373b85a48"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt.meta",
+      "bytes": 177,
+      "sha256": "5dbec32c014c17d94674af5f1494d49b42ba00edd50397f895f088c868ccbf86"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+      "bytes": 350200,
+      "sha256": "e5b0af421ea2bfbc1ac8d251d647268087ae82786234c57f757d1f0b90fa8b49"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Fonts/LiberationSans.ttf.meta",
+      "bytes": 414,
+      "sha256": "e2e35a015703584fb119355fa02631764d111c3e112d32519801d46bd697b596"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Fonts & Materials.meta",
+      "bytes": 191,
+      "sha256": "8917470a9265beb1ef55a28c6a3718eb12ec8004554499998cc345056247995f"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt",
+      "bytes": 269,
+      "sha256": "3a73e5ffe2510756dd3c2e982fdc1218b4be82c6e21abde88070d6860e1bc8e6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt.meta",
+      "bytes": 179,
+      "sha256": "d5a86d8b7db6aa3ca6f4a63750eb94e0c42a64909b47d8c6c6f2565845534490"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt",
+      "bytes": 95,
+      "sha256": "62d3f4d5f64aaf885692d2d13a8313f6918e6e4c5aeb3990a43f614652bfd89c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt.meta",
+      "bytes": 179,
+      "sha256": "6a925814d5e251a0ced6de210db2bacf2de29b4f0dc2991e85c908632e9565e4"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Sprite Assets.meta",
+      "bytes": 191,
+      "sha256": "5605affac803b81f876f35577f075c9b7e5ea73cf812fdfcc74277bf0f40140e"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Style Sheets.meta",
+      "bytes": 191,
+      "sha256": "1fdf0423552f46284fb97894f36adcd34d32e595aaf5c7cf1ce38a2349faaf89"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/TMP Settings.asset",
+      "bytes": 1683,
+      "sha256": "a699a043195b71622df343e8c353312cdfdc49c4b8c7043eb14584c34451991c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/TMP Settings.asset.meta",
+      "bytes": 179,
+      "sha256": "a65193b095ec3606789a3191751a837704cf52d4f461993ae7903024c6d43f45"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat",
+      "bytes": 2975,
+      "sha256": "b6b65c34e4907dd3006c2217fc8a4cef81b6da24df0a3de8e2288199eb6c5a9d"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat.meta",
+      "bytes": 179,
+      "sha256": "ef2eee63b288d47823da38109e3e8c879f4717a82dc662ac2d5e2460dacde698"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+      "bytes": 9266,
+      "sha256": "6f33cdcd6d203e175a012087a4209442c2b6811baeebce6c875bb8c8d7c64e51"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset.meta",
+      "bytes": 179,
+      "sha256": "d6d86504040cf6e736767fda9bdef494afb06d5304384243e2dd703eba3a4a3d"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat",
+      "bytes": 2889,
+      "sha256": "25874340976d40e9f9e8abf731b7f32e5a478541dead9288140bd60c7a3287d9"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat.meta",
+      "bytes": 179,
+      "sha256": "a8cf0ee9888a163e892368b4660b9c62a7375e7f8afdb8ee02e5c91ca1cdb355"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+      "bytes": 2256862,
+      "sha256": "c3ff50e3133d989180b187748ffc67903f1fede099a5b85b4fcbd8cb6e8be958"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset.meta",
+      "bytes": 179,
+      "sha256": "37233890984555987cb585551bc885069f2849a9b0d1c2191af073b9376aa10f"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
+      "bytes": 13441,
+      "sha256": "155fff99f467baa93dd2d0886df466bd242cd5e3c8c60c9d43e9cdad269f7f54"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset.meta",
+      "bytes": 179,
+      "sha256": "097525b164260b0fb34b4e0c73b3187c693f4dfe2991f475b5b416dbf07dfbbc"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset",
+      "bytes": 4953,
+      "sha256": "01222ac025a1f5b90f3f129eee7bfac7fb05223a1edd84aecf2171ec34b10708"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset.meta",
+      "bytes": 181,
+      "sha256": "b832663ca09ec7af8c8e816fd91a718b2af6c21ab4f126fa818871ad53bce763"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMPro.cginc",
+      "bytes": 2277,
+      "sha256": "14edb7d7b88caf2b82cae68200abe895e5b5b3474c3fffbf0e9b4b09a4e2467e"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMPro.cginc.meta",
+      "bytes": 204,
+      "sha256": "277459ef190430ad8e4ceb2bb38a8895d11fbbe6c2b2672e818ff970cb59efed"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc",
+      "bytes": 5311,
+      "sha256": "31aa22debdf974d1dc73e90b7feadf7f2e37ad60cf6f9f9e54a6adc71cd792b5"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc.meta",
+      "bytes": 204,
+      "sha256": "2e16fa15ef884a60a402d8b696f8b09e5315cbb468ba223d256030c7fe2b0667"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc",
+      "bytes": 2843,
+      "sha256": "26c70831a9bdd6a56a37ec1e2358929453d66a064d10a61da49a1d4b05280e06"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc.meta",
+      "bytes": 204,
+      "sha256": "edace33591894d86d9a4144466fb3606e538d3341030fe22f908551755120ea5"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc",
+      "bytes": 3563,
+      "sha256": "434adb97dfcd9d5772fc11bb3a76f36af13614a664aca840ebcbf635e6e2df24"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc.meta",
+      "bytes": 204,
+      "sha256": "247746f3a4e39dd24d1ad99e4fae03ae8976586307948b2846529a876dcb0a63"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader",
+      "bytes": 3497,
+      "sha256": "f45e54dd8d92ae0702621bfc3aaaedac7f9c2509dcb84f721c11aa257171d523"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader.meta",
+      "bytes": 204,
+      "sha256": "91be1d5618a7da33c878e20cf2be3e13b897d4976c70bde0cda7a67dbd502cd2"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader",
+      "bytes": 3549,
+      "sha256": "86216818723945b88960d3958e744cf7a2433eb306f4f6bfba84f1f09320a25e"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader.meta",
+      "bytes": 204,
+      "sha256": "7430f3e97ae1b46f34e1ca75508705bb7b944307c41dc568ea728011f327086d"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader",
+      "bytes": 3499,
+      "sha256": "05b182e4a8eefe246a83b8065a38f47524e9492128ea0c5a0f1bafc28cc59974"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader.meta",
+      "bytes": 204,
+      "sha256": "3d462e6f8ba57f45dc5e6000020db066c36ed5a1a24f74f749727812373c2325"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader",
+      "bytes": 10585,
+      "sha256": "5d014fd30168464ef417514fdc25d19b15ce5705dc352bc7f9703c95008f6dd0"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader.meta",
+      "bytes": 204,
+      "sha256": "fb8fc84b612e19c169cdf3596195b416e68d227a8987a0eaa90d8c137fb69797"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader",
+      "bytes": 12000,
+      "sha256": "699f0e1291b37a9103fcf5059f44eca257cc63f02728939046311b431e804039"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader.meta",
+      "bytes": 204,
+      "sha256": "bea74d576f181a8bb04b8cf02eedd0136540325ecb2824928a3aa52c75adcb13"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader",
+      "bytes": 7822,
+      "sha256": "c11c36263a42ec618251c21d1f9b5f2e9df5f0f21f10f82ab6b4388913f7aed7"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader.meta",
+      "bytes": 204,
+      "sha256": "3744d078f9a8b6d3c5d9bca51e43f9223544fcafaf9396e121f49ea84a0609d3"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader",
+      "bytes": 7643,
+      "sha256": "b2f29604a41934625338b7d1e6bd37fe008366f98932ac49f026dec16fd465d0"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader.meta",
+      "bytes": 204,
+      "sha256": "1eeca1536c7506f79d4d877b866a5fb88db8f402634e091b6d78aa9d21c9d18b"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader",
+      "bytes": 3071,
+      "sha256": "598b92ea8c4d65802c9273bec594786b8ca896013afaf8f31e2c973518f293b1"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader.meta",
+      "bytes": 204,
+      "sha256": "e3412891b9306b017e60cba4ae4f6d258ee8b161d986dcde9cefb3d60345514d"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+      "bytes": 7674,
+      "sha256": "970db4b1e73b8289c1dd56cff60877f426b49c9682620b2d14da6cd70b64cb9c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader.meta",
+      "bytes": 204,
+      "sha256": "f2112f50c72762d4e6731391495ea11f76975d677b698e9bcfdd38275ea18f9d"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader",
+      "bytes": 3524,
+      "sha256": "79b6e02dbdf65168f2bd81e1a41966ab492bf473be8ba7abd659ab8876c781b1"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader.meta",
+      "bytes": 204,
+      "sha256": "95aa060f371ee503a22c0a0b018e029c0328bd82b9317feaa784432b0a787343"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader",
+      "bytes": 4355,
+      "sha256": "a1ec7f5beb83b6c2f00570246f542cc3c9d12516e69b4a2c39d58675b5b76d15"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader.meta",
+      "bytes": 204,
+      "sha256": "42439f5ac7491998f562e8ede73d64c3512953eb99fb1b49e833f5d9999a7660"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF.shader",
+      "bytes": 10600,
+      "sha256": "bbae422625f31bfa560ac5ce44c402fafd16dba55d496c6279ca985b652b58bf"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta",
+      "bytes": 204,
+      "sha256": "0897fb06d170043fffa2d28783b347bbaee87a3f09f08374ca44b2c3848697d6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_Sprite.shader",
+      "bytes": 2673,
+      "sha256": "c5d35f56a73324cf1639a4b9b0650a7412230bacaa9b0fdd4ee34f437a9b3f31"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Shaders/TMP_Sprite.shader.meta",
+      "bytes": 204,
+      "sha256": "9609584c5249687f3765f0018a93dfd6445c7e35d5aee4e87556f111c8852819"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt",
+      "bytes": 187,
+      "sha256": "095907d2631301d08dbff9388fc0c278904fd86e18ba76bb0d401a790ade8f83"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt.meta",
+      "bytes": 158,
+      "sha256": "9fffc8ac513116b8ac394d86d81ca9ac4ec52ee92c63c114d355808384ea16fc"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Sprites/EmojiOne.json",
+      "bytes": 4122,
+      "sha256": "fa35c4a1b7cfc12e872bcba7d0d20702077a5478472b87d619b2c72bf5bb48d0"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Sprites/EmojiOne.json.meta",
+      "bytes": 177,
+      "sha256": "ac2c551b5bc7f7d636d54ded634dfc3493e249567283b2efc06d1299f9360061"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Sprites/EmojiOne.png",
+      "bytes": 112319,
+      "sha256": "a87b965a701de3dc31d7401e542b1fc946587f912c51d7a26e46ade9f098bd1a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/TextMesh Pro/Sprites/EmojiOne.png.meta",
+      "bytes": 9784,
+      "sha256": "eb63c0321658b980b138ce5f675d44689b8c7144df43976931e132e7706d1e1a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art.meta",
+      "bytes": 172,
+      "sha256": "2b423ca49dbe6f279f8d7168b7fcd68cce933401c3a61e8ca83c0b34afaefd1f"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Audio.meta",
+      "bytes": 172,
+      "sha256": "767286585a088ef9812fbc55dc774fffa28f65f5152592b682c626bef731d50b"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Editor.meta",
+      "bytes": 172,
+      "sha256": "d75b56fc714e2760202378e6e966448dc4db364d93d4d2fe710430dbda960cbd"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated.meta",
+      "bytes": 172,
+      "sha256": "6f27917f89955eeca97b73ae98db6ad7415d8f62d1960b9b82cc37d3b581a291"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs.meta",
+      "bytes": 172,
+      "sha256": "7e3f7092b33840e83368a402fcdffc16d5361523c6940cea280aeead4e64e5b3"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Resources.meta",
+      "bytes": 172,
+      "sha256": "b1d2fc8a5b864e523bf4f01a7c99c81af0b04f103eb9eb58cfa58ff4fa74dfda"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scenes.meta",
+      "bytes": 172,
+      "sha256": "52cbcd69ef5d3481fafd47a13b0f5047fe765269a0ddd7e413e0d379584efc9e"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/ScriptableObjects.meta",
+      "bytes": 172,
+      "sha256": "326d8d77d3416525d2a10f65323da0a6d9cc0965e9964d530ecc6fe9550669fb"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts.meta",
+      "bytes": 172,
+      "sha256": "0dec5fdea1c0919fc81506487c06389465f3bff8add23585e654082d2095cdaf"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Settings.meta",
+      "bytes": 172,
+      "sha256": "8a85368ec0c7a3b834a21ea6b82571192dc65531a11bb05fb0f66193e526c6c8"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/UI.meta",
+      "bytes": 172,
+      "sha256": "8f1d0e949f25da5ea5034c6573e530aa56a6eca0f69d1dac22f5e069a5dbbfdd"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Animations.meta",
+      "bytes": 172,
+      "sha256": "ac7a9f6c07ac84fffa6cd92ca9bc3ebe9485f8631f43f149245f62d739fee7d8"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Materials.meta",
+      "bytes": 172,
+      "sha256": "8897d851c275158ae3972ff0e7be26155b7de9526221b7eef764525e675792a1"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Models.meta",
+      "bytes": 172,
+      "sha256": "66bd37670de1280d484270e8d85a7c3734806feef86611533a505ab9032d4bbc"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures.meta",
+      "bytes": 172,
+      "sha256": "cfd4e5a7d328a0499fdc10b640e14e172ccd2ff49b17b61a361d31795a3cdb57"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Animations/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Materials/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Materials/OfficeDesk_Imported.mat",
+      "bytes": 3790,
+      "sha256": "7ab85aee8b3d460fe1504caf9fe1e74d6b7cf869ab6606a9316334e928a95299"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Materials/OfficeDesk_Imported.mat.meta",
+      "bytes": 188,
+      "sha256": "fec88864ddb5c123bd32edad4ea43ccf189f33ebca251f47d860ddb1a9860c96"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Models/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Models/office-desk.fbx",
+      "bytes": 1154604,
+      "sha256": "8b9ea649c16fb43cbb255609dde1ced922fdb4aaad96480735ae57089eb361c8"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Models/office-desk.fbx.meta",
+      "bytes": 2830,
+      "sha256": "b1eebfd9e23220e2c38b1073e34884165ed68d49207c191762039a530a857cbf"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Models/OfficeSceneNew/office-chair.fbx",
+      "bytes": 1195612,
+      "sha256": "45e12ac98e4aafa65e8a26ba7d15eb04fe2adde1c9bf4a710007fc896cb19d6f"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/office_desk_3d_model_basecolor.JPEG",
+      "bytes": 254390,
+      "sha256": "e8a7014465ca3b06dc3ea69d24c9794dfd9b280519ed438bbfce3eec1feaf11f"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/office_desk_3d_model_basecolor.JPEG.meta",
+      "bytes": 2591,
+      "sha256": "d2d8eb9a29b46058991f116420a1b166ace494a3dd5818d98c1149639cd1d3c2"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/office_desk_3d_model_metallic.JPEG",
+      "bytes": 116695,
+      "sha256": "a9c8552d23e7d2d07d5af666ae05c2133408fd422b838cb9614aaa4bb8d6b442"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/office_desk_3d_model_metallic.JPEG.meta",
+      "bytes": 2591,
+      "sha256": "433e5b2cd177a52aadf36aafc497a1b759c4e0a0f45b8c1cedd0c51c53fad1a2"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/office_desk_3d_model_normal.JPEG",
+      "bytes": 62224,
+      "sha256": "e4ff92ce05d31c0657d0e9529eedecdbda3bef434f4fba22ef549d712c8cff25"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/office_desk_3d_model_normal.JPEG.meta",
+      "bytes": 2591,
+      "sha256": "77daf6982fa3f4be63e957a91e898546e2f75ac7fb726edeffd0e48fc61f75d9"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/office_desk_3d_model_rm.JPEG",
+      "bytes": 401529,
+      "sha256": "083dce59ad278d0ac09f76dc6be0d4e13299e0fdde08b2f5bc140ec1c6adb328"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/office_desk_3d_model_rm.JPEG.meta",
+      "bytes": 2591,
+      "sha256": "b2c77c1df1a1fd5adf2804b1eaa3fa3b06a8fbf33925399228f4142ad5a5e0f3"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/office_desk_3d_model_roughness.JPEG",
+      "bytes": 121875,
+      "sha256": "d22d90dc64231381a3698844a6b95358a2e30bd481723315abf6da516d73bb4f"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/office_desk_3d_model_roughness.JPEG.meta",
+      "bytes": 2591,
+      "sha256": "93f6064ceae23ee5f1a119aca7456a512af529598eb28d8cd129c28fb7f0aa6d"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_basecolor.JPEG",
+      "bytes": 202619,
+      "sha256": "28e32746405ccc9c5982f6265430cf03287b74d6eb61df65c38f348553f0dd3c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_metallic.JPEG",
+      "bytes": 101314,
+      "sha256": "15737a61c812a125a23a9dc7ba84be858300209c8e3617616a549b8c7820e2da"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_normal.JPEG",
+      "bytes": 83487,
+      "sha256": "37b22cf6863223e97d4e298b5043c10512aaf3bac259f00cf493e7954810c4a0"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_rm.JPEG",
+      "bytes": 335186,
+      "sha256": "c48df41269509c37f03930e7e9ab6fbc7edfc8fbcc96ca0cfe5996a38e97de78"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_roughness.JPEG",
+      "bytes": 104908,
+      "sha256": "cd9b08c3f307049bdf60f07022077ddb79fc6331e02916b7709308e79f027868"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Audio/BGM.meta",
+      "bytes": 172,
+      "sha256": "3d0acd651be99f06ad5b634231b374da2a112d89128e934b0b42cb340717ed6d"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Audio/SFX.meta",
+      "bytes": 172,
+      "sha256": "7661d73ae15be38299fe64c0a719228497da1efc579f45272e3801a6afabbe2f"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Audio/BGM/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Audio/SFX/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Editor/KuTyOfficeChairSetup.cs",
+      "bytes": 7369,
+      "sha256": "5354a31c2090698dfc8295115fd428cf546025b1217074c62a38b0829d05fb9b"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Editor/KuTyOfficeSetup.cs",
+      "bytes": 24969,
+      "sha256": "bbcc340d548ab00315fc4ddead119a95e8a4ef3319cc423c5de79f03176dd701"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Editor/KuTyOfficeSetup.cs.meta",
+      "bytes": 243,
+      "sha256": "1b3d890f108e2b83bdfb21e6138d518e9dab171474f2849adb0bfefb16d142da"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Editor/KuTyProjectSetup.cs",
+      "bytes": 34369,
+      "sha256": "a15f31e6d74838409ec00606470fde1719c0cbb0aeb41e86dee475c49387cc80"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Editor/KuTyProjectSetup.cs.meta",
+      "bytes": 243,
+      "sha256": "d9e9fe71cc781e3182b3ea49d2e861654cfccc92810d44ef048e98716ffb998c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Editor/KuTySmokeTests.cs",
+      "bytes": 14868,
+      "sha256": "f6bd2a75df335a8b7a7df458580086f8de84d08dfbe3c215fe54d3a753b180f3"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Editor/KuTySmokeTests.cs.meta",
+      "bytes": 243,
+      "sha256": "ce4b79ba1a2794eb89b6a5c8c3a9f57dab64452bb506fc78afeb1450fa713d01"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Editor/KuTyStorySetup.cs",
+      "bytes": 13367,
+      "sha256": "23dc6db9521a2795db94d9a7d65456c0137791e2dab57b078bf9be242769e03a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Editor/KuTyStorySetup.cs.meta",
+      "bytes": 243,
+      "sha256": "f3071dfcfc706e35d39a3a62f8af9290eb6024bb632770eae063ed441a1641f4"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Blue.mat",
+      "bytes": 3610,
+      "sha256": "4b7c27d67ca861ffe8878023c7bcb396d806ba286f544f6a0ad7a919a5f0f339"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Blue.mat.meta",
+      "bytes": 188,
+      "sha256": "1959a4ac47c263cffc86ff56e33b0db85a6ddaa3676cd79f08ae77f5912b968b"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Clean.mat",
+      "bytes": 3613,
+      "sha256": "2c38770a543a44024898ed443a7d58bf5295fae46b4ac2b3046fe81763edef18"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Clean.mat.meta",
+      "bytes": 188,
+      "sha256": "2ba33bb4fa5fdbe5e858192d3bebb140f97bec3c84186937e50cfe02856c99c8"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Complete.wav",
+      "bytes": 11068,
+      "sha256": "c5f7a1588d3420feb748d82232649ea743b1b2abe299dcc34b7331c522a0f049"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Complete.wav.meta",
+      "bytes": 485,
+      "sha256": "6f93ff4b2d3c5f0a0e72b085a9c1c1380fe60cf42756ba31765bb6242347e84f"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Dirty.mat",
+      "bytes": 3612,
+      "sha256": "f43aa0d0135f7c7c93f926d687cdb649b2a5ac345c2da6666e3e207b293cc897"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Dirty.mat.meta",
+      "bytes": 188,
+      "sha256": "9a8d33b267f23249695d70f3e9f9c0fca6f117cc5464df9ee01a9df4a80762d0"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/DishClean.wav",
+      "bytes": 11068,
+      "sha256": "c04b18434ec89e46fdbf2ac903c0543372a71ea5c8ae79fe99f772c07cc4fa78"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/DishClean.wav.meta",
+      "bytes": 485,
+      "sha256": "82d191c8e535216f6973d63b5f230f65431a92441aa8b89a559adf0da3bf9b6c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Ground.mat",
+      "bytes": 3612,
+      "sha256": "d8e75d65c755cc2caca086e4f05f705cd43dcd79b27bcaded24a3980f7a0cec3"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Ground.mat.meta",
+      "bytes": 188,
+      "sha256": "1f53f49e458d30fc62c13fdbdedb4f10c078fad26374f46417839b82367b61e0"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/MarbleShoot.wav",
+      "bytes": 11068,
+      "sha256": "59eb7834d25492cf51e6335118af0105c11f255c74daaef2ff8371836c56911c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/MarbleShoot.wav.meta",
+      "bytes": 485,
+      "sha256": "4b057afdd0432c20ab88139f2e9a18424e14089117580f74a1ea6341f43a324e"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Memory.wav",
+      "bytes": 11068,
+      "sha256": "56d18f5523043d1563f3e02839bb9b222607e28d589f814a3156b0d64814d3c5"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Memory.wav.meta",
+      "bytes": 485,
+      "sha256": "891ba7bd2b890345a9d6a58914070eee13a2b26e90fde8dc4702d3db24771e72"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeCar.mat",
+      "bytes": 3618,
+      "sha256": "a9022740f24f4031f90ab6fa0bafccd2c63a085b2051fa547f42dae97b95ce89"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeCar.mat.meta",
+      "bytes": 188,
+      "sha256": "afaf9f2015ca029cd4d29be5c50731734c5476381b80f7ec07236bb719a232f0"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeCity.mat",
+      "bytes": 3618,
+      "sha256": "1541af791a73ffa5df3a590b3af160dfc5f4310afe2270a5eda567d85bb7f757"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeCity.mat.meta",
+      "bytes": 188,
+      "sha256": "3bcd044784c6603a652288c7e5edec56df386f2060cc872bd46473a24f1e2026"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeDark.mat",
+      "bytes": 3616,
+      "sha256": "05b6072a3053e319c424cfa376f553e23714a4d8df2d2ef19f978678bcaf34b6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeDark.mat.meta",
+      "bytes": 188,
+      "sha256": "5c537e3a9dc68082aa6e75714cde6bd01b1d412d37e3e7f4e1ad624667423d2c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeDesk.mat",
+      "bytes": 3616,
+      "sha256": "23aa5c4325c1cbfad3717b3ab70d9ec070e0a12213cd00845d764e286a819624"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeDesk.mat.meta",
+      "bytes": 188,
+      "sha256": "33f8f2f884a646204be565e18364c7e46eb4da8c55a3aa232baabf812fe58ba1"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeFloor.mat",
+      "bytes": 3620,
+      "sha256": "fa32fd123abfa20051def59c9a79438c6087293a22d6151ca6077bc9af9ef041"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeFloor.mat.meta",
+      "bytes": 188,
+      "sha256": "0ad855be8ee8b841e1b91e22e2c9160b554543450244ef5efaa23294fb431639"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeLight.mat",
+      "bytes": 3613,
+      "sha256": "3794aea3faced3154b7462a97a9935434822b409df9001148c4b6a02e23933e1"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeLight.mat.meta",
+      "bytes": 188,
+      "sha256": "d9a9854410a451a5c3cb7236a03af69d49e42c2bdd333ed34cc196b387970dac"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficePaper.mat",
+      "bytes": 3619,
+      "sha256": "21b103cf3b4c8b395decc36bf6b5320ead3644dc85d4e8640a33b3b7097df75a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficePaper.mat.meta",
+      "bytes": 188,
+      "sha256": "16d400efaac46b47c00f9208eba3c24b3ca59c927721e542778a3ce8ca4f2087"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeScreenBlack.mat",
+      "bytes": 1719,
+      "sha256": "92275995961c1915e0dcf2919e721f255d38788c5e0e26f7cdb57e7c730ae59f"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeScreenBlack.mat.meta",
+      "bytes": 188,
+      "sha256": "0f9cb6a6d2443a7232fa10d267e67cdfc911e5c74f48c3a1c84d07de858a8b7c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeWall.mat",
+      "bytes": 3619,
+      "sha256": "6c47d4d947575a192fed3e9d115b99f1202b5a449eb6435cf7ff681dcad750ab"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/OfficeWall.mat.meta",
+      "bytes": 188,
+      "sha256": "bb8ad4c0efe22ecaa7978ec6b4eb0e73eda5070967ea70650458363f0f11a33e"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Prototype.ttf",
+      "bytes": 1045720,
+      "sha256": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Prototype.ttf.meta",
+      "bytes": 470,
+      "sha256": "68f4bfe5141910995523b2e02bc868a8d569c0bea0b40507c8146b5881f56834"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Purchase.wav",
+      "bytes": 11068,
+      "sha256": "01cd5edc09f1179401ecf6dac45f13de1cb591bc00e90f569059385ab554ff87"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Purchase.wav.meta",
+      "bytes": 485,
+      "sha256": "b16668b1ad308fc67223db992dc9a0210361681f72f697399cb0062f9e2b0ff4"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/PurchaseFail.wav",
+      "bytes": 11068,
+      "sha256": "04a109d3edc0cddcd4e212d0374d6d0f724df882f1f085b7580af479d6ba6acf"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/PurchaseFail.wav.meta",
+      "bytes": 485,
+      "sha256": "c9d854b05c7fca0ecadffc4a719e23501140b1db88ddfc196e82916ff98deb60"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Red.mat",
+      "bytes": 3611,
+      "sha256": "62f86bac7fdc852abc79ad1abc488b84f12a1d91787e397cf9b31bc041e887e1"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Red.mat.meta",
+      "bytes": 188,
+      "sha256": "26d0ce45d6cc0e2f40c3505cb1d44cc4e1f4a42eafd97ce5af062dddd0d7bf20"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Renderer.asset",
+      "bytes": 1706,
+      "sha256": "008eff0d512b684eb09caa04cff390b8a1c5d433ec7d91c0eb1c43c404de5ebc"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Renderer.asset.meta",
+      "bytes": 189,
+      "sha256": "807d55e9df42775dc6574e9723432cda964f07b1edda42235a4143f40bba185b"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/SoundLibrary.asset",
+      "bytes": 1240,
+      "sha256": "1905b13701ac830f5f08eb89f20954c6db4e41c13313d7e77cd13a2a876780ad"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/SoundLibrary.asset.meta",
+      "bytes": 189,
+      "sha256": "9f750f092b00810f0e52b36a2c2fcdfdac128f822da5233351ada5a3af1c6111"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/URP.asset",
+      "bytes": 3636,
+      "sha256": "9079a3a4123ad67a0bb559e72fabbb6bfa7af1dcb9a74d4efca77316bedea41b"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/URP.asset.meta",
+      "bytes": 189,
+      "sha256": "e485ac085824341ef03cb45a2ba6351ab95ac14dec679ef1e67cafd190a14765"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Vietnamese.asset",
+      "bytes": 2246669,
+      "sha256": "68fd20bda5c6be848526d7ddcb74c90c044c05551b8f20c8594bb91ba7c772ca"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Vietnamese.asset.meta",
+      "bytes": 189,
+      "sha256": "e13f904cb4f4aa8e00d40ed755260d27483cd8a874106caa85651db16f5c1461"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Wood.mat",
+      "bytes": 3612,
+      "sha256": "65a5c76f89c8dad7e2d22aad59c5b2d730b2f89b4f11e53a715536c1dc5a6692"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Generated/Wood.mat.meta",
+      "bytes": 188,
+      "sha256": "ed3fb7a8ac3f356bfe60fb7f420a4177da15dea1a1dfd4d470b1b1ff4140827c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/Environment.meta",
+      "bytes": 172,
+      "sha256": "bb6cb9ab91ccf141f422a62151ff8544738a4787ae274bfcd0bcdb77ecb924e4"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/Interactables.meta",
+      "bytes": 172,
+      "sha256": "d29befe0d544f98f0eaa2d6ae5ed74297084f1e490294ef01b954b828e0c80b7"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/MiniGames.meta",
+      "bytes": 172,
+      "sha256": "ccf7c01a803602f46bbe956a8a7f687b94c97df796e489396c0dbbe0ecc72c9f"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/Player.meta",
+      "bytes": 172,
+      "sha256": "888bab11540b86e5b53311b370de86844c02b61cf4f4cabe38724013c24fa464"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/UI.meta",
+      "bytes": 172,
+      "sha256": "604e08491c2299ea43bc65910e97ce397c3ed0572d1a5bd63e4dde5935486087"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/Environment/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/Interactables/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/MiniGames/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/Player/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/Player/Player.prefab",
+      "bytes": 6454,
+      "sha256": "d273e084848a3214f236e32490d496eed303c020e138dcc08e57b424e9c3db96"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/Player/Player.prefab.meta",
+      "bytes": 154,
+      "sha256": "daad302b6f2a7049df496124129074fb6c5cbbde7b51b4cab3dea2a74ea0a410"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/UI/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/UI/ShopItemSlot.prefab",
+      "bytes": 22168,
+      "sha256": "137c9f7d30a57193fd7548a428ab62b4abc437cb4e492aaeef34934fdc86a324"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Prefabs/UI/ShopItemSlot.prefab.meta",
+      "bytes": 154,
+      "sha256": "2c985b805a2954bec14ddc90dff344c9ad130f83e8b2cfbef777c7ad6fdac207"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Resources/KuTyAudio.prefab",
+      "bytes": 7882,
+      "sha256": "67590cf25fbcbbd3a75f4b784592472d5b05d58fa25f4873fffaae36f66fb841"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Resources/KuTyAudio.prefab.meta",
+      "bytes": 154,
+      "sha256": "e9086cdf6a7460f898f699ed0b4f2987a28a4b8d3755f264cce66019b3680eab"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scenes/.gitkeep",
+      "bytes": 38,
+      "sha256": "ba517e37c091c13ed85681779ba92a669b48fe6f6119d1a81dc340a9f4c9fc5c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scenes/Act1_RealWorld.unity",
+      "bytes": 254306,
+      "sha256": "b3f55a67c92f7d9de3632062a15a18ee81751993bef3f66b0a17b4969f22c265"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scenes/Act1_RealWorld.unity.meta",
+      "bytes": 155,
+      "sha256": "33538b9a99bcd7c38eefd4f99bcd1efd7c04d7f7320937c974d33bb4e0860124"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scenes/Act2_MemoryWorld.unity",
+      "bytes": 275071,
+      "sha256": "771b78d7ce4b3c9bad687415da4968b6cd241cc63b7d0df3c014e27706412a7e"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scenes/Act2_MemoryWorld.unity.meta",
+      "bytes": 155,
+      "sha256": "301d9d299ee1841db07b024926e242a8c9ab81840b91aacc9422caf1b371da25"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scenes/Act3_Ending.unity",
+      "bytes": 40776,
+      "sha256": "d6c480fb2462a9c884a6fd2aefa758eab49b55b3c3e785cd0482659932c46f9b"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scenes/Act3_Ending.unity.meta",
+      "bytes": 155,
+      "sha256": "bbc5677a373206a96ddde326dbd863b0e37430493f7fe60b4879320a916828f3"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scenes/MainMenu.unity",
+      "bytes": 40341,
+      "sha256": "9c48e72fd9961acdc5af505b8bef4321745f255d5ed90fd7b72dd70af133c631"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scenes/MainMenu.unity.meta",
+      "bytes": 155,
+      "sha256": "6011eb8773336488112281fb56fb09971fc0f62b2c990939d980170d37bb964c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/ScriptableObjects/Audio.meta",
+      "bytes": 172,
+      "sha256": "e022da5c2cb8ccfe0e24948995d4ce1ecdea578b875fecce8bf2121a1e398f8a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/ScriptableObjects/Items.meta",
+      "bytes": 172,
+      "sha256": "64e33461b48e4c06956a8832772c1537a1ab6038f083a4a2d701476364d099b2"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/ScriptableObjects/Audio/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/ScriptableObjects/Items/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/ScriptableObjects/Items/Item0.asset",
+      "bytes": 588,
+      "sha256": "874e1cf57c5705cde21cf0a62e6e4ffd8ad3ea74d820290e62123323a787a73a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/ScriptableObjects/Items/Item0.asset.meta",
+      "bytes": 189,
+      "sha256": "8393002782b0d4782900ff222ff0615807dd4370f84658ce0cdd0b813be879c3"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/ScriptableObjects/Items/Item1.asset",
+      "bytes": 570,
+      "sha256": "a948b4d0531c4f341c8c475f22cdcf488d444a7df8b03fa8a3c819463cae8bcf"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/ScriptableObjects/Items/Item1.asset.meta",
+      "bytes": 189,
+      "sha256": "69daf3fe69ce25aba1f74164f5131d3d859251cc443a01e5c48b0ed830ad387d"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/ScriptableObjects/Items/Item2.asset",
+      "bytes": 557,
+      "sha256": "72dc9df9180c5fac418c481242d1291f1d49941bb70721a8ef420ce62f1a8620"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/ScriptableObjects/Items/Item2.asset.meta",
+      "bytes": 189,
+      "sha256": "b291496791bcedb9ce7d4a2753c01ac608d121798764cbfb5b01e7a43deef810"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/ScriptableObjects/Items/Item3.asset",
+      "bytes": 581,
+      "sha256": "f6ed42e43e27880f1f21b14311c530ed61807b5908215cc13a1550c029f9dd18"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/ScriptableObjects/Items/Item3.asset.meta",
+      "bytes": 189,
+      "sha256": "a3b187dd063adf9e6325f179646df3c7630fa1cee4d484f06bc6929fe94e6593"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Audio.meta",
+      "bytes": 172,
+      "sha256": "a4b69422b455b88c7e390d52183c944c0ca054129416dfad1d3ef301a844ee3b"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Core.meta",
+      "bytes": 172,
+      "sha256": "f1631468084f0fbf8d35674fb2ce45298772e23e48ab37e10e2e8b997016f341"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Data.meta",
+      "bytes": 172,
+      "sha256": "1a589be8fbb9710de7209a47873e0416ccf2ee5ef30661373d5530fb7535e306"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction.meta",
+      "bytes": 172,
+      "sha256": "315a8f7adddf6ecf3dc2e3b7d2184a7623d5ded5fba5d2030612a6632a6b036a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/MiniGames.meta",
+      "bytes": 172,
+      "sha256": "548571e0d28fd3df21d1600bce93ec7d431773453b3a8138ad44eab795d1a077"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Player.meta",
+      "bytes": 172,
+      "sha256": "a48ad560ca38cd12687a68237348c70485c029a3feeb3bc055874df83a89693b"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems.meta",
+      "bytes": 172,
+      "sha256": "c759a7a60a59daf4b10d512f4fb6008d5af3192834a0e90b4c28ce1b81e3b97b"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI.meta",
+      "bytes": 172,
+      "sha256": "b20db5da3e9530f0596ab14da846476cc8a01217c94ef8a5a524ab1e0e29756a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Audio/AudioManager.cs",
+      "bytes": 6975,
+      "sha256": "92e385c344db174d073ce4b61d91449b70cfe8d09340dc63b7a73443ae633a5c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Audio/AudioManager.cs.meta",
+      "bytes": 243,
+      "sha256": "d12cf11e03caf3f097ffac5a4efa18bc00d1dfbc9430a2bd76c24e26e843be81"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Audio/SoundLibrary.cs",
+      "bytes": 1814,
+      "sha256": "32cb91f3d7a8b0d4ac3a2adfebf8dd30ea9e588912bc178cff0d9083c2385ac7"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Audio/SoundLibrary.cs.meta",
+      "bytes": 243,
+      "sha256": "7baf0e4045e7fc1a418c07ff14e4890010ccfecd316b0c391fad1fdb98ecb623"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Core/GameBootstrap.cs",
+      "bytes": 606,
+      "sha256": "d0bd47572ccf7f82b987d7bc039c6f27ad9bd332c28477935fa0e10c82d2a834"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Core/GameBootstrap.cs.meta",
+      "bytes": 243,
+      "sha256": "7720a1c44d467d9b413109417c6210c8cc0f3c853103879221457c0dbe996a3a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Core/GameManager.cs",
+      "bytes": 3247,
+      "sha256": "7900b88663bb9c770c01b09282187675a33059f314db9df7fc22eff7fed15826"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Core/GameManager.cs.meta",
+      "bytes": 243,
+      "sha256": "e9ca2fbefa5f3fb60bfd389f84daddac1851cc7c7ba6ba81ff59300ecf3cf185"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Core/GameState.cs",
+      "bytes": 444,
+      "sha256": "b2dca0a7b95f368478efa4b186c93529cfebf963ee845b2f327460a6642e7954"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Core/GameState.cs.meta",
+      "bytes": 243,
+      "sha256": "3ae2c1ecc703dc9e8147e339bd6ab1a259156605d33c94826ab71801cb1b5bc1"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Core/SceneLoader.cs",
+      "bytes": 3085,
+      "sha256": "e035320875855f2e1e8689e33401d3c63ebd069f98bc68f4b2c508b0cf9a982d"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Core/SceneLoader.cs.meta",
+      "bytes": 243,
+      "sha256": "3944d3bd6db214d3295976890b65249fa23fe8a2ec64937b7964493cfcfe5761"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Core/SceneNames.cs",
+      "bytes": 229,
+      "sha256": "a0ed5f818200f594d2f2ce1a8f27e4df79dce01c8e750972accab74d35591eff"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Core/SceneNames.cs.meta",
+      "bytes": 243,
+      "sha256": "b082f7c2a23188077edf9fb0aa804128268e237e8ef772260b8ca3c9c808592e"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Data/ItemData.cs",
+      "bytes": 1193,
+      "sha256": "ab8ad3be49fc6cdac62f5d41020d5d8229a9c3705b9747f8dc02c82de00fbe20"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Data/ItemData.cs.meta",
+      "bytes": 243,
+      "sha256": "bda151a294b65b318b37dcfaaff28b760775cbaa50fb6e647b14f59b238880d4"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/ChainedDoorInteractable.cs",
+      "bytes": 1558,
+      "sha256": "0c75661684b1ee8fd2374a9fa3c59effd180f49c5f9898929311c6b6e031cc91"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/ChainedDoorInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "43dfe07a4125bb3ea7b20f715584c58edf7913a51caa5ddd1ab268522b67cdf4"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/DishInteractable.cs",
+      "bytes": 533,
+      "sha256": "5398853f36f6cd7df2f7adc0c17c9c9e8641844ecdd59127f4a8cc4352ec9e22"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/DishInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "5eafa083c0673200f3f6d1d0bb9c9e97c9dd1e9290fb9c4f1240c05bc75e981c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/DreamKeyInteractable.cs",
+      "bytes": 616,
+      "sha256": "e1139449dacdbccdf638466231401ab91f5bb142b19bafe4f167ab6790ce7c97"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/DreamKeyInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "e80c130dd7ee1e7487f67280edebb6cc04ea1b1fd3c6f829af896187315db17a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/IInteractable.cs",
+      "bytes": 959,
+      "sha256": "40d1fc8d65d7757412be95a67edd4fa3c30d0796e435fc7197c1bc527a7fbdf4"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/IInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "231297598bf5dd0fb04abcdca37d0f3ebfd87992fe4ff612a7ae612f4f6c8473"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/InteractableBase.cs",
+      "bytes": 1852,
+      "sha256": "bc0ba1f59f35d0260e4a2baa829ba22163acbedace7b2a6e02795001be2e3c15"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/InteractableBase.cs.meta",
+      "bytes": 243,
+      "sha256": "89ec9d7574971743fbc60cb16a1cd9fe3f0adae5fb320b27d2cb8e6e4f3d909f"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/JournalInteractable.cs",
+      "bytes": 1156,
+      "sha256": "830874269f78bcaa392b55b6b20be9418a105818d86cb38a78d3a994b150d066"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/JournalInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "279d6fa11c81d343b35b8e416a7c1f260194bc3703425a0f89799a8aa93b25e5"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/MarbleInteractable.cs",
+      "bytes": 511,
+      "sha256": "06ebda672fe4eee0824bfdeb5765ea3d5d5e0a5e16a440b6f0a2fa08f769a5f6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/MarbleInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "bacc60c2aaaa40d342ca41826f6fc14b87f5f325ec6328bc05dc1913978e0939"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/MemoryTrigger.cs",
+      "bytes": 1057,
+      "sha256": "1598522fe016c7cf38271dcdb0dba7720ce806c6f110a09f06383f43f267e159"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/MemoryTrigger.cs.meta",
+      "bytes": 243,
+      "sha256": "a76a3c003badf9ff7dc78580942aa2f6a21bfd06c9e6c1699888aa5fdaf72a86"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/OfficeInteractable.cs",
+      "bytes": 412,
+      "sha256": "f504ab23f3d3069e0c3914517f707130cdb06306c1ddb6090b6c0e047147710c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/OfficeInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "9008bd9575fc7ede0938777f41459eb38de132a438bbf36807b8cbff2476af2c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/ShopInteractable.cs",
+      "bytes": 981,
+      "sha256": "3519a3c9f3270102f6b13e874da7681b5a2940fe731d2396a5535ad9634453ab"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Interaction/ShopInteractable.cs.meta",
+      "bytes": 243,
+      "sha256": "6103517ae1974d164d7cd99c54eb72045f1f14a581c2024df75594d46c63e222"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/MiniGames/DishWashingGame.cs",
+      "bytes": 3430,
+      "sha256": "ba4fef2d46f21897a9f4d119a1e1d94b0e510fa5d33fb8487094c255694a6512"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/MiniGames/DishWashingGame.cs.meta",
+      "bytes": 243,
+      "sha256": "89b349cb7410b4acb73554d46993b900829c7226599b64b2c66d369c72436f48"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/MiniGames/MarbleShootingGame.cs",
+      "bytes": 9555,
+      "sha256": "09eefb69f53f1b552fe3c34ff1c59d296c0b9c5697e0aab93c15fa7ff0bd7f00"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/MiniGames/MarbleShootingGame.cs.meta",
+      "bytes": 243,
+      "sha256": "0d62686a8a92b5604f056f7c8accdbb9672eb0b79dc7fe0cbf7ce3ac6adac161"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Player/FirstPersonController.cs",
+      "bytes": 5629,
+      "sha256": "02e6d8d91de39828259261e4c565e1e94285132f69f538896a85e6bf77fe64e3"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Player/FirstPersonController.cs.meta",
+      "bytes": 243,
+      "sha256": "3e1a83a43cf2014874481ef9ae8cbf041d56c2e933f6213b72968db57e9176e0"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Player/PlayerInteraction.cs",
+      "bytes": 4693,
+      "sha256": "e7f6567a94acbcb018ca7f3e964915dcce6195b29cc72cc4a32723d966642c64"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Player/PlayerInteraction.cs.meta",
+      "bytes": 243,
+      "sha256": "12ac9bfda4cdd340943b7b01310bb8066d6684297da790874edf07e0158c61e7"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/CurrencyManager.cs",
+      "bytes": 2912,
+      "sha256": "0a0a3eb6c262fc28a4e4582306d30a4948c6acc5bab5d24933801678cf6dd6c0"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/CurrencyManager.cs.meta",
+      "bytes": 243,
+      "sha256": "aa8d95d63c0876743584035d976679a8ed99681a8f1f755fd53389e9ac836d33"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/DreamKeyController.cs",
+      "bytes": 822,
+      "sha256": "0d11ab154421017cf4850db7981927e3fa14d273ede17f34caf2c1757f62c2e1"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/DreamKeyController.cs.meta",
+      "bytes": 243,
+      "sha256": "d623581e7afa4d1d7a11e38bef4ec6544293fe9b98218d5754c77dd4782d73bc"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/InventoryManager.cs",
+      "bytes": 2838,
+      "sha256": "e7d3198b769292e81751aa3d392c541d805ba299abcf7cbaa3a492057cccc60c"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/InventoryManager.cs.meta",
+      "bytes": 243,
+      "sha256": "ce5817aa83b23747960e57deb5ca092a355e3c9c6d827c026eaa1b3341cff09a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/MemoryCollectionManager.cs",
+      "bytes": 2464,
+      "sha256": "e250635537ab2756d778ba46ce4d53a8d2e44007cc1b9cbc0fb38795e1d56cbc"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/MemoryCollectionManager.cs.meta",
+      "bytes": 243,
+      "sha256": "41d64ccfd5667719949ec57d99392b281fec0bbafaff3f4fa5d51eb00352d95d"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/OfficeAtmosphere.cs",
+      "bytes": 4631,
+      "sha256": "a8634f4da48a2867916b4b742c3f5083b81058f4f335b21d3a2c3a7970e338b2"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/OfficeAtmosphere.cs.meta",
+      "bytes": 243,
+      "sha256": "d583b663c966e839972ffb893a2b84b6bb5e93843841bc921ea86c30998e55eb"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/OfficeSceneController.cs",
+      "bytes": 9235,
+      "sha256": "335e327f1283136f92e6350d420cf22462a185083fa7deeff0bc8a2a4af1d07a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/OfficeSceneController.cs.meta",
+      "bytes": 243,
+      "sha256": "c3af10feffe0bb3ecbfe99531ad0ad618bc52e580aedbbbec52118d7419fcf44"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/OfficeStreetMotion.cs",
+      "bytes": 1835,
+      "sha256": "8f59e14d04dc21526e9a6e7c3379d7b8d1eba5e3f2a3aba787af895b6e33f7bb"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/OfficeStreetMotion.cs.meta",
+      "bytes": 243,
+      "sha256": "ed2fc1398f5daade9289f8f392850f2ec757781b74c9786a266d9799c45d944f"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/QuestManager.cs",
+      "bytes": 5406,
+      "sha256": "2e388bae304d5ca4329f07537a13c6ac34897405639c010cd16805099fbacb38"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/QuestManager.cs.meta",
+      "bytes": 243,
+      "sha256": "8371ee43d5f02784105b35d944ecd338312c6b124a949d4b4ff600431b3b00ca"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/ShopManager.cs",
+      "bytes": 2291,
+      "sha256": "62b7c1aacc9d2408d52aaae426cb6a99f30dafa0d2bde8d261b348ab52dafa68"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/ShopManager.cs.meta",
+      "bytes": 243,
+      "sha256": "dda816b7bcb035a9241140f66aadcb1c3eb01f45ac171cf18a32daadee97c065"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/StoryPrologueController.cs",
+      "bytes": 2427,
+      "sha256": "69f4bd34b71be559745427aef332de116af2ab183762e0c056a6ed6fe1712b91"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/Systems/StoryPrologueController.cs.meta",
+      "bytes": 243,
+      "sha256": "0468107db36bd92a3291b626ff1509154f18ef2c46e649eeff950d8ef31db7f1"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/DialogueUI.cs",
+      "bytes": 2717,
+      "sha256": "27428cb16712f299743b8e2d534318dd44e5c8b675e32efb56078b1bd2fb8eda"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/DialogueUI.cs.meta",
+      "bytes": 243,
+      "sha256": "43fb9e893dd62a548b4332e801130bb79dfae310c793a7d67d066a7e493e073f"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/EndingUI.cs",
+      "bytes": 2050,
+      "sha256": "7adfa412bc72d1993cbcec6fd7df33d15f0695d4b6d1758eda424c84ca04593a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/EndingUI.cs.meta",
+      "bytes": 243,
+      "sha256": "342f9265c6977de772979abd9c178f9a1d51d9cbaf15704ba6486043ae429ad3"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/HUDController.cs",
+      "bytes": 6407,
+      "sha256": "62d74e3576579838408e129cb34e8bd645ce6829d44654fe0c4650dfda1233fe"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/HUDController.cs.meta",
+      "bytes": 243,
+      "sha256": "11611015d1d35398165a851de9f9a1dbd28a46442e2154696e28f2cd6b997ad2"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/JournalUI.cs",
+      "bytes": 3012,
+      "sha256": "8b12923da4505184560d20a9c874ce890837b6505de5c57c88e0928c02a9590a"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/JournalUI.cs.meta",
+      "bytes": 243,
+      "sha256": "fc7ba1bdc5a5d4937fe59a4cda07c9c3315b36aa022bdcf21d8ecc5dd03d08e6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/MainMenuUI.cs",
+      "bytes": 1313,
+      "sha256": "8b88ba924dbc6486f2bbb0f88fecce9ba5d5a56d540409830e1ff85ced5d4f7e"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/MainMenuUI.cs.meta",
+      "bytes": 243,
+      "sha256": "c47e8d7b263753a1b65a7e5096ebf9b3bc1dd4d836f6583d102469989b268c3e"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/MarbleAimUI.cs",
+      "bytes": 2776,
+      "sha256": "4368ad9e44b07136497d29312d265c4d51b53809ef48aa5e208eb354d7781232"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/MarbleAimUI.cs.meta",
+      "bytes": 243,
+      "sha256": "b91af7c755712997e95116031b54a6ecd5ec2b4dd5994d05239d06a6eb040248"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/PauseUI.cs",
+      "bytes": 955,
+      "sha256": "168ef9a75351fb5cc30d9ffc6ee312071d99d973b75dda8ef2ea0df5c4b07742"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/PauseUI.cs.meta",
+      "bytes": 243,
+      "sha256": "8c1efec8467a22226a8f71e5c87d62fd957e6f33e4bae38d8c1ff56791a86f93"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/ProgressBarUI.cs",
+      "bytes": 2395,
+      "sha256": "00194f343a9eec7e9af3eb08c09aeecb7c5bdec1647b587cc1f3cb2e4dc04f13"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/ProgressBarUI.cs.meta",
+      "bytes": 243,
+      "sha256": "da4a3af8818e771987ce85cf96fa4ffb96ab94d2a226800c29c2a2c7b44f69c7"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/ShopItemSlotUI.cs",
+      "bytes": 1209,
+      "sha256": "496876c12fd494316a624cb31a163ebe982fefa6c27feea7225801647e6d9a26"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/ShopItemSlotUI.cs.meta",
+      "bytes": 243,
+      "sha256": "dfdc52cfb517658828a350676ded3392f22ded0f689e69ebf9c6f9f0aeeaa809"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/ShopUI.cs",
+      "bytes": 3885,
+      "sha256": "1a330b88692dea5892626b5b16b9f1e858f48ccc42409fc13132bd580daead42"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Scripts/UI/ShopUI.cs.meta",
+      "bytes": 243,
+      "sha256": "20fd532e5a07856e27b648e1375bbc5ceae2d3bbf22e23825efe1cdf24bb0245"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/Settings/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/UI/Fonts.meta",
+      "bytes": 172,
+      "sha256": "0c938d7bbd857a1ee517d3156b82e772fb45f06d9da222228363ea654f43fe55"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/UI/Sprites.meta",
+      "bytes": 172,
+      "sha256": "c97a6b34393311ec26e0b76f221ece475ab79d2eef7c1c4c8e9e4a81f7ef86a8"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/UI/Fonts/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Assets/_Project/UI/Sprites/.gitkeep",
+      "bytes": 2,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+    },
+    {
+      "path": "UnityChairValidation/Packages/manifest.json",
+      "bytes": 1543,
+      "sha256": "71261a0f040b74ff4dbde674bf8ffafd7a0ae1e9f53bb9cc415d1fee817a6a8c"
+    },
+    {
+      "path": "UnityChairValidation/Packages/packages-lock.json",
+      "bytes": 8611,
+      "sha256": "623e5bafe45e32004250a56c34439fa8406bf21cee167b576f7f4186f297b31a"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/AudioManager.asset",
+      "bytes": 443,
+      "sha256": "9a554916fe138ebcad8443ee9b079363ecc72795c39d0e80f5f7ca99e2c6f5e7"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/ClusterInputManager.asset",
+      "bytes": 114,
+      "sha256": "40e65dd214bf254955d2c8829ca8ce2130fd3510485560ce012e9a1ddd93e623"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/DynamicsManager.asset",
+      "bytes": 1394,
+      "sha256": "62fd35da36080a098d3e9f90cf4af6c655fe582091c33e505b812cf9aa36fee1"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/EditorBuildSettings.asset",
+      "bytes": 598,
+      "sha256": "be84c9c6970ed6f79eb6eed249728256c0f2a76a9d4e277e8f77080be68d4f2a"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/EditorSettings.asset",
+      "bytes": 1502,
+      "sha256": "6f8761b516f06ff2f0373b6310571cf7951f63afb86c56bfd7be832e06a9987b"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/GraphicsSettings.asset",
+      "bytes": 2574,
+      "sha256": "bccd7a9d6040a40b9da0621976214876c1d661a31123180693b66a465f6da8d0"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/InputManager.asset",
+      "bytes": 9754,
+      "sha256": "60c83ae48e29a782141f99032eb38e803d18475124ff5224fbd1fd81b233f051"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/MemorySettings.asset",
+      "bytes": 1192,
+      "sha256": "1e8379a461b10ae09f3f696911088c16875d63e87ed5f2d95df9e1892703f9fd"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/NavMeshAreas.asset",
+      "bytes": 1361,
+      "sha256": "7ebbf8f53b8033104e1878b95ca07a28d0954092d81c220f14196a42f651e658"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/PackageManagerSettings.asset",
+      "bytes": 952,
+      "sha256": "6abe87b4264edd5241d1fd4e0c7516be432bdb849c5d568a040b598f73790ddc"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/Physics2DSettings.asset",
+      "bytes": 1635,
+      "sha256": "531861618163b01648a075414f6e864506ad8fe0a0d4d0096aa1fbbfcd3937dc"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/PresetManager.asset",
+      "bytes": 146,
+      "sha256": "29c125923fe6e29f90190d4fce1c82d660e7051546e2c9d02908d18c9cf2436c"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/ProjectSettings.asset",
+      "bytes": 19567,
+      "sha256": "dd8df0df22b9ccdaf877b0d09471fecabe956911d3b7c6bf8faba6c0d026e16e"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/ProjectVersion.txt",
+      "bytes": 85,
+      "sha256": "b51164d22c4d2716ba8aee7f0b59d6b7dd0efa8552fd1db2a8c3b123fae3a1ec"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/QualitySettings.asset",
+      "bytes": 9183,
+      "sha256": "944b52d523bcb15b945bc80924b9289f59185ab19bce8a00e99eec345bde6440"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/SceneTemplateSettings.json",
+      "bytes": 3534,
+      "sha256": "5baf593374ad67246277a435d8d0ded7167696eef6e05d2d245670e490625d8c"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/ShaderGraphSettings.asset",
+      "bytes": 490,
+      "sha256": "733eb0b08f2d9e57a51cef99c450140b18ddd101065cad1b9cde9330899ed8c7"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/TagManager.asset",
+      "bytes": 396,
+      "sha256": "343f0192fbb7a87ecc2894b067951e101b33ba3e8549bc143835452c5df13934"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/TimeManager.asset",
+      "bytes": 202,
+      "sha256": "1a83e54adbbda7c9f4851103a0c6ab7f6448a3343d4ea5b7620452fa08416ecd"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/UnityConnectSettings.asset",
+      "bytes": 943,
+      "sha256": "d6034acbef6c9e3179866486c31eab81fcbe5e7ed350ce71e0fa2b1449b77109"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/URPProjectSettings.asset",
+      "bytes": 410,
+      "sha256": "3e9d9f824875297ef6b9315fa7a3ac7ec1b047042395404a23c368fc971a8f3e"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/VersionControlSettings.asset",
+      "bytes": 188,
+      "sha256": "e7bda45bf7a394745fee1316e6c71fa676004d591ad1f3aa247fd3e4ceb86071"
+    },
+    {
+      "path": "UnityChairValidation/ProjectSettings/VFXManager.asset",
+      "bytes": 465,
+      "sha256": "3f31266c7c1910447586e71b041dabd58d8371715ac3142d3e38ace46121f4ab"
+    },
+    {
+      "path": "dumb/backdrop.png",
+      "bytes": 2656871,
+      "sha256": "7abee7bf168dd39d5a9d4ff38bb687b066b9870f2b7328bbf4a44dd1f188b534"
+    },
+    {
+      "path": "dumb/bang table.mp3",
+      "bytes": 48000,
+      "sha256": "6a6eb157db0cd84c65083d807b47c07abf9bed5bfbcea8eb8fcddb5a49de4eb9"
+    },
+    {
+      "path": "dumb/bao_cao_dau_roitoi_da_noi_voi_cau_bao_nhieu_1afe5c37-7055-4438-a8d0-2d0ede0f3647.wav",
+      "bytes": 587790,
+      "sha256": "c58ba52665e25abdcbb9068bfbbe73adf21209fed4d0b45014600d45f0f0a7d3"
+    },
+    {
+      "path": "dumb/bed.fbx",
+      "bytes": 45280940,
+      "sha256": "44931222eff9821f323f6e8cdcf0b4e5bc4887ce8728f67f6ec5dec741071659"
+    },
+    {
+      "path": "dumb/bossvoice.wav",
+      "bytes": 970844,
+      "sha256": "a1e11dc5085500906534e8ff18ec210601b6c26f9044cc194975c9caf3fec466"
+    },
+    {
+      "path": "dumb/BossVoiceUpdate.wav",
+      "bytes": 570382,
+      "sha256": "3d071d1f9ec7e045f6f4e7fdfc86dbdc0a74895631b877aea9b4f72a405a5272"
+    },
+    {
+      "path": "dumb/chair.fbx",
+      "bytes": 1195612,
+      "sha256": "45e12ac98e4aafa65e8a26ba7d15eb04fe2adde1c9bf4a710007fc896cb19d6f"
+    },
+    {
+      "path": "dumb/desk.fbx",
+      "bytes": 1197612,
+      "sha256": "db3f77217d2d6b40b2d100bd42ed1b2afb09bbdd5b37c5659f5ad668e0e05b4f"
+    },
+    {
+      "path": "dumb/house_1.fbx",
+      "bytes": 3361436,
+      "sha256": "6a13551fa51faf5d44d9bebe3f6beb43d3054c463de18bcc31d274adbf46516e"
+    },
+    {
+      "path": "dumb/house_2.fbx",
+      "bytes": 2892828,
+      "sha256": "8535e633592470a5cbf4a3836bd908f166d5dcdc21a8fcaf18149c09cd3d92a1"
+    },
+    {
+      "path": "dumb/keyboard.wav",
+      "bytes": 4469266,
+      "sha256": "fffe44d35d2a2a43c2b62e464ee5243997f5f7d5e9ec2092c3e7c0bfafd6f327"
+    },
+    {
+      "path": "dumb/office.fbx",
+      "bytes": 1099052,
+      "sha256": "ea4e5389b632ba162349e0af4a17d0f8d151981052a21f89c8db9743c13ccbfc"
+    },
+    {
+      "path": "dumb/traffic.mp3",
+      "bytes": 760320,
+      "sha256": "f4c1ef4e4af47bb20bb57309a59d1702fae6f8149bb178466d185bcb8da2f707"
+    },
+    {
+      "path": "dumb/bed/wooden_bed_3d_model_basecolor.JPEG",
+      "bytes": 319103,
+      "sha256": "06bcb3ceb2b189dc7dfa10c0c2a16d2ef967034c708c537a5e04efca1f66bb3e"
+    },
+    {
+      "path": "dumb/bed/wooden_bed_3d_model_metallic.JPEG",
+      "bytes": 107711,
+      "sha256": "5059a35ca1c1e91053f80fa324b474284f0869cdc4de0d0c99f5593758c52164"
+    },
+    {
+      "path": "dumb/bed/wooden_bed_3d_model_normal.JPEG",
+      "bytes": 101825,
+      "sha256": "ae0d070c3a67b78d5f3067b028cd6f5c13eb255bdee35070edee1857be698021"
+    },
+    {
+      "path": "dumb/bed/wooden_bed_3d_model_rm.JPEG",
+      "bytes": 464759,
+      "sha256": "a96079497645c2819ebfdbaf03ec083ea3da8e9cc55e738bc9ccf49fd5524942"
+    },
+    {
+      "path": "dumb/bed/wooden_bed_3d_model_roughness.JPEG",
+      "bytes": 135763,
+      "sha256": "197303f9962efa1b487391c8bb9baf190736ce7c599a2d46a37ea3ce11930b5d"
+    },
+    {
+      "path": "dumb/chair/office_chair_3d_model_basecolor.JPEG",
+      "bytes": 202619,
+      "sha256": "28e32746405ccc9c5982f6265430cf03287b74d6eb61df65c38f348553f0dd3c"
+    },
+    {
+      "path": "dumb/chair/office_chair_3d_model_metallic.JPEG",
+      "bytes": 101314,
+      "sha256": "15737a61c812a125a23a9dc7ba84be858300209c8e3617616a549b8c7820e2da"
+    },
+    {
+      "path": "dumb/chair/office_chair_3d_model_normal.JPEG",
+      "bytes": 83487,
+      "sha256": "37b22cf6863223e97d4e298b5043c10512aaf3bac259f00cf493e7954810c4a0"
+    },
+    {
+      "path": "dumb/chair/office_chair_3d_model_rm.JPEG",
+      "bytes": 335186,
+      "sha256": "c48df41269509c37f03930e7e9ab6fbc7edfc8fbcc96ca0cfe5996a38e97de78"
+    },
+    {
+      "path": "dumb/chair/office_chair_3d_model_roughness.JPEG",
+      "bytes": 104908,
+      "sha256": "cd9b08c3f307049bdf60f07022077ddb79fc6331e02916b7709308e79f027868"
+    },
+    {
+      "path": "dumb/desk/office_desk_3d_model_basecolor.JPEG",
+      "bytes": 322065,
+      "sha256": "ef2de1c912e4e2a4434622372f68c2fd5d4f2a9cd76046f49a005afb14900c40"
+    },
+    {
+      "path": "dumb/desk/office_desk_3d_model_metallic.JPEG",
+      "bytes": 186362,
+      "sha256": "02c2bcc3b20fbc52c05d7f7800eb7e762358db342a695fc7742ab9359fb44665"
+    },
+    {
+      "path": "dumb/desk/office_desk_3d_model_normal.JPEG",
+      "bytes": 97349,
+      "sha256": "a1cac39ebe6b65f643e8791ad1f07ff51ee001e420f40ab64553be139d92f3d7"
+    },
+    {
+      "path": "dumb/desk/office_desk_3d_model_rm.JPEG",
+      "bytes": 565090,
+      "sha256": "23225632b8b13112271ffc37d52f35720ed70d09bbccda020d73be649860796a"
+    },
+    {
+      "path": "dumb/desk/office_desk_3d_model_roughness.JPEG",
+      "bytes": 154162,
+      "sha256": "59d4f850287854eeafb9a0b0fe661f6f4923d6e657d88580754b3b9ed644710f"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_B\u00e0n th\u1edd_basecolor.JPEG",
+      "bytes": 363131,
+      "sha256": "797e5bb9482868fd10c0f8531854cd32711345f30aadee02db597486856c2b29"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_Chair_basecolor.JPEG",
+      "bytes": 25093,
+      "sha256": "acfd4cd9412d8bc862fdb3d3048e4477455734453e11095d94615dc73adb73a0"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_Floor_basecolor.JPEG",
+      "bytes": 1296048,
+      "sha256": "9cce20bed65dd98633a793a0fe3b862e596c30c23210e9c97b82693a69853456"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_M\u00e1y ch\u01a1i nh\u1ea1c_basecolor.JPEG",
+      "bytes": 83280,
+      "sha256": "295639cc48494152418fd851642c9e2a5a051df7d1ecba4ed7b06f830f5a8a24"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_10_basecolor.JPEG",
+      "bytes": 66837,
+      "sha256": "a9d35a619342fb8fccf39b174c335da6e1727f43f52f57216df8c259d7fc6bbb"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_11_basecolor.JPEG",
+      "bytes": 29632,
+      "sha256": "cb0c528d7f147919114d52d1236deeea2e07b48f6af654553f48f27bc280562d"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_12_basecolor.JPEG",
+      "bytes": 86077,
+      "sha256": "d61e343bece68d21572dab9e99fdc225ebdcc14b6352718ef4e993f39fb936d2"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_13_basecolor.JPEG",
+      "bytes": 8409,
+      "sha256": "9d09a0b974fe127a41fc7ce2f2f69b411064ebe9e0f30bc4b197180d8a353aaf"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_14_basecolor.JPEG",
+      "bytes": 7364,
+      "sha256": "9457e852fa21a1790d17de6c15eab1e91d415f2a39b95d6245af6df6ab87178d"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_15_basecolor.JPEG",
+      "bytes": 81352,
+      "sha256": "891e1ee0bf343e060c2f445efec30fa795bbe88588aa8b372f5ea0a2c93f2da0"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_16_basecolor.JPEG",
+      "bytes": 25610,
+      "sha256": "806bcbbd3a17c16c9d770bb23582e334047b30f31f32965f1da79ed73c20ddf1"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_17_basecolor.JPEG",
+      "bytes": 64945,
+      "sha256": "280b347f979a0f4d3058f52a0bc51ca81c6288fa4f1b588c8b76cc700d447bd5"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_18_basecolor.JPEG",
+      "bytes": 55238,
+      "sha256": "000bef93879d5f533e7a908d96d8129f180816052c5a159678bcaab64a7ec5c4"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_19_basecolor.JPEG",
+      "bytes": 28252,
+      "sha256": "1cd7d1e0a1885862eef5e9d97772dd2872cc3f671a752d7534d07961db847a70"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_1_basecolor.JPEG",
+      "bytes": 967683,
+      "sha256": "adccd02847fab5e41e2aba841afa70b5d13a926a85d432fadb06b35389683a1e"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_20_basecolor.JPEG",
+      "bytes": 50394,
+      "sha256": "d5cbba39d600e1dffabcf86745b046588553c4038380035c7b4770e85c92562b"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_21_basecolor.JPEG",
+      "bytes": 22812,
+      "sha256": "a7a402c254e5f305d275298e32ec526944e0b3ab133381b4c6f3003b541ac7f7"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_23_basecolor.JPEG",
+      "bytes": 22706,
+      "sha256": "3af0ea8a96b00f0b7f59899a5b96c416deeb27b1e059132ee4ee659c99adfc4e"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_24_basecolor.JPEG",
+      "bytes": 22097,
+      "sha256": "a23b6b17887663cda62eede9b44cda6b9bbe907efbedffece9896a5b45f7cb8f"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_25_basecolor.JPEG",
+      "bytes": 45321,
+      "sha256": "d60c87bc2b52d0467642cdae2c42a00c518ebe88575362f13069a926cdccfec1"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_26_basecolor.JPEG",
+      "bytes": 26570,
+      "sha256": "de0851fdd7f8b2963a2b690467d6b877d2b494c7f6cdc2f2789e03456daae37d"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_27_basecolor.JPEG",
+      "bytes": 8271,
+      "sha256": "4eb10ffe28d3b26039b6a37c15468d797937ff8ed5bf1a09aded92292b54b364"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_28_basecolor.JPEG",
+      "bytes": 8404,
+      "sha256": "843f1b1ba8a2d78557de6d037e34bd832f17ebd8fc73cd744e77bebdcd2ffd45"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_29_basecolor.JPEG",
+      "bytes": 3269,
+      "sha256": "1f46695c10cb887d847cf8f219af9e04a7094e39efafa515e0a9a008661f0767"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_2_basecolor.JPEG",
+      "bytes": 88451,
+      "sha256": "5c38eaf8afec85905009797ae66caa5fbaf4d334373dbf397257a406cb81a234"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_30_basecolor.JPEG",
+      "bytes": 742,
+      "sha256": "3f4099346dbbbd971eb3724d772013f3694be4218b3aa96b80e1b676b1341ad6"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_31_basecolor.JPEG",
+      "bytes": 774,
+      "sha256": "43fedb00eaf241cf9cc4768051d90dc3158552bd9f52832fa19f5ff800301e4e"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_32_basecolor.JPEG",
+      "bytes": 863,
+      "sha256": "0b1ae9efed47508f22457a9df4b6141dae2fd908d0b647e38e860a1c6fa5bd53"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_33_basecolor.JPEG",
+      "bytes": 737,
+      "sha256": "7aac223a3e565f8d26b775f886896270b257f410f90423aa5d3bb0b6864a3be1"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_3_basecolor.JPEG",
+      "bytes": 316532,
+      "sha256": "d8daee7de63066be14fc0bf0b62c53d9405ad413a4f1ffacb09fa32927ea4447"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_4_basecolor.JPEG",
+      "bytes": 94745,
+      "sha256": "2047eef848b1eb49f239ff29499cc3a6fdf51a453bc9669dedd8112ea6858f15"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_7_basecolor.JPEG",
+      "bytes": 379283,
+      "sha256": "e1cb7fcd9f6363eb241a606269128a05e575bf9f22262f5a91b0b22117e88139"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_tripo_part_8_basecolor.JPEG",
+      "bytes": 259844,
+      "sha256": "c58f4d5e5e8b3f140d12cfbc673f119f096aa7ddc6ab113fbb122fa6e6dd9be5"
+    },
+    {
+      "path": "dumb/house_1/traditional_house_1_3d_model_T\u1ee7 \u0111\u1ed3_basecolor.JPEG",
+      "bytes": 265916,
+      "sha256": "6e5645e686e4400a5d2b2edea69639e0b10fb497f650c583bf02a7991577cac4"
+    },
+    {
+      "path": "dumb/house_2/rustic_bedroom_3d_model_basecolor.JPEG",
+      "bytes": 562284,
+      "sha256": "b40e63c566f0c4ccf1c3fead1548a275aa2ea5404055bd54cc744988e152795c"
+    },
+    {
+      "path": "dumb/office/office_interior_3d_model_basecolor.JPEG",
+      "bytes": 339437,
+      "sha256": "868e5c4518da27362d18d0f25e69825ddd03b532d51d02c0915f131cff1de3e1"
+    },
+    {
+      "path": "dumb/office/office_interior_3d_model_metallic.JPEG",
+      "bytes": 173737,
+      "sha256": "64fec03a508997464090f0a31a79e84b27c1bcc40e50ac504623dd623780f40c"
+    },
+    {
+      "path": "dumb/office/office_interior_3d_model_normal.JPEG",
+      "bytes": 111838,
+      "sha256": "0ff2ce695bb852bc350aa20a0ad3fd293c844b2869ca1a05b8b090d47024cac3"
+    },
+    {
+      "path": "dumb/office/office_interior_3d_model_rm.JPEG",
+      "bytes": 2147278,
+      "sha256": "11ba28cd3f154816b7e502f479f36154928aeae7738a83633ad493b3f3dfdd0e"
+    },
+    {
+      "path": "dumb/office/office_interior_3d_model_roughness.JPEG",
+      "bytes": 289882,
+      "sha256": "e80e5ea015f27e0bed5513f3fdced330581a47557a2633990f590eaed024a9d3"
+    },
+    {
+      "path": "dumb/table/source/Office.fbx",
+      "bytes": 2821132,
+      "sha256": "56b47562255cb48aa3bbfc7f6082b0c27ee739e14bdd6c40640ee51e3fdc16f1"
+    },
+    {
+      "path": "dumb/table/textures/2 Drawer Filing Cabinet.png",
+      "bytes": 44255,
+      "sha256": "7e7e2c1a3ddc0074812c60998f03b322605bd2a00df295527bd464c6bfc4ba9f"
+    },
+    {
+      "path": "dumb/table/textures/4 Drawer Filing Cabinet 256x256.png",
+      "bytes": 62504,
+      "sha256": "8f081ec0d3fd88772b49ea98a99965f7587bd820b7d1026ec40db2c3281c3bb3"
+    },
+    {
+      "path": "dumb/table/textures/7734_Calculator_256x256.png",
+      "bytes": 14145,
+      "sha256": "b3ff23d1b6bf244cc22ddcc731be5225fe4c773c8710e7f6726df5684a06e51b"
+    },
+    {
+      "path": "dumb/table/textures/Astro Lounge CD.png",
+      "bytes": 14660,
+      "sha256": "ebe58ce22a520a173dd76659f07a29271a3b24fb2e72f6c11d55523eecda8d5b"
+    },
+    {
+      "path": "dumb/table/textures/Bag 256x256.png",
+      "bytes": 5181,
+      "sha256": "a4dc5d81289419d2ec26d3612db529d4948685f91385c618ec4509dd1e23d343"
+    },
+    {
+      "path": "dumb/table/textures/Binders.png",
+      "bytes": 11352,
+      "sha256": "1032bb19bdbf26a41cdf8c57f2db93d39f332c099a5f99326e7a2e6cbc613718"
+    },
+    {
+      "path": "dumb/table/textures/Blade Runner Poster 256x256.png",
+      "bytes": 17108,
+      "sha256": "eb834aee10c003b5b6d621b03f8e51f9a6e57f13871e80435b69fc2055adcc54"
+    },
+    {
+      "path": "dumb/table/textures/Blank Floppy Disk 256x256.png",
+      "bytes": 53339,
+      "sha256": "3e23ea9a3669a8ea11b8eea95c5967ab41c02f0cfd1726151afe836bf3a094f3"
+    },
+    {
+      "path": "dumb/table/textures/Blank VHS 256x256.png",
+      "bytes": 15279,
+      "sha256": "a1112bb17794568033807d7ffdb06c62b45ec4ca0a28624ef2a2d3599203dd10"
+    },
+    {
+      "path": "dumb/table/textures/Burger 256x256.png",
+      "bytes": 16059,
+      "sha256": "e41d9b00b526ce6c8a976710eaf26b38063015f2e095e722c539fef0d6bf767f"
+    },
+    {
+      "path": "dumb/table/textures/CD Textures 256x256.png",
+      "bytes": 9554,
+      "sha256": "6927ed851ad5e9393ca42c2cbba5b1b2af7f15322d5bbe9b5dca27d6f2a4eda6"
+    },
+    {
+      "path": "dumb/table/textures/Clipboard 256x256.png",
+      "bytes": 30712,
+      "sha256": "8d392276e56fc23c22930589905f999e49f740003e2a3c39c34a9d14086870b5"
+    },
+    {
+      "path": "dumb/table/textures/Coffee.png",
+      "bytes": 32175,
+      "sha256": "d44080967400680504944cf4bf8cf22ecc6559a2da253bfc146dd60157958c23"
+    },
+    {
+      "path": "dumb/table/textures/CorkBoard Texture 256x256.png",
+      "bytes": 20721,
+      "sha256": "d74470e6e23e7a920cca4fc9afa5a9818db847b3890c3c86ad37f6a80b769127"
+    },
+    {
+      "path": "dumb/table/textures/Cubicle Wall 256x256.png",
+      "bytes": 18767,
+      "sha256": "ca54e4d56bc4aa428dcd215fa079eb0377d89a6c3ad14991b99dc1a0565805e4"
+    },
+    {
+      "path": "dumb/table/textures/Definitely Maybe CD.png",
+      "bytes": 17009,
+      "sha256": "0e0778c90405197421f4f1b262396051eb47bd23c5bd1bab9b8b997cb1ac2c7e"
+    },
+    {
+      "path": "dumb/table/textures/desk chair 256x256.png",
+      "bytes": 17211,
+      "sha256": "adfe2ba600fa5c6fb554cccc97b597bd1ae4c43b1d9d18235fbff442f81995ee"
+    },
+    {
+      "path": "dumb/table/textures/Dino_Crisis.jpeg",
+      "bytes": 51894,
+      "sha256": "a4bb5842174bff86eb491ff47d6722644b64ac680a6083dc5a528478773e96f3"
+    },
+    {
+      "path": "dumb/table/textures/Doom Floppy Disk 256x256.png",
+      "bytes": 62089,
+      "sha256": "689069ddc77797126e8309a544dd98b7755308482e5ae7a2a427dc3a9dd1fa2b"
+    },
+    {
+      "path": "dumb/table/textures/Extension Chord.png",
+      "bytes": 4608,
+      "sha256": "033cfdc19f6711ca016fb573cb2f0aac2d18926a3d478be1c2b96d96c9a83b7f"
+    },
+    {
+      "path": "dumb/table/textures/Fallout 2 Game Box 256x256.png",
+      "bytes": 14548,
+      "sha256": "5e59b18778b8395abae456c124e6c5ac2fb075811a48c028dbc61573c4f3081d"
+    },
+    {
+      "path": "dumb/table/textures/Fallout_1_Survival_Guide_256x256.png",
+      "bytes": 70799,
+      "sha256": "cc21ec936f22fb69f3b6867231dbf6ad4ef9076669d334c348d9f6925fb58004"
+    },
+    {
+      "path": "dumb/table/textures/Feather.png",
+      "bytes": 4707,
+      "sha256": "1d96f5c2b1207ad4235307fb2016d29ab3c899a1865d4798ebae0620e8061a12"
+    },
+    {
+      "path": "dumb/table/textures/FF7 Poster 256x256.png",
+      "bytes": 17092,
+      "sha256": "eca96f88ef5254adf90b4c878243e866653b3f488745a6d95c6e5863c46072b9"
+    },
+    {
+      "path": "dumb/table/textures/Folder 256x256.png",
+      "bytes": 32618,
+      "sha256": "a50ec627de654200a784fd185c5234714fcc5eecb0501f18b7d39287c973a75b"
+    },
+    {
+      "path": "dumb/table/textures/Half Life Game Box 256x256.png",
+      "bytes": 16144,
+      "sha256": "f23741ec78f018c42d1015fbc60ec20892201953edd2b7a7df8c9afff50d994e"
+    },
+    {
+      "path": "dumb/table/textures/Handbook for the Recently Deceased 256x256.png",
+      "bytes": 12409,
+      "sha256": "5fdce87c319a61a51b05524bddc0cfcfe1494800051371fcdcd23caeef93fb76"
+    },
+    {
+      "path": "dumb/table/textures/Hang In There Poster 256x256.png",
+      "bytes": 14759,
+      "sha256": "a30148e71c4522cd59116372891d0af61722bbd3af8a4255e6ac7a00b89c3cf4"
+    },
+    {
+      "path": "dumb/table/textures/Low_Res_Tower_and_Mouse_Textures.png",
+      "bytes": 39110,
+      "sha256": "788e6674fb85989288ebbcffec9c457283f89ce1c89d1b7cbd1aa290ae0f0fa3"
+    },
+    {
+      "path": "dumb/table/textures/Mesh Basket 256x256.png",
+      "bytes": 51414,
+      "sha256": "387b0c7979ed5c4abafb695b53fc809fc2b40090cefdfcac708364d53da4cdcc"
+    },
+    {
+      "path": "dumb/table/textures/N64 256x256.png",
+      "bytes": 12510,
+      "sha256": "314e8d7e4b574984879cdaef52fbeb3def3fe6ec57f43069e5f590ea65b18bb2"
+    },
+    {
+      "path": "dumb/table/textures/N64 Controller 256x256.png",
+      "bytes": 12452,
+      "sha256": "872b83b78b78bac7b34253fc4569ce12166591063e10578fad19b1ed34986829"
+    },
+    {
+      "path": "dumb/table/textures/Name Plate.png",
+      "bytes": 3217,
+      "sha256": "891ccd31115a371a0de1d2820e25d203300ba52c469383364c99df5c48399031"
+    },
+    {
+      "path": "dumb/table/textures/Necronomicon 256x256.png",
+      "bytes": 23843,
+      "sha256": "453388dcdcd6315cc5f437f33833c1f983a1243ae40f32b5b025fc4d65478d8d"
+    },
+    {
+      "path": "dumb/table/textures/Nevermind Textures.png",
+      "bytes": 15469,
+      "sha256": "79171c28d382ad60831cd931e5731f4bafda67534abd2063aa924447c968777d"
+    },
+    {
+      "path": "dumb/table/textures/NEWS.png",
+      "bytes": 21121,
+      "sha256": "4b6186d9dcab309080d63605ec1647dc66958404b47ae1f2fefb75ed0556f2b4"
+    },
+    {
+      "path": "dumb/table/textures/Newspaper.png",
+      "bytes": 15527,
+      "sha256": "78e031160501c7daae14dc86dbe03484f7a8ad3e045bbaf3c78f8b8a5d0c7bda"
+    },
+    {
+      "path": "dumb/table/textures/Nintendo Magazines 256x256.png",
+      "bytes": 22758,
+      "sha256": "5143fda7fee2bebf84f756dffe73f05985d00f8a2b6d2cc4a743e7fb9d13526d"
+    },
+    {
+      "path": "dumb/table/textures/Nirvana Calendar 256x256.png",
+      "bytes": 61382,
+      "sha256": "6040b89907d31a00e42b83c749ee8cf76fdfec584fe47cc53432364e4792872b"
+    },
+    {
+      "path": "dumb/table/textures/Notepad.png",
+      "bytes": 17361,
+      "sha256": "dc59321765db5fcc1f28e00c0eb9c0e7558a301d916f956a0c238e72748c5c34"
+    },
+    {
+      "path": "dumb/table/textures/Origami Unicorn.png",
+      "bytes": 5167,
+      "sha256": "3291277309d42462088de2af9b509efafec517f1f7773ec78fbe7b1b43ea9dd9"
+    },
+    {
+      "path": "dumb/table/textures/Panasonic KX-T7420 Textures 256x256.png",
+      "bytes": 16499,
+      "sha256": "ce0245573b3c53922ee61164b4329c43322cd1bb9579aabdbe853997f7617290"
+    },
+    {
+      "path": "dumb/table/textures/Panasonic VHS TV 256X256.png",
+      "bytes": 15539,
+      "sha256": "a196c34cd02e07ae301aa0ec621fbfbb51284b52d184893b52d13d64674d8c11"
+    },
+    {
+      "path": "dumb/table/textures/paper side.jpeg",
+      "bytes": 45177,
+      "sha256": "0560d02f526a18f463a87a54a895bdf4cebb6f751d9c72a0e8909772fe285a44"
+    },
+    {
+      "path": "dumb/table/textures/PC_Monitor_and_Keyboard_256x256.png",
+      "bytes": 44175,
+      "sha256": "8f0f5d9c84a1a6fa1cba58ab22f34cc29f82afa72e58ea4f10d111f25422872a"
+    },
+    {
+      "path": "dumb/table/textures/Pencil 256x256.png",
+      "bytes": 5605,
+      "sha256": "73f76b85323a6de4be36ccb8ad2647dbb1dd31ae12e3a4ff29e3d5a9ca6c69b9"
+    },
+    {
+      "path": "dumb/table/textures/Pin Board.png",
+      "bytes": 32217,
+      "sha256": "8fbc777f32336fe7207537091ccc679abf261e8968938078579061e61fa70a0c"
+    },
+    {
+      "path": "dumb/table/textures/potted plant 256x256.png",
+      "bytes": 16127,
+      "sha256": "c085809ed12ae1e341845f5d173221490c7e2e583c56b519d8fbe8a331a2b2ab"
+    },
+    {
+      "path": "dumb/table/textures/Rubicks Cube 256x256.png",
+      "bytes": 1150,
+      "sha256": "67f9509d4a3d9bf3dabb07f423422f72c4ad8ae4ca2b3893c720d18533ecea60"
+    },
+    {
+      "path": "dumb/table/textures/seamless carpet.jpeg",
+      "bytes": 45919,
+      "sha256": "640af98ea6aa7066874dcc51d6d9bb373dbc9189e50ccf06b078dc53a8a16c55"
+    },
+    {
+      "path": "dumb/table/textures/Silver.png",
+      "bytes": 57113,
+      "sha256": "89c88debeafbae8e498d366622bfcb876ff9b96ed1329463256f414e665b6c35"
+    },
+    {
+      "path": "dumb/table/textures/Speed 1994 Prop Pamphlets 256x256.png",
+      "bytes": 54210,
+      "sha256": "1cee86848fd01a613293f244c81f54bc4e1145003210aaee209173835044e6cd"
+    },
+    {
+      "path": "dumb/table/textures/Speed VHS 256x256.png",
+      "bytes": 42335,
+      "sha256": "7d59dd1a686d0999d72f1bc4e0b134d2142044daa31e7bb55173f866b549087a"
+    },
+    {
+      "path": "dumb/table/textures/Spray Bottle.png",
+      "bytes": 3947,
+      "sha256": "ec9eb122998618ba80ce42de66df4d4c7b65a62267d7022136b27facb29cc815"
+    },
+    {
+      "path": "dumb/table/textures/Steam.png",
+      "bytes": 34106,
+      "sha256": "780a81c45bd4b6736618c3915744420d30c04f789d9ea6b32c2011afcb900fd0"
+    },
+    {
+      "path": "dumb/table/textures/Sticky Notes.png",
+      "bytes": 45379,
+      "sha256": "3f021052d0eec3626b8d4d4a580f33929ff6b03a6dceab40346d8063d115192e"
+    },
+    {
+      "path": "dumb/table/textures/Super Mario N64 Cartridge 256x256.png",
+      "bytes": 20169,
+      "sha256": "302df0c0681d6de0aff122d9b39b7ac97868204460344b5991c0db8aecaad1be"
+    },
+    {
+      "path": "dumb/table/textures/Swingline-Stapler.png",
+      "bytes": 47679,
+      "sha256": "ed885ca48b08d6921f72daa00b3023b1e94d906a2df87b69311fa1bf18bbbff4"
+    },
+    {
+      "path": "dumb/table/textures/Ten Textures.png",
+      "bytes": 16369,
+      "sha256": "88433d8c942e74ebe0286b8e7720b75df5b5b8fad44aaecc79fefdfc4a9d0db8"
+    },
+    {
+      "path": "dumb/table/textures/Terminator Poster 256x256.png",
+      "bytes": 12941,
+      "sha256": "1f97ad1fa0e59337ebec9a77ed1a04bdd07896a85356abce67e38090ca6f6042"
+    },
+    {
+      "path": "dumb/table/textures/The Box.png",
+      "bytes": 31835,
+      "sha256": "801d76e17c69961e418fe5ca48a42d9cbc789721ca42881a8641ca9be02bbdf4"
+    },
+    {
+      "path": "dumb/table/textures/Tyler Durden Business Card.png",
+      "bytes": 16232,
+      "sha256": "c54889e633083c6d74194e87c4c8fae4f0bb12b4687aed2c27b314214569f055"
+    },
+    {
+      "path": "dumb/table/textures/Umbrella Corp Key Card.png",
+      "bytes": 13706,
+      "sha256": "a1e63779870653bcd2e5613e0cb5f7def1379aeeeb36458392d229eeeabcee0e"
+    },
+    {
+      "path": "dumb/table/textures/wood 2.jpeg",
+      "bytes": 37472,
+      "sha256": "99e82848165303005197aceb01338cbdc8d3306c132b000faf76f05707f9ed9f"
+    },
+    {
+      "path": "dumb/table/textures/Wrapper 256x256.png",
+      "bytes": 22338,
+      "sha256": "683741a84333ac9628f7f719a2d8247cc8872b38cc7e1720f01136a10995a1f3"
+    },
+    {
+      "path": "dumb/table/textures/y2k Sticker 256x256.png",
+      "bytes": 12535,
+      "sha256": "06b4733452681073b1f220479e7b42176f7b1cbb7b71ca2ff765de5edb3e5f63"
+    },
+    {
+      "path": "dumb/table/textures/Zeldas Letter.png",
+      "bytes": 15064,
+      "sha256": "1e4340e18c0f890f2457a38b6c1b1d1a3df9edf6694f7b81e946a351e0eef72f"
+    }
+  ],
+  "verified": true
+}

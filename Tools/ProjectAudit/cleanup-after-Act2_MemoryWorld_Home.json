@@ -1,0 +1,1238 @@
+{
+  "status": "success",
+  "result": {
+    "success": true,
+    "assetPath": "Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity",
+    "dependencyCount": 307,
+    "dependencies": [
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Yard/MAT_CornPeanuts.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Altar_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_RiceCookingStove.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_RiceJar.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/CornPeanuts/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_BambooTable.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/PottedPlant/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/FirewoodPile/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/PauseUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/ToolSet/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_WallBasin.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenCurtain_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part29_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Text Component Icon.psd",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part21_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Floor.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_GrainMill.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_02.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_DishRack_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenStructure_02_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Yard/MAT_ToolSet_02.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.core/Runtime/Volume/VolumeProfile.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Image.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.core/Runtime/Volume/Volume.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_Roof_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part31.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_RusticBedroom.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_FirewoodStove_01.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scenes/ScriptableObjects/Items/Item0.asset",
+        "type": "ItemData"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_RiceJar.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/FirewoodPile/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/SpiceJars/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/T_RusticBedroom_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Player/PlayerInteraction.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_DishwashingStation_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Bedroom/MAT_TelevisionStand.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part11_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part14_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part31_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Generated/Blue.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_RiceJar_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_MusicPlayer.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/GrainMill/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part10.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Data/ItemData.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_RiceCookingStove_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Layout/CanvasScaler.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Generated/Clean.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_PlasterPanel_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_SpiceJars.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Prefabs/PF_BedroomWall.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_StorageChest.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenCurtain_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenCurtain_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part32.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_Roof.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/GrainPile/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part8.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_FirewoodStove_01_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part12.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part15_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/Vignette.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Materials/Lit.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part7.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+        "type": "TMP_FontAsset"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_WallPanel_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_FirewoodStove_02_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/ColorAdjustments.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Yard/MAT_Rake.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_BambooBasket.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Interaction/BedInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_WallHook.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/BambooTable/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/Radio/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WindowVillageCyclorama_01.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_StovePot.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_WallBasin.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_01.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TimberColumn_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part30_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_WallHook.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/KitchenFlowManager.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_TerracottaGround.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Yard/MAT_Broom.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/InventoryManager.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenStructure_02_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Radio.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Yard/MAT_BambooTable.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_Roof_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_Refrigerator.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_AgedPlaster.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/Bloom.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_WallHook_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/FishBasket/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenStructure_02_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/Tonemapping.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Certificate.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part19_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part29.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_TimberColumn_Single.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part28.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenCurtain.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part24_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_WallPanel.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_DishwashingStation_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Bedroom/MAT_WallArt.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_DishwashingStation.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part15.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/Refrigerator/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_Broom.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part16_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_PlasterPanel_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_PottedPlant.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/BambooTable/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part2_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_StovePot_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part8_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_StovePot_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_WallHook_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part14.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/Rake/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_GrainPile.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/ClayJarSet/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Bedroom/MAT_StorageChest.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TimberColumn_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_WindowVillageBackdrop.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/ToolSet_02/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/EventSystem/InputModules/StandaloneInputModule.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part25.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/ShopManager.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TimberColumn.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_CornPeanuts.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part20.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Layout/VerticalLayoutGroup.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/QuestManager.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_WallBasin_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part26_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part33_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part13.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_PlasterPanel_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Floor_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Slider.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_FirewoodStove_02_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Yard/MAT_ToolSet.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_WallBasin_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part17_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_LightPlaster.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_Rake.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_RiceCookingStove.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_WeatheredFooting.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/ToolSet/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/JournalUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part3.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_SpiceJars.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/FishBasket/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Altar.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Bedroom/MAT_Radio.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TextMeshProUGUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part32_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_PlasterPanel.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/Certificate/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part2.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_FishBasket.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Editor/AssetVersion.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part24.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_WindowVillage_Backdrop.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/T_WallArt_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/CurrencyManager.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_Roof.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/PottedPlant/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part11.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/T_StorageChest_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_FirewoodStove_01_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_WallArt.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_DishCabinet_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Yard/MAT_GrainPile.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/Floor/Textures/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_Roof_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/Floor/Textures/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Generated/Act2_NostalgicMemory_Profile.asset",
+        "type": "VolumeProfile"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/Player/Player.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/ShopItemSlotUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Cabinet.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_ToolSet_02.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_01.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/HUDController.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_ClayJarSet.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part23_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_DishRack.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/Rake/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_DishwashingStation_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_TelevisionStand.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/ShopUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/BedWakeUpController.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/UIButtonJuice.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_KitchenStructure_02.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part27.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Yard/MAT_BambooBasket.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part13_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Bedroom/MAT_Certificate.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/BambooBasket/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/Broom/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part12_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.core/Editor/Volume/Icons/Volume.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Font Asset Icon.psd",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Button.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/ClayJarSet/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FishBasket.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part33.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_HouseTimber.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_StovePot_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/Certificate/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/ProgressBarUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_WallHook_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAsset.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part25_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_FirewoodStove_02_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_02.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishwashingStation.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/GrainMill/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_MusicPlayer_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_RiceCookingStove_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Lit.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_DishCabinet_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/GrainPile/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_RiceJar_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_WallPanel_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part26.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_RiceCookingStove_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part3_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Chair_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/DialogueUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Scripts/MiniGames/DishWashingGame.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/ToolSet_02/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_WallBasin_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Unlit.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TimberColumn_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_RiceJar_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part21.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_TraditionalHouseInterior.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/Refrigerator/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_DarkTimber.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/MarbleAimUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Bedroom/MAT_RusticBedroom.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_FirewoodStove_01_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_PlasterPanel_01.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part27_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/T_TelevisionStand_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+        "type": "TMP_FontAsset"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/Broom/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/Radio/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part19.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_KitchenCurtain.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalLightData.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Player/FirstPersonController.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishRack.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/HouseholdChoreFlow.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part7_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_FirewoodPile.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_DishCabinet_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part16.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part18_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_DishCabinet.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/MemoryCollectionManager.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_FirewoodStove_02.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Generated/Vietnamese.asset",
+        "type": "TMP_FontAsset"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TerracottaGround.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part1_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Yard/MAT_GrainMill.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part1.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Prefabs/PF_TimberColumn_Single.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part30.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/BambooBasket/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/UI/ShopItemSlot.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Interaction/HouseholdChoreInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part4.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/WhiteBalance.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Yard/MAT_PottedPlant.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalCameraData.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_WallPanel_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.core/Editor/Volume/Icons/VolumeProfileAsset.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part4_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_ToolSet.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/GraphicRaycaster.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_Refrigerator.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/DreamKeyController.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part17.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Cabinet_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishCabinet.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_StovePot.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WindowVillageCyclorama_02.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_ClayJarSet.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part18.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scenes/ScriptableObjects/Items/Item2.asset",
+        "type": "ItemData"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_DishRack_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Chair.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_DishRack_Metallic.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part20_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/SpiceJars/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodPile.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Materials/Architecture/MAT_TraditionalHouse_Part23.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part28_BaseColor.jpeg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Yard/CornPeanuts/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+        "type": "Font"
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TraditionalHouse_Part10_BaseColor.jpeg",
+        "type": "Texture2D"
+      }
+    ]
+  }
+}

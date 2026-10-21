@@ -1,0 +1,230 @@
+[
+  {
+    "success": true,
+    "assetPath": "Assets/_Project/Resources/GameUiTheme.asset",
+    "dependencyCount": 7,
+    "dependencies": [
+      {
+        "path": "Assets/_Project/Generated/Vietnamese.asset",
+        "type": "TMP_FontAsset"
+      },
+      {
+        "path": "Assets/_Project/UI/5dc091f5-efc3-4024-849f-d5926236f2f9.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Font Asset Icon.psd",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAsset.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/GameUiTheme.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+        "type": "Font"
+      }
+    ]
+  },
+  {
+    "success": true,
+    "assetPath": "Assets/_Project/Resources/HomeGameplayVoices.asset",
+    "dependencyCount": 16,
+    "dependencies": [
+      {
+        "path": "Assets/_Project/Scripts/Dialogue/DialogueSequence.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_ty_measure_rice_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_ty_set_table_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_ty_keepsakes_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_ty_cook_rice_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_mom_wakeup_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_ty_radio_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_ty_wash_rice_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_ty_put_away_dishes_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_ty_wash_dishes_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_mom_letter_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_ty_grind_corn_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_ty_fetch_water_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_ty_firewood_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_ty_light_fire_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act2/act2_ty_mom_memory_001.wav",
+        "type": "AudioClip"
+      }
+    ]
+  },
+  {
+    "success": true,
+    "assetPath": "Assets/_Project/Resources/KuTyAudio.prefab",
+    "dependencyCount": 21,
+    "dependencies": [
+      {
+        "path": "Assets/_Project/Generated/Complete.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Generated/SFX/WaterSplash.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Generated/SoundLibrary.asset",
+        "type": "SoundLibrary"
+      },
+      {
+        "path": "Assets/_Project/Generated/SFX/UIBack.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Generated/SFX/TaskProgress.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Generated/SFX/MarbleHit.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Music/CountrysideSummer_YoshinoriTanaka.mp3",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Generated/SFX/UIConfirm.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Audio/AudioManager.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Generated/Memory.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Generated/SFX/UIInvalid.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Audio/SoundLibrary.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Generated/SFX/MarbleRoll.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Music/Reverie_ScottBuckley.mp3",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Generated/MarbleShoot.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Audio/SfxCatalog.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Audio/Music/Childhood_ScottBuckley.mp3",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Data/Audio/SfxCatalog.asset",
+        "type": "SfxCatalog"
+      },
+      {
+        "path": "Assets/_Project/Generated/PurchaseFail.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Generated/DishClean.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Generated/Purchase.wav",
+        "type": "AudioClip"
+      }
+    ]
+  },
+  {
+    "success": true,
+    "assetPath": "Assets/_Project/Resources/OfficeGameplayVoices.asset",
+    "dependencyCount": 6,
+    "dependencies": [
+      {
+        "path": "Assets/_Project/Scripts/Dialogue/DialogueSequence.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act1/act1_ty_water_after_report_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act1/act1_ty_print_pickup_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act1/act1_ty_rest_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act1/act1_intro_boss_004.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act1/act1_ty_print_ready_001.wav",
+        "type": "AudioClip"
+      }
+    ]
+  }
+]
