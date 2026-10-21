@@ -1,0 +1,12 @@
+PASS: both hysteresis bands, reversal during fade, three-way coverage, continuity and exact settling.
+Frame 0, distance=8.00, actual LOD weights=(1.000, 0.000, 0.000), cover draws=18
+Frame 86, distance=10.89, actual LOD weights=(0.789, 0.211, 0.000), cover draws=14
+Frame 102, distance=11.43, actual LOD weights=(0.112, 0.888, 0.000), cover draws=14
+Frame 119, distance=12.00, actual LOD weights=(0.000, 1.000, 0.000), cover draws=13
+Frame 219, distance=23.65, actual LOD weights=(0.000, 1.000, 0.000), cover draws=11
+Frame 232, distance=25.18, actual LOD weights=(0.000, 0.829, 0.171), cover draws=10
+Frame 239, distance=26.00, actual LOD weights=(0.000, 0.532, 0.468), cover draws=9
+Frame 260, distance=22.97, actual LOD weights=(0.000, 0.084, 0.916), cover draws=9
+Frame 350, distance=9.36, actual LOD weights=(0.000, 1.000, 0.000), cover draws=15
+PASS: rendered 360 camera steps 8→12→26→8 metres, crossing both thresholds in both directions; nine review captures.
+PASS: missing vegetation materials do not throw during drawing.

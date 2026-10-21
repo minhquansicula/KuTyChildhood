@@ -134,7 +134,7 @@ public sealed class VillageGroundCoverRenderer : MonoBehaviour
     private void Draw(Camera camera,int batch)
     {
         var prototype=prototypes[batch/3];int lod=batch%3;var mesh=lod==0?prototype.near:lod==1?prototype.middle:prototype.far;
-        if(!mesh || prototype.materials==null)return;
+        if(!mesh || prototype.materials==null || prototype.materials.Length==0)return;
         for(int sub=0;sub<mesh.subMeshCount;sub++)
         {
             var material=prototype.materials[Mathf.Min(sub,prototype.materials.Length-1)];if(!material)continue;

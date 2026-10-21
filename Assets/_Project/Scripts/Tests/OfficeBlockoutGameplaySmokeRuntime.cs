@@ -475,6 +475,17 @@ public sealed class OfficeBlockoutGameplaySmokeRunner : MonoBehaviour
         yield return null;
         CaptureUI("OfficeShift_Complete", 1366, 768);
 
+        // Drinking now happens at the real dispenser, so walk back and sit
+        // before requesting the final rest beat from the monitor.
+        intro.motor.TeleportTo(new Vector3(chair.transform.position.x - .8f, .08f,
+            chair.transform.position.z), Quaternion.identity);
+        originalRayOrigin.rotation = Quaternion.LookRotation(chair.transform.position + Vector3.up * .7f - originalRayOrigin.position);
+        Physics.SyncTransforms();
+        Call(playerInteraction, "HandleRaycast");
+        Check(playerInteraction.CurrentTarget == chair, "Cannot select the chair after the water break");
+        playerInteraction.CurrentTarget.Interact();
+        yield return new WaitForSeconds(.7f);
+        Check(office.IsSeated, "Rest requires returning to the chair first");
         workstation.Interact();
         Check(office.Phase == OfficePhase.Leaving && GameManager.Instance.InputBlocked,
             "Rest interaction did not start the exhaustion sequence");
