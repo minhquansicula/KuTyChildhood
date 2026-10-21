@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 /// <summary>One visible prop starts a hands-on chore. Reward and checkpoint state stay in HouseholdChoreFlow.</summary>
-public sealed class HouseholdChoreInteractable : InteractableBase
+public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInteractable
 {
     [SerializeField] private HouseholdChore chore;
     [SerializeField] private Transform effectAnchor;
@@ -32,6 +32,16 @@ public sealed class HouseholdChoreInteractable : InteractableBase
         if (flow == null) flow = HouseholdChoreFlow.Instance;
         return isActiveAndEnabled && !running && flow != null && flow.IsCurrent(chore)
             ? "[E] " + HouseholdChoreFlow.Titles[(int)chore] : "";
+    }
+
+    public bool TryGetProximityDistance(Vector3 playerPosition, out float distance)
+    {
+        distance = float.PositiveInfinity;
+        if (chore != HouseholdChore.WashRice || string.IsNullOrEmpty(GetPromptText())) return false;
+
+        Vector3 offset = playerPosition - (effectAnchor != null ? effectAnchor.position : transform.position);
+        distance = new Vector2(offset.x, offset.z).magnitude;
+        return Mathf.Abs(offset.y) <= 1.5f && distance <= 1.6f;
     }
 
     protected override void OnInteract()
