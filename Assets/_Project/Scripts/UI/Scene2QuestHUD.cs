@@ -143,7 +143,8 @@ public sealed class Scene2QuestHUD : MonoBehaviour
             "<size=16><color=#B5C3CF>NHIỆM VỤ HIỆN TẠI</color></size>\n" +
             "<size=21><b><color=#FFFFFF>›  " + action + "</color></b></size>\n" +
             (string.IsNullOrEmpty(location) ? string.Empty : "<size=15><color=#F4C66A>" + location + "</color></size>\n") +
-            "<size=15><color=#A9BBC9>E Tương tác  ·  H Gợi ý  ·  Tab Bảng nhiệm vụ</color></size>";
+            "<size=15><color=#A9BBC9>E Tương tác  ·  H Gợi ý  ·  Tab Bảng nhiệm vụ</color></size>" +
+            (household ? "\n<size=17><color=#F4C66A>P · Làm lại việc nhà từ đầu</color></size>" : string.Empty);
         boardText.text = BuildBoardText();
     }
 
@@ -175,7 +176,9 @@ public sealed class Scene2QuestHUD : MonoBehaviour
             AppendStage(text, QuestStep.TakeDreamKey, "Nhặt Chìa Khóa Ước Mơ");
             AppendStage(text, QuestStep.UnlockFrontDoor, "Mở cửa bị xích");
         }
-        text.Append("\n<size=15><color=#9CAEB8>Tự động lưu sau mỗi việc và mỗi bước.</color></size>");
+        text.Append(household
+            ? "\n<size=15><color=#F4C66A>P · Làm lại từ đầu</color></size>"
+            : "\n<size=15><color=#9CAEB8>Tự động lưu sau mỗi bước.</color></size>");
         return text.ToString();
     }
 
@@ -301,7 +304,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         rootGroup.interactable = rootGroup.blocksRaycasts = false;
 
         var card = Panel("CurrentObjective", root.transform, new Vector2(1, 1),
-            new Vector2(-28, -112), new Vector2(455, 225));
+            new Vector2(-28, -112), new Vector2(455, 255));
         objectiveText = Label("ObjectiveText", card.transform, new Vector2(22, 17), new Vector2(-22, -17), 20);
 
         board = Panel("MissionBoard", root.transform, new Vector2(0, 1),

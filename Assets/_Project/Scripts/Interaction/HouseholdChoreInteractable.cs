@@ -70,6 +70,16 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
         if ((GameManager.Instance != null && GameManager.Instance.IsPaused) ||
             PauseUI.LastResumeFrame == Time.frameCount) return;
         if (Input.GetKeyDown(KeyCode.Escape)) { EndInteraction(); return; }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (flow?.UI?.Actions.Restart() == true)
+            {
+                feedback?.Dispose();
+                feedback = new HouseholdWorkFeedback(chore, effectAnchor != null ? effectAnchor : transform);
+                flow.UI.SetHint("Đã làm lại nhiệm vụ từ đầu.");
+            }
+            return;
+        }
         feedback?.Tick();
     }
 

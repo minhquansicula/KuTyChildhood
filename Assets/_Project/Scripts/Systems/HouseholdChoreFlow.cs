@@ -99,7 +99,26 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         if (Instance == this) Instance = null;
     }
 
-    private void Update() => ui?.Tick();
+    private void Update()
+    {
+        ui?.Tick();
+        if (!checklistVisible || QuestManager.Instance == null ||
+            QuestManager.Instance.CurrentStep != QuestStep.WashDishes ||
+            (GameManager.Instance != null && GameManager.Instance.InputBlocked) ||
+            PauseUI.LastResumeFrame == Time.frameCount || !Input.GetKeyDown(KeyCode.P)) return;
+
+        ResetHomeChores();
+    }
+
+    private void ResetHomeChores()
+    {
+        for (int i = 0; i < completed.Length; i++) completed[i] = false;
+        pieces = 0;
+        Scene2Checkpoint.Clear();
+        RefreshUI();
+        ui.Notify("Đã làm lại việc nhà từ đầu. Hãy đến rương đồ để bắt đầu.");
+        QuestManager.Instance?.RefreshHouseholdObjective();
+    }
 
     public void ShowChecklist()
     {
@@ -226,7 +245,7 @@ public sealed class HouseholdChoreUI
         feedbackText.color = new Color(.98f, .83f, .55f);
         progressText = Label("Progress", gamePanel.transform, new Vector2(0, -275), new Vector2(1000, 45), 20, TextAlignmentOptions.Center);
         cancelText = Label("CancelHint", gamePanel.transform, new Vector2(0, -345), new Vector2(1000, 35), 19, TextAlignmentOptions.Center);
-        cancelText.text = "Esc · Tạm dừng việc này, không mất tiến độ đã xong";
+        cancelText.text = "P · Làm lại nhiệm vụ    |    Esc · Tạm dừng việc này";
         var bar = Box("ProgressBar", gamePanel.transform, new Vector2(0, -190), new Vector2(410, 18),
             new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.35f, .3f, .23f));
         var fillObject = Box("Fill", bar.transform, new Vector2(0, 0), new Vector2(0, 18),
