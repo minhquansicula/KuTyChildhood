@@ -12,6 +12,30 @@ using UnityEngine.SceneManagement;
 /// <summary>Checks the committed scene assets without depending on local art-pass baselines.</summary>
 public static class KuTyMergeValidation
 {
+    [MenuItem("KuTy/Scene 2/Place rice washing pot on sink surface")]
+    public static void PlaceRicePotOnSink()
+    {
+        if (EditorApplication.isPlaying || SceneManager.GetActiveScene().name != "Act2_MemoryWorld_Home")
+            throw new InvalidOperationException("Open Scene 2 in Edit Mode first.");
+        var pot = GameObject.Find("SM_RiceWashingPot");
+        var sink = GameObject.Find("DishwashingStationVisual").GetComponent<Collider>();
+        var renders = pot.GetComponentsInChildren<Renderer>(true);
+        float bottom = renders.Min(r => r.bounds.min.y);
+        Undo.RecordObject(pot.transform, "Place rice pot above sink collision");
+        pot.transform.position += Vector3.up * (sink.bounds.max.y + .015f - bottom);
+        PrefabUtility.RecordPrefabInstancePropertyModifications(pot.transform);
+        EditorSceneManager.MarkSceneDirty(pot.scene);
+        EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
+    }
+    [MenuItem("KuTy/Tests/Run precise Scene 2 targeting")]
+    public static void RunScene2Targeting()
+    {
+        if (EditorApplication.isPlaying) throw new InvalidOperationException("Exit Play Mode first.");
+        KuTyCheckpointTestScope.Capture();
+        EditorSceneManager.OpenScene("Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity");
+        Scene2PreciseTargetingSmoke.Prepare();
+        EditorApplication.EnterPlaymode();
+    }
     [MenuItem("KuTy/Tests/Validate merged build scenes")]
     public static void ValidateScenes()
     {
