@@ -26,6 +26,7 @@ public sealed class OfficeIntroController : MonoBehaviour
     public OfficeIntroHUD hud;
     public OfficeDoorInteractable door;
     public AudioSource voice, deskSlam, chairSound;
+    public BossOfficeAnimation bossAnimation;
     public AudioSource[] ambience;
     public Line[] dialogue;
     [Header("TTS dialogue (falls back to legacy Dialogue when empty)")]
@@ -41,6 +42,7 @@ public sealed class OfficeIntroController : MonoBehaviour
     [SerializeField] private Transform openingLookTarget;
     private float openingFadeElapsed;
     public bool IsFadingIn => openingFadeElapsed < openingFadeDuration;
+    public Transform OpeningLookTarget => openingLookTarget;
     [Header("Gameplay handoff")]
     [SerializeField] private bool useExternalInteractionInput;
     public IntroState State { get; private set; }
@@ -78,10 +80,17 @@ public sealed class OfficeIntroController : MonoBehaviour
         for (int i=0;i<ambience.Length;i++) if (ambience[i])
         { ambientVolumes[i]=ambience[i].volume; if (ambience[i].clip) ambience[i].Play(); }
         initialized = true;
-        motor.TeleportTo(spawn.position, spawn.rotation);
+        Vector3 openingPosition = spawn.position + (bossAnimation ? bossAnimation.openingViewOffset : Vector3.zero);
+        Quaternion openingRotation = spawn.rotation;
+        if (bossAnimation && openingLookTarget)
+        {
+            Vector3 facing = openingLookTarget.position - openingPosition; facing.y = 0f;
+            if (facing.sqrMagnitude > .001f) openingRotation = Quaternion.LookRotation(facing);
+        }
+        motor.TeleportTo(openingPosition, openingRotation);
         view.transform.localPosition = Vector3.up * 1.65f;
         motor.SetPitch(0); motor.LockMovement(true); motor.enabled = false;
-        centerYaw = spawn.eulerAngles.y; yaw = 0; pitch = 0;
+        centerYaw = openingRotation.eulerAngles.y; yaw = 0; pitch = 0;
         if (openingLookTarget)
         {
             Vector3 direction = openingLookTarget.position - view.transform.position;
@@ -101,9 +110,10 @@ public sealed class OfficeIntroController : MonoBehaviour
         elapsed = 0;
         ResolvedLine line = ResolveLine(lineIndex);
         hud.SetSubtitle(line.speaker, line.text);
+        if (bossAnimation) bossAnimation.BeginLine(lineIndex);
         if (voicePlayer) voicePlayer.Play(line.clip);
         else if (voice) { voice.Stop(); voice.clip=line.clip; if (line.clip) voice.Play(); }
-        if (line.slam && deskSlam && deskSlam.clip) deskSlam.Play();
+        if (line.slam && !bossAnimation && deskSlam && deskSlam.clip) deskSlam.Play();
     }
     void Update()
     {

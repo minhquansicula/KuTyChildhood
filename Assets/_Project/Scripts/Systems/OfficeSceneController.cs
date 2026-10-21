@@ -65,6 +65,7 @@ public sealed class OfficeSceneController : MonoBehaviour
     public event Action<bool> WorkingChanged;
     public event Action<bool> SeatedChanged;
     public event Action ObjectiveChanged;
+    public event Action<string, float> SpeakerChanged;
 
     private Coroutine subtitleRoutine;
     private Coroutine seatRoutine;
@@ -78,11 +79,20 @@ public sealed class OfficeSceneController : MonoBehaviour
     private bool guidanceSubtitleActive;
     private float afternoonLightInitialIntensity;
     private OfficeSceneEffects sceneEffects;
+    private DialogueSequence gameplayVoices;
+    private DialogueVoicePlayer gameplayVoice;
+    private GameManager voicePauseOwner;
+    public DialogueVoicePlayer GameplayVoicePlayer => gameplayVoice;
+    public float CurrentSubtitleSeconds { get; private set; }
 
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+        gameplayVoices = Resources.Load<DialogueSequence>("OfficeGameplayVoices");
+        var voiceObject = new GameObject("OfficeGameplayVoice", typeof(AudioSource), typeof(DialogueVoicePlayer));
+        voiceObject.transform.SetParent(transform, false);
+        gameplayVoice = voiceObject.GetComponent<DialogueVoicePlayer>();
         sceneEffects = GetComponent<OfficeSceneEffects>();
         if (sceneEffects == null) sceneEffects = gameObject.AddComponent<OfficeSceneEffects>();
         ConfigureHudPresentation();
@@ -93,6 +103,8 @@ public sealed class OfficeSceneController : MonoBehaviour
 
     private void Start()
     {
+        voicePauseOwner = GameManager.Instance;
+        if (voicePauseOwner != null) voicePauseOwner.OnPauseChanged += PauseGameplayVoice;
         CacheStandingCameraY();
         SetPhase(OfficePhase.Opening);
         if (openingControlledExternally) return;
@@ -608,11 +620,26 @@ public sealed class OfficeSceneController : MonoBehaviour
         SeatedChanged?.Invoke(value);
     }
 
-    private void ShowSubtitle(string speaker, string line, float seconds)
+    private float ShowSubtitle(string speaker, string line, float seconds)
     {
+        gameplayVoice?.Stop();
+        if (gameplayVoices != null)
+        {
+            foreach (var recording in gameplayVoices.Lines)
+            {
+                if (recording.speakerId != speaker || recording.text != line || recording.voiceClip == null) continue;
+                seconds = recording.ResolveDuration();
+                gameplayVoice.Play(recording.voiceClip);
+                if (GameManager.Instance != null && GameManager.Instance.IsPaused) gameplayVoice.Pause();
+                break;
+            }
+        }
+        CurrentSubtitleSeconds = seconds;
         guidanceSubtitleActive = false;
         if (subtitleRoutine != null) StopCoroutine(subtitleRoutine);
         subtitleRoutine = StartCoroutine(Subtitle(speaker, line, seconds));
+        SpeakerChanged?.Invoke(speaker, seconds);
+        return seconds;
     }
 
     public void ShowCinematicSubtitle(string speaker, string line, float seconds) =>
@@ -621,6 +648,8 @@ public sealed class OfficeSceneController : MonoBehaviour
     public void ShowGuidanceHint(string line)
     {
         if (string.IsNullOrEmpty(line)) return;
+        gameplayVoice?.Stop();
+        SpeakerChanged?.Invoke(string.Empty, 0f);
         guidanceSubtitleActive = true;
         if (subtitleRoutine != null) StopCoroutine(subtitleRoutine);
         subtitleRoutine = StartCoroutine(Subtitle("GỢI Ý", line, 4.5f));
@@ -643,6 +672,8 @@ public sealed class OfficeSceneController : MonoBehaviour
 
     public void HideCinematicSubtitle()
     {
+        gameplayVoice?.Stop();
+        SpeakerChanged?.Invoke(string.Empty, 0f);
         if (subtitleRoutine != null) StopCoroutine(subtitleRoutine);
         subtitleRoutine = null;
         guidanceSubtitleActive = false;
@@ -773,12 +804,26 @@ public sealed class OfficeSceneController : MonoBehaviour
         shadow.effectDistance = new Vector2(1.5f, -1.5f);
     }
 
-    private void SetControlsHintVisible(bool visible)
+    public bool ControlsHintVisible => controlsHintText != null && controlsHintText.gameObject.activeSelf;
+    public void SetControlsHintVisible(bool visible)
     {
         if (controlsHintText != null) controlsHintText.gameObject.SetActive(visible);
     }
 
 #if UNITY_EDITOR
+    public void MakePrintingAvailableForTests()
+    {
+        if (printRoutine != null) StopCoroutine(printRoutine);
+        SetPhase(OfficePhase.PrintingReport);
+        printRoutine = StartCoroutine(PrintReportBeat());
+    }
+
+    public void MakeReportDeliveryAvailableForTests()
+    {
+        HasPrintedReport = true;
+        SetPhase(OfficePhase.DeliverReport);
+    }
+
     public void SkipOpeningForTests()
     {
         openingSequence?.SkipImmediately();
@@ -804,7 +849,14 @@ public sealed class OfficeSceneController : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (voicePauseOwner != null) voicePauseOwner.OnPauseChanged -= PauseGameplayVoice;
         GameManager.Instance?.ReleaseInput(this);
         if (Instance == this) Instance = null;
+    }
+
+    private void PauseGameplayVoice(bool paused)
+    {
+        if (paused) gameplayVoice?.Pause();
+        else gameplayVoice?.Resume();
     }
 }

@@ -56,6 +56,20 @@ public class HUDController : MonoBehaviour
 
     private void Start()
     {
+        if (gameObject.scene.name == SceneNames.Act1 && promptPanel != null)
+        {
+            var rect = promptPanel.GetComponent<RectTransform>();
+            OfficeUiStyle.Rect(rect, new Vector2(.5f, 0f), new Vector2(700f, 62f), new Vector2(0f, 236f));
+            var image = promptPanel.GetComponent<Image>();
+            if (image != null) { image.sprite = OfficeUiStyle.Rounded; image.type = Image.Type.Sliced; image.color = OfficeUiStyle.Ink; image.raycastTarget = false; }
+            if (promptText != null)
+            {
+                OfficeUiStyle.Rect(promptText.rectTransform, Vector2.one * .5f, new Vector2(660f, 54f), Vector2.zero);
+                promptText.fontSize = 25f; promptText.color = OfficeUiStyle.Paper;
+                promptText.alignment = TextAlignmentOptions.Center; promptText.raycastTarget = false;
+            }
+            if (crosshairImage != null) crosshairImage.rectTransform.sizeDelta = new Vector2(4f, 4f);
+        }
         // Ẩn prompt ban đầu
         HideInteractPrompt();
 
@@ -139,6 +153,8 @@ public class HUDController : MonoBehaviour
     }
 
     public TMP_FontAsset ObjectiveFont => objectiveText != null ? objectiveText.font : null;
+    public bool CrosshairVisible => crosshairImage != null && crosshairImage.gameObject.activeSelf;
+    public void SetCrosshairVisible(bool visible) { if (crosshairImage != null) crosshairImage.gameObject.SetActive(visible); }
 
     // ========== CURRENCY ==========
 

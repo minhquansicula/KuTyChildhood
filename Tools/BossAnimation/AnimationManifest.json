@@ -1,0 +1,78 @@
+{
+  "fps": 30,
+  "rig": "Boss_Rig",
+  "clips": {
+    "Boss_Idle": {
+      "duration": 4.0,
+      "frames": [
+        1,
+        121
+      ],
+      "loop": true
+    },
+    "Boss_Talk_Stern": {
+      "duration": 4.5,
+      "frames": [
+        1,
+        136
+      ],
+      "loop": true
+    },
+    "Boss_DeskSlam": {
+      "duration": 0.8,
+      "frames": [
+        1,
+        25
+      ],
+      "loop": false
+    },
+    "Boss_Talk_Command": {
+      "duration": 4.5,
+      "frames": [
+        1,
+        136
+      ],
+      "loop": true
+    },
+    "Boss_ReturnIdle": {
+      "duration": 1.2,
+      "frames": [
+        1,
+        37
+      ],
+      "loop": false
+    }
+  },
+  "tabletop_height_blender_m": 0.78,
+  "hand_contact_height_m": 0.781,
+  "dialogue": [
+    {
+      "name": "Line1AndPause",
+      "clip": "Boss_Talk_Stern",
+      "start": 0,
+      "duration": 8.6
+    },
+    {
+      "name": "Line2AndPause",
+      "clip": "Boss_Talk_Stern",
+      "start": 8.6,
+      "duration": 7.31
+    },
+    {
+      "name": "DeskSlam",
+      "clip": "Boss_DeskSlam",
+      "start": 15.91,
+      "duration": 0.8
+    },
+    {
+      "name": "Line3",
+      "clip": "Boss_Talk_Command",
+      "start": 16.71,
+      "duration": 10.98
+    }
+  ],
+  "dialogue_duration": 27.69,
+  "desk_impact_local_seconds": 0.4666666666666667,
+  "desk_impact_global_seconds": 16.376666666666665,
+  "source_actions_preserved": true
+}

@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54762951ca938e243b5f54aaa1041815, type: 3}
+  m_Name: OfficeGameplayVoices
+  m_EditorClassIdentifier: 
+  lines:
+  - id: act1_ty_print_ready_001
+    speakerId: "T\xDD"
+    text: "M\xE1y photo \u1EDF c\u1EA1nh b\xECnh n\u01B0\u1EDBc. L\u1EA5y b\u1EA3n
+      in r\u1ED3i mang cho s\u1EBFp l\xE0 xong."
+    spokenText: "M\xE1y photo \u1EDF c\u1EA1nh b\xECnh n\u01B0\u1EDBc. L\u1EA5y b\u1EA3n
+      in r\u1ED3i mang cho s\u1EBFp l\xE0 xong."
+    fallbackDuration: 3
+    postDelay: 0.25
+    voiceClip: {fileID: 8300000, guid: ef09ee567af088d45b8124d04f4590c3, type: 3}
+    slam: 0
+    silentBeat: 0
+  - id: act1_ty_print_pickup_001
+    speakerId: "T\xDD"
+    text: "B\u1EA3n in c\xF2n \u1EA5m. Mang \u0111\u1EBFn ph\xF2ng s\u1EBFp th\xF4i."
+    spokenText: "B\u1EA3n in c\xF2n \u1EA5m. Mang \u0111\u1EBFn ph\xF2ng s\u1EBFp
+      th\xF4i."
+    fallbackDuration: 3
+    postDelay: 0.25
+    voiceClip: {fileID: 8300000, guid: 79823dc1015d4fb45993212c4e7f7432, type: 3}
+    slam: 0
+    silentBeat: 0
+  - id: act1_ty_water_after_report_001
+    speakerId: "T\xDD"
+    text: "Sao v\u1EABn cho\xE1ng th\u1EBF n\xE0y... v\u1EC1 gh\u1EBF ng\u1ED3i m\u1ED9t
+      l\xE1t \u0111\xE3."
+    spokenText: "Sao v\u1EABn cho\xE1ng th\u1EBF n\xE0y... v\u1EC1 gh\u1EBF ng\u1ED3i
+      m\u1ED9t l\xE1t \u0111\xE3."
+    fallbackDuration: 3
+    postDelay: 0.25
+    voiceClip: {fileID: 8300000, guid: 9c1fdf6e4e813264eb46d30518f03764, type: 3}
+    slam: 0
+    silentBeat: 0
+  - id: act1_ty_rest_001
+    speakerId: "T\xDD"
+    text: "M\u1EC7t qu\xE1... ch\u1EC9 ngh\u1EC9 m\u1ED9t ch\xFAt th\xF4i..."
+    spokenText: "M\u1EC7t qu\xE1... ch\u1EC9 ngh\u1EC9 m\u1ED9t ch\xFAt th\xF4i..."
+    fallbackDuration: 3
+    postDelay: 0.25
+    voiceClip: {fileID: 8300000, guid: d6ad5950dfd9dd547bb29603c930ad03, type: 3}
+    slam: 0
+    silentBeat: 0
+  - id: act1_intro_boss_004
+    speakerId: "S\u1EBEP"
+    text: "\u0110\u1EC3 tr\xEAn b\xE0n \u0111i. \u0110\u01B0\u1EE3c r\u1ED3i, c\u1EADu
+      v\u1EC1 \u0111i."
+    spokenText: "\u0110\u1EC3 tr\xEAn b\xE0n \u0111i. \u0110\u01B0\u1EE3c r\u1ED3i,
+      c\u1EADu v\u1EC1 \u0111i."
+    fallbackDuration: 3
+    postDelay: 0.25
+    voiceClip: {fileID: 8300000, guid: b5c713071bee9364ca17c32997316a07, type: 3}
+    slam: 0
+    silentBeat: 0

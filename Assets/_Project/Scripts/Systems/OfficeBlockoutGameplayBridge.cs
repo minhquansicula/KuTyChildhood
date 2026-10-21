@@ -28,6 +28,7 @@ public sealed class OfficeBlockoutGameplayBridge : MonoBehaviour
 
     private void Start()
     {
+        HUDController.Instance?.SetCrosshairVisible(false);
         if (playerInteraction != null) playerInteraction.LockInteraction(true);
         if (pauseUI != null) pauseUI.enabled = false;
 
@@ -46,6 +47,7 @@ public sealed class OfficeBlockoutGameplayBridge : MonoBehaviour
 
     private void HandleOpeningFinished()
     {
+        HUDController.Instance?.SetCrosshairVisible(true);
         office?.BeginExternalReturnToDesk(false);
         if (playerInteraction != null) playerInteraction.LockInteraction(intro != null && intro.IsPaused);
     }

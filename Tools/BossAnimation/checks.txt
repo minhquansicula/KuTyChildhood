@@ -1,0 +1,88 @@
+PASS
+PASS Scene transition does not activate intro pause
+PASS Office starts behind a black fade
+PASS Black overlay fades progressively
+PASS Dialogue waits until the opening image is visible
+PASS Dialogue begins after fade without a pause panel
+PASS Animated boss is connected to the existing intro owner
+PASS Boss begins speaking without root drift
+PASS Boss contains six character meshes and no imported furniture
+PASS Dialogue retains the dark rounded text box and cream text
+PASS Existing boss visual is present
+PASS Boss head is framed in front of the player
+PASS Boss head is not hidden behind a solid desk or monitor
+PASS Explicit pause still opens the pause panel
+PASS Esc pause freezes the boss animation together with the voice
+PASS Pause hides subtitles and crosshair behind the modal
+PASS Designed pause card is present
+PASS Pause uses the sliced Main Menu parchment artwork
+PASS Resume uses the exact Main Menu button sprite
+PASS Pause label fits: Chapter
+PASS Pause label fits: PauseTitle
+PASS Pause label fits: PauseDescription
+PASS Pause label fits: Caption
+PASS Pause label fits: Caption
+PASS Pause label fits: PauseFooter
+PASS Pause card stays within the game viewport
+PASS Pause has an active EventSystem
+PASS Resume button receives pointer hits above the dimmer
+PASS Resume closes the pause panel
+PASS Resume restores the current subtitle
+PASS Interaction plate becomes visible with a prompt
+PASS Voice playback matches act1_intro_boss_001
+PASS Subtitle duration follows clip length for act1_intro_boss_001
+PASS Voice playback matches act1_intro_boss_002
+PASS Subtitle duration follows clip length for act1_intro_boss_002
+PASS Desk slam plays once and emits one contact sound event
+PASS Desk sound follows actual animation contact at 14/30 seconds
+PASS Voice playback matches act1_intro_boss_003
+PASS Subtitle duration follows clip length for act1_intro_boss_003
+PASS Voice playback matches act1_intro_ty_001
+PASS Subtitle duration follows clip length for act1_intro_ty_001
+PASS Ty subtitle and spoken script match the supplied recording
+PASS All four voice clips and silent beats finish before returning control
+PASS Boss finishes the slam, command and return clips and settles into idle
+PASS Current objective card is present after dialogue
+PASS Objective text fits its card
+PASS Gameplay pause owner becomes active after intro handoff
+PASS Gameplay pause uses the same modal and hides the crosshair
+PASS Gameplay resume restores input
+PASS Gameplay recording matches interaction: act1_ty_print_ready_001
+PASS Gameplay subtitle follows voice length: act1_ty_print_ready_001
+PASS Gameplay recording matches interaction: act1_ty_print_pickup_001
+PASS Gameplay subtitle follows voice length: act1_ty_print_pickup_001
+PASS Esc freezes Ty's pickup recording at its current position
+PASS Resume continues Ty's pickup recording
+PASS Handing over the printed report keeps the existing quest progression
+PASS Boss animation follows the actual report reply duration
+PASS Gameplay recording matches interaction: act1_intro_boss_004
+PASS Gameplay subtitle follows voice length: act1_intro_boss_004
+PASS Pausing report delivery freezes the remaining boss speech time
+PASS Esc pauses the gameplay voice without losing its playback position
+PASS Boss lowers his hand when the report reply finishes
+PASS Report reply returns to idle without another desk slam
+PASS Gameplay recording matches interaction: act1_ty_water_after_report_001
+PASS Gameplay subtitle follows voice length: act1_ty_water_after_report_001
+PASS Water recording keeps the required water/rest progression
+PASS Gameplay recording matches interaction: act1_ty_rest_001
+PASS Gameplay subtitle follows voice length: act1_ty_rest_001
+PASS Rest recording plays during the actual collapse transition
+PASS Ty's rest line finishes before the scene transition
+PASS Lines without supplied recordings stop the previous voice and preserve text-only timing
+PASS Return to Main Menu succeeds
+PASS Menu uses shared button artwork: Btn_Back
+PASS Menu uses shared typography: Btn_Back
+PASS Menu uses shared button artwork: Btn_Back
+PASS Menu uses shared typography: Btn_Back
+PASS Menu uses shared button artwork: Btn_NewGame
+PASS Menu uses shared typography: Btn_NewGame
+PASS Menu uses shared button artwork: Btn_LoadGame
+PASS Menu uses shared typography: Btn_LoadGame
+PASS Menu uses shared button artwork: Btn_Settings
+PASS Menu uses shared typography: Btn_Settings
+PASS Menu uses shared button artwork: Btn_Quit
+PASS Menu uses shared typography: Btn_Quit
+PASS Menu uses shared button artwork: MusicCreditsButton
+PASS Menu uses shared typography: MusicCreditsButton
+PASS Menu uses shared button artwork: CloseMusicCredits
+PASS Menu uses shared typography: CloseMusicCredits

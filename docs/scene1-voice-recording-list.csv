@@ -1,0 +1,16 @@
+﻿filename,speaker,trigger,text,status
+act1_intro_ty_001.wav,TÝ,Đáp sếp đầu scene,"Dạ dạ sếp, em kiểm tra lại ngay ạ",Đã có file
+act1_ty_print_ready_001.wav,TÝ,Máy photo in xong,Máy photo ở cạnh bình nước. Lấy bản in rồi mang cho sếp là xong.,Đã gán voice trong game
+act1_ty_print_pickup_001.wav,TÝ,Lấy bản báo cáo,Bản in còn ấm. Mang đến phòng sếp thôi.,Đã gán voice trong game
+act1_ty_water_after_report_001.wav,TÝ,Uống nước sau khi nộp báo cáo,Sao vẫn choáng thế này... về ghế ngồi một lát đã.,Đã gán voice trong game
+act1_ty_rest_001.wav,TÝ,Ngồi nghỉ sau bước uống nước,Mệt quá... chỉ nghỉ một chút thôi...,Đã gán voice trong game
+act1_ty_bossroom_001.wav,TÝ,Tương tác với sếp khi chưa đến bước nộp báo cáo,Bóng người sau lớp kính mờ vẫn khiến mình nghẹt thở.,Cần thu
+act1_ty_clock_early_001.wav,TÝ,Xem đồng hồ trước bước nghỉ,Sắp hết giờ làm rồi. Mình phải chốt xong file Excel.,Cần thu
+act1_ty_clock_late_001.wav,TÝ,Xem đồng hồ khi đã sang bước nghỉ,Hơn sáu giờ rồi... mọi người gần như đã về hết.,Cần thu
+act1_ty_water_001.wav,TÝ,Uống nước ngoài bước uống nước bắt buộc,Một ngụm nước. Mình phải tỉnh táo thêm chút nữa.,Cần thu
+act1_ty_coffee_001.wav,TÝ,Tương tác cốc cà phê,Cà phê lạnh ngắt rồi... mình quên uống từ lúc nào nhỉ?,Cần thu
+act1_ty_print_early_001.wav,TÝ,Kiểm tra máy photo trước khi sửa xong Excel,Mình phải sửa xong file Excel trước khi in.,Cần thu
+act1_ty_print_done_001.wav,TÝ,Kiểm tra lại máy photo sau khi đã lấy báo cáo,Không cần in thêm bản nào nữa.,Cần thu
+act1_boss_reminder_001.wav,SẾP,Nhắc định kỳ khi đang ở bước sửa Excel và không mở minigame,Tôi cần bản sửa trước khi mọi người về hết!,Cần thu
+act1_intro_boss_004.wav,SẾP,Nhận báo cáo,"Để trên bàn đi. Được rồi, cậu về đi.",Đã gán voice trong game
+act1_window_narration_001.wav,CỬA SỔ,Nhìn ra cửa sổ,Dòng người vẫn vội vã. Tiếng còi xe chẳng lúc nào ngớt.,Tùy chọn; hiện gắn nhãn CỬA SỔ

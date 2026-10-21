@@ -1,0 +1,10 @@
+{
+  "originalDeskAndChairUnchanged": true,
+  "onlyExistingChanges": [
+    "boss visual children",
+    "placeholder head disabled",
+    "placeholder torso disabled",
+    "intro references to boss animation and head"
+  ],
+  "furnitureModelImported": false
+}

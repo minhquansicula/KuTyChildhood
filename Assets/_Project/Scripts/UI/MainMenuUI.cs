@@ -56,7 +56,11 @@ public class MainMenuUI : MonoBehaviour
     {
         // Include buttons authored inactive and buttons created during menu Start.
         yield return null;
-        foreach (var button in GetComponentsInChildren<Button>(true)) MenuButtonSfx.Attach(button);
+        foreach (var button in GetComponentsInChildren<Button>(true))
+        {
+            GameUiTheme.Current.StyleButton(button);
+            MenuButtonSfx.Attach(button);
+        }
     }
 
     public void OnContinueButtonClicked()

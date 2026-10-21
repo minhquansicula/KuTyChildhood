@@ -9,6 +9,7 @@ public sealed class OfficeShiftHUD : MonoBehaviour
     private CanvasGroup group;
     private TextMeshProUGUI content;
     private string lastText;
+    private RectTransform objectiveCard;
 
     private void Start()
     {
@@ -65,12 +66,16 @@ public sealed class OfficeShiftHUD : MonoBehaviour
         var card = new GameObject("ObjectiveCard", typeof(RectTransform), typeof(Image));
         card.transform.SetParent(root.transform, false);
         RectTransform rect = (RectTransform)card.transform;
+        objectiveCard = rect;
         rect.anchorMin = rect.anchorMax = rect.pivot = Vector2.one;
-        rect.anchoredPosition = new Vector2(-28f, -112f);
-        rect.sizeDelta = new Vector2(430f, 196f);
+        rect.anchoredPosition = new Vector2(-36f, -42f);
+        rect.sizeDelta = new Vector2(470f, 224f);
         Image background = card.GetComponent<Image>();
-        background.color = new Color(.025f, .045f, .06f, .94f);
+        background.sprite = OfficeUiStyle.Rounded;
+        background.type = Image.Type.Sliced;
+        background.color = OfficeUiStyle.Ink;
         background.raycastTarget = false;
+        OfficeUiStyle.Panel("ObjectiveAccent", card.transform, new Vector2(3, 164), new Vector2(-233, 0), OfficeUiStyle.Gold);
 
         content = new GameObject("ObjectiveText", typeof(RectTransform), typeof(TextMeshProUGUI))
             .GetComponent<TextMeshProUGUI>();
@@ -79,10 +84,11 @@ public sealed class OfficeShiftHUD : MonoBehaviour
         if (intro != null && intro.objective != null) content.font = intro.objective.font;
         content.rectTransform.anchorMin = Vector2.zero;
         content.rectTransform.anchorMax = Vector2.one;
-        content.rectTransform.offsetMin = new Vector2(24f, 18f);
-        content.rectTransform.offsetMax = new Vector2(-24f, -18f);
+        content.rectTransform.offsetMin = new Vector2(27f, 22f);
+        content.rectTransform.offsetMax = new Vector2(-27f, -22f);
         content.fontSize = 20f;
-        content.lineSpacing = 5f;
+        content.lineSpacing = 3f;
+        content.enableAutoSizing = true; content.fontSizeMin = 19; content.fontSizeMax = 22;
         content.alignment = TextAlignmentOptions.TopLeft;
         content.raycastTarget = false;
     }
@@ -94,12 +100,16 @@ public sealed class OfficeShiftHUD : MonoBehaviour
             ? "18:17 · ĐÃ NỘP"
             : office.HasPrintedReport ? "18:14 · ĐANG GIAO" : "17:42 · VĂN PHÒNG";
         string action = string.IsNullOrEmpty(office.ObjectiveText) ? "Đợi chỉ dẫn tiếp theo." : office.ObjectiveText;
-        string text = "<size=15><color=#F4C66A>CHƯƠNG 01 · CA LÀM CUỐI NGÀY</color></size>\n" +
-            "<size=24><b><color=#EDF3F8>" + status + "</color></b></size>\n\n" +
-            "<size=18><color=#8FA4B8>NHIỆM VỤ HIỆN TẠI</color></size>\n" +
-            "<size=22><color=#FFFFFF><b>›  " + action + "</b></color></size>\n" +
-            "<size=15><color=#8FA4B8>" + ControlHint() + "</color></size>";
-        if (text != lastText) content.text = lastText = text;
+        string text = "<size=16><color=#" + ColorUtility.ToHtmlStringRGB(OfficeUiStyle.Gold) + ">CHƯƠNG 01 · CA LÀM CUỐI NGÀY</color></size>\n" +
+            "<size=19><color=#" + ColorUtility.ToHtmlStringRGB(OfficeUiStyle.Muted) + ">" + status + "</color></size>\n\n" +
+            "<size=25><color=#" + ColorUtility.ToHtmlStringRGB(OfficeUiStyle.Paper) + ">" + action + "</color></size>\n\n" +
+            "<size=17><color=#" + ColorUtility.ToHtmlStringRGB(OfficeUiStyle.Muted) + ">" + ControlHint() + "</color></size>";
+        if (text != lastText)
+        {
+            content.text = lastText = text;
+            float preferredHeight = content.GetPreferredValues(text, 416f, 0f).y;
+            objectiveCard.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Clamp(preferredHeight + 44f, 190f, 340f));
+        }
     }
 
     private string ControlHint()
