@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public event System.Action<GameState> OnGameStateChanged;
     public event System.Action<bool> OnPauseChanged;
     private readonly HashSet<Object> inputOwners = new HashSet<Object>();
+    private readonly HashSet<Object> hiddenCursorOwners = new HashSet<Object>();
     public bool IsPaused { get; private set; }
     public bool InputBlocked => IsPaused || inputOwners.Count > 0 ||
         (SceneLoader.Instance != null && SceneLoader.Instance.IsLoading);
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         inputOwners.Clear();
+        hiddenCursorOwners.Clear();
         bool wasPaused = IsPaused;
         IsPaused = false;
         Time.timeScale = 1f;
@@ -47,16 +49,32 @@ public class GameManager : MonoBehaviour
         if (changed) OnGameStateChanged?.Invoke(state);
     }
     // Closing one modal cannot unlock another modal.
-    public void AcquireInput(Object owner)
+    public void AcquireInput(Object owner, bool showCursor = true)
     {
-        if (owner != null) inputOwners.Add(owner);
+        if (owner != null)
+        {
+            inputOwners.Add(owner);
+            if (showCursor) hiddenCursorOwners.Remove(owner);
+            else hiddenCursorOwners.Add(owner);
+        }
         RefreshCursor();
     }
-    public void ReleaseInput(Object owner) { inputOwners.Remove(owner); RefreshCursor(); }
+    public void ReleaseInput(Object owner)
+    {
+        inputOwners.Remove(owner);
+        hiddenCursorOwners.Remove(owner);
+        RefreshCursor();
+    }
     public void RefreshCursor()
     {
         inputOwners.RemoveWhere(owner => owner == null);
-        SetCursorState(InputBlocked || currentState == GameState.MainMenu || currentState == GameState.Act_Ending);
+        hiddenCursorOwners.RemoveWhere(owner => owner == null || !inputOwners.Contains(owner));
+        bool showCursor = IsPaused ||
+            (SceneLoader.Instance != null && SceneLoader.Instance.IsLoading) ||
+            currentState == GameState.MainMenu || currentState == GameState.Act_Ending;
+        foreach (Object owner in inputOwners)
+            if (!hiddenCursorOwners.Contains(owner)) { showCursor = true; break; }
+        SetCursorState(showCursor);
     }
     public void SetCursorState(bool visible)
     {

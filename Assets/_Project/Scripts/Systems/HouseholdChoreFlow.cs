@@ -21,8 +21,9 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
 {
     public static HouseholdChoreFlow Instance { get; private set; }
     public const int PiecesPerChore = 10;
-    public const int ChoreCount = 14;
-    public const int TotalPieces = PiecesPerChore * ChoreCount;
+    public const int OptionalPiecesPerChore = 5;
+    public const int ChoreCount = 12;
+    public const int TotalPieces = PiecesPerChore * ChoreCount + OptionalPiecesPerChore * 2;
     public const string WakeupText = "Con dậy rồi đấy à. Vào dọn đồ, phụ mẹ một tay nhé.";
     public const string ResumeText = "Mình tiếp tục việc đang làm nhé.";
 
@@ -36,7 +37,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     // Keep serialized enum IDs stable; this array defines story order only.
     public static readonly HouseholdChore[] Order = {
         HouseholdChore.ArrangeKeepsakes, HouseholdChore.TuneRadio,
-        HouseholdChore.SortTools, HouseholdChore.GrindCorn, HouseholdChore.CarryWood,
+        HouseholdChore.CarryWood,
         HouseholdChore.FetchWater, HouseholdChore.MeasureRice, HouseholdChore.WashRice,
         HouseholdChore.LightFire, HouseholdChore.CookRice, HouseholdChore.SetTable,
         HouseholdChore.WashDishes, HouseholdChore.PutAwayDishes, HouseholdChore.ReadLetter
@@ -61,12 +62,19 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     public string CurrentLocation => ActiveIndex < ChoreCount ? Locations[(int)Order[ActiveIndex]] : "";
 
     private readonly bool[] completed = new bool[15];
+    [SerializeField] private Transform riceWashingPot;
+    [SerializeField] private HouseholdChoreInteractable riceWashingTarget;
+    [SerializeField] private Collider riceWashingPotBaseCollider;
     private HouseholdChoreUI ui;
     public HouseholdVoicePlayer Voice { get; private set; }
     private bool checklistVisible;
     private int pieces;
 
     public int Pieces => pieces;
+    private int OptionalBits => (completed[(int)HouseholdChore.SortTools] ? 1 : 0) |
+        (completed[(int)HouseholdChore.GrindCorn] ? 2 : 0);
+    public static bool IsOptional(HouseholdChore chore) =>
+        chore == HouseholdChore.SortTools || chore == HouseholdChore.GrindCorn;
     public bool ChecklistVisible => checklistVisible;
     public int ActiveIndex
     {
@@ -88,10 +96,128 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         Voice = gameObject.AddComponent<HouseholdVoicePlayer>();
         int restored = Scene2Checkpoint.HomeChores;
         for (int i = 0; i < restored; i++) completed[(int)Order[i]] = true;
-        pieces = restored * PiecesPerChore;
+        int restoredOptional = Scene2Checkpoint.HomeOptional;
+        completed[(int)HouseholdChore.SortTools] = (restoredOptional & 1) != 0;
+        completed[(int)HouseholdChore.GrindCorn] = (restoredOptional & 2) != 0;
+        pieces = restored * PiecesPerChore +
+            (completed[(int)HouseholdChore.SortTools] ? OptionalPiecesPerChore : 0) +
+            (completed[(int)HouseholdChore.GrindCorn] ? OptionalPiecesPerChore : 0);
+        BindRiceWashingTarget();
+        RefreshRiceWashingPot();
+        EnsureDiningTableTarget();
+        EnsureSolidSceneProps();
         ui = new HouseholdChoreUI(transform);
         ui.SetChecklistVisible(false);
         if (GetComponent<Scene2QuestHUD>() == null) gameObject.AddComponent<Scene2QuestHUD>();
+    }
+
+    private static void EnsureDiningTableTarget()
+    {
+        // BambooTable remains solid scenery; the meal is served on tripo_part_3.
+        foreach (Transform candidate in FindObjectsOfType<Transform>(true))
+        {
+            if (candidate.name != "BambooTable" ||
+                !(candidate.GetComponent<Collider>() is BoxCollider tableCollider)) continue;
+            FitSolidBoxToVisualBounds(candidate, tableCollider);
+            break;
+        }
+
+        foreach (MeshCollider surface in FindObjectsOfType<MeshCollider>(true))
+        {
+            if (surface.sharedMesh == null ||
+                surface.sharedMesh.name != "tripo_part_3 Instance") continue;
+            var target = surface.GetComponent<HouseholdChoreInteractable>();
+            if (target == null) target = surface.gameObject.AddComponent<HouseholdChoreInteractable>();
+            int interactionLayer = LayerMask.NameToLayer("Interactable");
+            if (interactionLayer >= 0) surface.gameObject.layer = interactionLayer;
+            target.Configure(HouseholdChore.SetTable, surface.transform);
+            return;
+        }
+        Debug.LogWarning("Scene 2: tripo_part_3 mesh collider not found; Dọn mâm cơm has no interaction point.");
+    }
+
+    private static void FitSolidBoxToVisualBounds(Transform table, BoxCollider collider)
+    {
+        // Imported table meshes use a large root scale. Refit the solid collider to
+        // the visible geometry so the CharacterController cannot pass through it.
+        var visuals = table.GetComponentsInChildren<Renderer>(true);
+        if (visuals.Length == 0) return;
+
+        Bounds visualBounds = visuals[0].bounds;
+        for (int i = 1; i < visuals.Length; i++) visualBounds.Encapsulate(visuals[i].bounds);
+        Vector3 min = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+        Vector3 max = new Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+        for (int x = 0; x < 2; x++)
+            for (int y = 0; y < 2; y++)
+                for (int z = 0; z < 2; z++)
+                {
+                    Vector3 corner = table.InverseTransformPoint(new Vector3(
+                        x == 0 ? visualBounds.min.x : visualBounds.max.x,
+                        y == 0 ? visualBounds.min.y : visualBounds.max.y,
+                        z == 0 ? visualBounds.min.z : visualBounds.max.z));
+                    min = Vector3.Min(min, corner);
+                    max = Vector3.Max(max, corner);
+                }
+        collider.center = (min + max) * .5f;
+        collider.size = max - min;
+        collider.isTrigger = false;
+        collider.enabled = true;
+    }
+
+    private static void EnsureSolidSceneProps()
+    {
+        // Keep the two kitchen curtains passable, even if their imported prefabs
+        // acquire colliders later. Interaction triggers elsewhere remain intact.
+        foreach (Transform candidate in FindObjectsOfType<Transform>(true))
+        {
+            if (candidate.name != "rembep" && candidate.name != "rembep (1)") continue;
+            foreach (Collider curtainCollider in candidate.GetComponentsInChildren<Collider>(true))
+                if (!curtainCollider.isTrigger) curtainCollider.enabled = false;
+        }
+
+        // All four GrainPile instances had no scene collider. A solid volume over
+        // the visible pile guarantees the player cannot walk through the grain.
+        foreach (Transform candidate in FindObjectsOfType<Transform>(true))
+        {
+            if (candidate.name != "GrainPile" && candidate.name != "GrainPile (1)" &&
+                candidate.name != "GrainPile (2)" && candidate.name != "GrainPile (3)") continue;
+            if (candidate.GetComponentsInChildren<Renderer>(true).Length == 0) continue;
+            BoxCollider pileCollider = candidate.GetComponent<BoxCollider>();
+            if (pileCollider == null) pileCollider = candidate.gameObject.AddComponent<BoxCollider>();
+            FitSolidBoxToVisualBounds(candidate, pileCollider);
+        }
+
+        int added = 0;
+        foreach (MeshFilter mesh in FindObjectsOfType<MeshFilter>(true))
+        {
+            MeshRenderer visual = mesh.GetComponent<MeshRenderer>();
+            if (!mesh.gameObject.activeInHierarchy || mesh.sharedMesh == null ||
+                visual == null || !visual.enabled ||
+                IsKitchenCurtain(mesh.transform) || HasSolidCollider(mesh.transform) ||
+                mesh.GetComponentInParent<FirstPersonController>() != null) continue;
+
+            var solid = mesh.gameObject.AddComponent<MeshCollider>();
+            solid.sharedMesh = mesh.sharedMesh;
+            solid.convex = false;
+            solid.isTrigger = false;
+            added++;
+        }
+        if (added > 0) Debug.Log($"Scene 2: added {added} solid mesh colliders to visible props.");
+    }
+
+    private static bool IsKitchenCurtain(Transform current)
+    {
+        for (; current != null; current = current.parent)
+            if (current.name == "rembep" || current.name == "rembep (1)") return true;
+        return false;
+    }
+
+    private static bool HasSolidCollider(Transform current)
+    {
+        for (; current != null; current = current.parent)
+            foreach (Collider collider in current.GetComponents<Collider>())
+                if (collider.enabled && !collider.isTrigger) return true;
+        return false;
     }
 
     private void OnDestroy()
@@ -114,6 +240,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     {
         for (int i = 0; i < completed.Length; i++) completed[i] = false;
         pieces = 0;
+        RefreshRiceWashingPot();
         Scene2Checkpoint.Clear();
         RefreshUI();
         ui.Notify("Đã làm lại việc nhà từ đầu. Hãy đến rương đồ để bắt đầu.");
@@ -127,13 +254,16 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         // The original compact checklist remains a fallback when the shared Scene 2 board is unavailable.
         ui.SetChecklistVisible(GetComponent<Scene2QuestHUD>() == null);
         RefreshUI();
-        bool resumed = ActiveIndex > 0;
+        bool resumed = ActiveIndex > 0 || OptionalBits != 0;
         float seconds = Voice.Play(resumed ? "act2_mom_resume_001" : "act2_mom_wakeup_001");
         ui.Notify("Mẹ: " + (resumed ? ResumeText : WakeupText) + " Tab: bảng nhiệm vụ · H: gợi ý.", Mathf.Max(7f, seconds));
         QuestManager.Instance?.RefreshHouseholdObjective();
     }
 
-    public bool IsCurrent(HouseholdChore chore) => checklistVisible && ActiveIndex < ChoreCount && Order[ActiveIndex] == chore;
+    public bool IsCurrent(HouseholdChore chore) => checklistVisible &&
+        (QuestManager.Instance == null || QuestManager.Instance.CurrentStep == QuestStep.WashDishes) &&
+        (IsOptional(chore) ? !completed[(int)chore] :
+            ActiveIndex < ChoreCount && Order[ActiveIndex] == chore);
 
     public bool Complete(HouseholdChore chore)
     {
@@ -147,19 +277,38 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
             return false;
         }
         completed[index] = true;
-        pieces += PiecesPerChore;
-        if (ActiveIndex < ChoreCount) Scene2Checkpoint.SaveHome(ActiveIndex);
+        bool optional = IsOptional(chore);
+        pieces += optional ? OptionalPiecesPerChore : PiecesPerChore;
+        RefreshRiceWashingPot();
+        if (ActiveIndex < ChoreCount) Scene2Checkpoint.SaveHome(ActiveIndex, OptionalBits);
         RefreshUI();
         float voiceSeconds = chore != HouseholdChore.ReadLetter ? Voice.Play(HouseholdVoicePlayer.ChoreId(chore)) : 0f;
-        ui.Notify(ActiveIndex == ChoreCount
-            ? TotalPieces + "/" + TotalPieces + " — Nhà mình vẫn có một chỗ chờ con."
-            : "+10 mảnh ký ức — " + Memories[index], Mathf.Max(7f, voiceSeconds));
-        ui.PlayMemoryReward(ActiveIndex == ChoreCount);
+        bool finishedRequired = !optional && ActiveIndex == ChoreCount;
+        ui.Notify(finishedRequired
+            ? pieces + "/" + TotalPieces + " mảnh ký ức — Nhà mình vẫn có một chỗ chờ con."
+            : "+" + (optional ? OptionalPiecesPerChore : PiecesPerChore) + " mảnh ký ức — " + Memories[index],
+            Mathf.Max(7f, voiceSeconds));
+        ui.PlayMemoryReward(finishedRequired);
         AudioManager.Instance?.PlaySFX(SfxId.MemoryCollected);
         OnChoreCompleted?.Invoke(chore, pieces);
         QuestManager.Instance?.RefreshHouseholdObjective();
-        if (ActiveIndex == ChoreCount) QuestManager.Instance?.CompleteHouseholdChores();
+        if (finishedRequired) QuestManager.Instance?.CompleteHouseholdChores();
         return true;
+    }
+
+    private void BindRiceWashingTarget()
+    {
+        if (riceWashingPot == null || riceWashingTarget == null) return;
+        // The trigger travels with the actual imported pot, including its hidden state.
+        riceWashingTarget.transform.SetParent(riceWashingPot, true);
+        riceWashingTarget.Configure(HouseholdChore.WashRice, riceWashingPot);
+    }
+
+    private void RefreshRiceWashingPot()
+    {
+        bool show = completed[(int)HouseholdChore.MeasureRice] && !completed[(int)HouseholdChore.WashRice];
+        if (riceWashingPot != null) riceWashingPot.gameObject.SetActive(show);
+        if (riceWashingPotBaseCollider != null) riceWashingPotBaseCollider.enabled = show;
     }
 
     private void RefreshUI()
@@ -175,7 +324,9 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
 public sealed class HouseholdChoreUI
 {
     private readonly GameObject checklist;
+    private readonly GameObject modalBackdrop;
     private readonly GameObject gamePanel;
+    private readonly GameObject progressBar;
     private readonly TextMeshProUGUI checklistText;
     private readonly TextMeshProUGUI notificationText;
     private readonly TextMeshProUGUI titleText;
@@ -236,24 +387,53 @@ public sealed class HouseholdChoreUI
             new Vector2(390, 52), 26, TextAlignmentOptions.Center);
         rewardText.color = new Color(1f, .85f, .5f, 0f);
 
+        modalBackdrop = Box("ChoreBackdrop", canvasObject.transform, Vector2.zero, Vector2.zero,
+            Vector2.zero, Vector2.one, new Vector2(.5f, .5f), new Color(.012f, .012f, .011f, .72f));
+        modalBackdrop.GetComponent<Image>().raycastTarget = false;
+        modalBackdrop.SetActive(false);
         gamePanel = Box("ChorePanel", canvasObject.transform, Vector2.zero, new Vector2(1120, 780),
-            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.035f, .065f, .075f, .96f));
-        titleText = Label("Title", gamePanel.transform, new Vector2(0, 330), new Vector2(1020, 50), 31, TextAlignmentOptions.Center);
-        titleText.color = new Color(.98f, .78f, .43f);
-        hintText = Label("Instructions", gamePanel.transform, new Vector2(0, 260), new Vector2(1000, 60), 23, TextAlignmentOptions.Center);
-        feedbackText = Label("Feedback", gamePanel.transform, new Vector2(0, -210), new Vector2(1000, 48), 20, TextAlignmentOptions.Center);
+            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.11f, .075f, .045f, .99f));
+        Box("PanelInset", gamePanel.transform, Vector2.zero, new Vector2(1104, 764),
+            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.065f, .075f, .065f, 1f));
+        Box("HeaderLeather", gamePanel.transform, new Vector2(0, 325), new Vector2(1098, 114),
+            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.18f, .12f, .075f, 1f));
+        Box("FooterLeather", gamePanel.transform, new Vector2(0, -348), new Vector2(1098, 60),
+            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.15f, .11f, .073f, 1f));
+        Box("PanelTopTrim", gamePanel.transform, new Vector2(0, 382), new Vector2(1098, 2),
+            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.76f, .54f, .25f));
+        Box("PanelBottomTrim", gamePanel.transform, new Vector2(0, -382), new Vector2(1098, 2),
+            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.76f, .54f, .25f));
+        Box("PanelLeftTrim", gamePanel.transform, new Vector2(-549, 0), new Vector2(2, 764),
+            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.58f, .40f, .21f));
+        Box("PanelRightTrim", gamePanel.transform, new Vector2(549, 0), new Vector2(2, 764),
+            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.58f, .40f, .21f));
+        Box("PanelTitleRule", gamePanel.transform, new Vector2(0, 273), new Vector2(1010, 2),
+            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.60f, .44f, .25f, .7f));
+        var chapter = Label("ChapterKicker", gamePanel.transform, new Vector2(-391, 344),
+            new Vector2(230, 28), 15, TextAlignmentOptions.Left);
+        chapter.text = "CHƯƠNG 02  /  NHÀ MÌNH";
+        chapter.color = new Color(.82f, .68f, .43f);
+        chapter.characterSpacing = 1.5f;
+        titleText = Label("Title", gamePanel.transform, new Vector2(0, 315), new Vector2(1020, 48), 33, TextAlignmentOptions.Center);
+        titleText.color = new Color(.98f, .81f, .50f);
+        titleText.fontStyle = FontStyles.Bold;
+        titleText.characterSpacing = 1.1f;
+        hintText = Label("Instructions", gamePanel.transform, new Vector2(0, 245), new Vector2(980, 48), 20, TextAlignmentOptions.Center);
+        hintText.color = new Color(.87f, .89f, .82f);
+        feedbackText = Label("Feedback", gamePanel.transform, new Vector2(0, -244), new Vector2(1000, 37), 19, TextAlignmentOptions.Center);
         feedbackText.color = new Color(.98f, .83f, .55f);
-        progressText = Label("Progress", gamePanel.transform, new Vector2(0, -275), new Vector2(1000, 45), 20, TextAlignmentOptions.Center);
-        cancelText = Label("CancelHint", gamePanel.transform, new Vector2(0, -345), new Vector2(1000, 35), 19, TextAlignmentOptions.Center);
-        cancelText.text = "P · Làm lại nhiệm vụ    |    Esc · Tạm dừng việc này";
-        var bar = Box("ProgressBar", gamePanel.transform, new Vector2(0, -190), new Vector2(410, 18),
-            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.35f, .3f, .23f));
-        var fillObject = Box("Fill", bar.transform, new Vector2(0, 0), new Vector2(0, 18),
+        progressText = Label("Progress", gamePanel.transform, new Vector2(0, -278), new Vector2(1000, 28), 17, TextAlignmentOptions.Center);
+        progressText.color = new Color(.87f, .89f, .82f);
+        cancelText = Label("CancelHint", gamePanel.transform, new Vector2(0, -349), new Vector2(1000, 31), 17, TextAlignmentOptions.Center);
+        cancelText.color = new Color(.82f, .76f, .62f);
+        cancelText.text = "P  LÀM LẠI     ·     ESC  TẠM DỪNG";
+        progressBar = Box("ProgressBar", gamePanel.transform, new Vector2(0, -306), new Vector2(520, 7),
+            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.27f, .24f, .18f));
+        var fillObject = Box("Fill", progressBar.transform, new Vector2(0, 0), new Vector2(0, 7),
             new Vector2(0, .5f), new Vector2(0, .5f), new Vector2(0, .5f), new Color(.94f, .69f, .28f));
         progressFill = fillObject.GetComponent<Image>();
-        bar.SetActive(false); // Feedback comes from the prop; keep legacy meter API for older callers.
-        measureZone = Box("MeasureSuccessZone", bar.transform, new Vector2(410 * .65f, 0),
-            new Vector2(410 * .20f, 26), new Vector2(0, .5f), new Vector2(0, .5f),
+        measureZone = Box("MeasureSuccessZone", progressBar.transform, new Vector2(520 * .65f, 0),
+            new Vector2(520 * .20f, 26), new Vector2(0, .5f), new Vector2(0, .5f),
             new Vector2(.5f, .5f), new Color(.30f, .82f, .43f, .72f));
         measureZoneText = Label("MeasureZoneLabel", measureZone.transform, new Vector2(0, 27),
             new Vector2(140, 25), 16, TextAlignmentOptions.Center);
@@ -350,6 +530,7 @@ public sealed class HouseholdChoreUI
     public void ShowGame(string title, string instructions, bool showMeter)
     {
         actionBoard.Hide();
+        modalBackdrop.SetActive(true);
         gamePanel.SetActive(true);
         notificationText.text = string.Empty;
         notificationUntil = 0f;
@@ -395,14 +576,16 @@ public sealed class HouseholdChoreUI
 
     public void SetProgress(float value, string message)
     {
-        progressFill.rectTransform.sizeDelta = new Vector2(410 * Mathf.Clamp01(value), 18);
+        progressFill.rectTransform.sizeDelta = new Vector2(520 * Mathf.Clamp01(value), 7);
         progressText.text = message;
     }
 
     public void SetHint(string message)
     {
-        feedbackText.text = message;
-        feedbackText.color = message.StartsWith("Chưa") ? new Color(1f, .65f, .5f) :
+        bool correction = message.StartsWith("Chưa");
+        if (!correction) hintText.text = message;
+        feedbackText.text = correction ? message : string.Empty;
+        feedbackText.color = correction ? new Color(1f, .65f, .5f) :
             new Color(.69f, .94f, .71f);
         feedbackPulseRemaining = .22f;
     }
@@ -410,6 +593,7 @@ public sealed class HouseholdChoreUI
     {
         actionBoard.Hide();
         gamePanel.SetActive(false);
+        modalBackdrop.SetActive(false);
     }
 
     private void ApplyHudFont()

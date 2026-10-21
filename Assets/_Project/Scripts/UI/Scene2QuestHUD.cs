@@ -218,7 +218,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
     private void CacheTargets()
     {
         foreach (HouseholdChoreInteractable task in FindObjectsOfType<HouseholdChoreInteractable>(true))
-            if (task.enabled && task.gameObject.activeInHierarchy && !choreTargets.ContainsKey(task.Chore))
+            if (task.enabled && !choreTargets.ContainsKey(task.Chore))
             {
                 choreTargets.Add(task.Chore, task.transform);
                 CacheCollider(task.transform);
