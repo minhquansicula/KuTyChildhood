@@ -1,0 +1,460 @@
+[
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_01.fbx",
+    "bytes": 102476508,
+    "tracked": true,
+    "reachableFrom": []
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_02.fbx",
+    "bytes": 101379356,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/HDRI/golf_course_sunrise_4k.exr",
+    "bytes": 96718835,
+    "tracked": true,
+    "reachableFrom": [
+      "Act3_MemoryWorld_OutSide-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/caylua.fbx",
+    "bytes": 96183340,
+    "tracked": true,
+    "reachableFrom": []
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_RiceCookingStove.fbx",
+    "bytes": 94741292,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_ToolSet.fbx",
+    "bytes": 71567132,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishRack.fbx",
+    "bytes": 68787148,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_02.fbx",
+    "bytes": 66315564,
+    "tracked": true,
+    "reachableFrom": []
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_01.fbx",
+    "bytes": 66315564,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_TimberColumn.fbx",
+    "bytes": 64433660,
+    "tracked": true,
+    "reachableFrom": []
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenCurtain.fbx",
+    "bytes": 64250668,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_Roof.fbx",
+    "bytes": 64028940,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Radio.fbx",
+    "bytes": 63763436,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishCabinet.fbx",
+    "bytes": 62756236,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_PottedPlant.fbx",
+    "bytes": 61689740,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_WallBasin.fbx",
+    "bytes": 57187788,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_GrainPile.fbx",
+    "bytes": 56678668,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_ImportedPanel_02.fbx",
+    "bytes": 50978364,
+    "tracked": true,
+    "reachableFrom": []
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/tiemtaphoa.fbx",
+    "bytes": 50436364,
+    "tracked": true,
+    "reachableFrom": [
+      "Act3_MemoryWorld_OutSide-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_HouseFacade.fbx",
+    "bytes": 49978748,
+    "tracked": true,
+    "reachableFrom": []
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_GrainMill.fbx",
+    "bytes": 48323308,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_RiceJar.fbx",
+    "bytes": 46760300,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_StorageChest.fbx",
+    "bytes": 46380828,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Bed.fbx",
+    "bytes": 45280940,
+    "tracked": true,
+    "reachableFrom": []
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodPile.fbx",
+    "bytes": 44500444,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_03.fbx",
+    "bytes": 44149308,
+    "tracked": true,
+    "reachableFrom": []
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_01.fbx",
+    "bytes": 44149308,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_StovePot.fbx",
+    "bytes": 43342668,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_TelevisionStand.fbx",
+    "bytes": 42969788,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_CornPeanuts.fbx",
+    "bytes": 42131692,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Certificate.fbx",
+    "bytes": 40915916,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_BambooBasket.fbx",
+    "bytes": 40804988,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_Rake.fbx",
+    "bytes": 40602220,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/xichdu.fbx",
+    "bytes": 40309708,
+    "tracked": true,
+    "reachableFrom": []
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_BambooTable.fbx",
+    "bytes": 40145564,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishwashingStation.fbx",
+    "bytes": 40022124,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/buichuoi.fbx",
+    "bytes": 39788940,
+    "tracked": true,
+    "reachableFrom": [
+      "Act3_MemoryWorld_OutSide-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_Broom.fbx",
+    "bytes": 38143596,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FishBasket.fbx",
+    "bytes": 38040924,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_SpiceJars.fbx",
+    "bytes": 37888460,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/contrau.fbx",
+    "bytes": 36814236,
+    "tracked": true,
+    "reachableFrom": [
+      "Act3_MemoryWorld_OutSide-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_02.fbx",
+    "bytes": 36757724,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/brown_mud_dry_diff_4k.png",
+    "bytes": 36177150,
+    "tracked": true,
+    "reachableFrom": [
+      "Act3_MemoryWorld_OutSide-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_WallHook.fbx",
+    "bytes": 35984716,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_WallArt.fbx",
+    "bytes": 35325532,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_ToolSet_02.fbx",
+    "bytes": 32296444,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/Babantaphoa.fbx",
+    "bytes": 32242572,
+    "tracked": true,
+    "reachableFrom": [
+      "Act3_MemoryWorld_OutSide-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_ClayJarSet.fbx",
+    "bytes": 31886700,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_Refrigerator.fbx",
+    "bytes": 30300652,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/trecon.fbx",
+    "bytes": 29984060,
+    "tracked": true,
+    "reachableFrom": [
+      "Act3_MemoryWorld_OutSide-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/nguoidatrau.fbx",
+    "bytes": 28549964,
+    "tracked": true,
+    "reachableFrom": [
+      "Act3_MemoryWorld_OutSide-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Office/Floor/Models/OfficeFloor.fbx",
+    "bytes": 28248684,
+    "tracked": true,
+    "reachableFrom": [
+      "Act1_Office_Blockout-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/Radio/texture_pbr_20250901.png",
+    "bytes": 26329192,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/GrainPile/texture_pbr_20250901.png",
+    "bytes": 25309064,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/FirewoodPile/texture_pbr_20250901.png",
+    "bytes": 24669948,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/Grocery/tiemtaphoa/texture_pbr_20250901.png",
+    "bytes": 24203196,
+    "tracked": true,
+    "reachableFrom": [
+      "Act3_MemoryWorld_OutSide-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Models/OfficeSceneNew/office_ground.fbx",
+    "bytes": 24012012,
+    "tracked": true,
+    "reachableFrom": []
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/GrainMill/texture_pbr_20250901.png",
+    "bytes": 22189443,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/ToolSet/texture_pbr_20250901.png",
+    "bytes": 21772081,
+    "tracked": true,
+    "reachableFrom": [
+      "home-dependencies"
+    ]
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenStructure_01_BaseColor.png",
+    "bytes": 21591238,
+    "tracked": true,
+    "reachableFrom": []
+  }
+]

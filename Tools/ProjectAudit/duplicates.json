@@ -1,0 +1,59 @@
+[
+  {
+    "bytesEach": 66315564,
+    "wastedBytes": 66315564,
+    "paths": [
+      "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_01.fbx",
+      "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_02.fbx"
+    ]
+  },
+  {
+    "bytesEach": 44149308,
+    "wastedBytes": 44149308,
+    "paths": [
+      "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_01.fbx",
+      "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_03.fbx"
+    ]
+  },
+  {
+    "bytesEach": 2265646,
+    "wastedBytes": 2265646,
+    "paths": [
+      "Assets/_Project/UI/bacground.png",
+      "Assets/_Project/UI/Sprites/bacground.png"
+    ]
+  },
+  {
+    "bytesEach": 592880,
+    "wastedBytes": 1185760,
+    "paths": [
+      "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Printer_Base_MetalSmooth.png",
+      "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Printer_Base_White_MetalSmooth.png",
+      "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Printer_Screen_MetalSmooth.png"
+    ]
+  },
+  {
+    "bytesEach": 566980,
+    "wastedBytes": 566980,
+    "paths": [
+      "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Creme_Lamp_MetalSmooth.png",
+      "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/White_Lamp_MetalSmooth.png"
+    ]
+  },
+  {
+    "bytesEach": 532939,
+    "wastedBytes": 532939,
+    "paths": [
+      "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Printer_Top_MetalSmooth.png",
+      "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Printer_Top_White_MetalSmooth.png"
+    ]
+  },
+  {
+    "bytesEach": 370715,
+    "wastedBytes": 370715,
+    "paths": [
+      "Assets/_Project/Art/Office/RetroOffice/Textures/image_21.png",
+      "Assets/_Project/Art/Office/RetroOffice/Textures/image_26.png"
+    ]
+  }
+]

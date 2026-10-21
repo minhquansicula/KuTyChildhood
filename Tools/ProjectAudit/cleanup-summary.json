@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-21",
+  "removedAssets": [
+    "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_01.fbx",
+    "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_02.fbx",
+    "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_03.fbx",
+    "Assets/_Project/Art/Scene2/Models/Architecture/SM_TimberColumn.fbx",
+    "Assets/_Project/Art/Scene2/Models/Architecture/SM_ImportedPanel_02.fbx",
+    "Assets/_Project/UI/Sprites/bacground.png"
+  ],
+  "removedDirectories": [
+    ".unity-validation",
+    "UnityChairValidation",
+    "Builds",
+    "dumb"
+  ],
+  "grossRemovedBytes": 2558720090,
+  "recoveryArchive": "Tools/CleanupRecovery/cleanup-20261021.zip",
+  "recoveryArchiveBytes": 408135495,
+  "netRecoveredBytes": 2150584595,
+  "sceneDependencies": [
+    {
+      "scene": "MainMenu",
+      "dependencies": 23,
+      "unchanged": true,
+      "missingDependencyFiles": []
+    },
+    {
+      "scene": "Act1_Office_Blockout",
+      "dependencies": 396,
+      "unchanged": true,
+      "missingDependencyFiles": []
+    },
+    {
+      "scene": "Act2_MemoryWorld_Home",
+      "dependencies": 307,
+      "unchanged": true,
+      "missingDependencyFiles": []
+    },
+    {
+      "scene": "Act3_MemoryWorld_OutSide",
+      "dependencies": 535,
+      "unchanged": true,
+      "missingDependencyFiles": []
+    },
+    {
+      "scene": "Act_Ending",
+      "dependencies": 14,
+      "unchanged": true,
+      "missingDependencyFiles": []
+    }
+  ],
+  "protectedSceneAndResourcesFilesUnchanged": 10,
+  "activeSceneMissingReferences": 0,
+  "activeSceneMissingScripts": 0,
+  "playTestRun": false
+}

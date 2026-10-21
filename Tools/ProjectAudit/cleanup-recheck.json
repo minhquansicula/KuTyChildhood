@@ -1,0 +1,62 @@
+[
+  {
+    "success": true,
+    "asset": {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_01.fbx",
+      "name": "SM_KitchenStructure_01",
+      "type": "GameObject"
+    },
+    "usedByCount": 0,
+    "usedBy": []
+  },
+  {
+    "success": true,
+    "asset": {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_02.fbx",
+      "name": "SM_WallPanel_02",
+      "type": "GameObject"
+    },
+    "usedByCount": 0,
+    "usedBy": []
+  },
+  {
+    "success": true,
+    "asset": {
+      "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_03.fbx",
+      "name": "SM_FirewoodStove_03",
+      "type": "GameObject"
+    },
+    "usedByCount": 0,
+    "usedBy": []
+  },
+  {
+    "success": true,
+    "asset": {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_TimberColumn.fbx",
+      "name": "SM_TimberColumn",
+      "type": "GameObject"
+    },
+    "usedByCount": 0,
+    "usedBy": []
+  },
+  {
+    "success": true,
+    "asset": {
+      "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_ImportedPanel_02.fbx",
+      "name": "SM_ImportedPanel_02",
+      "type": "GameObject"
+    },
+    "usedByCount": 0,
+    "usedBy": []
+  },
+  {
+    "success": true,
+    "asset": {
+      "path": "Assets/_Project/UI/Sprites/bacground.png",
+      "name": "bacground",
+      "type": "Texture2D"
+    },
+    "usedByCount": 0,
+    "usedBy": []
+  }
+]

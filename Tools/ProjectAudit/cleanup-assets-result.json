@@ -1,0 +1,37 @@
+{
+  "status": "success",
+  "result": {
+    "success": true,
+    "action": "deleted",
+    "deletedCount": 6,
+    "totalMB": 315.3028964996338,
+    "message": "Successfully deleted 6 assets",
+    "results": [
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_01.fbx",
+        "deleted": true
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_02.fbx",
+        "deleted": true
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_03.fbx",
+        "deleted": true
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_TimberColumn.fbx",
+        "deleted": true
+      },
+      {
+        "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_ImportedPanel_02.fbx",
+        "deleted": true
+      },
+      {
+        "path": "Assets/_Project/UI/Sprites/bacground.png",
+        "deleted": true
+      }
+    ]
+  },
+  "workflowEndMs": 1694
+}

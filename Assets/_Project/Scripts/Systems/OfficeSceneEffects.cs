@@ -46,9 +46,10 @@ public sealed class OfficeSceneEffects : MonoBehaviour
         if (water != null)
             waterParticles = CreateParticles("WaterCoolerDroplets", EffectPosition(water),
                 new Color(.5f, .84f, 1f, .72f), .034f);
-        OfficeBlockoutDoorInteractable bossDoor = FindObjectOfType<OfficeBlockoutDoorInteractable>();
-        if (bossDoor != null)
-            reportParticles = CreateParticles("ReportDeliveredMotes", EffectPosition(bossDoor.transform),
+        OfficeInteractable boss = System.Array.Find(FindObjectsOfType<OfficeInteractable>(),
+            item => item.Kind == OfficeInteractionKind.Boss);
+        if (boss != null)
+            reportParticles = CreateParticles("ReportDeliveredMotes", EffectPosition(boss.transform),
                 new Color(1f, .8f, .44f, .75f), .025f);
     }
 

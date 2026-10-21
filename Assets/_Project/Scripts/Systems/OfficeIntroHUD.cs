@@ -60,13 +60,10 @@ public sealed class OfficeIntroHUD : MonoBehaviour
 
     public void SetPrompt(string text)
     {
-        if (promptPlate) promptPlate.gameObject.SetActive(!paused && !string.IsNullOrEmpty(text));
+        if (promptPlate) promptPlate.gameObject.SetActive(false);
         if(prompt)
         {
-            if(string.IsNullOrEmpty(text)) prompt.text = "";
-            else if(text.StartsWith("[E]"))
-                prompt.text = "<color=#F4C66A><b>E</b></color>  <color=#EDF3F8>" + text.Substring(3).Trim() + "</color>";
-            else prompt.text = "<color=#FF9B7A>" + text + "</color>";
+            prompt.text = "";
         }
         if(crosshair) crosshair.color = string.IsNullOrEmpty(text) ? Color.white : new Color(1,.8f,.45f);
     }

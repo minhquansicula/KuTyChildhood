@@ -16,9 +16,10 @@ public sealed class OfficeExhaustionSequence : MonoBehaviour
     [SerializeField] private Image blackout;
     [SerializeField] private Volume moodVolume;
     [SerializeField] private OfficeAtmosphere atmosphere;
-    [SerializeField, Min(1f)] private float collapseSeconds = 4f;
-    [SerializeField, Min(0f)] private float silentBlackSeconds = 1.35f;
-    [SerializeField, Min(0f)] private float memoryAudioSeconds = 1.8f;
+    [SerializeField, Min(.5f)] private float sleepCollapseDuration = 1.5f;
+    [SerializeField, Min(.2f)] private float finalSettleSeconds = .45f;
+    [SerializeField] private AnimationCurve headWeight = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    private SleepEyelidOverlay eyelids;
 
     public bool IsRunning { get; private set; }
 
@@ -34,16 +35,18 @@ public sealed class OfficeExhaustionSequence : MonoBehaviour
         SetBlackout(0f);
     }
 
-    public bool Play(Action onReadyForMemoryWorld)
+    public bool Play(Action onReadyForMemoryWorld, float speechSeconds = 0f, Func<bool> speechStillPlaying = null)
     {
         if (IsRunning || cameraTransform == null) return false;
-        StartCoroutine(Collapse(onReadyForMemoryWorld));
+        StartCoroutine(Collapse(onReadyForMemoryWorld, speechSeconds, speechStillPlaying));
         return true;
     }
 
-    private IEnumerator Collapse(Action onReadyForMemoryWorld)
+    private IEnumerator Collapse(Action onReadyForMemoryWorld, float speechSeconds, Func<bool> speechStillPlaying)
     {
         IsRunning = true;
+        if (blackout != null)
+            eyelids = SleepEyelidOverlay.Create(blackout.transform);
         Vector3 startPosition = cameraTransform.position;
         Quaternion startRotation = cameraTransform.rotation;
         Vector3 targetPosition = deskCollapseTarget != null
@@ -53,24 +56,32 @@ public sealed class OfficeExhaustionSequence : MonoBehaviour
             ? deskCollapseTarget.rotation
             : startRotation * Quaternion.Euler(25f, 0f, 8f);
 
-        for (float elapsed = 0f; elapsed < collapseSeconds; elapsed += Time.deltaTime)
+        float speechElapsed = 0f;
+        float settleElapsed = 0f;
+        float leadDuration = Mathf.Max(sleepCollapseDuration, speechSeconds);
+        while (settleElapsed < finalSettleSeconds)
         {
-            float t = Mathf.Clamp01(elapsed / collapseSeconds);
-            float eased = Mathf.SmoothStep(0f, 1f, t);
+            if (GameManager.Instance != null && GameManager.Instance.IsPaused) { yield return null; continue; }
+            speechElapsed += Time.unscaledDeltaTime;
+            bool speaking = speechElapsed < leadDuration || (speechStillPlaying != null && speechStillPlaying());
+            if (!speaking) settleElapsed += Time.deltaTime;
+            float lead = Mathf.Clamp01(speechElapsed / leadDuration);
+            float settle = Mathf.Clamp01(settleElapsed / finalSettleSeconds);
+            float t = speaking ? .32f * headWeight.Evaluate(lead) : Mathf.Lerp(.32f, 1f, headWeight.Evaluate(settle));
+            float eased = t;
             cameraTransform.position = Vector3.Lerp(startPosition, targetPosition, eased);
             cameraTransform.rotation = Quaternion.Slerp(startRotation, targetRotation, eased);
-            ApplyMood(t);
-            atmosphere?.SetMuffle(t);
-            SetBlackout(Mathf.InverseLerp(0.68f, 1f, t));
+            ApplyMood(t * .8f);
+            atmosphere?.SetMuffle(Mathf.Lerp(0f, 1f, t));
+            float closed = speaking ? .12f * lead : Mathf.Lerp(.12f, 1f, Mathf.SmoothStep(0f, 1f, settle));
+            if (eyelids != null) eyelids.SetClosure(closed);
+            else SetBlackout(speaking ? 0f : settle);
             yield return null;
         }
 
         cameraTransform.SetPositionAndRotation(targetPosition, targetRotation);
         SetBlackout(1f);
         atmosphere?.StopOfficeAmbience();
-        yield return new WaitForSeconds(silentBlackSeconds);
-        atmosphere?.PlayMemoryBridge();
-        yield return new WaitForSeconds(memoryAudioSeconds);
         onReadyForMemoryWorld?.Invoke();
     }
 

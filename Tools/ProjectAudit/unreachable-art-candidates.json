@@ -1,0 +1,2667 @@
+[
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_01.fbx",
+    "bytes": 102476508,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/caylua.fbx",
+    "bytes": 96183340,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_02.fbx",
+    "bytes": 66315564,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_TimberColumn.fbx",
+    "bytes": 64433660,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_ImportedPanel_02.fbx",
+    "bytes": 50978364,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_HouseFacade.fbx",
+    "bytes": 49978748,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Bed.fbx",
+    "bytes": 45280940,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_FirewoodStove_03.fbx",
+    "bytes": 44149308,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/xichdu.fbx",
+    "bytes": 40309708,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/OfficeSceneNew/office_ground.fbx",
+    "bytes": 24012012,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenStructure_01_BaseColor.png",
+    "bytes": 21591238,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_BaseColor.png",
+    "bytes": 20436535,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/LuaXa_BongCayGop.asset",
+    "bytes": 19175942,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Structure_c.png",
+    "bytes": 14533947,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/T_StorageChest_Normal.png",
+    "bytes": 13749233,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Environment/City/Textures/Image_1.png",
+    "bytes": 13023983,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenStructure_01_Normal.png",
+    "bytes": 12318162,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/T_TelevisionStand_Normal.png",
+    "bytes": 12049596,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_MetallicSmoothness.png",
+    "bytes": 10723905,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/T_WallArt_Normal.png",
+    "bytes": 10105578,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/OfficeGround/office_ground_basecolor.png",
+    "bytes": 10001664,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/OfficeGround/office_ground_metallic_smoothness.png",
+    "bytes": 9370633,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_Normal.png",
+    "bytes": 9213165,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/Radio/texture_pbr_20250901_metallic.png",
+    "bytes": 8637245,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenStructure_01_Roughness.png",
+    "bytes": 8363723,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/Radio/texture_pbr_20250901_roughness.png",
+    "bytes": 8258966,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/T_StorageChest_Roughness.png",
+    "bytes": 8206813,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Environment/City/Textures/Image_2.png",
+    "bytes": 7381046,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_DishRack_Roughness.png",
+    "bytes": 6999243,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/GrainPile/texture_pbr_20250901_roughness.png",
+    "bytes": 6257856,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/PottedPlant/texture_pbr_20250901_roughness.png",
+    "bytes": 6238094,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/BambooTable/texture_pbr_20250901_roughness.png",
+    "bytes": 5994255,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Carpet_c.png",
+    "bytes": 5915264,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenStructure_02_Roughness.png",
+    "bytes": 5908102,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/OfficeGround/office_ground_normal.png",
+    "bytes": 5780359,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_DishwashingStation_Roughness.png",
+    "bytes": 5729093,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/NenLang_RuongHaThap.asset",
+    "bytes": 5681656,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/NenLang_RuongHuuCo.asset",
+    "bytes": 5681655,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/T_TelevisionStand_Roughness.png",
+    "bytes": 5507135,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_DishCabinet_Roughness.png",
+    "bytes": 5506147,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/OfficeSceneNew/boss_office.fbx",
+    "bytes": 5388812,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Plants_c.png",
+    "bytes": 5232481,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/Certificate/texture_pbr_20250901_roughness.png",
+    "bytes": 5225216,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/T_TelevisionStand_Metallic.png",
+    "bytes": 5219622,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/Grocery/tiemtaphoa/texture_pbr_20250901_roughness.png",
+    "bytes": 4945545,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/T_WallArt_Roughness.png",
+    "bytes": 4915429,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_StovePot_Roughness.png",
+    "bytes": 4914847,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Environment/City/Textures/T_SunsetHorizon.png",
+    "bytes": 4894493,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_RiceJar_Roughness.png",
+    "bytes": 4779560,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_WallPanel_Roughness.png",
+    "bytes": 4775909,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_FirewoodStove_02_Roughness.png",
+    "bytes": 4756640,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/Certificate/texture_pbr_20250901_metallic.png",
+    "bytes": 4753158,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/OfficeGround/office_ground_roughness.png",
+    "bytes": 4672715,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_RiceCookingStove_Roughness.png",
+    "bytes": 4633903,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageActors/ChildrenCrowd/Tre_BindPose_1m2.asset",
+    "bytes": 4561225,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/ClayJarSet/texture_pbr_20250901_roughness.png",
+    "bytes": 4555714,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/VillageActors/nguoidatrau/texture_pbr_20250901_roughness.png",
+    "bytes": 4541103,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/BambooBasket/texture_pbr_20250901_roughness.png",
+    "bytes": 4154854,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_FirewoodStove_01_Roughness.png",
+    "bytes": 4047280,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/SpiceJars/texture_pbr_20250901_roughness.png",
+    "bytes": 3977509,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/GrainMill/texture_pbr_20250901_roughness.png",
+    "bytes": 3908162,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/VillageActors/nguoidatrau/texture_pbr_20250901_metallic.png",
+    "bytes": 3842082,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/Refrigerator/texture_pbr_20250901_roughness.png",
+    "bytes": 3743844,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/PottedPlant/texture_pbr_20250901_metallic.png",
+    "bytes": 3694279,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/Grocery/tiemtaphoa/texture_pbr_20250901_metallic.png",
+    "bytes": 3691360,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/Floor/Textures/texture_pbr_20250901_metallic.png",
+    "bytes": 3650940,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/Floor/Textures/texture_pbr_20250901_roughness.png",
+    "bytes": 3608703,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_WallBasin_Roughness.png",
+    "bytes": 3573756,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/Refrigerator/texture_pbr_20250901_metallic.png",
+    "bytes": 3442928,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_PlasterPanel_Roughness.png",
+    "bytes": 3369475,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_Roughness.png",
+    "bytes": 3278313,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/Grocery/Babantaphoa/texture_pbr_20250901_roughness.png",
+    "bytes": 3222773,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/Rake/texture_pbr_20250901_roughness.png",
+    "bytes": 3211592,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/BananaVillage/texture_pbr_20250901_roughness.png",
+    "bytes": 3208336,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/ToolSet/texture_pbr_20250901_roughness.png",
+    "bytes": 3143691,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/VillageActors/trecon/texture_pbr_20250901_roughness.png",
+    "bytes": 3126949,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/BananaVillage/texture_pbr_20250901_metallic.png",
+    "bytes": 3119537,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/VillageActors/contrau/texture_pbr_20250901_roughness.png",
+    "bytes": 3086185,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/BambooBasket/texture_pbr_20250901_metallic.png",
+    "bytes": 3073168,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/FishBasket/texture_pbr_20250901_roughness.png",
+    "bytes": 3061200,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_TimberColumn_Roughness.png",
+    "bytes": 3055505,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Chair_c.png",
+    "bytes": 3010251,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/GrainMill/texture_pbr_20250901_metallic.png",
+    "bytes": 2964296,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/Grocery/Babantaphoa/texture_pbr_20250901_metallic.png",
+    "bytes": 2941068,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/ToolSet_02/texture_pbr_20250901_roughness.png",
+    "bytes": 2938539,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Architecture/T_Roof_Roughness.png",
+    "bytes": 2934353,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/RiceOptimized/CayLua_Atlas_Normal.png",
+    "bytes": 2933041,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_Metallic.png",
+    "bytes": 2923302,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/CayTanRong.fbx",
+    "bytes": 2902156,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/ToolSet/texture_pbr_20250901_metallic.png",
+    "bytes": 2882639,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_WallHook_Roughness.png",
+    "bytes": 2878808,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/VillageActors/contrau/texture_pbr_20250901_metallic.png",
+    "bytes": 2873563,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/CornPeanuts/texture_pbr_20250901_roughness.png",
+    "bytes": 2806050,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/VillageActors/trecon/texture_pbr_20250901_metallic.png",
+    "bytes": 2798013,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/FishBasket/texture_pbr_20250901_metallic.png",
+    "bytes": 2783337,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/GrainPile/texture_pbr_20250901_metallic.png",
+    "bytes": 2720630,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenStructure_01_Metallic.png",
+    "bytes": 2714284,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/FirewoodPile/texture_pbr_20250901_metallic.png",
+    "bytes": 2713674,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/Rake/texture_pbr_20250901_metallic.png",
+    "bytes": 2674738,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/ToolSet_02/texture_pbr_20250901_metallic.png",
+    "bytes": 2585590,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/CornPeanuts/texture_pbr_20250901_metallic.png",
+    "bytes": 2553894,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/T_WallArt_Metallic.png",
+    "bytes": 2545672,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/T_KitchenCurtain_Roughness.png",
+    "bytes": 2536934,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/FirewoodPile/texture_pbr_20250901_roughness.png",
+    "bytes": 2425192,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/Broom/texture_pbr_20250901_metallic.png",
+    "bytes": 2390219,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/SpiceJars/texture_pbr_20250901_metallic.png",
+    "bytes": 2359162,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_116.png",
+    "bytes": 2232704,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Kitchen/ClayJarSet/texture_pbr_20250901_metallic.png",
+    "bytes": 2163448,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/office_interior_3d_model_rm.JPEG",
+    "bytes": 2147278,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/BambooTable/texture_pbr_20250901_metallic.png",
+    "bytes": 2139791,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/T_StorageChest_Metallic.png",
+    "bytes": 2096899,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Yard/Broom/texture_pbr_20250901_roughness.png",
+    "bytes": 2047476,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/CayVuon.fbx",
+    "bytes": 2022060,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/Lighting/Textures/T_CeilingLight_Diffuser_BaseColor.png",
+    "bytes": 1919761,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Background_c.png",
+    "bytes": 1882042,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/LuaNuoc_1_65.obj",
+    "bytes": 1757069,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/LuaNuoc_-1_-9.obj",
+    "bytes": 1747466,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/LuaNuoc_-1_27.obj",
+    "bytes": 1739669,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/LuaNuoc_-1_84.obj",
+    "bytes": 1739666,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/LuaNuoc_1_8.obj",
+    "bytes": 1611034,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/RiceOptimized/CayLua_Atlas_BaseColor.png",
+    "bytes": 1539338,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse05/Nha05_LOD1_Normal.png",
+    "bytes": 1314088,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/OfficeSceneNew/desk.fbx",
+    "bytes": 1197612,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/OfficeSceneNew/office-chair.fbx",
+    "bytes": 1195612,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse04/Nha04_LOD1_Normal.png",
+    "bytes": 1183025,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/OfficeSceneNew/CHOT_desk.fbx",
+    "bytes": 1164588,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/office-desk.fbx",
+    "bytes": 1154604,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Lights_c.png",
+    "bytes": 1148374,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_10.png",
+    "bytes": 1114483,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/MaxtreeOptimized/MT_PM_V60_Digitaria_sanguinalis_01_Leaf_03.png",
+    "bytes": 1101189,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/OfficeSceneNew/office.fbx",
+    "bytes": 1099052,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/CoKenh_Gop.asset",
+    "bytes": 1031474,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NenLang_DaoHaiKenh.asset",
+    "bytes": 911878,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Table_c.png",
+    "bytes": 870360,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/MaxtreeOptimized/MT_PM_V60_Cyperus_eragrostis_01_Leaf_02.png",
+    "bytes": 845247,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_17.png",
+    "bytes": 714000,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/TreTanDay_LOD0.asset",
+    "bytes": 702268,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/OfficeGround/office_ground_metallic.png",
+    "bytes": 688559,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_155.png",
+    "bytes": 603611,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/office_desk_3d_model_rm.JPEG",
+    "bytes": 565090,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_12.png",
+    "bytes": 537458,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_122.png",
+    "bytes": 511913,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_152.png",
+    "bytes": 491873,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_53.png",
+    "bytes": 437165,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse05/Nha05_LOD2_Normal.png",
+    "bytes": 429163,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse04/Nha04_LOD2_Normal.png",
+    "bytes": 417642,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/office_desk_3d_model_rm.JPEG",
+    "bytes": 401529,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_65.png",
+    "bytes": 385611,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_21.png",
+    "bytes": 370715,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_26.png",
+    "bytes": 370715,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/TanLaXanh_0.asset",
+    "bytes": 370589,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_02_CoBoGop.asset",
+    "bytes": 360910,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/source-materials.json",
+    "bytes": 353464,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse03/Nha03_LOD2_Normal.png",
+    "bytes": 347393,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/office_interior_3d_model_basecolor.JPEG",
+    "bytes": 339437,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_rm.JPEG",
+    "bytes": 335186,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/office_desk_3d_model_basecolor.JPEG",
+    "bytes": 322065,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/TreTanDay_LOD1.asset",
+    "bytes": 315386,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/office_interior_3d_model_roughness.JPEG",
+    "bytes": 289882,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/DuongDat_DatBun.png",
+    "bytes": 286870,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_02.asset",
+    "bytes": 278083,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/NhaQueHoiAn_01.fbx",
+    "bytes": 274444,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_46.png",
+    "bytes": 274433,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_158.png",
+    "bytes": 271902,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_79.png",
+    "bytes": 269293,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_07_CoBoGop.asset",
+    "bytes": 254522,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/office_desk_3d_model_basecolor.JPEG",
+    "bytes": 254390,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_15_CoBoGop.asset",
+    "bytes": 249290,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_57.png",
+    "bytes": 247965,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_60.png",
+    "bytes": 247965,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_01_CoBoGop.asset",
+    "bytes": 242320,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_63.png",
+    "bytes": 219549,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_67.png",
+    "bytes": 219549,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/RiceOptimized/CayLua_LOD0.fbx",
+    "bytes": 218028,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_55.png",
+    "bytes": 208763,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_07.asset",
+    "bytes": 204668,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_24.png",
+    "bytes": 203226,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_basecolor.JPEG",
+    "bytes": 202619,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_1.asset",
+    "bytes": 201614,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_4.asset",
+    "bytes": 201614,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_15.asset",
+    "bytes": 199936,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_13_CoBoGop.asset",
+    "bytes": 198713,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_01.asset",
+    "bytes": 195206,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_08_CoBoGop.asset",
+    "bytes": 193487,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_12_CoBoGop.asset",
+    "bytes": 188245,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_14_CoBoGop.asset",
+    "bytes": 186503,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/office_desk_3d_model_metallic.JPEG",
+    "bytes": 186362,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_4.png",
+    "bytes": 186008,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_10_CoBoGop.asset",
+    "bytes": 181279,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/TanLaXanh_1.asset",
+    "bytes": 176186,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/office_interior_3d_model_metallic.JPEG",
+    "bytes": 173737,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/CayKyUc_TanRong.asset",
+    "bytes": 172117,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/TreTanDay_LOD2.asset",
+    "bytes": 168123,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_13.asset",
+    "bytes": 166780,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_03_CoBoGop.asset",
+    "bytes": 162087,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/CumCayXa_Than.asset",
+    "bytes": 160624,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_12.asset",
+    "bytes": 160003,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/OfficeSceneNew/computer.fbx",
+    "bytes": 159868,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_08.asset",
+    "bytes": 159674,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_12.asset",
+    "bytes": 157310,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_14.asset",
+    "bytes": 157306,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_05_CoBoGop.asset",
+    "bytes": 156859,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_04_CoBoGop.asset",
+    "bytes": 156857,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_10.asset",
+    "bytes": 154944,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/office_desk_3d_model_roughness.JPEG",
+    "bytes": 154162,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_09_CoBoGop.asset",
+    "bytes": 149883,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_11_CoBoGop.asset",
+    "bytes": 149881,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_06_CoBoGop.asset",
+    "bytes": 144649,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_30.png",
+    "bytes": 142337,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_03.asset",
+    "bytes": 140734,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_05.asset",
+    "bytes": 135994,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_04.asset",
+    "bytes": 135992,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/CoManTrau.fbx",
+    "bytes": 133804,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Environment/City/Textures/T_CityCloudBank.png",
+    "bytes": 132581,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Environment/City/Textures/T_CityCloudBank_Original.png",
+    "bytes": 132581,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_09.asset",
+    "bytes": 131260,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_11.asset",
+    "bytes": 131258,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/KyUc_DoDungNho.asset",
+    "bytes": 127529,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_06.asset",
+    "bytes": 126528,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/RuongLua_16_CoBoGop.asset",
+    "bytes": 125467,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/office_desk_3d_model_roughness.JPEG",
+    "bytes": 121875,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/office_desk_3d_model_metallic.JPEG",
+    "bytes": 116695,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/BoRuong_KhepKin_16.asset",
+    "bytes": 112310,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/office_interior_3d_model_normal.JPEG",
+    "bytes": 111838,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_roughness.JPEG",
+    "bytes": 104908,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_14.png",
+    "bytes": 104574,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_metallic.JPEG",
+    "bytes": 101314,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_0.asset",
+    "bytes": 101249,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/office_desk_3d_model_normal.JPEG",
+    "bytes": 97349,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/CumCayXa_Tan.asset",
+    "bytes": 93229,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_72.png",
+    "bytes": 92996,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_94.png",
+    "bytes": 90673,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_102.png",
+    "bytes": 89327,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/CoThap.fbx",
+    "bytes": 89244,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Chair/office_chair_3d_model_normal.JPEG",
+    "bytes": 83487,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_133.png",
+    "bytes": 82954,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/TanLaXanh_2.asset",
+    "bytes": 81142,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Floor.png",
+    "bytes": 80207,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_02.asset",
+    "bytes": 79596,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_02.asset",
+    "bytes": 79587,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_00.asset",
+    "bytes": 75750,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_01.asset",
+    "bytes": 75750,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_02.asset",
+    "bytes": 75748,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_03.asset",
+    "bytes": 75746,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_37.asset",
+    "bytes": 71882,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_77.asset",
+    "bytes": 71868,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_7.asset",
+    "bytes": 71835,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/CoDuoiChon.fbx",
+    "bytes": 70252,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_129.png",
+    "bytes": 70126,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_125.png",
+    "bytes": 68453,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/office_desk_3d_model_normal.JPEG",
+    "bytes": 62224,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/CoLac.fbx",
+    "bytes": 61916,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_36.png",
+    "bytes": 60466,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_07.asset",
+    "bytes": 59254,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_39.png",
+    "bytes": 58807,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DongXa_ThuaTuNhien_0.asset",
+    "bytes": 58294,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DongXa_ThuaTuNhien_2.asset",
+    "bytes": 58294,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DongXa_ThuaTuNhien_1.asset",
+    "bytes": 58290,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_15.asset",
+    "bytes": 57944,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_33.png",
+    "bytes": 57460,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_01.asset",
+    "bytes": 56638,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_01.asset",
+    "bytes": 56631,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_88.png",
+    "bytes": 51446,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_13.asset",
+    "bytes": 48760,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_77.png",
+    "bytes": 47181,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_08.asset",
+    "bytes": 46796,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_12.asset",
+    "bytes": 46136,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_14.asset",
+    "bytes": 46136,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_10.asset",
+    "bytes": 45484,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_67.asset",
+    "bytes": 42510,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_62.asset",
+    "bytes": 42504,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_72.asset",
+    "bytes": 42492,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_75.png",
+    "bytes": 42361,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_96.png",
+    "bytes": 42149,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_110.png",
+    "bytes": 42005,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_85.png",
+    "bytes": 42005,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_03.asset",
+    "bytes": 41542,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_03.asset",
+    "bytes": 41535,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_107.png",
+    "bytes": 40316,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_91.png",
+    "bytes": 40316,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_04.asset",
+    "bytes": 40234,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_05.asset",
+    "bytes": 40228,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_04.asset",
+    "bytes": 40227,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/RiceOptimized/CayLua_LOD1.fbx",
+    "bytes": 39788,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_1.png",
+    "bytes": 39259,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_09.asset",
+    "bytes": 38921,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_11.asset",
+    "bytes": 38919,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_06.asset",
+    "bytes": 37607,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocRuong_BoGoc_16.asset",
+    "bytes": 33673,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/LuaXa_MangMau_1.asset",
+    "bytes": 32733,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/LuaXa_MangMau_0.asset",
+    "bytes": 32729,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/LuaXa_MangMau_2.asset",
+    "bytes": 32725,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_42.png",
+    "bytes": 30383,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_149.png",
+    "bytes": 29421,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_30.asset",
+    "bytes": 29140,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_62.asset",
+    "bytes": 29140,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_63.asset",
+    "bytes": 29140,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_06.asset",
+    "bytes": 29138,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_11.asset",
+    "bytes": 29138,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_10.asset",
+    "bytes": 29136,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_31.asset",
+    "bytes": 29134,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_07.asset",
+    "bytes": 29132,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_99.png",
+    "bytes": 28368,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_27.asset",
+    "bytes": 27822,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_17.asset",
+    "bytes": 27820,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_22.asset",
+    "bytes": 27818,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_42.asset",
+    "bytes": 27806,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_52.asset",
+    "bytes": 25358,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_57.asset",
+    "bytes": 25356,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_82.png",
+    "bytes": 24852,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_47.asset",
+    "bytes": 24541,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_32.asset",
+    "bytes": 24539,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/RiceOptimized/CayLua_LOD2.fbx",
+    "bytes": 23516,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_35.asset",
+    "bytes": 23186,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_43.asset",
+    "bytes": 23186,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_42.asset",
+    "bytes": 23184,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_34.asset",
+    "bytes": 23180,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_08.asset",
+    "bytes": 23176,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_09.asset",
+    "bytes": 23174,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_113.png",
+    "bytes": 22409,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/BuiChuoi.asset",
+    "bytes": 20970,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_13.asset",
+    "bytes": 19206,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_53.asset",
+    "bytes": 19206,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_52.asset",
+    "bytes": 19204,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_12.asset",
+    "bytes": 19200,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_46.asset",
+    "bytes": 18720,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_47.asset",
+    "bytes": 18720,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_48.asset",
+    "bytes": 18214,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_16.asset",
+    "bytes": 18212,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_20.asset",
+    "bytes": 18212,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_49.asset",
+    "bytes": 18212,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_17.asset",
+    "bytes": 18210,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_21.asset",
+    "bytes": 18210,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_138.png",
+    "bytes": 17953,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/DuongDat_QuaTiemTapHoa.obj",
+    "bytes": 17793,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_57.asset",
+    "bytes": 17716,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_56.asset",
+    "bytes": 17714,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_104.png",
+    "bytes": 16841,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_36.asset",
+    "bytes": 16726,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_37.asset",
+    "bytes": 16724,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_25.asset",
+    "bytes": 16230,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_64.asset",
+    "bytes": 16228,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_24.asset",
+    "bytes": 16226,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_65.asset",
+    "bytes": 16226,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Documentation/Asset_Catalog.csv",
+    "bytes": 16179,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/NenDongXa.asset",
+    "bytes": 14970,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Cabinet_Metal_02.prefab",
+    "bytes": 13647,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Cabinet_Metal_04.prefab",
+    "bytes": 13636,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Cabinet_Metal_03.prefab",
+    "bytes": 13634,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Files_01.prefab",
+    "bytes": 13626,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_59.asset",
+    "bytes": 13264,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_54.asset",
+    "bytes": 13258,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_55.asset",
+    "bytes": 13258,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_58.asset",
+    "bytes": 13258,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_82.asset",
+    "bytes": 12296,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_51.asset",
+    "bytes": 12268,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_50.asset",
+    "bytes": 12262,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Cardboard_Box_White_02.prefab",
+    "bytes": 12177,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_paper_3_01.prefab",
+    "bytes": 12115,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_29.asset",
+    "bytes": 10274,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_28.asset",
+    "bytes": 10270,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Fan_Metal_02.prefab",
+    "bytes": 10229,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Furniture/PF_Office_OfficeChair_03.prefab",
+    "bytes": 9326,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_38.asset",
+    "bytes": 9294,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_26.asset",
+    "bytes": 9292,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_27.asset",
+    "bytes": 9292,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_39.asset",
+    "bytes": 9292,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_DeskFan_Head_01.prefab",
+    "bytes": 9285,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_60.asset",
+    "bytes": 9284,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_61.asset",
+    "bytes": 9280,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_WallClock_Body_01.prefab",
+    "bytes": 9266,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DatNenTuNhien_17.asset",
+    "bytes": 9205,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DatNenTuNhien_18.asset",
+    "bytes": 9203,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DatNenTuNhien_19.asset",
+    "bytes": 9203,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DatNenTuNhien_21.asset",
+    "bytes": 9201,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DatNenTuNhien_20.asset",
+    "bytes": 9199,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_14.asset",
+    "bytes": 8800,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_15.asset",
+    "bytes": 8796,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_18.asset",
+    "bytes": 8796,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_22.asset",
+    "bytes": 8796,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_23.asset",
+    "bytes": 8796,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_19.asset",
+    "bytes": 8794,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Cabinet_Metal_01.prefab",
+    "bytes": 8743,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Cardboard_Box_01.prefab",
+    "bytes": 8743,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Cardboard_Box_02.prefab",
+    "bytes": 8743,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Pc_Feet_02.prefab",
+    "bytes": 8735,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Pc_Feet_03.prefab",
+    "bytes": 8735,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Pc_Feet_01.prefab",
+    "bytes": 8734,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Table_03.prefab",
+    "bytes": 8730,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_paper_3_02.prefab",
+    "bytes": 8729,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Trash_can_01.prefab",
+    "bytes": 8725,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Binder_Blue_01.prefab",
+    "bytes": 8724,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Pc_Feet_04.prefab",
+    "bytes": 8723,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_paper_01.prefab",
+    "bytes": 8721,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_paper_02.prefab",
+    "bytes": 8719,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Table_02.prefab",
+    "bytes": 8717,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Phone_01.prefab",
+    "bytes": 8713,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Table_01.prefab",
+    "bytes": 8712,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_paper_2_03.prefab",
+    "bytes": 8711,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_04.asset",
+    "bytes": 8290,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_33.asset",
+    "bytes": 8290,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_05.asset",
+    "bytes": 8288,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_32.asset",
+    "bytes": 8286,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_45.asset",
+    "bytes": 7796,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_44.asset",
+    "bytes": 7790,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Printer_Screen_01.prefab",
+    "bytes": 7790,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Mug_3_01.prefab",
+    "bytes": 7766,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_66.asset",
+    "bytes": 7310,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_67.asset",
+    "bytes": 7306,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_7.png",
+    "bytes": 6888,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Furniture/PF_Office_CubiclePartition_02.prefab",
+    "bytes": 6849,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Printer_Base_02.prefab",
+    "bytes": 6839,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_Monitor_CRT_02.prefab",
+    "bytes": 6833,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_Monitor_CRT_03.prefab",
+    "bytes": 6832,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_Monitor_CRT_05.prefab",
+    "bytes": 6831,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_Monitor_CRT_01.prefab",
+    "bytes": 6829,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_CoffeeMug_01.prefab",
+    "bytes": 6827,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_CoffeeMug_03.prefab",
+    "bytes": 6825,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_ComputerTower_09.prefab",
+    "bytes": 6823,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Furniture/PF_Office_FilingCabinet_03.prefab",
+    "bytes": 6823,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Furniture/PF_Office_FilingCabinet_02.prefab",
+    "bytes": 6821,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_CoffeeMug_04.prefab",
+    "bytes": 6821,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_ComputerTower_01.prefab",
+    "bytes": 6819,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_ComputerTower_03.prefab",
+    "bytes": 6818,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_ComputerTower_02.prefab",
+    "bytes": 6811,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_CoffeeMug_05.prefab",
+    "bytes": 6810,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_40.asset",
+    "bytes": 6802,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/NaturalBanks/BoDat_41.asset",
+    "bytes": 6800,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Shaders/SH_KitchenAgedWalls.shader",
+    "bytes": 5395,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Keyboard_White_0_01.prefab",
+    "bytes": 5342,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Mouse_Black_001_01.prefab",
+    "bytes": 5342,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Printer_Top_White_01.prefab",
+    "bytes": 5341,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Fan_Metal_01.prefab",
+    "bytes": 5332,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Fan_Metal_001_01.prefab",
+    "bytes": 5330,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Black_001_01.prefab",
+    "bytes": 5327,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Cooler_01.prefab",
+    "bytes": 5324,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Trash_can_02.prefab",
+    "bytes": 5322,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Black_Lamp_01.prefab",
+    "bytes": 5320,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Black_01.prefab",
+    "bytes": 5314,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Bottle_01.prefab",
+    "bytes": 4406,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_ComputerTower_04.prefab",
+    "bytes": 4389,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_ComputerTower_10.prefab",
+    "bytes": 4387,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_ComputerTower_06.prefab",
+    "bytes": 4386,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_DeskLamp_White_01.prefab",
+    "bytes": 4385,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_ComputerTower_05.prefab",
+    "bytes": 4383,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Printer_Top_02.prefab",
+    "bytes": 4383,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_Keyboard_01.prefab",
+    "bytes": 4380,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_DeskFan_Blades_01.prefab",
+    "bytes": 4378,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_DeskLamp_Cream_01.prefab",
+    "bytes": 4378,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_ComputerMouse_03.prefab",
+    "bytes": 4376,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_Keyboard_03.prefab",
+    "bytes": 4375,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_Keyboard_04.prefab",
+    "bytes": 4374,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_WallClock_MinuteHand_01.prefab",
+    "bytes": 4374,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_ComputerMouse_02.prefab",
+    "bytes": 4373,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_ArchiveBox_01.prefab",
+    "bytes": 4373,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_WallClock_HourHand_01.prefab",
+    "bytes": 4373,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_WallClock_MinuteHand_02.prefab",
+    "bytes": 4373,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_DeskFan_Body_01.prefab",
+    "bytes": 4372,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PaperSheet_12.prefab",
+    "bytes": 4371,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_WasteBin_01.prefab",
+    "bytes": 4368,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PlantPot_01.prefab",
+    "bytes": 4367,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PaperSheet_09.prefab",
+    "bytes": 4366,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Furniture/PF_Office_OfficeDesk_01.prefab",
+    "bytes": 4364,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PaperSheet_10.prefab",
+    "bytes": 4364,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Cable_09.prefab",
+    "bytes": 4362,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Cable_03.prefab",
+    "bytes": 4361,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Cable_04.prefab",
+    "bytes": 4360,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Cable_02.prefab",
+    "bytes": 4359,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Cable_12.prefab",
+    "bytes": 4359,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Cable_07.prefab",
+    "bytes": 4358,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Cable_08.prefab",
+    "bytes": 4358,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Cable_11.prefab",
+    "bytes": 4358,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Cable_10.prefab",
+    "bytes": 4357,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PaperSheet_03.prefab",
+    "bytes": 4356,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Cable_01.prefab",
+    "bytes": 4355,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Cable_06.prefab",
+    "bytes": 4354,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Floor_01.prefab",
+    "bytes": 4353,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Furniture/PF_Office_FilingCabinet_01.prefab",
+    "bytes": 4348,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PaperSheet_05.prefab",
+    "bytes": 4347,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_KitchenStructure_AgedWalls.mat",
+    "bytes": 4247,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse01/Nha01_Tencent_PBR.mat",
+    "bytes": 4003,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Background.mat",
+    "bytes": 3944,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Structure.mat",
+    "bytes": 3942,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Plants.mat",
+    "bytes": 3940,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Chair.mat",
+    "bytes": 3939,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Carpet.mat",
+    "bytes": 3938,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Table.mat",
+    "bytes": 3938,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Glass.mat",
+    "bytes": 3884,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Materials/Kitchen/MAT_KitchenStructure_01.mat",
+    "bytes": 3882,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/Lights.mat",
+    "bytes": 3873,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/OfficeChair_New.mat",
+    "bytes": 3866,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/OfficeGround.mat",
+    "bytes": 3858,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/Materials/dirt_aerial_02_diff_4k.mat",
+    "bytes": 3856,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/Materials/brown_mud_dry_diff_4k.mat",
+    "bytes": 3854,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/Materials/DuongDat_DatBun.mat",
+    "bytes": 3846,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/OfficeDesk_Imported.mat",
+    "bytes": 3790,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/OfficeNewInterior.mat",
+    "bytes": 3784,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/OfficeSceneNew/Boss_Office/LightEmission.mat",
+    "bytes": 3782,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/OfficeNewDesk.mat",
+    "bytes": 3779,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/Lighting/Materials/MAT_CeilingLight_Diffuser.mat",
+    "bytes": 3765,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/DongXa_XanhXam.mat",
+    "bytes": 3756,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/LuaXa_Mau_0.mat",
+    "bytes": 3753,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/LuaXa_Mau_2.mat",
+    "bytes": 3753,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/LuaXa_Mau_1.mat",
+    "bytes": 3752,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Stone.mat",
+    "bytes": 3751,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/Scene3_TileLight.mat",
+    "bytes": 3751,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Legacy/PlaceholderMaterials/Office_Chair_Leather.001.mat",
+    "bytes": 3665,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Legacy/PlaceholderMaterials/Office_Chair_Plastic.001.mat",
+    "bytes": 3665,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Legacy/PlaceholderMaterials/Office_Chair_Metal.001.mat",
+    "bytes": 3662,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Legacy/PlaceholderMaterials/Monitor_Glass_42.mat",
+    "bytes": 3659,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Legacy/PlaceholderMaterials/Keyboard_Black.001.mat",
+    "bytes": 3658,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Legacy/PlaceholderMaterials/Monitor_Plastic.mat",
+    "bytes": 3655,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Legacy/PlaceholderMaterials/Table.mat",
+    "bytes": 3646,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/Water/MatNuoc_Quad.asset",
+    "bytes": 3559,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_119.png",
+    "bytes": 2131,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Environment/City/Materials/MAT_CityCloudBank.mat",
+    "bytes": 1871,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/Water/NuocKenhSau.mat",
+    "bytes": 1204,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/Water/NuocMuong_PhanChieu.mat",
+    "bytes": 1158,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/VillageMemorySky.shader",
+    "bytes": 1147,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/HDRI_LangQue_Am.mat",
+    "bytes": 1146,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/RiceOptimized/CoBoRuong_Nham.mat",
+    "bytes": 1133,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/RiceOptimized/NenLang_KenhSau.mat",
+    "bytes": 1132,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Environment/City/Textures/glb-material-map.json",
+    "bytes": 1094,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Sunset.shader",
+    "bytes": 973,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Documentation/README.md",
+    "bytes": 870,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/MemorySky.mat",
+    "bytes": 857,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/VillageAtmosphere.hlsl",
+    "bytes": 689,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Sunset.mat",
+    "bytes": 421,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Office/RetroOffice/Documentation/Organization_Report.txt",
+    "bytes": 82,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Animations/.gitkeep",
+    "bytes": 2,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Materials/.gitkeep",
+    "bytes": 2,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Models/.gitkeep",
+    "bytes": 2,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  },
+  {
+    "path": "Assets/_Project/Art/Textures/.gitkeep",
+    "bytes": 2,
+    "status": "not reached by enabled scenes or _Project/Resources; review editor/source use"
+  }
+]

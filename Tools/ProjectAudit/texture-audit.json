@@ -1,0 +1,34 @@
+[
+  {
+    "path": "Assets/_Project/Art/Textures/Scene3/HDRI/golf_course_sunrise_4k.exr",
+    "data": {
+      "success": true,
+      "name": "golf_course_sunrise_4k",
+      "path": "Assets/_Project/Art/Textures/Scene3/HDRI/golf_course_sunrise_4k.exr",
+      "width": 2048,
+      "height": 1024,
+      "format": "BC6H",
+      "mipmapCount": 12,
+      "isReadable": false,
+      "filterMode": "Trilinear",
+      "wrapMode": "Repeat",
+      "memorySizeKB": 5462.07031
+    }
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/Radio/texture_pbr_20250901.png",
+    "data": {
+      "success": true,
+      "name": "texture_pbr_20250901",
+      "path": "Assets/_Project/Art/Scene2/Textures/Bedroom/Radio/texture_pbr_20250901.png",
+      "width": 2048,
+      "height": 2048,
+      "format": "DXT1",
+      "mipmapCount": 12,
+      "isReadable": false,
+      "filterMode": "Bilinear",
+      "wrapMode": "Repeat",
+      "memorySizeKB": 5462.02344
+    }
+  }
+]

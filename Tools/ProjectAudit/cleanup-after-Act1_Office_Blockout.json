@@ -1,0 +1,1594 @@
+{
+  "status": "success",
+  "result": {
+    "success": true,
+    "assetPath": "Assets/_Project/Scenes/Act1_Office_Blockout.unity",
+    "dependencyCount": 396,
+    "dependencies": [
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Mug_3.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_115.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Fan_Metal.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Black_Lamp.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_2.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_45.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/PauseUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/ShadowsMidtonesHighlights.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/Lighting/Materials/MAT_CeilingLight_Housing.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_8.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_16.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Mug_2_Logo.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Generated/OfficeBlockoutGameplayMood.asset",
+        "type": "VolumeProfile"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.core/Runtime/Volume/VolumeProfile.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Image.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PaperSheet_11.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Monitor_Glass.001.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Binder_Blue_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Monitor_Cream.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/FilmGrain.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Generated/OfficeBlockout/Metal.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Phone_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Textures/Boss_Eyes_Black_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_DeskLamp_Black_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_80.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Printer_Top_White.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/material_51.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Layout/CanvasScaler.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_InputField.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Prefabs/BossCharacter.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_6.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_141.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Monitor_Plastic_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Monitor_Glass_42_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Controllers/BossOffice.controller",
+        "type": "AnimatorController"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/PC.001.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Interaction/OfficeInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/RectMask2D.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_95.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Printer_Base_White.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/Lighting/Models/OfficeCeilingLight.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_154.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_143.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/PC.001_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/VertexModifiers/Outline.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_61.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Textures/young_lightskinned_male_diffuse.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PaperSheet_07.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Mouse_White_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/MiniGames/ExcelDataAuditorGame.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/OfficeShiftHUD.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Printer_Top_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_ComputerTower_08.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/Bloom.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Keyboard_White.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Furniture/PF_Office_Cubicle_CenterPiece_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Environment/City/Materials/MAT_City_ground.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Mouse_Cream.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/Tonemapping.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Ucupaint_PC_Black_Front_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PenHolder_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_109.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Cabinet_Metal_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_128.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Furniture/PF_Office_CubiclePartition_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Mouse_Black.001.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_0.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Layout/LayoutElement.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Binder_Black_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Environment/City/Materials/MAT_City_material.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Materials/shoes03_diffuse.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Creme_Lamp_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Printer_Screen_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Mouse_Black.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Mouse_White.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Binder_red_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_15.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PaperSheet_04.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Table.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_83.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_140.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Cable_05.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Textures/eyebrow009.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Furniture/PF_Office_FilingCabinet_05.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_98.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Transparent_blue_plastic_procedural_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act1/act1_intro_boss_002.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/Lighting/Textures/T_CeilingLight_Housing_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_64.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_13.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Interaction/OfficeWorkstationInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Fan_Brand.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/OfficeBlockoutGameplayBridge.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/OfficeExhaustionSequence.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Files.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Binder_red.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Input Field Icon.psd",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TextMeshProUGUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Generated/OfficeBlockout/Screen.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Materials/short04_diffuse.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Editor/AssetVersion.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Cardboard_Box_White_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Printer_Screen.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_paper_2_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Data/Dialogue/Act1OfficeIntro.asset",
+        "type": "DialogueSequence"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/OfficeIntroHUD.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/DefaultMaterial_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Ucupaint_PC_White_Front_new_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Dialogue/DialogueSequence.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_130.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/OfficeAtmosphere.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Keyboard_Black.001_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/HUDController.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_DeskPhone_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_86.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Binder_03.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Floor.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/material_51_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_139.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/Door/Models/BossOfficeDoor.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_92.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Mouse_White_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/PC_White_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_93.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/PC_Cream_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Font Asset Icon.psd",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Environment/City/Models/SunsetHorizonCylinder.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Monitor_Glass.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Interaction/OfficeMicroInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Files.001.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Pc_Feet.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Environment/City/Models/City_Exterior.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Keyboard_White_0.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_124.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Materials/young_lightskinned_male_diffuse.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Printer_Base.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAsset.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_66.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Printer_Base_White_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_ArchiveBox_Lid_02.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Lit.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Audio/DialogueVoicePlayer.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Generated/OfficeBlockout/Oak.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Printer_Top.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Monitor_White.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Mug_Logo.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Monitor_Glass_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Trash_can.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Mug_3_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_150.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_3.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Mug_2_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Unlit.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/paper_.001.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_35.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_127.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/material.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_151.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_156.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PaperSheet_08.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TextMeshPro.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+        "type": "TMP_FontAsset"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_126.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Mouse_Black_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Transparent_blue_plastic_procedural.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Textures/short04_diffuse.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PaperSheet_02.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_29.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_11.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Keyboard_Black.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Furniture/PF_Office_CubiclePartition_03.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_71.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Materials/eyebrow009.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_73.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PaperSheet_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Generated/OfficeBlockout/Charcoal.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Table_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Interaction/OfficeBlockoutChairInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Office_Chair_Metal.001_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Generated/Vietnamese.asset",
+        "type": "TMP_FontAsset"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_89.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Binder_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/WhiteBalance.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Keyboard_Black.001.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Ucupaint_Keyboard_Creme_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Models/Office_Workstation.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Creme_Lamp_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/Floor/Models/OfficeFloor.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_52.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_27.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/GraphicRaycaster.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/Floor/Materials/MAT_OfficeFloor.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_37.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Printer_Top_White_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_material_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Monitor_White_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/OfficeSceneController.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_118.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_105.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+        "type": "Font"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_74.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_34.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_9.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_WaterCooler_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Generated/OfficeBlockout/FrostedPanel.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_28.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Mug_4_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_148.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Furniture/PF_Office_FilingCabinet_04.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Cardboard_Box_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Text Component Icon.psd",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_142.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Generated/OfficeBlockout/Wall.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Office_Chair_Leather.001_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_81.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Fan_Metal_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.core/Runtime/Volume/Volume.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_106.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Ucupaint_Keyboard_Creme.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Binder_02.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Generated/OfficeBlockout/Audio/ChairShift.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Player/PlayerInteraction.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_PaperSheet_06.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_58.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_Monitor_CRT_04.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Interaction/OfficeBlockoutDoorInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Note.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Office_Chair_Metal.001.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Materials/Boss_Eyes_Black_BaseColor.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Monitor_Glass_42.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Cabinet_Metal.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_ComputerTower_07.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Cooler_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_146.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Clock_face.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_50.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_paper_2_02.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/White_Lamp.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_101.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Fan_Head_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Materials/Lit.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+        "type": "TMP_FontAsset"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/Vignette.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/ColorAdjustments.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_100.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Audio/SFX/Office/Traffic_Outside.mp3",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_31.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/OfficeGuidanceController.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_111.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/PC_Front_Cream.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_22.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_97.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Generic_Glass.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Environment/City/Textures/Image_0.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act1/act1_intro_boss_003.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_134.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_5.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/MiniGames/OfficeReportMiniGame.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Textures/male_elegantsuit01_diffuse.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Binder_Black_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Monitor_Glass.001_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Printer_Base_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_25.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_44.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Models/Boss_Character.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Binder_Black.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_108.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/PC_White.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_121.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/CellPrefab.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_23.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_20.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_157.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_120.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Environment/City/Textures/Image_3.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_153.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Black.001.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_CoffeeMug_02.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_131.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/OfficeIntroController.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act1/act1_intro_ty_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Office_Chair_Plastic.001.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Environment/City/Textures/T_CityWindowEmission.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/PC_Front_Cream_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Audio/SFX/Office/Boss_Desk_Slam.mp3",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Fan_Head.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_47.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/paper_3.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_87.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_117.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Mug_2.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Fan_Metal.001_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/material_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/Door/Materials/MAT_BossDoor_Walnut.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_54.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/BossOfficeAnimation.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_76.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Printer_Base_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Audio/SFX/Office/Keyboard_Distant.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Cardboard_Box.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_147.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_43.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_112.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/EventSystem/InputModules/StandaloneInputModule.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_114.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_78.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_159.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_69.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Environment/City/Textures/T_SunsetHorizon_Original.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Materials/male_elegantsuit01_diffuse.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_38.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_56.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Monitor_Plastic.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_19.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Keyboard_White_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Furniture/PF_Office_OfficeChair_02.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_Keyboard_02.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Ucupaint_PC_White_Front_new.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Furniture/PF_Office_OfficeChair_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/paper_2.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_48.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Clock_face_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_144.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/OfficeDoorInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Environment/City/Materials/MAT_SunsetHorizon.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Office_Chair_Leather.001.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Clock_Back.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Ucupaint_PC_Black_Front.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/White_Lamp_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_132.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_136.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/Floor/Textures/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/Floor/Textures/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Mouse_Cream_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Printer_Top_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Mug_4_Logo.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_59.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_DocumentFolders_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_40.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Mouse_Black.001_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_62.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.core/Editor/Volume/Icons/Volume.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Generated/OfficeBlockout/Paper.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Button.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Fan_Metal.001.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Keyboard_White_0_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_103.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Mug_3_Logo.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_135.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Generated/OfficeBlockout/Audio/Ventilation.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_ArchiveBox_02.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Layout/GridLayoutGroup.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/Door/Textures/T_BossDoor_Walnut_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_137.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Mug_4.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_41.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Characters/Boss/Textures/shoes03_diffuse.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_ArchiveBox_Lid_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/PC_Cream.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Audio/Voice/vi/Act1/act1_intro_boss_001.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_90.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_123.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/DefaultMaterial.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Generated/OfficeBlockout/Audio/DoorHandle.wav",
+        "type": "AudioClip"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Drawer_Bottom_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_84.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalLightData.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Creme_Lamp.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Phone.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Black_Lamp_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Player/FirstPersonController.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Environment/City/Materials/OfficeSunsetMood.asset",
+        "type": "VolumeProfile"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Office_Chair_Plastic.001_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_18.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Note.001.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_32.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Cardboard_Box_White.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalCameraData.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/paper.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_51.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.core/Editor/Volume/Icons/VolumeProfileAsset.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Keyboard_Black_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_49.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/UnityPacked/Monitor_Cream_MetalSmooth.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_68.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Electronics/PF_Office_ComputerMouse_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Binder_Blue.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Black.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Materials/Cooler.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_70.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Generated/OfficeBlockout/Fabric.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Props/PF_Office_Drawer_Top_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Textures/image_145.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Office/RetroOffice/Prefabs/Parts/PF_Office_MeshPart_Binder_red_01.prefab",
+        "type": "GameObject"
+      }
+    ]
+  }
+}

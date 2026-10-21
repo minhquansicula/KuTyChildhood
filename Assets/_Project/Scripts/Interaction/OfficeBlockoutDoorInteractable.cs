@@ -8,9 +8,6 @@ public sealed class OfficeBlockoutDoorInteractable : InteractableBase, IProximit
 
     public override string GetPromptText()
     {
-        OfficeSceneController scene = office != null ? office : OfficeSceneController.Instance;
-        if (scene != null && scene.Phase == OfficePhase.DeliverReport)
-            return scene.PromptFor(OfficeInteractionKind.Boss);
         return intro != null ? intro.GetDoorPrompt() : string.Empty;
     }
 
@@ -23,9 +20,6 @@ public sealed class OfficeBlockoutDoorInteractable : InteractableBase, IProximit
 
     protected override void OnInteract()
     {
-        OfficeSceneController scene = office != null ? office : OfficeSceneController.Instance;
-        if (scene != null && scene.Phase == OfficePhase.DeliverReport)
-            scene.HandleInteraction(OfficeInteractionKind.Boss);
-        else intro?.TryOpenDoor();
+        intro?.TryOpenDoor();
     }
 }

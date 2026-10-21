@@ -110,7 +110,7 @@ public sealed class OfficeGuidanceController : MonoBehaviour
             case OfficePhase.CollectPrint:
                 return "Đến máy photo cạnh bình nước và nhấn E để lấy báo cáo.";
             case OfficePhase.DeliverReport:
-                return "Mang báo cáo đến cửa phòng sếp và nhấn E.";
+                return "Mở cửa vào phòng sếp, đến sát bàn rồi nhấn E để đưa báo cáo.";
             case OfficePhase.WaterBreak:
                 return "Bình nước nằm ngay cạnh máy photo. Lại gần và nhấn E.";
             case OfficePhase.Rest:
@@ -143,10 +143,9 @@ public sealed class OfficeGuidanceController : MonoBehaviour
     private void CacheTargets()
     {
         OfficeBlockoutChairInteractable chair = FindObjectOfType<OfficeBlockoutChairInteractable>(true);
-        OfficeBlockoutDoorInteractable bossDoor = FindObjectOfType<OfficeBlockoutDoorInteractable>(true);
         OfficeWorkstationInteractable workstation = FindObjectOfType<OfficeWorkstationInteractable>(true);
         chairTarget = chair != null ? chair.transform : null;
-        bossTarget = bossDoor != null ? bossDoor.transform : null;
+        bossTarget = null;
         workstationTarget = workstation != null ? workstation.transform : null;
         foreach (OfficeMicroInteractable micro in FindObjectsOfType<OfficeMicroInteractable>(true))
         {

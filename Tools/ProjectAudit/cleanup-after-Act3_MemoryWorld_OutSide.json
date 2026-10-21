@@ -1,0 +1,2150 @@
+{
+  "status": "success",
+  "result": {
+    "success": true,
+    "assetPath": "Assets/_Project/Scenes/Act3_MemoryWorld_OutSide.unity",
+    "dependencyCount": 535,
+    "dependencies": [
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_71.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Textures/BlueNoise256/LDR_LLL1_1.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/nguoidatrau.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CoLac_LOD2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse04/Nha04_LOD2_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_6.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CoManTrau_LOD0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Interaction/JournalInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/SanNha_ChuyenCo_1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/DuongDat_VienMem.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/MaxtreeOptimized/MT_PM_V60_Cyperus_eragrostis_01_Leaf_01.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/DongXa_Matte_2.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/PauseUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse03/Nha03_LOD1_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Whitewash_Warm.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/XR/XROcclusionMesh.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CayVuon_LOD0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Lua_Gio_Test.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/LoiSanBi_Cong.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/GoDat_BienLang.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Image.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_69.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse01/Nha01_LOD2_Tencent_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Data/XRSystemData.asset",
+        "type": "XRSystemData"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Textures/BlueNoise256/LDR_LLL1_2.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/VillageWaterDroplets.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RiceOptimized/Lua_Ruong_Instanced.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/RiceOptimized/CayLua_Card_LOD0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_12.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/Scene3/TencentHouse03/NhaQue_Tencent_03.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/RuralHouses/Nha03_NgoiReu_HienTon.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/CayLuaNhe/BongLua.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Data/XRSystemData.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/SanGach_DoCu.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/SanGach_DoCu_4.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/VienBi/VienBi_Target1_Color.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VienBi/VienBi_Target1.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Layout/CanvasScaler.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RiceOptimized/ThanTre_Xanh.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Generated/Clean.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/VienBi/VienBi_Target4_Color.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_14.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/Village_URP.asset",
+        "type": "UniversalRenderPipelineAsset"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_78.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CayVuon_LOD2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse03/Nha03_LOD1_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_87.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse02/Nha02_LOD0_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_55.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/TencentHouse03/NhaQue_Tencent_03.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/ScreenSpaceAmbientOcclusion.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_75.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Water/GiotNuoc.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocKenhSau_Phai.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/LuaNuoc_1_-9.obj",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/BananaVillage/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Roof_Clay_Tile_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/LoiRaCau_20.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Terrain/WavingGrass.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CayVuon_LOD1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CoThap_LOD0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Generated/Wood.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Vietnamese.asset",
+        "type": "TMP_FontAsset"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/VienBi/VienBi_Target0_Color.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_73.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Ochre.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Textures/BlueNoise256/LDR_LLL1_6.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LutBuilderLdr.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_07.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/InventoryManager.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_49.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/MaxtreeOptimized/MT_PM_V60_Alnus_cremastogyne_01_Trunk_01.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_34.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_LOD0_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse03/Nha03_LOD0_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.shadergraph/Editor/Importers/ShaderGraphMetadata.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_61.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/LoiTuCau_RaRuong_20.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/DongXa_CatVungChoi_DongBang_MoRongTamNhin.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/RuralHouseClearings/LuaNuoc_1_8_NhaDan.obj",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/trecon.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RiceOptimized/NenCo_Nham.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/ThanTan_LOD2_35928dd001.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse02/Nha02_LOD2_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_10.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse03/Nha03_LOD0_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Lua_Gio.shadergraph",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Clay_Wall_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/TreTanXumXe_LOD2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/Nuoc_RuongRong_3.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/Scene3/RuralHouses/Nha05_NgoiCu_HienTon.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_70.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/DongXa_Matte_1.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/DongXa_Matte_0.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse04/Nha04_LOD1_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Roof_Galvanized_Tin.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/SanNha_ChuyenCo_4.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse05/Nha05_LOD0_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Whitewash_Warm_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse02/Nha02_LOD0_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/BananaVillage/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse03/Nha03_LOD0_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LensFlareDataDriven.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/ThanTan_LOD1_cea99e3d7e.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Water/NuocRuong_GonSong.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Roof_Mossy_Tile_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_11.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/NuocRuong.shadergraph",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/TencentHouse02/NhaQue_Tencent_02.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/RendererFeatures/ScreenSpaceAmbientOcclusion.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/TreLang_Xanh.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/LuaNuoc_1_46.obj",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/RuralHouses/Nha05_NgoiCu_HienTon.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/TencentHouse04/NhaQue_Tencent_04.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/Kenh_Doc_RanhLang.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/Nuoc_RuongRong_1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_21.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse02/Nha02_LOD1_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/DatLang_ChuyenCo.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/buichuoi.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/QuestManager.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/TanLaXanhNho_0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Layout/VerticalLayoutGroup.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/Ngo_SanNha4.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/SanNha_ChuyenCo_2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Environment/VillageVisualIntegration.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/DanTrau_DuongCong_1.anim",
+        "type": "AnimationClip"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Slider.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_79.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/LuaNuoc_-1_8.obj",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TanCayKyUc_Mat.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/VienBi/VienBi_Player.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Roof_Galvanized_Tin_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/CopyDepth.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Moss_Lime_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/JournalUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/LuaNuoc_1_84.obj",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Clay_Wall.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse02/Nha02_LOD0_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Textures/BlueNoise256/LDR_LLL1_3.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TextMeshProUGUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_85.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RiceOptimized/BoRuong_DatLomNhom.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Limewash_Cream.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VienBi/VienBi_Target4.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_39.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse05/Nha05_LOD1_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_29.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Editor/AssetVersion.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Roof_Mossy_Tile.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_91.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/SanGach_DoCu_5.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_06.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/VillageActors/trecon/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/Scene3/TencentHouse04/NhaQue_Tencent_04.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse04/Nha04_LOD2_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_LOD1_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/UberPost.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/VienBi/VienBi_Target3.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Generated/Ground.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Metal.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CoThap_LOD1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/VienBi/VienBi_Target3_Color.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/Player/Player.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/HUDController.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/DongXa_CatVungChoi_DongXa_MauLuaTuNhien_0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/MaxtreeOptimized/MT_PM_V60_Digitaria_sanguinalis_01_Leaf_02.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_LOD1_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/ShopUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/UIButtonJuice.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/VillageActors/trecon/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_14.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_02.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Font Asset Icon.psd",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse01/Nha01_LOD1_Tencent_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_08.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_LOD2_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/VienBi/VienBi_Target2.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/BoDat_HuuCo_0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_48.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/NuocRuong_Vung_1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/ProgressBarUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAsset.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/Kenh_Ngang_DauLang.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_13.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Tile.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/LuaNuoc_-1_65.obj",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_18.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_43.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Lit.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CoThap_LOD2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/CayLuaNhe/LaLuaSam.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_20.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse02/Nha02_LOD0_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/BoDat_HuuCo_3.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse03/Nha03_LOD1_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_13.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_LeafDark.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/Grocery/tiemtaphoa_Mat.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_40.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/ObjectMotionVectors.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_04.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/Scene3/RuralHouses/Nha01_NgoiDo_HienTon.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Unlit.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Data/UniversalRenderPipelineAsset.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/MaxtreeOptimized/MT_PM_V60_Lolium_perenne_01_Leaf_01.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/TencentHouse01/NhaQue_Tencent_01.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_05.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Scripts/Runtime/TextMeshPro.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/NuocRuong_Vung_3.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_54.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_14.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/DanTrau_DuongCong_2.anim",
+        "type": "AnimationClip"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/Ngo_SanNha1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse02/Nha02_LOD2_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Old_Brick.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Generated/Dirty.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/BuiTre_VietNam.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/MaxtreeOptimized/MT_PM_V60_Digitaria_sanguinalis_01_Leaf_01.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RiceOptimized/BoRuong_DatCo.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RiceOptimized/Matte_Grass_Earth.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/StencilDeferred.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Textures/BayerMatrix.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/contrau_Mat.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_84.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/HDRI_LangQue_ChanTroiXa.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DatNenTuNhien_99.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/ChildrenCrowd/Tre_KhoacVai_1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/ThanTan_LOD0_17b772a1b3.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_51.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Environment/VillageWaterSystem.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/MemoryCollectionManager.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Generated/Vietnamese.asset",
+        "type": "TMP_FontAsset"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Textures/BlueNoise64/L/LDR_LLL1_0.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_33.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_36.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Stone_Plaster_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Babantaphoa.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_23.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/UI/ShopItemSlot.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Dark_Timber_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Ochre_Earth_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Window_Dark_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/Scene3/RuralHouses/Nha03_NgoiReu_HienTon.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Green.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_92.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_LOD1_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_CandyYellow.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Teal.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/UniversalRendererData.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_19.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RiceOptimized/Lua_Ruong_Chung.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_46.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_30.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_10.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/Ngo_SanBi_KyUc.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/Grocery/Babantaphoa/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Jar.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/MaxtreeOptimized/MT_PM_V60_Digitaria_sanguinalis_01_Leaf_02.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_59.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/GraphicRaycaster.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/SanNha_ChuyenCo_0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Roof_Clay_Tile.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/ScreenSpaceShadows.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_07.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/BlitHDROverlay.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_58.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/SanGach_DoCu_2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+        "type": "Font"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Environment/VillageGroundCoverRenderer.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_5.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse03/Nha03_LOD2_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_15.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/tiemtaphoa.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_LOD0_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/MaxtreeOptimized/MT_PM_V60_Setaria_viridis_beauv_01_Leaf_01.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Debug/HDRDebugView.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse05/Nha05_LOD2_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RiceOptimized/RiceClump_Card_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/Sampling.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/MaxtreeOptimized/MT_PM_V60_Alnus_cremastogyne_01_Leaf_01.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Text Component Icon.psd",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/BoDat_HuuCo_2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_LeafLight.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_11.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/VillageHdriSky.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_16.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Red.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scenes/ScriptableObjects/Items/Item0.asset",
+        "type": "ItemData"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_81.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/CoreBlitColorAndDepth.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/RiceOptimized/CayLua_Card_LOD2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Player/PlayerInteraction.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Generated/Blue.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/VienBi/VienBi_Player_Color.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Stone_Plaster.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_50.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/CayOi_Village.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CayTanRong_LOD0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_31.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Data/ItemData.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/DuongLang_UonQuanhAo.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Roof_Faded_Red_Tin.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse05/Nha05_LOD2_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/RuralHouseClearings/LuaNuoc_-1_27_NhaDan.obj",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Ochre_Earth.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_05.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_68.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_45.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/RuralHouseClearings/LuaNuoc_1_65_NhaDan.obj",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_76.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Textures/BlueNoise256/LDR_LLL1_4.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse04/Nha04_LOD0_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/TanLaXanhNho_1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse03/Nha03_LOD2_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/Scene3/RuralHouses/Nha04_NgoiDoSam_HienTon.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VienBi/VienBi_Target2.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/VillageActors/nguoidatrau/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/Blit.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Cream.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/Materials/Lit.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/MaxtreeOptimized/MT_PM_V60_Alnus_cremastogyne_01_Petiole_01.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CoDuoiChon_LOD2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_01.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Earth.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/ThanTan_LOD1_9603f5e8fc.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/DongRom_HinhNon.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_LOD2_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/VillageActors/nguoidatrau/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/CameraMotionVectors.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/MaxtreeOptimized/MT_PM_V60_Setaria_viridis_beauv_01_Leaf_01.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/TencentHouse05/NhaQue_Tencent_05.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_24.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Old_Brick_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_09.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Roof_Faded_Red_Tin_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/XR/XRMirrorView.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/contrau.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_8.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/trecon_Mat.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/MaxtreeOptimized/MT_PM_V60_Cyperus_eragrostis_01_Leaf_01.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_64.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/RomVangCu.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/Scene3/RuralHouses/Nha02_NgoiNau_HienTon.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_89.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/NuocRuong_Vung_0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/BananaVillage/Chuoi_XanhTram.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/RuralHouses/Nha04_NgoiDoSam_HienTon.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/MaxtreeOptimized/MT_PM_V60_Alnus_cremastogyne_01_Leaf_01.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/Scene3/TencentHouse05/NhaQue_Tencent_05.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/RuralHouseClearings/LuaNuoc_-1_84_NhaDan.obj",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse05/Nha05_LOD1_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Terrain/TerrainDetailLit.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Window_Dark.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/AoLang_BenDuongDat.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/HDRI/golf_course_sunrise_4k.exr",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_12.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_88.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse02/Nha02_LOD2_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/MaxtreeOptimized/MT_PM_V60_Digitaria_sanguinalis_01_Leaf_01.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/CoreBlit.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_3.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Terracotta.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_06.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/CayKyUc_TanMem.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Terrain/WavingGrassBillboard.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_11.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse03/Nha03_LOD2_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/RiceOptimized/CayLua_Card_LOD1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_80.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse02/Nha02_LOD1_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/Nuoc_RuongRong_4.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_LOD2_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse02/Nha02_LOD2_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse02/Nha02_LOD1_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_9.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Interaction/MarbleInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/CayLuaNhe/ThanLua.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Interaction/ShopInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse03/Nha03_LOD1_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_74.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/EventSystem/InputModules/StandaloneInputModule.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse04/Nha04_LOD0_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_90.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/VienBi/VienBi_Target4.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/VienBi/GlassMarblePhysics.physicMaterial",
+        "type": "PhysicMaterial"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/ShopManager.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/RuralHouseClearings/LuaNuoc_-1_-9_NhaDan.obj",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CoManTrau_LOD1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/CayLuaNhe/LaLua.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/FallbackLoading.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/Dat_NenLang_ThamChieu.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_25.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/RuralHouses/Nha01_NgoiDo_HienTon.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_83.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/Terrain_LangCao_RuongThap.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_63.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse05/Nha05_LOD0_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Roof_Old_Tile_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/LoiTuCau_RaRuong_48.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_09.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/TreTanXumXe_LOD0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_16.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse04/Nha04_LOD0_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/LutBuilderHdr.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CoLac_LOD1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/Grocery/Babantaphoa/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse05/Nha05_LOD1_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_35.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/DongXa_CatVungChoi_DongXa_MauLuaTuNhien_2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/CayLuaNhe_Cum3x3.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse01/Nha01_LOD0_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Bamboo_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Timber.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/LuaNuoc_1_27.obj",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VienBi/VienBi_Target0.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/VienBi/VienBi_Target1.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/DongXa_CatVungChoi_DongXa_MauLuaTuNhien_1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/SanNha_ChuyenCo_3.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/MaxtreeOptimized/MT_PM_V60_Lolium_perenne_01_Leaf_01.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_53.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_56.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/BoDat_HuuCo_1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/VienBi/VienBi_Target0.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/CurrencyManager.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/FallbackError.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse04/Nha04_LOD0_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Interaction/DishInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VienBi/VienBi_Player.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/BoKenh_Triplanar.shadergraph",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_03.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/MaxtreeOptimized/MT_PM_V60_Alnus_cremastogyne_01_Petiole_01.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/ShopItemSlotUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Dark_Timber.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_15.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/brown_mud_dry_diff_4k.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/RuralHouses/Nha02_NgoiNau_HienTon.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse05/Nha05_LOD0_BaseColor.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Generated/Renderer.asset",
+        "type": "UniversalRendererData"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Moss_Lime.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/VillageWater.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/Scene3/CayLuaNhe_Cum3x3.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/VanCau_GoCu.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Debug/DebugReplacement.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/LoiRaCau_48.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/Grocery/tiemtaphoa/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse01/Nha01_LOD0_Tencent_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.ugui/Runtime/UI/Core/Button.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CoDuoiChon_LOD1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/TreTanXumXe_LOD1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_CandyPink.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/nguoidatrau_Mat.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Environment/RuralRiceFieldRenderer.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/ChildrenCrowd/Tre_KhoacVai_0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/NuocRuong_Vung_2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse05/Nha05_LOD0_Normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/ThanTan_LOD2_7ed0de1050.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_66.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/MaxtreeMatteWind.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse04/Nha04_LOD1_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_38.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RiceOptimized/RiceRegionCull.compute",
+        "type": "ComputeShader"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/Scene3_Blue.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/LuaNuoc_-1_46.obj",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_65.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_13.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/TanLaXanhNho_2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_16.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/RoughBanks/BoRuong_DatLomNhom_08.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_86.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/DialogueUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Scripts/MiniGames/DishWashingGame.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/VillageActors/contrau/texture_pbr_20250901_normal.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/Scene3/TencentHouse01/NhaQue_Tencent_01.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_41.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/VienBi/VienBi_Target2_Color.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse02/Nha02_LOD1_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/UI/MarbleAimUI.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_10.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_44.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Bamboo.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/RuralHouses/Limewash_Cream_Weathered.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/SanGach_DoCu_3.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/OrganicVillage/Nuoc_Bun_Hdri.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.shadergraph/Editor/Importers/ShaderGraphImporter.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/DayDat.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalLightData.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/TencentHouse05/Nha05_LOD2_PBR.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/ChildrenCrowd/Tre_KhoacVai_2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/Ngo_SanNha3.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/CauVan_1m4x2m9.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_60.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Shaders/Utils/MaterialError.shader",
+        "type": "Shader"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VienBi/VienBi_Target3.fbx",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Prefabs/Scene3/TencentHouse02/NhaQue_Tencent_02.prefab",
+        "type": "GameObject"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/DeepCanals/NuocKenhSau_Trai.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Player/FirstPersonController.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/MaxtreeOptimized/MT_PM_V60_Alnus_cremastogyne_01_Trunk_01.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Interaction/ChainedDoorInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/RauTrongVuon.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Terrain/RuongHaThap_RuongLua_15.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CayTanRong_LOD1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalCameraData.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/BoKenh_Dat.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/CayLuaNhe/HatLuaSang.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Scripts/MiniGames/MarbleShootingGame.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_26.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Materials/Scene3/RuralHouses/Roof_Old_Tile.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_28.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CoManTrau_LOD2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Textures/BlueNoise256/LDR_LLL1_0.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse03/Nha03_LOD0_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/Grocery/Babantaphoa_Mat.mat",
+        "type": "Material"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageActors/ThanTan_LOD0_90da5d9bb3.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CoLac_LOD0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Environment/VillageRiceRegions.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Systems/DreamKeyController.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/dirt_aerial_02_diff_4k.jpg",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CayTanRong_LOD2.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse04/Nha04_LOD1_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Textures/BlueNoise256/LDR_LLL1_5.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scenes/ScriptableObjects/Items/Item2.asset",
+        "type": "ItemData"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/SanGach_DoCu_1.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/MemoryGround_93.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/TencentHouse04/Nha04_LOD2_MetallicSmoothness.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/UniversalMetadata.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/MaxtreeOptimized/Geometry/CoDuoiChon_LOD0.asset",
+        "type": "Mesh"
+      },
+      {
+        "path": "Assets/_Project/Art/Animations/Scene3/DanDatTrauBoVeLang.anim",
+        "type": "AnimationClip"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/Grocery/tiemtaphoa/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Art/Textures/Scene3/VillageActors/contrau/texture_pbr_20250901.png",
+        "type": "Texture2D"
+      },
+      {
+        "path": "Assets/_Project/Scripts/Interaction/DreamKeyInteractable.cs",
+        "type": "MonoScript"
+      },
+      {
+        "path": "Assets/_Project/Art/Models/Scene3/VillageDetails/MemoryLandscape/ReferenceVillage/Nuoc_RuongRong_2.asset",
+        "type": "Mesh"
+      }
+    ]
+  }
+}

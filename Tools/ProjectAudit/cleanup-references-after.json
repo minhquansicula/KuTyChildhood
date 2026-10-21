@@ -1,0 +1,10 @@
+{
+  "status": "success",
+  "result": {
+    "success": true,
+    "issueCount": 0,
+    "missingScripts": 0,
+    "missingReferences": 0,
+    "issues": []
+  }
+}

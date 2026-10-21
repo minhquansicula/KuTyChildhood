@@ -19,12 +19,20 @@ public class BedWakeUpController : MonoBehaviour
     [SerializeField, Min(0f)] private float exitRightDistance = 0.55f;
 
     [Header("Wake-up cinematic")]
-    [SerializeField, Min(0.5f)] private float wakingDuration = 4.2f;
+    [SerializeField, Min(0.5f)] private float eyeOpeningDuration = 1.8f;
+    [SerializeField, Range(-85f, -10f)] private float sleepingPitch = -52f;
+    [SerializeField, Range(-85f, -10f)] private float awakePitch = -26f;
+    [SerializeField, Range(0f, 2f)] private float wakeBounceIntensity = 1.6f;
+    [SerializeField] private AnimationCurve eyeAperture = new AnimationCurve(
+        new Keyframe(0f, 0f), new Keyframe(.12f, 0f), new Keyframe(.36f, .42f),
+        new Keyframe(.48f, .42f), new Keyframe(.55f, .08f), new Keyframe(.72f, .7f), new Keyframe(1f, 1f));
     [SerializeField, Min(0.3f)] private float risingDuration = 0.85f;
     [SerializeField] private Vector3 lyingCameraOffset = new Vector3(-0.12f, -0.78f, -0.08f);
 
     private FirstPersonController playerController;
     private GameObject promptCard;
+    private CanvasGroup promptGroup;
+    private float promptReveal;
     private Transform playerCamera;
     private Vector3 standingCameraPosition;
     private Camera viewCamera;
@@ -32,6 +40,8 @@ public class BedWakeUpController : MonoBehaviour
     private GameObject visionCanvas;
     private Image visionHaze;
     private Image visionBlack;
+    private SleepEyelidOverlay eyelids;
+    private Light wakeBounce;
     private bool canWakeUp = false;
     public bool CanPauseWhileWaiting => canWakeUp &&
         (ShopUI.Instance == null || !ShopUI.Instance.IsOpen) &&
@@ -48,6 +58,7 @@ public class BedWakeUpController : MonoBehaviour
     public void GetOnBed(bool isInitial)
     {
         canWakeUp = false;
+        HUDController.Instance?.SetCrosshairVisible(false);
         SetPromptVisible(false);
 
         // Find player if not cached
@@ -79,7 +90,7 @@ public class BedWakeUpController : MonoBehaviour
             }
 
             // Look up at the ceiling
-            playerController.SetPitch(-85f);
+            playerController.SetPitch(sleepingPitch);
             if (playerCamera != null) playerCamera.localPosition = standingCameraPosition + lyingCameraOffset;
         }
 
@@ -96,34 +107,32 @@ public class BedWakeUpController : MonoBehaviour
     {
         if (cinematic && playerCamera != null)
         {
+            while (SceneLoader.Instance != null && SceneLoader.Instance.IsSleepTransitionCovered)
+                yield return null;
             float elapsed = 0f;
-            while (elapsed < wakingDuration)
+            while (elapsed < eyeOpeningDuration)
             {
                 if (GameManager.Instance == null || !GameManager.Instance.IsPaused)
                     elapsed += Time.deltaTime;
-                float t = Mathf.Clamp01(elapsed / wakingDuration);
-                float fade = 1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((elapsed - .2f) / 1.25f));
-                float blink = Mathf.Sin(Mathf.PI * Mathf.Clamp01((elapsed - 1.65f) / .38f));
-                blink = elapsed >= 1.65f && elapsed <= 2.03f ? blink * .72f : 0f;
-                SetVision(Mathf.Clamp01(fade + blink), .16f * (1f - t));
+                float t = Mathf.Clamp01(elapsed / eyeOpeningDuration);
+                SetVision(1f - Mathf.Clamp01(eyeAperture.Evaluate(t)), .1f * (1f - t));
 
                 float dizziness = (1f - t) * (1f - t);
-                float pitch = Mathf.Lerp(-85f, -77f, Mathf.SmoothStep(0f, 1f, t)) +
-                    Mathf.Sin(elapsed * 4.1f) * 2.4f * dizziness;
-                float roll = Mathf.Sin(elapsed * 3.4f + .7f) * 5.5f * dizziness;
+                float pitch = Mathf.Lerp(sleepingPitch, awakePitch, Mathf.SmoothStep(0f, 1f, t));
+                float roll = 1.2f * dizziness;
                 playerController.SetPitch(pitch);
                 playerCamera.localRotation *= Quaternion.Euler(0f, 0f, roll);
                 playerCamera.localPosition = standingCameraPosition + lyingCameraOffset +
-                    new Vector3(Mathf.Sin(elapsed * 2.3f) * .025f, Mathf.Sin(elapsed * 5f) * .012f, 0f) * dizziness;
+                    new Vector3(-.012f, -.008f, 0f) * dizziness;
                 if (viewCamera != null)
-                    viewCamera.fieldOfView = normalFieldOfView - 5f * dizziness +
-                        Mathf.Sin(elapsed * 3f) * 1.6f * dizziness;
+                    viewCamera.fieldOfView = normalFieldOfView - 1.5f * dizziness;
                 yield return null;
             }
-            playerController.SetPitch(-77f);
+            playerController.SetPitch(awakePitch);
             playerCamera.localPosition = standingCameraPosition + lyingCameraOffset;
             if (viewCamera != null) viewCamera.fieldOfView = normalFieldOfView;
             SetVision(0f, 0f);
+            yield return new WaitForSeconds(.15f);
         }
         else
         {
@@ -133,7 +142,7 @@ public class BedWakeUpController : MonoBehaviour
         // Show prompt
         if (promptText != null)
         {
-            promptText.text = "<color=#F4C66A><b>E</b></color>   Xuống giường";
+            promptText.text = "Xuống giường";
             SetPromptVisible(true);
         }
 
@@ -146,6 +155,13 @@ public class BedWakeUpController : MonoBehaviour
         modalOpen |= ShopUI.Instance != null && ShopUI.Instance.IsOpen;
         modalOpen |= DialogueUI.Instance != null && DialogueUI.Instance.IsShowing;
         if (canWakeUp) SetPromptVisible(!modalOpen);
+        if (canWakeUp && !modalOpen && promptGroup != null)
+        {
+            promptReveal = Mathf.Clamp01(promptReveal + Time.deltaTime / .25f);
+            float eased = Mathf.SmoothStep(0f, 1f, promptReveal);
+            promptGroup.alpha = eased;
+            ((RectTransform)promptCard.transform).anchoredPosition = new Vector2(0f, Mathf.Lerp(34f, 42f, eased));
+        }
         if (canWakeUp && !modalOpen && Input.GetKeyDown(KeyCode.E))
         {
             GetOutOfBed();
@@ -166,33 +182,56 @@ public class BedWakeUpController : MonoBehaviour
             scaler.matchWidthOrHeight = .5f;
         }
 
-        promptCard = new GameObject("WakePromptCard", typeof(RectTransform), typeof(Image));
+        promptCard = new GameObject("WakePromptCard", typeof(RectTransform), typeof(Image), typeof(CanvasGroup));
+        promptGroup = promptCard.GetComponent<CanvasGroup>();
+        promptGroup.blocksRaycasts = promptGroup.interactable = false;
         promptCard.transform.SetParent(canvas.transform, false);
         var cardRect = (RectTransform)promptCard.transform;
         cardRect.anchorMin = cardRect.anchorMax = new Vector2(.5f, 0f);
         cardRect.pivot = new Vector2(.5f, 0f);
         cardRect.anchoredPosition = new Vector2(0f, 42f);
-        cardRect.sizeDelta = new Vector2(320f, 62f);
+        cardRect.sizeDelta = new Vector2(250f, 48f);
         var image = promptCard.GetComponent<Image>();
-        image.color = new Color(.055f, .105f, .13f, .93f);
+        image.color = new Color(.035f, .03f, .025f, .55f);
         image.raycastTarget = false;
 
         promptText.transform.SetParent(promptCard.transform, false);
         var textRect = promptText.rectTransform;
         textRect.anchorMin = Vector2.zero;
         textRect.anchorMax = Vector2.one;
-        textRect.offsetMin = new Vector2(14f, 5f);
-        textRect.offsetMax = new Vector2(-14f, -5f);
-        promptText.fontSize = 26f;
+        textRect.offsetMin = new Vector2(60f, 4f);
+        textRect.offsetMax = new Vector2(-12f, -4f);
+        promptText.fontSize = 22f;
         promptText.fontStyle = FontStyles.Normal;
         promptText.alignment = TextAlignmentOptions.Center;
         promptText.color = new Color(.95f, .97f, .96f);
         promptText.raycastTarget = false;
+        var key = new GameObject("Keycap", typeof(RectTransform), typeof(Image), typeof(Outline));
+        key.transform.SetParent(promptCard.transform, false);
+        var keyRect = (RectTransform)key.transform;
+        keyRect.anchorMin = keyRect.anchorMax = new Vector2(0f, .5f);
+        keyRect.anchoredPosition = new Vector2(29f, 0f);
+        keyRect.sizeDelta = new Vector2(30f, 30f);
+        key.GetComponent<Image>().color = new Color(.14f, .13f, .11f, .8f);
+        key.GetComponent<Image>().raycastTarget = false;
+        key.GetComponent<Outline>().effectColor = new Color(.9f, .84f, .7f, .55f);
+        key.GetComponent<Outline>().effectDistance = Vector2.one;
+        var label = Instantiate(promptText, key.transform);
+        label.name = "KeyLabel";
+        label.text = "E";
+        label.gameObject.SetActive(true);
+        label.fontSize = 20f;
+        label.rectTransform.offsetMin = label.rectTransform.offsetMax = Vector2.zero;
         SetPromptVisible(false);
     }
 
     private void SetPromptVisible(bool visible)
     {
+        if (!visible)
+        {
+            promptReveal = 0f;
+            if (promptGroup != null) promptGroup.alpha = 0f;
+        }
         if (promptText != null && promptText.gameObject.activeSelf != visible)
             promptText.gameObject.SetActive(visible);
         if (promptCard != null && promptCard.activeSelf != visible)
@@ -230,6 +269,7 @@ public class BedWakeUpController : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / risingDuration));
+            if (wakeBounce != null) wakeBounce.intensity = wakeBounceIntensity * (1f - t);
             playerCamera.localPosition = Vector3.Lerp(fromPosition, standingCameraPosition, t);
             playerCamera.localRotation = Quaternion.Slerp(fromRotation, Quaternion.Euler(ExitCameraPitch, 0f, 0f), t);
             SetVision(Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((t - .78f) / .22f)), 0f);
@@ -294,6 +334,7 @@ public class BedWakeUpController : MonoBehaviour
     private void CompleteExit()
     {
         GameManager.Instance?.ReleaseInput(this);
+        HUDController.Instance?.SetCrosshairVisible(true);
         KitchenFlowManager.Instance?.ShowChecklist();
     }
 
@@ -307,6 +348,20 @@ public class BedWakeUpController : MonoBehaviour
         canvas.sortingOrder = 110;
         visionHaze = CreateVisionImage("SleepHaze", new Color(1f, .82f, .62f, 0f));
         visionBlack = CreateVisionImage("ClosedEyes", Color.black);
+        visionBlack.color = Color.clear;
+        eyelids = SleepEyelidOverlay.Create(visionCanvas.transform);
+        if (playerCamera != null && wakeBounceIntensity > 0f)
+        {
+            var bounce = new GameObject("WakeWindowBounce", typeof(Light));
+            bounce.transform.SetParent(playerCamera, false);
+            bounce.transform.localPosition = new Vector3(-.25f, .1f, -.25f);
+            wakeBounce = bounce.GetComponent<Light>();
+            wakeBounce.type = LightType.Point;
+            wakeBounce.color = new Color(1f, .86f, .68f);
+            wakeBounce.intensity = wakeBounceIntensity;
+            wakeBounce.range = 7f;
+            wakeBounce.shadows = LightShadows.None;
+        }
         SetVision(1f, 0f);
     }
 
@@ -326,15 +381,19 @@ public class BedWakeUpController : MonoBehaviour
 
     private void SetVision(float black, float haze)
     {
-        if (visionBlack != null) visionBlack.color = new Color(0f, 0f, 0f, Mathf.Clamp01(black));
+        if (eyelids != null) eyelids.SetClosure(black);
+        else if (visionBlack != null) visionBlack.color = new Color(0f, 0f, 0f, Mathf.Clamp01(black));
         if (visionHaze != null) visionHaze.color = new Color(1f, .82f, .62f, Mathf.Clamp01(haze));
     }
 
     private void ClearVisionOverlay()
     {
         if (visionCanvas != null) Destroy(visionCanvas);
+        if (wakeBounce != null) Destroy(wakeBounce.gameObject);
+        wakeBounce = null;
         visionCanvas = null;
         visionBlack = null;
+        eyelids = null;
         visionHaze = null;
     }
 }

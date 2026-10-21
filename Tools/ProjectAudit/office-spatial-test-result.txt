@@ -1,0 +1,2 @@
+PASS (153 assertions)
+Spatial targeting, clear standing positions, distance/occlusion, boss desk delivery and drinking passed

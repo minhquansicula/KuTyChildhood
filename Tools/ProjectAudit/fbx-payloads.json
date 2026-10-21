@@ -1,0 +1,130 @@
+[
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_01.fbx",
+    "bytes": 102476508,
+    "tracked": true,
+    "embeddedBytes": 44987407,
+    "embeddedImages": 4,
+    "vertices": 499963
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenStructure_02.fbx",
+    "bytes": 101379356,
+    "tracked": true,
+    "embeddedBytes": 44845572,
+    "embeddedImages": 4,
+    "vertices": 499802
+  },
+  {
+    "path": "Assets/_Project/Art/Models/Scene3/caylua.fbx",
+    "bytes": 96183340,
+    "tracked": true,
+    "embeddedBytes": 0,
+    "embeddedImages": 0,
+    "vertices": 2087262
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_RiceCookingStove.fbx",
+    "bytes": 94741292,
+    "tracked": true,
+    "embeddedBytes": 36843183,
+    "embeddedImages": 4,
+    "vertices": 499978
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_ToolSet.fbx",
+    "bytes": 71567132,
+    "tracked": true,
+    "embeddedBytes": 41139576,
+    "embeddedImages": 4,
+    "vertices": 249976
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishRack.fbx",
+    "bytes": 68787148,
+    "tracked": true,
+    "embeddedBytes": 38260073,
+    "embeddedImages": 4,
+    "vertices": 249962
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_02.fbx",
+    "bytes": 66315564,
+    "tracked": true,
+    "embeddedBytes": 38433333,
+    "embeddedImages": 4,
+    "vertices": 249969
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_WallPanel_01.fbx",
+    "bytes": 66315564,
+    "tracked": true,
+    "embeddedBytes": 38433333,
+    "embeddedImages": 4,
+    "vertices": 249969
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_TimberColumn.fbx",
+    "bytes": 64433660,
+    "tracked": true,
+    "embeddedBytes": 35839403,
+    "embeddedImages": 4,
+    "vertices": 249961
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_KitchenCurtain.fbx",
+    "bytes": 64250668,
+    "tracked": true,
+    "embeddedBytes": 33645506,
+    "embeddedImages": 4,
+    "vertices": 249353
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Architecture/SM_Roof.fbx",
+    "bytes": 64028940,
+    "tracked": true,
+    "embeddedBytes": 33006619,
+    "embeddedImages": 4,
+    "vertices": 249844
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Bedroom/SM_Radio.fbx",
+    "bytes": 63763436,
+    "tracked": true,
+    "embeddedBytes": 60145817,
+    "embeddedImages": 4,
+    "vertices": 23642
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_DishCabinet.fbx",
+    "bytes": 62756236,
+    "tracked": true,
+    "embeddedBytes": 32601363,
+    "embeddedImages": 4,
+    "vertices": 243793
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_PottedPlant.fbx",
+    "bytes": 61689740,
+    "tracked": true,
+    "embeddedBytes": 28970386,
+    "embeddedImages": 4,
+    "vertices": 248946
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Kitchen/SM_WallBasin.fbx",
+    "bytes": 57187788,
+    "tracked": true,
+    "embeddedBytes": 28272721,
+    "embeddedImages": 4,
+    "vertices": 250000
+  },
+  {
+    "path": "Assets/_Project/Art/Scene2/Models/Yard/SM_GrainPile.fbx",
+    "bytes": 56678668,
+    "tracked": true,
+    "embeddedBytes": 53631103,
+    "embeddedImages": 4,
+    "vertices": 24990
+  }
+]
