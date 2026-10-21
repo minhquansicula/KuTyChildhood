@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 /// <summary>One visible prop starts a hands-on chore. Reward and checkpoint state stay in HouseholdChoreFlow.</summary>
-public sealed class HouseholdChoreInteractable : InteractableBase
+public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInteractable
 {
     [SerializeField] private HouseholdChore chore;
     [SerializeField] private Transform effectAnchor;
@@ -33,6 +33,23 @@ public sealed class HouseholdChoreInteractable : InteractableBase
         return isActiveAndEnabled && !running && flow != null && flow.IsCurrent(chore)
             ? "[E] " + HouseholdChoreFlow.Titles[(int)chore] +
               (HouseholdChoreFlow.IsOptional(chore) ? " · Tùy chọn (+5 mảnh)" : "") : "";
+    }
+
+    // The rice pot sits among solid kitchen props. A narrow near-and-facing focus
+    // keeps E available when those props intercept the camera's exact ray.
+    public bool TryGetProximityDistance(Vector3 playerPosition, out float distance)
+    {
+        distance = float.PositiveInfinity;
+        if (chore != HouseholdChore.WashRice || string.IsNullOrEmpty(GetPromptText())) return false;
+        Transform pot = effectAnchor != null ? effectAnchor : transform;
+        Vector3 offset = pot.position - playerPosition;
+        distance = new Vector2(offset.x, offset.z).magnitude;
+        if (distance > 2.7f || Mathf.Abs(offset.y) > 2.2f) return false;
+        Camera view = Camera.main;
+        if (view == null) return false;
+        Vector3 towardPot = pot.position + Vector3.up * .38f - view.transform.position;
+        return towardPot.sqrMagnitude > .01f &&
+            Vector3.Dot(view.transform.forward, towardPot.normalized) >= .55f;
     }
 
     protected override void OnInteract()
@@ -152,7 +169,7 @@ public sealed class HouseholdChoreInteractable : InteractableBase
             case HouseholdChore.WashRice: return "Khuấy theo elip mặt nước trong nồi hai vòng rồi bấm chắt nước.";
             case HouseholdChore.LightFire: return "Đặt củi vào bếp, sau đó thổi khi than sáng vàng.";
             case HouseholdChore.CookRice: return "Đẩy củi vào hoặc rút ra để giữ nồi cơm sôi đều.";
-            case HouseholdChore.WashDishes: return "Cầm bùi nhùi chà sạch từng vết dơ, rồi kéo chén qua thau nước để tráng.";
+            case HouseholdChore.WashDishes: return "Dùng miếng rửa chén chà sạch, tráng trong thau nước rồi đặt lên giá.";
             case HouseholdChore.ReadLetter: return "Tháo dây, mở nếp giấy và lật trang để đọc thư.";
             default: return "Tương tác với vật dụng để hoàn thành việc này.";
         }

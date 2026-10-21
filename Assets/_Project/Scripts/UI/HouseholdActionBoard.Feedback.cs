@@ -28,6 +28,11 @@ public sealed partial class HouseholdActionBoard
     private void TickHandGuide()
     {
         if (tutorialHand == null) return;
+        if (mode == ActionMode.Placement && chore == HouseholdChore.CarryWood && stage == 2)
+        {
+            tutorialHand.gameObject.SetActive(false);
+            return;
+        }
         bool show = !dragging && (elapsed < 5f || idleSeconds >= 7f || mistakes >= 2);
         tutorialHand.gameObject.SetActive(show);
         if (!show) return;
@@ -35,7 +40,8 @@ public sealed partial class HouseholdActionBoard
         Vector2 to = Vector2.right * 65f;
         if (mode == ActionMode.Placement)
         {
-            if (stage == 1) { from = gestureHome; to = from + (chore == HouseholdChore.ArrangeKeepsakes ? Vector2.down : Vector2.right) * 85f; }
+            if (stage == 1) { from = gestureHome; to = from + (chore == HouseholdChore.ArrangeKeepsakes ? Vector2.down : Vector2.right) *
+                (chore == HouseholdChore.CarryWood ? 250f : 85f); }
             else
                 for (int i = 0; i < 3; i++)
                     if (!placed[i]) { from = items[i].anchoredPosition; to = targets[i].anchoredPosition; break; }

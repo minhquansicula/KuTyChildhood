@@ -1,6 +1,6 @@
 # Theo dõi nâng cấp hình ảnh mini game Scene 2
 
-Cập nhật: 22/10/2026. Tài liệu này ghi lại ảnh nguồn, sprite đã import và kết quả chơi thử. Các hình UGUI vẫn làm vùng thao tác, trạng thái và phương án dự phòng nếu thiếu sprite. Chưa xác nhận hình ảnh trong Play Mode.
+Cập nhật: 22/10/2026. Tài liệu này ghi lại ảnh nguồn, sprite đã import và kết quả chơi thử. Các hình UGUI vẫn làm vùng thao tác, trạng thái và phương án dự phòng nếu thiếu sprite. Cần kiểm tra hình ảnh trực tiếp trong Game View khi mở được Unity Editor.
 
 ## Tình trạng chung
 
@@ -20,16 +20,16 @@ Cập nhật: 22/10/2026. Tài liệu này ghi lại ảnh nguồn, sprite đã 
 | 2 | Chỉnh radio | Radio và kim dò gốc đã tách nền | 2 sprite | Đã gắn | Chưa thử Play Mode |
 | 3 | Xếp dụng cụ | Cào, cuốc, xẻng gốc đã tách nền; giá treo tạo bổ sung | 4 sprite | Đã gắn | Chưa thử Play Mode |
 | 4 | Xay ngô | Tự tạo từ ảnh cối gốc: đế cố định, mặt đá nằm ngang và tay quay UI rời | `Corn_Mill_Base.png`, `Corn_Mill_UpperDisk.png` | Đế và mặt đá giữ đúng mặt phẳng ảnh; tay quay/dấu đá đi theo quỹ đạo elip ngang | Cần thử Play Mode bản mới |
-| 5 | Gom củi | Tự tạo: khúc củi và bó củi đã buộc | `Firewood_Log.png`, `Wood_Bundle.png` | Đã gắn vào đồ kéo và bước buộc bó | Chưa thử Play Mode |
+| 5 | Gom củi | Tự tạo: nia tre trống, hai loại khúc củi, dây thừng và bó đã buộc | `Wood_Mat.png`, `Firewood_Log.png`, `Wood_Log_Dark.png`, `Wood_Rope.png`, `Wood_Bundle.png` | Kéo 3 khúc củi lên nia, sau đó kéo dây ngang; ảnh bó chỉ hiện sau khi buộc xong | Chưa thử Play Mode |
 | 6 | Múc nước | Tự tạo từ bộ ảnh gốc: lu, thau và gáo tre tách riêng | `Water_Jar.png`, `Water_Basin.png`, `Water_Scoop.png` | Gáo tre là vật người chơi kéo để múc và chuyển nước | Người dùng đã thấy thiếu vật múc nước; cần thử lại bản sửa |
 | 7 | Đong gạo | Tự tạo: lu gạo, gáo gạo và rá tre trống tách rời | `Rice_Jar.png`, `Rice_Scoop.png`, `Rice_Basket_Empty.png` | Kéo gáo từ lu vào rá ba lần; mức gạo tăng rõ sau mỗi lượt | Cần thử Play Mode bản mới |
-| 8 | Vo gạo | `SM_RiceWashingPot.fbx` người dùng cung cấp; texture gốc của FBX và sprite tạo theo chính model nồi hai quai đặt trên kệ gỗ | `Rice_Washing_Pot.png` | Scene dùng model mới dưới `noivogao`, giữ `ChoreTarget_WashRice`; nồi đứng yên, gợn nước và hạt gạo đi theo elip ngang, cuối cùng bấm chắt nước | Cần thử Play Mode trong Unity Editor |
-| 9 | Nhóm lửa | Tự tạo: bếp củi và bó củi | `Fire_Hearth.png`, dùng lại `Wood_Bundle.png` | Đã gắn trên bếp và củi kéo | Chưa thử Play Mode |
-| 10 | Nấu cơm | Tự tạo: nồi cơm bốc hơi | `Cook_Pot.png` | Đã gắn trên bếp canh lửa | Chưa thử Play Mode |
-| 11 | Dọn mâm cơm | Tự tạo: mâm tre trống | `Meal_Tray_Empty.png` | Điểm tương tác trên mesh `tripo_part_3`; không dùng `BambooTable` | Chưa thử Play Mode |
-| 12 | Rửa chén | Tự tạo: chén và bùi nhùi rời | `Clean_Dish.png`, `Dish_Scrubber.png`, `Water_Basin.png` | Kéo bùi nhùi chà từng vết dơ trong lòng chén, rồi kéo chén sạch sang thau tráng | Chưa thử Play Mode |
+| 8 | Vo gạo | `SM_RiceWashingPot.fbx` người dùng cung cấp; texture gốc của FBX và sprite tạo theo chính model nồi hai quai đặt trên kệ gỗ | `Rice_Washing_Pot.png` | Scene dùng model mới dưới `noivogao`; thêm vùng nhận E khi đứng gần và nhìn nồi để vượt collider đồ bếp chặn raycast; nồi đứng yên, gợn nước và hạt gạo đi theo elip ngang, cuối cùng bấm chắt nước | Cần thử E và Play Mode trong Unity Editor |
+| 9 | Nhóm lửa | Tự tạo: bếp củi, bó củi và mồi khô | `Fire_Hearth.png`, `Wood_Bundle.png`, `Fire_Kindling.png` | Củi và mồi khô là hai vật kéo riêng | Chưa thử Play Mode |
+| 10 | Nấu cơm | Tự tạo: nồi cơm và thanh củi | `Cook_Pot.png`, `Firewood_Log.png` | Thanh củi trượt để chỉnh lửa, nồi và hơi nước phản hồi | Chưa thử Play Mode |
+| 11 | Dọn mâm cơm | Tự tạo: mâm tre trống, dùng lại bát, đũa và nồi | `Meal_Tray_Empty.png`, `Dish_Bowl.png`, `Dish_Chopsticks.png`, `Cook_Pot.png` | Kéo ba món vào đúng chỗ trên mâm | Chưa thử Play Mode |
+| 12 | Rửa chén | Tự tạo: chén, miếng bọt biển rửa chén, thau và giá tre | `Clean_Dish.png`, `Dish_Sponge.png`, `Water_Basin.png`, `Dish_Rack.png` | Chà từng vết đến sạch, kéo chén vào thau tráng 1,1 giây, kéo lên giá; có bọt xà phòng và chỉ báo 3 bước | Chưa thử Play Mode |
 | 13 | Cất chén | Tự tạo: tủ gỗ, chén, đĩa và đũa tách rời | `Dish_Cabinet.png`, `Dish_Bowl.png`, `Dish_Plate.png`, `Dish_Chopsticks.png` | Kéo từng vật từ khay bên phải vào ngăn tủ cùng tên | Chưa thử Play Mode |
-| 14 | Mở thư của mẹ | Sprite phong bì/thư; thêm `SM_Letter.fbx` người dùng cung cấp trên bàn `tripo_part_4` trong Scene 2 | `Letter_Envelope.png` | Model 3D `SM_Letter` nằm ngang trên bàn và giữ điểm tương tác nhiệm vụ; minigame dùng ảnh thư kéo | Cần thử Play Mode trong Unity Editor |
+| 14 | Mở thư của mẹ | Sprite phong bì và trang giấy; `SM_Letter.fbx` người dùng cung cấp trên bàn `tripo_part_4` trong Scene 2 | `Letter_Envelope.png`, `Letter_Page.png` | Sau khi tháo dây, mini game hiện trang giấy mở; model 3D và điểm tương tác trong scene được giữ | Cần thử Play Mode trong Unity Editor |
 
 ## Nhiệm vụ 1: Xếp đồ vào rương
 
@@ -97,3 +97,34 @@ Nếu khó tìm ảnh rương có đúng **ba ngăn**, có thể gửi `Chest_Op
 | 21/10/2026 | Chuẩn bị và gắn 11 sprite cho rương, radio, dụng cụ | `Assets/_Project/Resources/Scene2/MiniGames/` | Kiểm tra file/alpha và `git diff --check`; chưa chạy Unity Play Mode | Chơi thử 3 mini game, kiểm tra kích thước ảnh và vùng thao tác |
 
 Sau khi chơi thử ba nhiệm vụ đầu, thêm mục chi tiết cho **nhiệm vụ 4: Xay ngô**.
+
+## Cập nhật UI và thao tác 22/10/2026
+
+Tham khảo bố cục nhiệm vụ của *Goose Goose Duck*: một mặt thao tác chiếm trọng tâm, vật kéo đủ lớn, hướng dẫn ngắn và phản hồi từng bước. Giữ màu gỗ, tre và đồ gốm của ngôi nhà Việt Nam; toàn bộ ảnh mới là ảnh riêng của dự án. Nguồn tham khảo: [trang Goose Goose Duck trên Steam](https://store.steampowered.com/app/1568590/Goose_Goose_Duck/), [ảnh cộng đồng Steam](https://steamcommunity.com/app/1568590/screenshots/), [Unity uGUI skill chính thức](https://github.com/Unity-Technologies/skills/blob/main/skills/ui-ugui/SKILL.md). Skill cục bộ `game-ui-design` phù hợp phần phân cấp thông tin; `unity-ui` và `unity-script` phù hợp với UI Canvas và logic C# đang dùng. Không cần cài thêm package vào game.
+
+| Hạng mục | Sprite đã thêm | Cách dùng |
+| --- | --- | --- |
+| Nền chung cho mọi mini game | `Task_Worktop.png` | Mặt gỗ sáng dưới vật tương tác, giữ tiêu đề và chỉ dẫn dễ đọc. |
+| Rửa chén | `Dish_Sponge.png`, `Dish_Rack.png` | Miếng bọt biển vàng–xanh thay bùi nhùi. Giá tre là đích cuối sau khi chà và tráng. |
+| Nhóm lửa | `Fire_Kindling.png` | Mồi lửa có hình riêng, không mượn sprite khăn. |
+| Mở thư | `Letter_Page.png` | Giấy mở xuất hiện sau khi tháo dây phong bì. |
+| Gấp chăn (chưa kích hoạt trong danh sách nhiệm vụ) | `Fold_Blanket.png` | Chăn gấp riêng thay cho sprite khăn dùng tạm trước đây. |
+
+Prompt tạo ảnh đã dùng: nền gỗ nhìn từ trên xuống, không vật và không chữ; miếng bọt biển vàng có mặt chà xanh trên nền trong suốt; giấy cũ mở ra để trống phần giữa; bó lá khô và rơm làm mồi lửa; giá úp chén bằng tre trống; chăn bông cũ màu chàm gấp gọn. Cùng yêu cầu phong cách minh họa 2D, đường viền rõ, dễ đọc khi thu nhỏ, không logo hoặc chữ. Ảnh được tạo bằng công cụ `imagegen` tích hợp và lưu bản dùng cuối tại `Assets/_Project/Resources/Scene2/MiniGames/`.
+
+Rửa chén có ba trạng thái rõ: **chà sạch ba vết** → **tráng trong thau khoảng 1,1 giây** → **đặt lên giá**. Vết bẩn mờ theo đường kéo của miếng bọt biển; bọt xà phòng và chỉ báo bước đổi theo tiến độ. Hoàn thành chỉ sau khi thả chén lên giá. Mini game dọn mâm đã dùng sprite bát, đũa và nồi có sẵn; nấu cơm dùng sprite thanh củi. Mỗi mặt mini game có nền gỗ chung, còn đạo cụ chính dùng ảnh riêng.
+
+Kiểm tra đã thực hiện: biên dịch lại `Assembly-CSharp` và `Assembly-CSharp-Editor` bằng Roslyn của Unity 2022.3.62f3, không có lỗi (một cảnh báo cũ ở `OfficeBlockoutGameplaySmokeRuntime.cs`). Đã đối chiếu 27 tên sprite tải trực tiếp trong code: tất cả đều có PNG tương ứng. Bài kiểm tra Editor tại menu `KuTy/Tests/Review all household artwork` đã dựng thành công 15 mặt thao tác và kiểm tra ảnh, các bước gom củi/rửa chén và hủy nhiệm vụ. Lần chụp tự động cũ bắt nhầm cảnh 3D nên ảnh/kết quả cũ đã được xóa. **Chưa xác nhận bố cục trực quan trong Game View và chưa chơi thử chuột trong scene**; hai mục đó vẫn là việc cần làm trước khi chốt bản UI.
+
+- [ ] Mở từng mini game trong Game View tại 1920×1080 và 1280×720, kiểm tra chữ, vật và vùng kéo không đè nhau.
+- [ ] Rửa chén: kéo bọt biển qua cả ba vết, thả sớm, tráng nước, đặt lên giá; thử Esc và P giữa mỗi bước.
+- [ ] Thử đủ 12 nhiệm vụ bắt buộc và 2 nhiệm vụ tùy chọn bằng chuột; kiểm tra phần thưởng và tiến độ chỉ cộng một lần.
+
+## Sửa gom củi và tương tác vo gạo 22/10/2026
+
+- Gom củi dùng nia tre trống (`Wood_Mat`), khúc củi sáng/tối (`Firewood_Log`, `Wood_Log_Dark`) và dây thừng rời (`Wood_Rope`). Kéo đúng ba vị trí trên nia rồi kéo dây từ trái sang phải. `Wood_Bundle` chỉ xuất hiện sau khi dây đã đi đủ quãng; phần thưởng vẫn do `HouseholdChoreFlow` quyết định khi mini game báo hoàn thành.
+- Ảnh mới tạo bằng `imagegen` tích hợp với prompt tương ứng: nia tre nhìn từ trên xuống và để trống giữa; dây thừng đay nằm ngang có vòng cầm bên trái; một khúc củi vỏ nâu sẫm khác khúc cũ. Cả ba đều tách nền, không chữ và cùng chất liệu minh họa với bộ mini game.
+- `HouseholdChoreInteractable` thêm cách nhận diện riêng cho nồi vo gạo khi người chơi đứng gần, quay camera về nồi và nhiệm vụ đang là “Vo gạo”. Cách này dùng chung phím E của `PlayerInteraction` và không đổi điểm thưởng, checkpoint hoặc model trong scene.
+- Hai assembly C# biên dịch thành công bằng Roslyn của Unity 2022.3.62f3; còn một cảnh báo cũ `CS0252` trong `OfficeBlockoutGameplaySmokeRuntime.cs`. UnitySkills Editor đã chạy bài review 15 mini game thành công, gồm bước gom củi không hiện bó trước khi buộc. Trong Play Mode, đã xác nhận nồi `SM_RiceWashingPot` bật, có `HouseholdChoreInteractable`, nằm trong danh sách mục tiêu gần của `PlayerInteraction` và trả `[E] Vo gạo` sau khi hiển thị checklist. Chưa kiểm tra thao tác nhấn E bằng tay trong Game View. Lần chụp Game View qua REST trả về backbuffer nhiễu và đã bị xóa, nên chưa đánh giá bố cục bằng ảnh đó. Play Mode đã thoát và Error Pause được khôi phục.
+- [ ] Trong Scene 2, đứng cạnh `noivogao`, nhìn nồi để xác nhận hiện `[E] Vo gạo`; bấm E, hoàn tất/thoát bằng Esc rồi mở lại.
+- [ ] Với gom củi, thử thả sai vị trí, kéo dây chưa đủ, kéo đủ và xem bó củi xuất hiện trước khi nhận thưởng.
