@@ -19,14 +19,12 @@ public class BedWakeUpController : MonoBehaviour
     [SerializeField, Min(0f)] private float exitRightDistance = 0.55f;
 
     [Header("Wake-up cinematic")]
-    [SerializeField, Min(0.5f)] private float eyeOpeningDuration = 1.8f;
+    [UnityEngine.Serialization.FormerlySerializedAs("wakingDuration")]
+    [SerializeField, Min(0.5f)] private float eyeOpeningDuration = 2.25f;
     [SerializeField, Range(-85f, -10f)] private float sleepingPitch = -52f;
     [SerializeField, Range(-85f, -10f)] private float awakePitch = -26f;
     [SerializeField, Range(0f, 2f)] private float wakeBounceIntensity = 1.6f;
-    [SerializeField] private AnimationCurve eyeAperture = new AnimationCurve(
-        new Keyframe(0f, 0f), new Keyframe(.12f, 0f), new Keyframe(.36f, .42f),
-        new Keyframe(.48f, .42f), new Keyframe(.55f, .08f), new Keyframe(.72f, .7f), new Keyframe(1f, 1f));
-    [SerializeField, Min(0.3f)] private float risingDuration = 0.85f;
+    [SerializeField, Min(0.3f)] private float risingDuration = 0.62f;
     [SerializeField] private Vector3 lyingCameraOffset = new Vector3(-0.12f, -0.78f, -0.08f);
 
     private FirstPersonController playerController;
@@ -71,7 +69,8 @@ public class BedWakeUpController : MonoBehaviour
         if (playerController != null)
         {
             // Lock movement & input
-            GameManager.Instance?.AcquireInput(this);
+            if (GameManager.Instance != null) GameManager.Instance.AcquireInput(this, showCursor: false);
+            else { Cursor.visible = false; Cursor.lockState = CursorLockMode.Locked; }
 
             playerCamera = playerController.PlayerCamera;
             if (playerCamera != null)
@@ -114,22 +113,27 @@ public class BedWakeUpController : MonoBehaviour
             {
                 if (GameManager.Instance == null || !GameManager.Instance.IsPaused)
                     elapsed += Time.deltaTime;
-                float t = Mathf.Clamp01(elapsed / eyeOpeningDuration);
-                SetVision(1f - Mathf.Clamp01(eyeAperture.Evaluate(t)), .1f * (1f - t));
+                // Dat's short opening/blink and steady head motion drive the
+                // existing eyelid overlay after the sleep handoff uncovers this scene.
+                float seconds = elapsed * (2.25f / eyeOpeningDuration);
+                float open = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - .12f) / .72f));
+                float blinkIn = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - 1.08f) / .08f));
+                float blinkOut = 1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - 1.18f) / .14f));
+                SetVision(Mathf.Clamp01(1f - open + blinkIn * blinkOut * .88f), 0f);
 
-                float dizziness = (1f - t) * (1f - t);
-                float pitch = Mathf.Lerp(sleepingPitch, awakePitch, Mathf.SmoothStep(0f, 1f, t));
-                float roll = 1.2f * dizziness;
+                // One small, settling head movement reads as waking up without mechanical wobble.
+                float settle = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - .45f) / 1.45f));
+                float pitch = Mathf.Lerp(sleepingPitch, awakePitch, settle);
+                float roll = Mathf.Lerp(1.4f, 0f, settle);
                 playerController.SetPitch(pitch);
-                playerCamera.localRotation *= Quaternion.Euler(0f, 0f, roll);
+                playerCamera.localRotation = Quaternion.Euler(pitch, 0f, roll);
                 playerCamera.localPosition = standingCameraPosition + lyingCameraOffset +
-                    new Vector3(-.012f, -.008f, 0f) * dizziness;
-                if (viewCamera != null)
-                    viewCamera.fieldOfView = normalFieldOfView - 1.5f * dizziness;
+                    new Vector3(0f, .025f * settle, 0f);
                 yield return null;
             }
             playerController.SetPitch(awakePitch);
-            playerCamera.localPosition = standingCameraPosition + lyingCameraOffset;
+            playerCamera.localRotation = Quaternion.Euler(awakePitch, 0f, 0f);
+            playerCamera.localPosition = standingCameraPosition + lyingCameraOffset + new Vector3(0f, .025f, 0f);
             if (viewCamera != null) viewCamera.fieldOfView = normalFieldOfView;
             SetVision(0f, 0f);
             yield return new WaitForSeconds(.15f);
@@ -278,10 +282,10 @@ public class BedWakeUpController : MonoBehaviour
         FinishGettingOutOfBed();
         SetVision(1f, 0f);
         float fade = 0f;
-        while (fade < .18f)
+        while (fade < .10f)
         {
             fade += Time.deltaTime;
-            SetVision(1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(fade / .18f)), 0f);
+            SetVision(1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(fade / .10f)), 0f);
             yield return null;
         }
         ClearVisionOverlay();

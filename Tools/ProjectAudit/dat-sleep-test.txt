@@ -1,0 +1,26 @@
+[SleepTransitionSmoke] PASS
+[SleepTransitionSmoke] OK: Direct home load finishes opening eyes
+[SleepTransitionSmoke] OK: Direct home load creates bed controller
+[SleepTransitionSmoke] OK: Eye overlay is cleaned up
+[SleepTransitionSmoke] OK: Getting out of bed releases input
+[SleepTransitionSmoke] Seconds to wake prompt: 8.05
+[SleepTransitionSmoke] OK: Exit prompt is visible
+[SleepTransitionSmoke] OK: Persistent black overlay is released
+[SleepTransitionSmoke] OK: Eye opening finishes and bed prompt becomes available
+[SleepTransitionSmoke] OK: Wake-up retains Dat's hidden-cursor input lock
+[SleepTransitionSmoke] OK: Bed retains input lock after loader releases it
+[SleepTransitionSmoke] OK: Destination bed controller exists
+[SleepTransitionSmoke] OK: Destination is Act2 Home
+[SleepTransitionSmoke] OK: Load completes only after full dialogue and paused time
+[SleepTransitionSmoke] OK: Office remains alive while voice plays
+[SleepTransitionSmoke] OK: Pause cannot activate destination early
+[SleepTransitionSmoke] OK: Pause freezes voice playback
+[SleepTransitionSmoke] OK: Guidance cannot replace the final voice line
+[SleepTransitionSmoke] OK: Actual rest voice is playing
+[SleepTransitionSmoke] OK: Input blocked during preload
+[SleepTransitionSmoke] OK: Duplicate preload is rejected
+[SleepTransitionSmoke] OK: Real exhaustion path starts preload
+[SleepTransitionSmoke] OK: Voice duration includes the complete rest line
+[SleepTransitionSmoke] OK: Office controller exists for real dialogue path
+[SleepTransitionSmoke] OK: Open an office scene before running this test
+[SleepTransitionSmoke] OK: SceneLoader exists

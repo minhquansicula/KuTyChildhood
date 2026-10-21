@@ -40,33 +40,41 @@ public sealed partial class HouseholdActionBoard
                 for (int i = 0; i < 3; i++)
                     if (!placed[i]) { from = items[i].anchoredPosition; to = targets[i].anchoredPosition; break; }
         }
-        else if (mode == ActionMode.Dial || (mode == ActionMode.Rotary && stage == 0))
+        else if (mode == ActionMode.Dial || (mode == ActionMode.Rotary && stage == 0) ||
+            (mode == ActionMode.WashRice && stage == 0))
         {
             float angle = -Time.unscaledTime * 2f;
-            from = actionArea.anchoredPosition + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * 48f;
+            from = mode == ActionMode.Dial
+                ? actionArea.anchoredPosition + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * 48f
+                : actionArea.anchoredPosition + new Vector2(Mathf.Cos(angle) * 72f,
+                    (mode == ActionMode.WashRice ? 34f : 17f) + Mathf.Sin(angle) * 27f);
             to = from;
+        }
+        else if (mode == ActionMode.Rotary && stage == 1)
+        {
+            from = actionArea.anchoredPosition + new Vector2(0f, 30f);
+            to = from + Vector2.down * 90f;
         }
         else if (mode == ActionMode.Scrub)
         {
-            from = dish.anchoredPosition;
             if (stage == 0)
             {
                 int stain = 0;
                 while (stain < 2 && stainRemaining[stain] <= .01f) stain++;
-                from = root.InverseTransformPoint(dirt[stain].transform.position);
-                to = from + Vector2.right * 14f;
+                from = scrubber.anchoredPosition;
+                to = root.InverseTransformPoint(dirt[stain].transform.position);
             }
-            else to = stage == 1 ? rinseZone.anchoredPosition : rack.anchoredPosition;
+            else { from = dish.anchoredPosition; to = rinseZone.anchoredPosition; }
         }
         else if (mode == ActionMode.Fetch || mode == ActionMode.Measure || mode == ActionMode.Fire)
         {
             from = token != null ? token.anchoredPosition : Vector2.zero;
-            to = targets[0].anchoredPosition;
-            if (mode == ActionMode.Measure && stage == 1) to = targets[1].anchoredPosition;
-            if (mode == ActionMode.Measure && stage == 2) to = from + Vector2.down * 65f;
+            to = targets[mode == ActionMode.Measure ? 1 : 0].anchoredPosition;
             if (mode == ActionMode.Fetch && stage == 2) to = targets[1].anchoredPosition;
             if (mode == ActionMode.Fire && stage == 2) from = to = targets[0].anchoredPosition;
         }
+        else if (mode == ActionMode.WashRice && stage == 1)
+            from = to = rinseZone.anchoredPosition;
         else if (mode == ActionMode.Heat)
         { from = heatHandle.anchoredPosition; to = Vector2.zero; }
         else if (actionArea != null)

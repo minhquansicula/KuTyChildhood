@@ -106,6 +106,14 @@ office-view.png
 # Raw downloads/drafts & Agent workspace tools
 dumb/
 .agents/
+/asset_skills.json
+/go_skills.json
+/scene_skills.json
+/docs/scene2-art-source/
+
+# Superseded Scene 2 concept art; the playable dish task uses Clean_Dish + Dish_Scrubber.
+/Assets/_Project/Resources/Scene2/MiniGames/Wash_Dishes.png
+/Assets/_Project/Resources/Scene2/MiniGames/Wash_Dishes.png.meta
 
 # Scene 3 working files: keep scripts, documentation and editable .blend sources.
 # Unity assets used by the game belong under Assets/ and retain their .meta files.

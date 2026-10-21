@@ -51,7 +51,8 @@ public class PlayerInteraction : MonoBehaviour
             raycastOrigin = mainCamera.transform;
         }
         if (raycastOrigin == null) { Debug.LogError("PlayerInteraction requires a camera.", this); enabled = false; }
-        foreach (MonoBehaviour behaviour in FindObjectsOfType<MonoBehaviour>())
+        // Some interaction points are revealed by quest progress after Start.
+        foreach (MonoBehaviour behaviour in FindObjectsOfType<MonoBehaviour>(true))
             if (behaviour is IProximityInteractable nearby) proximityTargets.Add(nearby);
     }
 

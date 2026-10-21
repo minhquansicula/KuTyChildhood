@@ -31,17 +31,25 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
     {
         if (flow == null) flow = HouseholdChoreFlow.Instance;
         return isActiveAndEnabled && !running && flow != null && flow.IsCurrent(chore)
-            ? "[E] " + HouseholdChoreFlow.Titles[(int)chore] : "";
+            ? "[E] " + HouseholdChoreFlow.Titles[(int)chore] +
+              (HouseholdChoreFlow.IsOptional(chore) ? " · Tùy chọn (+5 mảnh)" : "") : "";
     }
 
     public bool TryGetProximityDistance(Vector3 playerPosition, out float distance)
     {
         distance = float.PositiveInfinity;
-        if (chore != HouseholdChore.WashRice || string.IsNullOrEmpty(GetPromptText())) return false;
+        if ((chore != HouseholdChore.WashRice && chore != HouseholdChore.SetTable &&
+             chore != HouseholdChore.ReadLetter) ||
+            string.IsNullOrEmpty(GetPromptText())) return false;
 
-        Vector3 offset = playerPosition - (effectAnchor != null ? effectAnchor.position : transform.position);
+        Collider interactionCollider = GetComponent<Collider>();
+        Vector3 center = chore == HouseholdChore.SetTable && interactionCollider != null
+            ? interactionCollider.ClosestPoint(playerPosition)
+            : effectAnchor != null ? effectAnchor.position : transform.position;
+        Vector3 offset = playerPosition - center;
         distance = new Vector2(offset.x, offset.z).magnitude;
-        return Mathf.Abs(offset.y) <= 1.5f && distance <= 1.6f;
+        return Mathf.Abs(offset.y) <= 1.5f && distance <=
+            (chore == HouseholdChore.SetTable ? 2.1f : 1.6f);
     }
 
     protected override void OnInteract()
@@ -155,13 +163,13 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
             case HouseholdChore.SetTable: return "Đặt bát, đũa và nồi cơm lên đúng chỗ trên mâm.";
             case HouseholdChore.PutAwayDishes: return "Đưa chén, đĩa và đũa vào đúng ngăn tủ.";
             case HouseholdChore.TuneRadio: return "Giữ chuột và xoay núm đến khi tiếng rè dịu đi.";
-            case HouseholdChore.GrindCorn: return "Xoay chuột quanh cối; khi bột mịn, kéo khay xuống để thu bột.";
+            case HouseholdChore.GrindCorn: return "Rê chuột theo elip trên mặt cối; khi bột mịn, kéo cối xuống để thu bột.";
             case HouseholdChore.FetchWater: return "Đưa gáo vào lu, múc đầy rồi chuyển sang thau.";
-            case HouseholdChore.MeasureRice: return "Múc gạo từ lu, đưa sang thau rồi nghiêng gáo; dư thì gạt bớt.";
-            case HouseholdChore.WashRice: return "Xoay chuột trong thau cho gạo sạch rồi chắt nước.";
+            case HouseholdChore.MeasureRice: return "Kéo ba gáo gạo từ lu sang rá đong.";
+            case HouseholdChore.WashRice: return "Khuấy theo elip mặt nước trong nồi hai vòng rồi bấm chắt nước.";
             case HouseholdChore.LightFire: return "Đặt củi vào bếp, sau đó thổi khi than sáng vàng.";
             case HouseholdChore.CookRice: return "Đẩy củi vào hoặc rút ra để giữ nồi cơm sôi đều.";
-            case HouseholdChore.WashDishes: return "Chà từng vết bẩn, tráng chén qua nước rồi đặt lên giá.";
+            case HouseholdChore.WashDishes: return "Cầm bùi nhùi chà sạch từng vết dơ, rồi kéo chén qua thau nước để tráng.";
             case HouseholdChore.ReadLetter: return "Tháo dây, mở nếp giấy và lật trang để đọc thư.";
             default: return "Tương tác với vật dụng để hoàn thành việc này.";
         }

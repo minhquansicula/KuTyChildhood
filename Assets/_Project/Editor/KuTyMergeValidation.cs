@@ -62,6 +62,15 @@ public static class KuTyMergeValidation
                 }
                 report.AppendLine(entry.path + ": " + (issues == before ? "PASS" : "FAIL"));
             }
+            int sprites = 0;
+            foreach (string path in AssetDatabase.GetAllAssetPaths().Where(p =>
+                p.StartsWith("Assets/_Project/Resources/Scene2/MiniGames/") && p.EndsWith(".png")))
+            {
+                if (!AssetDatabase.LoadAssetAtPath<Sprite>(path))
+                { report.AppendLine("Minigame PNG is not imported as Sprite: " + path); issues++; }
+                sprites++;
+            }
+            report.AppendLine("Scene 2 minigame sprites checked: " + sprites);
             foreach (string guid in AssetDatabase.FindAssets("t:Shader", new[] { "Assets/_Project/Art/Materials/Scene3" }))
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
@@ -121,5 +130,14 @@ public static class KuTyMergeValidation
     {
         KuTyCheckpointTestScope.Capture();
         KuTyOfficeBlockoutGameplaySmoke.Prepare();
+    }
+
+    [MenuItem("KuTy/Tests/Run merged sleep handoff with checkpoint backup")]
+    public static void RunSleep()
+    {
+        if (EditorApplication.isPlaying) throw new InvalidOperationException("Exit Play Mode first.");
+        KuTyCheckpointTestScope.Capture();
+        EditorSceneManager.OpenScene("Assets/_Project/Scenes/Act1_Office_Blockout.unity");
+        EditorApplication.ExecuteMenuItem("Tools/KuTy/Tests/Sleep Transition Smoke");
     }
 }

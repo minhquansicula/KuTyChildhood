@@ -9,11 +9,12 @@ using UnityEngine.UI;
 /// </summary>
 public sealed partial class HouseholdActionBoard
 {
-    private enum ActionMode { Placement, Dial, Rotary, Fetch, Measure, Fire, Heat, Scrub, Letter }
+    private enum ActionMode { Placement, Dial, Rotary, Fetch, Measure, WashRice, Fire, Heat, Scrub, Letter }
     private const string MiniGameArtPath = "Scene2/MiniGames/";
     private static Sprite circleSprite;
 
     private readonly RectTransform root;
+    private RectTransform rotaryPullCue;
     private readonly RectTransform[] items = new RectTransform[3];
     private readonly RectTransform[] targets = new RectTransform[3];
     private readonly bool[] placed = new bool[3];
@@ -38,6 +39,9 @@ public sealed partial class HouseholdActionBoard
     private float lastAngle;
     private float dialFrequency;
     private bool radioHasArt;
+    private bool placementHasArt;
+    private bool rotaryHasArt;
+    private bool fireHasArt;
     private float idleSeconds;
     private float lastReported = -1f;
     private string lastMessage;
@@ -47,13 +51,18 @@ public sealed partial class HouseholdActionBoard
     private Vector2 pointerStart;
     private Vector2 lastPointer;
     private RectTransform actionArea;
+    private RectTransform rotaryTopPivot;
+    private RectTransform millCrankArm;
+    private RectTransform millCrankGrip;
+    private readonly RectTransform[] millSurfaceMarks = new RectTransform[4];
+    private readonly RectTransform[] washingGrains = new RectTransform[5];
     private RectTransform dialNeedle;
     private RectTransform token;
     private RectTransform fill;
     private RectTransform heatTrack;
     private RectTransform heatHandle;
     private RectTransform dish;
-    private RectTransform rack;
+    private RectTransform scrubber;
     private Image ember;
     private TextMeshProUGUI status;
     private TextMeshProUGUI tokenText;
@@ -61,11 +70,58 @@ public sealed partial class HouseholdActionBoard
 
     public HouseholdActionBoard(Transform parent)
     {
-        root = Box("HandsOnWorkSurface", parent, Vector2.zero, new Vector2(570f, 200f),
-            new Color(.09f, .14f, .16f, .96f));
-        root.anchoredPosition = new Vector2(0f, 15f);
-        root.localScale = Vector3.one * 1.8f;
+        root = Box("HandsOnWorkSurface", parent, Vector2.zero, new Vector2(570f, 310f),
+            new Color(.12f, .095f, .066f, 1f));
+        root.anchoredPosition = new Vector2(0f, -4f);
+        root.localScale = Vector3.one * 1.4f;
         root.gameObject.SetActive(false);
+    }
+
+    private void BuildBoardFrame()
+    {
+        float halfHeight = root.sizeDelta.y * .5f;
+        Color brass = new Color(.74f, .53f, .28f, .92f);
+        Box("InnerWalnut", root, Vector2.zero, new Vector2(558f, root.sizeDelta.y - 12f),
+            new Color(.075f, .082f, .072f, 1f));
+        Box("WorkCloth", root, Vector2.zero, new Vector2(540f, root.sizeDelta.y - 28f),
+            new Color(.115f, .13f, .12f, 1f));
+        Box("BoardHeader", root, new Vector2(0f, halfHeight - 29f),
+            new Vector2(540f, 46f), new Color(.24f, .18f, .12f, .97f));
+        Box("BoardFooter", root, new Vector2(0f, -halfHeight + 28f),
+            new Vector2(540f, 45f), new Color(.16f, .19f, .16f, .98f));
+        Shape(root, "BoardTopRule", 0f, halfHeight - 7f, 546f, 2f, brass);
+        Shape(root, "BoardBottomRule", 0f, -halfHeight + 7f, 546f, 2f, brass);
+        Shape(root, "HeaderAccent", 0f, halfHeight - 53f, 540f, 2f, brass);
+        Shape(root, "FooterAccent", 0f, -halfHeight + 51f, 540f, 2f, brass);
+        for (int side = -1; side <= 1; side += 2)
+        {
+            Shape(root, "BoardSideRail", side * 274f, 0f, 2f, root.sizeDelta.y - 14f, brass);
+            Circle("CornerRivet", root, new Vector2(side * 264f, halfHeight - 16f), 5f, brass);
+            Circle("CornerRivet", root, new Vector2(side * 264f, -halfHeight + 16f), 5f, brass);
+        }
+    }
+
+    private void PolishBoardLayout()
+    {
+        float halfHeight = root.sizeDelta.y * .5f;
+        foreach (var label in root.GetComponentsInChildren<TextMeshProUGUI>(true))
+        {
+            if (label.transform.parent != root) continue;
+            if (!label.name.EndsWith("Heading") && label.name != "PlacementGuide") continue;
+            label.rectTransform.anchoredPosition = new Vector2(0f, halfHeight - 28f);
+            label.rectTransform.sizeDelta = new Vector2(520f, 38f);
+            label.fontSize = 20f;
+            label.color = new Color(.98f, .80f, .47f);
+            label.fontStyle = FontStyles.Bold;
+            label.characterSpacing = 1.2f;
+        }
+        if (status != null && status.transform.parent == root)
+        {
+            status.rectTransform.anchoredPosition = new Vector2(0f, -halfHeight + 29f);
+            status.rectTransform.sizeDelta = new Vector2(520f, 36f);
+            status.fontSize = 16f;
+            status.color = new Color(.94f, .91f, .79f);
+        }
     }
 
     public void SetFont(TMP_FontAsset value)
@@ -92,12 +148,15 @@ public sealed partial class HouseholdActionBoard
         for (int i = 0; i < 3; i++) stainRemaining[i] = 1f;
         amount = heldTime = idleSeconds = 0f;
         dialFrequency = 0f;
-        radioHasArt = false;
+        radioHasArt = placementHasArt = false;
+        rotaryHasArt = fireHasArt = false;
         idleHintShown = false;
         draggedIndex = -1;
         lastReported = -1f;
         lastMessage = null;
-        actionArea = dialNeedle = token = fill = heatTrack = heatHandle = dish = rack = null;
+        actionArea = rotaryTopPivot = millCrankArm = millCrankGrip = dialNeedle = token = fill = heatTrack = heatHandle = dish = scrubber = rotaryPullCue = null;
+        for (int i = 0; i < washingGrains.Length; i++) washingGrains[i] = null;
+        for (int i = 0; i < millSurfaceMarks.Length; i++) millSurfaceMarks[i] = null;
         ember = null;
         status = tokenText = dishText = null;
         for (int i = 0; i < 3; i++)
@@ -112,9 +171,9 @@ public sealed partial class HouseholdActionBoard
             child.SetActive(false);
             UnityEngine.Object.Destroy(child);
         }
-        root.sizeDelta = task == HouseholdChore.ArrangeKeepsakes ||
-            task == HouseholdChore.SortTools || task == HouseholdChore.TuneRadio
-            ? new Vector2(570f, 310f) : new Vector2(570f, 200f);
+        root.sizeDelta = new Vector2(570f, 310f);
+        root.localScale = Vector3.one * 1.4f;
+        BuildBoardFrame();
 
         switch (task)
         {
@@ -131,14 +190,13 @@ public sealed partial class HouseholdActionBoard
                 BuildPlacement(new[] { "BÁT", "ĐŨA", "NỒI CƠM" },
                     new[] { "CHỖ BÁT", "CHỖ ĐŨA", "GIỮA MÂM" }); break;
             case HouseholdChore.PutAwayDishes:
-                BuildPlacement(new[] { "CHÉN", "ĐĨA", "ĐŨA" },
-                    new[] { "NGĂN CHÉN", "NGĂN ĐĨA", "ỐNG ĐŨA" }); break;
+                BuildDishStorage(); break;
             case HouseholdChore.FoldBlanket:
                 BuildPlacement(new[] { "MÉP TRÁI", "MÉP PHẢI", "MÉP TRÊN" },
                     new[] { "NẾP TRÁI", "NẾP PHẢI", "GẤP ĐÔI" }); break;
             case HouseholdChore.TuneRadio: BuildDial(); break;
-            case HouseholdChore.GrindCorn:
-            case HouseholdChore.WashRice: BuildRotary(); break;
+            case HouseholdChore.GrindCorn: BuildRotary(); break;
+            case HouseholdChore.WashRice: BuildWashRice(); break;
             case HouseholdChore.FetchWater: BuildFetch(); break;
             case HouseholdChore.MeasureRice: BuildMeasure(); break;
             case HouseholdChore.LightFire: BuildFire(); break;
@@ -147,6 +205,7 @@ public sealed partial class HouseholdActionBoard
             case HouseholdChore.ReadLetter: BuildLetter(); break;
             default: throw new ArgumentOutOfRangeException(nameof(task), task, "Unknown household chore");
         }
+        PolishBoardLayout();
         root.gameObject.SetActive(true);
         active = true;
         if (task == HouseholdChore.ReadLetter && AudioManager.Instance != null)
@@ -212,6 +271,7 @@ public sealed partial class HouseholdActionBoard
             case ActionMode.Rotary: TickRotary(); break;
             case ActionMode.Fetch: TickFetch(); break;
             case ActionMode.Measure: TickMeasure(); break;
+            case ActionMode.WashRice: TickWashRice(); break;
             case ActionMode.Fire: TickFire(); break;
             case ActionMode.Heat: TickHeat(); break;
             case ActionMode.Scrub: TickScrub(); break;
@@ -222,16 +282,18 @@ public sealed partial class HouseholdActionBoard
     private void BuildPlacement(string[] itemNames, string[] targetNames)
     {
         mode = ActionMode.Placement;
-        bool illustrated = chore == HouseholdChore.ArrangeKeepsakes || chore == HouseholdChore.SortTools;
-        if (illustrated)
-            AddArtBackground(chore == HouseholdChore.ArrangeKeepsakes ? "Chest_Open" : "Tool_Rack");
-        if (chore == HouseholdChore.PutAwayDishes ||
+        string artName = PlacementArtName(chore);
+        bool illustrated = artName != null && LoadArt(artName) != null;
+        placementHasArt = illustrated;
+        if (illustrated) AddArtBackground(artName, chore == HouseholdChore.ArrangeKeepsakes ||
+            chore == HouseholdChore.SortTools || chore == HouseholdChore.SetTable ? 1f : .82f);
+        if ((chore == HouseholdChore.PutAwayDishes && !illustrated) ||
             (chore == HouseholdChore.ArrangeKeepsakes && LoadArt("Chest_Open") == null))
         {
             Shape(root, "WoodFrame", 0f, 37f, 558f, 80f, new Color(.40f, .26f, .15f));
             Shape(root, "LowerTrim", 0f, -4f, 562f, 7f, new Color(.70f, .49f, .25f));
         }
-        if (chore == HouseholdChore.SetTable)
+        if (chore == HouseholdChore.SetTable && !illustrated)
         {
             var tray = Circle("MealTray", root, new Vector2(0f, 35f), 535f, new Color(.55f, .59f, .55f));
             tray.sizeDelta = new Vector2(550f, 85f);
@@ -240,38 +302,79 @@ public sealed partial class HouseholdActionBoard
             "KÉO VẬT DỤNG VÀO ĐÚNG CHỖ", 19f, new Color(.97f, .80f, .47f));
         for (int i = 0; i < 3; i++)
         {
-            float x = (i - 1) * 180f;
+            float x = (i - 1) * (chore == HouseholdChore.SetTable ? 95f : 180f);
             targets[i] = Box("Compartment" + i, root, new Vector2(x, illustrated ? 25f : 39f),
-                new Vector2(164f, illustrated ? 80f : 65f), illustrated
-                    ? new Color(.08f, .12f, .12f, .55f) : new Color(.20f, .27f, .28f));
+                new Vector2(chore == HouseholdChore.SetTable ? 120f : 164f,
+                    illustrated ? 94f : 65f), illustrated
+                    ? new Color(.08f, .12f, .12f, .36f) : new Color(.20f, .27f, .28f));
             if (!illustrated)
                 Box("ShelfEdge", targets[i], new Vector2(0f, -29f), new Vector2(156f, 4f),
                     new Color(.66f, .51f, .30f));
-            Label("CompartmentName", targets[i], Vector2.zero, new Vector2(155f, 60f),
+            Label("CompartmentName", targets[i], Vector2.zero,
+                new Vector2(chore == HouseholdChore.SetTable ? 112f : 155f, 60f),
                 targetNames[i], 13f, new Color(.75f, .85f, .83f));
             DrawProp(targets[i], i);
-            targets[i].Find("PropIcon").localPosition = new Vector3(0f, 8f, 0f);
+            targets[i].Find("PropIcon").localPosition = new Vector3(0f, 13f, 0f);
+            if (chore == HouseholdChore.SetTable)
+                targets[i].Find("PropIcon").localScale = Vector3.one * 1.35f;
             targets[i].Find("PropIcon").gameObject.AddComponent<CanvasGroup>().alpha = .3f;
-            targets[i].GetComponentInChildren<TextMeshProUGUI>().rectTransform.anchoredPosition = new Vector2(0f, -21f);
+            targets[i].GetComponentInChildren<TextMeshProUGUI>().rectTransform.anchoredPosition = new Vector2(0f, -30f);
             // Keep the visual order different from the destination order: this is a sorting task.
-            itemHome[i] = new Vector2((((i + 1) % 3) - 1) * 180f, illustrated ? -85f : -50f);
+            itemHome[i] = new Vector2((((i + 1) % 3) - 1) * 180f, illustrated ? -87f : -50f);
             items[i] = Box("MovableItem" + i, root, itemHome[i],
-                new Vector2(150f, illustrated ? 75f : 58f), new Color(.52f, .36f, .21f));
+                new Vector2(164f, illustrated ? 94f : 58f), new Color(.52f, .36f, .21f));
             DrawProp(items[i], i);
-            items[i].Find("PropIcon").localPosition = Vector3.zero;
-            items[i].Find("PropIcon").localScale = Vector3.one * 1.25f;
+            items[i].Find("PropIcon").localPosition = new Vector3(0f, 12f, 0f);
+            items[i].Find("PropIcon").localScale = Vector3.one * (chore == HouseholdChore.SetTable ? 1.7f : 1.15f);
             if (chore == HouseholdChore.SortTools && i == 1)
                 items[i].Find("PropIcon").localRotation = Quaternion.Euler(0f, 0f, 90f);
-            Label("ItemName", items[i], new Vector2(0f, illustrated ? -30f : -27f), new Vector2(150f, 22f),
+            Label("ItemName", items[i], new Vector2(0f, illustrated ? -36f : -27f), new Vector2(158f, 22f),
                 itemNames[i], 17f, new Color(1f, .96f, .86f));
         }
         Report(0f, "0/3 món đã xếp");
     }
 
+    private void BuildDishStorage()
+    {
+        mode = ActionMode.Placement;
+        placementHasArt = true;
+        Label("PlacementGuide", root, new Vector2(0f, 137f), new Vector2(520f, 28f),
+            "CẤT CHÉN BÁT VÀO TỦ", 19f, new Color(.97f, .80f, .47f));
+        Box("CabinetMat", root, new Vector2(-104f, 0f),
+            new Vector2(316f, 230f), new Color(.12f, .16f, .15f, .76f)).SetSiblingIndex(2);
+        if (LoadArt("Dish_Cabinet") is Sprite cabinetArt)
+            AddArt("DishCabinetArt", root, new Vector2(-104f, 0f),
+                new Vector2(300f, 228f), cabinetArt);
+        Box("StorageTray", root, new Vector2(175f, 0f),
+            new Vector2(155f, 224f), new Color(.22f, .19f, .15f, .93f));
+        string[] itemNames = { "CHÉN", "ĐĨA", "ĐŨA" };
+        string[] targetNames = { "NGĂN CHÉN", "NGĂN ĐĨA", "ỐNG ĐŨA" };
+        for (int i = 0; i < 3; i++)
+        {
+            Vector2 destination = new Vector2(-104f, 68f - i * 68f);
+            targets[i] = Box("DishShelf" + i, root, destination,
+                new Vector2(152f, 61f), new Color(.11f, .17f, .15f, .57f));
+            Box("ShelfLip", targets[i], new Vector2(0f, -29f),
+                new Vector2(152f, 3f), new Color(.73f, .52f, .28f, .87f));
+            DrawProp(targets[i], i);
+            targets[i].Find("PropIcon").GetComponent<Image>().color = new Color(1f, 1f, 1f, .26f);
+            Label("ShelfName", targets[i], new Vector2(0f, -20f),
+                new Vector2(148f, 16f), targetNames[i], 10f, new Color(.91f, .82f, .59f));
+
+            itemHome[i] = new Vector2(175f, 68f - i * 68f);
+            items[i] = Box("DishItem" + i, root, itemHome[i],
+                new Vector2(128f, 60f), new Color(.42f, .32f, .22f, .96f));
+            DrawProp(items[i], i);
+            Label("DishItemName", items[i], new Vector2(0f, -23f),
+                new Vector2(122f, 17f), itemNames[i], 12f, new Color(1f, .94f, .79f));
+        }
+        Report(0f, "0/3 món đã cất");
+    }
+
     private void TickPlacement()
     {
         if (stage == 1) { TickActionSwipe(chore == HouseholdChore.ArrangeKeepsakes ? Vector2.down : Vector2.right); return; }
-        bool illustrated = chore == HouseholdChore.ArrangeKeepsakes || chore == HouseholdChore.SortTools;
+        bool illustrated = placementHasArt;
         if (dragging && chore == HouseholdChore.SortTools && draggedIndex == 1)
             items[1].Find("PropIcon").Rotate(0f, 0f, Input.mouseScrollDelta.y * 15f + (Input.GetKey(KeyCode.R) ? Time.deltaTime * 100f : 0f));
         for (int i = 0; i < 3; i++)
@@ -323,7 +426,7 @@ public sealed partial class HouseholdActionBoard
             {
                 returning[source] = true;
                 mistakes++;
-                hint?.Invoke(!aligned ? "Giữ R hoặc lăn chuột khi kéo để xoay cuốc khớp móc." : destination < 0 ? "Chưa đặt vào ngăn — hãy thả ở hàng trên."
+                hint?.Invoke(!aligned ? "Giữ R hoặc lăn chuột khi kéo để xoay cuốc khớp móc." : destination < 0 ? "Hãy thả vật dụng vào đúng ngăn."
                     : "Chưa đúng ngăn — thử nhìn tên ngăn nhé.");
                 AudioManager.Instance?.PlaySFX(SfxId.UIInvalid);
             }
@@ -341,17 +444,24 @@ public sealed partial class HouseholdActionBoard
         returning[index] = false;
         items[index].SetParent(targets[index], false);
         items[index].anchoredPosition = Vector2.zero;
-        items[index].sizeDelta = new Vector2(147f,
-            chore == HouseholdChore.ArrangeKeepsakes || chore == HouseholdChore.SortTools ? 69f : 53f);
-        items[index].GetComponent<Image>().color = new Color(.28f, .52f, .36f);
+        items[index].sizeDelta = chore == HouseholdChore.PutAwayDishes
+            ? new Vector2(112f, 54f) : new Vector2(147f, placementHasArt ? 69f : 53f);
+        items[index].GetComponent<Image>().color = chore == HouseholdChore.PutAwayDishes
+            ? new Color(.44f, .35f, .23f, .96f) : new Color(.28f, .52f, .36f);
         targets[index].GetComponent<Image>().color = new Color(.23f, .43f, .32f,
-            chore == HouseholdChore.ArrangeKeepsakes || chore == HouseholdChore.SortTools ? .58f : 1f);
+            placementHasArt ? .58f : 1f);
+        if (chore == HouseholdChore.PutAwayDishes)
+        {
+            targets[index].Find("PropIcon").gameObject.SetActive(false);
+            targets[index].Find("ShelfName").gameObject.SetActive(false);
+        }
         successes++;
         mistakes = 0;
         pulse?.Invoke();
         if (successes < 3)
         {
-            Report(successes / 3f, successes + "/3 món đã xếp");
+            Report(successes / 3f, successes + (chore == HouseholdChore.PutAwayDishes
+                ? "/3 món đã cất" : "/3 món đã xếp"));
             hint?.Invoke("Đúng chỗ rồi. Tiếp tục với món còn lại.");
             return;
         }
@@ -359,6 +469,8 @@ public sealed partial class HouseholdActionBoard
         {
             stage = 1;
             string label = chore == HouseholdChore.ArrangeKeepsakes ? "KÉO NẮP RƯƠNG XUỐNG" : "KÉO DÂY BUỘC SANG PHẢI";
+            if (chore == HouseholdChore.CarryWood && LoadArt("Wood_Bundle") is Sprite bundleArt)
+                AddArt("TiedWoodBundle", root, new Vector2(0f, 19f), new Vector2(430f, 124f), bundleArt);
             actionArea = Box("FinalGesture", root, new Vector2(0f, 55f),
                 new Vector2(548f, chore == HouseholdChore.ArrangeKeepsakes ? 75f : 18f), new Color(.40f, .28f, .17f));
             if (chore == HouseholdChore.ArrangeKeepsakes && LoadArt("Chest_Lid") is Sprite lid)
@@ -387,7 +499,7 @@ public sealed partial class HouseholdActionBoard
             "RADIO CỦA NHÀ MÌNH", 22f, new Color(.97f, .80f, .47f));
         if (radioArt != null)
         {
-            var body = Box("RadioPhoto", root, new Vector2(0f, 0f), new Vector2(385f, 230f), Color.white);
+            var body = Box("RadioPhoto", root, new Vector2(0f, 0f), new Vector2(470f, 260f), Color.white);
             body.GetComponent<Image>().sprite = radioArt;
         }
         else
@@ -400,7 +512,8 @@ public sealed partial class HouseholdActionBoard
                 Shape(root, "SpeakerGrille", -164f + i * 20f, -5f, 5f, 71f,
                     new Color(.59f, .48f, .32f));
         }
-        actionArea = Circle("RadioDial", root, new Vector2(radioArt != null ? 119f : 111f, -5f),
+        actionArea = Circle("RadioDial", root, new Vector2(radioArt != null ? 155f : 111f,
+            radioArt != null ? -46f : -5f),
             radioArt != null ? 67f : 102f, radioArt != null
                 ? new Color(.22f, .34f, .30f, .14f) : new Color(.19f, .27f, .27f));
         if (radioArt == null)
@@ -453,58 +566,237 @@ public sealed partial class HouseholdActionBoard
     private void BuildRotary()
     {
         mode = ActionMode.Rotary;
-        string title = chore == HouseholdChore.GrindCorn ? "QUAY CỐI XAY" : "VO GẠO TRONG THAU";
+        string title = "BƯỚC 1  ·  XOAY MẶT CỐI";
         Label("RotaryHeading", root, new Vector2(0f, 73f), new Vector2(510f, 35f),
             title, 21f, new Color(.97f, .80f, .47f));
-        actionArea = Box("RotarySurface", root, new Vector2(0f, -6f),
-            new Vector2(150f, 150f), new Color(.36f, .43f, .40f));
-        actionArea.GetComponent<Image>().sprite = CircleSprite;
-        Circle("MillOrBasin", actionArea, Vector2.zero, 114f,
-            chore == HouseholdChore.GrindCorn ? new Color(.65f, .53f, .37f) : new Color(.38f, .55f, .57f));
-        for (int i = 0; i < 9; i++)
+        actionArea = Box("RotarySurface", root, new Vector2(0f, -3f),
+            new Vector2(425f, 248f), Color.clear);
+        actionArea.SetSiblingIndex(2);
+        Sprite millBase = LoadArt("Corn_Mill_Base");
+        Sprite millTop = LoadArt("Corn_Mill_UpperDisk");
+        bool splitMill = millBase != null && millTop != null;
+        Sprite rotaryArt = splitMill ? millBase : null;
+        rotaryHasArt = rotaryArt != null;
+        if (rotaryHasArt)
         {
-            float angle = i * Mathf.PI * 2f / 9f;
-            float radius = i % 2 == 0 ? 34f : 19f;
-            Circle("Grain", actionArea, new Vector2(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius),
-                chore == HouseholdChore.GrindCorn ? 9f : 6f,
-                chore == HouseholdChore.GrindCorn ? new Color(.94f, .77f, .31f) : new Color(.96f, .93f, .78f));
+            var image = actionArea.GetComponent<Image>();
+            image.sprite = rotaryArt;
+            image.color = Color.white;
+            image.preserveAspect = true;
+            if (splitMill)
+                rotaryTopPivot = AddArt("UpperMillstoneArt", actionArea,
+                    new Vector2(0f, 17f), new Vector2(195f, 125f), millTop);
         }
-        Shape(actionArea, "RotaryHandle", 51f, 0f, 17f, 11f, new Color(.37f, .25f, .16f));
+        else
+        {
+            actionArea.GetComponent<Image>().sprite = CircleSprite;
+            rotaryTopPivot = Circle("UpperMillstoneArt", actionArea, new Vector2(0f, 17f), 150f,
+                new Color(.65f, .59f, .48f));
+            rotaryTopPivot.sizeDelta = new Vector2(150f, 83f);
+            Transform details = rotaryTopPivot;
+            for (int i = 0; i < 9; i++)
+            {
+                float angle = i * Mathf.PI * 2f / 9f;
+                float radius = i % 2 == 0 ? 28f : 16f;
+                Circle("Grain", details, new Vector2(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius * .45f),
+                    9f, new Color(.94f, .77f, .31f));
+            }
+        }
+        for (int i = 0; i < millSurfaceMarks.Length; i++)
+        {
+            millSurfaceMarks[i] = Circle("TurningStoneMark" + i, rotaryTopPivot,
+                Vector2.zero, 8f, new Color(.41f, .35f, .28f, .64f));
+            millSurfaceMarks[i].sizeDelta = new Vector2(11f, 4f);
+        }
+        millCrankArm = Shape(actionArea, "HorizontalCrankArm", 0f, 0f, 70f, 10f,
+            new Color(.48f, .29f, .14f));
+        Shape(millCrankArm, "CrankWoodHighlight", 0f, 2f, 62f, 2f,
+            new Color(.74f, .48f, .25f, .8f));
+        millCrankGrip = Box("UprightCrankGrip", actionArea, Vector2.zero,
+            new Vector2(16f, 32f), new Color(.49f, .29f, .15f));
+        Circle("GripCap", millCrankGrip, new Vector2(0f, 16f), 16f,
+            new Color(.70f, .43f, .22f));
+        UpdateHorizontalMillVisual(0f);
+        rotaryPullCue = Box("CollectFlourCue", root, new Vector2(191f, -15f),
+            new Vector2(78f, 94f), new Color(.30f, .22f, .13f, .92f));
+        Label("CollectArrow", rotaryPullCue, new Vector2(0f, 5f), new Vector2(72f, 66f),
+            "↓", 47f, new Color(.99f, .78f, .39f));
+        rotaryPullCue.gameObject.SetActive(false);
         status = Label("RotaryStatus", root, new Vector2(0f, -83f), new Vector2(520f, 28f),
-            "Giữ chuột và xoay vòng quanh tâm", 18f, new Color(.83f, .89f, .86f));
+            "Giữ chuột · di theo elip trên mặt cối", 18f, new Color(.83f, .89f, .86f));
         Report(0f, "0/3 vòng");
     }
 
     private void TickRotary()
     {
-        if (stage == 1) { TickActionSwipe(chore == HouseholdChore.WashRice ? Vector2.right : Vector2.down); return; }
-        float accepted = Input.GetKey(KeyCode.F) ? Time.deltaTime * 110f : 0f;
+        if (stage == 1) { TickActionSwipe(Vector2.down); return; }
+        float accepted = Input.GetKey(KeyCode.F) ? Time.deltaTime * 200f : 0f;
         if (Input.GetMouseButtonDown(0) && Inside(actionArea) && Pointer(out Vector2 start))
-        { dragging = true; lastAngle = AngleAround(start, actionArea.anchoredPosition); }
+        { dragging = true; lastAngle = AngleAroundEllipse(start, actionArea.anchoredPosition + new Vector2(0f, 17f), 82f, 28f); }
         if (Input.GetMouseButtonUp(0)) dragging = false;
         if (dragging && Input.GetMouseButton(0) && Pointer(out Vector2 point))
         {
-            float radius = (point - actionArea.anchoredPosition).magnitude;
-            float angle = AngleAround(point, actionArea.anchoredPosition);
+            Vector2 center = actionArea.anchoredPosition + new Vector2(0f, 17f);
+            float radius = EllipseRadius(point, center, 82f, 28f);
+            float angle = AngleAroundEllipse(point, center, 82f, 28f);
             float step = Mathf.DeltaAngle(lastAngle, angle);
             lastAngle = angle;
-            if (radius >= 22f && radius <= 110f && Mathf.Abs(step) <= 300f * Time.deltaTime) accepted = step;
-            else if (Mathf.Abs(step) > 300f * Time.deltaTime) status.text = "Chậm tay một chút, quay đều quanh tâm nhé";
+            if (radius >= .30f && radius <= 1.70f && Mathf.Abs(step) <= 1080f * Time.deltaTime) accepted = step;
+            else if (Mathf.Abs(step) > 1080f * Time.deltaTime) status.text = "Quay đều tay theo mặt cối nhé";
         }
         // Signed accumulation prevents small back-and-forth gestures counting as full turns.
         amount = Mathf.Clamp(amount + accepted, -1080f, 1080f);
-        actionArea.localRotation = Quaternion.Euler(0f, 0f, amount);
+        UpdateHorizontalMillVisual(amount);
         float fraction = Mathf.Abs(amount) / 1080f;
-        actionArea.Find("MillOrBasin").GetComponent<Image>().color = Color.Lerp(new Color(.56f, .51f, .39f),
-            chore == HouseholdChore.WashRice ? new Color(.38f, .75f, .80f) : new Color(.93f, .84f, .57f), fraction);
+        if (!rotaryHasArt)
+            rotaryTopPivot.GetComponent<Image>().color = Color.Lerp(new Color(.56f, .51f, .39f),
+                new Color(.93f, .84f, .57f), fraction);
         Report(fraction * .85f, Mathf.FloorToInt(Mathf.Abs(amount) / 360f) + "/3 vòng đều tay");
         if (fraction < 1f) return;
         stage = 1; dragging = false;
         pulse?.Invoke();
-        actionArea.localRotation = Quaternion.identity;
         gestureHome = actionArea.anchoredPosition;
-        status.text = chore == HouseholdChore.WashRice ? "Kéo thau sang phải để nghiêng chắt nước" : "Kéo cối xuống để thu khay bột";
+        millCrankArm.gameObject.SetActive(false);
+        millCrankGrip.gameObject.SetActive(false);
+        rotaryPullCue.gameObject.SetActive(true);
+        root.Find("RotaryHeading").GetComponent<TextMeshProUGUI>().text = "BƯỚC 2  ·  THU BỘT NGÔ";
+        status.text = "Kéo cối xuống để thu khay bột";
         hint?.Invoke(status.text);
+    }
+
+    private void UpdateHorizontalMillVisual(float degrees)
+    {
+        if (rotaryTopPivot == null || millCrankArm == null || millCrankGrip == null) return;
+        float angle = degrees * Mathf.Deg2Rad;
+        Vector2 center = new Vector2(0f, 17f);
+        Vector2 endpoint = center + new Vector2(Mathf.Cos(angle) * 82f, Mathf.Sin(angle) * 28f);
+        Vector2 offset = endpoint - center;
+        millCrankArm.anchoredPosition = (center + endpoint) * .5f;
+        millCrankArm.sizeDelta = new Vector2(offset.magnitude, 10f);
+        millCrankArm.localRotation = Quaternion.Euler(0f, 0f,
+            Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg);
+        var highlight = millCrankArm.Find("CrankWoodHighlight") as RectTransform;
+        if (highlight != null) highlight.sizeDelta = new Vector2(Mathf.Max(12f, offset.magnitude - 8f), 2f);
+        millCrankGrip.anchoredPosition = endpoint + new Vector2(0f, 13f);
+        millCrankGrip.localScale = Vector3.one * (.86f - Mathf.Sin(angle) * .13f);
+        for (int i = 0; i < millSurfaceMarks.Length; i++)
+        {
+            float phase = angle + i * Mathf.PI * 2f / millSurfaceMarks.Length;
+            millSurfaceMarks[i].anchoredPosition = new Vector2(Mathf.Cos(phase) * 48f,
+                Mathf.Sin(phase) * 18f);
+        }
+        // On the far half of the ellipse the arm passes behind the upper stone.
+        if (Mathf.Sin(angle) > 0f)
+        {
+            millCrankArm.SetSiblingIndex(0);
+            millCrankGrip.SetSiblingIndex(1);
+            rotaryTopPivot.SetAsLastSibling();
+        }
+        else
+        {
+            rotaryTopPivot.SetSiblingIndex(0);
+            millCrankArm.SetSiblingIndex(1);
+            millCrankGrip.SetAsLastSibling();
+        }
+    }
+
+    private void BuildWashRice()
+    {
+        mode = ActionMode.WashRice;
+        Label("WashRiceHeading", root, new Vector2(0f, 123f), new Vector2(520f, 30f),
+            "BƯỚC 1  ·  KHUẤY GẠO TRONG NỒI", 21f, new Color(.97f, .80f, .47f));
+        actionArea = Box("RiceWashingPot", root, Vector2.zero,
+            new Vector2(390f, 205f), Color.clear);
+        if (LoadArt("Rice_Washing_Pot") is Sprite potArt)
+        {
+            var image = actionArea.GetComponent<Image>();
+            image.sprite = potArt;
+            image.color = Color.white;
+            image.preserveAspect = true;
+        }
+        else
+        {
+            actionArea.GetComponent<Image>().sprite = CircleSprite;
+            actionArea.GetComponent<Image>().color = new Color(.60f, .62f, .57f);
+            Circle("RiceAndWater", actionArea, new Vector2(0f, 7f), 102f,
+                new Color(.82f, .86f, .82f));
+        }
+        // These light ripples move over the rice. The pot itself never rotates.
+        rotaryTopPivot = new GameObject("WaterRipples", typeof(RectTransform)).GetComponent<RectTransform>();
+        rotaryTopPivot.SetParent(actionArea, false);
+        rotaryTopPivot.anchorMin = rotaryTopPivot.anchorMax = rotaryTopPivot.pivot = new Vector2(.5f, .5f);
+        rotaryTopPivot.sizeDelta = Vector2.zero;
+        var outerRipple = Circle("SoftWaterRipple", rotaryTopPivot, new Vector2(0f, 33f), 70f,
+            new Color(.74f, .86f, .83f, .16f));
+        outerRipple.sizeDelta = new Vector2(104f, 42f);
+        fill = outerRipple;
+        var innerRipple = Circle("InnerWaterRipple", rotaryTopPivot, new Vector2(3f, 35f), 35f,
+            new Color(1f, 1f, 1f, .10f));
+        innerRipple.sizeDelta = new Vector2(58f, 24f);
+        for (int i = 0; i < 5; i++)
+        {
+            float a = i * Mathf.PI * 2f / 5f;
+            var grain = Circle("FloatingGrain", rotaryTopPivot,
+                new Vector2(Mathf.Cos(a) * 38f, 33f + Mathf.Sin(a) * 20f), 7f,
+                new Color(1f, .97f, .85f, .78f));
+            grain.sizeDelta = new Vector2(11f, 4f);
+            grain.localRotation = Quaternion.Euler(0f, 0f, a * Mathf.Rad2Deg);
+            washingGrains[i] = grain;
+        }
+        rinseZone = Box("DrainWaterButton", root, new Vector2(202f, -9f),
+            new Vector2(135f, 56f), new Color(.32f, .57f, .57f));
+        Label("DrainWaterText", rinseZone, Vector2.zero, new Vector2(130f, 54f),
+            "CHẮT NƯỚC  →", 16f, Color.white);
+        rinseZone.gameObject.SetActive(false);
+        status = Label("WashRiceStatus", root, new Vector2(0f, -127f), new Vector2(540f, 28f),
+            "Giữ chuột · khuấy theo elip mặt nước", 18f, new Color(.84f, .90f, .88f));
+        Report(0f, "Khuấy gạo trong nước · 0/2 vòng");
+    }
+
+    private void TickWashRice()
+    {
+        if (stage == 1)
+        {
+            if (Input.GetKeyDown(KeyCode.Return) ||
+                (Input.GetMouseButtonDown(0) && Inside(rinseZone))) Complete();
+            return;
+        }
+        float accepted = Input.GetKey(KeyCode.F) ? Time.deltaTime * 210f : 0f;
+        if (Input.GetMouseButtonDown(0) && Inside(actionArea) && Pointer(out Vector2 start))
+        {
+            dragging = true;
+            lastAngle = AngleAroundEllipse(start, actionArea.anchoredPosition + new Vector2(0f, 34f), 78f, 30f);
+        }
+        if (Input.GetMouseButtonUp(0)) dragging = false;
+        if (dragging && Input.GetMouseButton(0) && Pointer(out Vector2 point))
+        {
+            Vector2 center = actionArea.anchoredPosition + new Vector2(0f, 34f);
+            float radius = EllipseRadius(point, center, 78f, 30f);
+            float angle = AngleAroundEllipse(point, center, 78f, 30f);
+            float step = Mathf.DeltaAngle(lastAngle, angle);
+            lastAngle = angle;
+            if (radius >= .25f && radius <= 1.7f && Mathf.Abs(step) <= 1080f * Time.deltaTime)
+                accepted = Mathf.Abs(step);
+        }
+        amount = Mathf.Min(720f, amount + accepted);
+        for (int i = 0; i < washingGrains.Length; i++)
+        {
+            float angle = amount * Mathf.Deg2Rad + i * Mathf.PI * 2f / washingGrains.Length;
+            washingGrains[i].anchoredPosition = new Vector2(Mathf.Cos(angle) * 43f,
+                33f + Mathf.Sin(angle) * 16f);
+        }
+        fill.sizeDelta = new Vector2(104f + Mathf.Sin(amount * Mathf.Deg2Rad) * 5f,
+            42f + Mathf.Cos(amount * Mathf.Deg2Rad) * 2f);
+        status.text = "ĐANG VO GẠO  ·  " + Mathf.Min(2, Mathf.FloorToInt(amount / 360f)) + "/2 VÒNG";
+        Report(amount / 720f * .85f, "Khuấy gạo trong nước · " + Mathf.FloorToInt(amount / 360f) + "/2 vòng");
+        if (amount < 720f) return;
+        stage = 1;
+        dragging = false;
+        rinseZone.gameObject.SetActive(true);
+        root.Find("WashRiceHeading").GetComponent<TextMeshProUGUI>().text = "BƯỚC 2  ·  CHẮT NƯỚC";
+        status.text = "Gạo đã sạch — bấm CHẮT NƯỚC";
+        hint?.Invoke(status.text);
+        pulse?.Invoke();
     }
 
     private void BuildFetch()
@@ -514,22 +806,56 @@ public sealed partial class HouseholdActionBoard
             "MÚC NƯỚC CHO MẸ", 21f, new Color(.97f, .80f, .47f));
         token = Box("WaterScoop", root, new Vector2(-178f, -18f),
             new Vector2(120f, 86f), new Color(.46f, .35f, .22f));
-        Shape(token, "ScoopHandle", 24f, 14f, 31f, 7f, new Color(.82f, .69f, .46f), 28f);
-        Circle("ScoopCup", token, new Vector2(-9f, 12f), 37f, new Color(.84f, .72f, .51f));
-        Circle("WaterInScoop", token, new Vector2(-9f, 12f), 29f, new Color(.33f, .65f, .79f, 0f));
-        tokenText = Label("ScoopName", token, new Vector2(0f, -26f), new Vector2(115f, 26f),
+        Sprite scoopArt = LoadArt("Water_Scoop");
+        bool scoopHasArt = scoopArt != null;
+        if (scoopHasArt)
+        {
+            token.sizeDelta = new Vector2(178f, 116f);
+            var image = token.GetComponent<Image>();
+            image.sprite = scoopArt;
+            image.color = Color.white;
+            image.preserveAspect = true;
+        }
+        else
+        {
+            Shape(token, "ScoopHandle", 24f, 14f, 31f, 7f, new Color(.82f, .69f, .46f), 28f);
+            Circle("ScoopCup", token, new Vector2(-9f, 12f), 37f, new Color(.84f, .72f, .51f));
+        }
+        Circle("WaterInScoop", token, scoopHasArt ? new Vector2(-39f, -17f) : new Vector2(-9f, 12f),
+            scoopHasArt ? 32f : 29f, new Color(.33f, .65f, .79f, 0f));
+        tokenText = Label("ScoopName", token, new Vector2(0f, scoopHasArt ? -43f : -26f), new Vector2(115f, 26f),
             "GÁO RỖNG", 16f, Color.white);
         targets[0] = Box("WaterJarZone", root, new Vector2(175f, -18f),
-            new Vector2(150f, 112f), new Color(.17f, .40f, .49f));
-        Shape(targets[0], "JarBody", 0f, 13f, 64f, 54f, new Color(.61f, .47f, .32f));
-        Shape(targets[0], "JarLip", 0f, 41f, 78f, 8f, new Color(.87f, .72f, .48f));
-        Shape(targets[0], "JarWater", 0f, 23f, 54f, 13f, new Color(.42f, .73f, .79f));
+            new Vector2(185f, 140f), new Color(.17f, .40f, .49f));
+        if (LoadArt("Water_Jar") is Sprite jarArt)
+        {
+            var image = targets[0].GetComponent<Image>();
+            image.sprite = jarArt;
+            image.color = Color.white;
+            image.preserveAspect = true;
+        }
+        else
+        {
+            Shape(targets[0], "JarBody", 0f, 13f, 64f, 54f, new Color(.61f, .47f, .32f));
+            Shape(targets[0], "JarLip", 0f, 41f, 78f, 8f, new Color(.87f, .72f, .48f));
+            Shape(targets[0], "JarWater", 0f, 23f, 54f, 13f, new Color(.42f, .73f, .79f));
+        }
         Label("WaterJarName", targets[0], new Vector2(0f, -38f), new Vector2(140f, 27f),
             "LU NƯỚC", 17f, Color.white);
         targets[1] = Box("WaterBasinZone", root, new Vector2(-178f, -18f),
-            new Vector2(150f, 112f), new Color(.27f, .44f, .35f));
-        Circle("Basin", targets[1], new Vector2(0f, 13f), 66f, new Color(.77f, .80f, .68f));
-        Circle("BasinInside", targets[1], new Vector2(0f, 13f), 46f, new Color(.26f, .51f, .58f));
+            new Vector2(185f, 140f), new Color(.27f, .44f, .35f));
+        if (LoadArt("Water_Basin") is Sprite basinArt)
+        {
+            var image = targets[1].GetComponent<Image>();
+            image.sprite = basinArt;
+            image.color = Color.white;
+            image.preserveAspect = true;
+        }
+        else
+        {
+            Circle("Basin", targets[1], new Vector2(0f, 13f), 66f, new Color(.77f, .80f, .68f));
+            Circle("BasinInside", targets[1], new Vector2(0f, 13f), 46f, new Color(.26f, .51f, .58f));
+        }
         Label("WaterBasinName", targets[1], new Vector2(0f, -38f), new Vector2(140f, 27f),
             "THAU NHẬN", 17f, Color.white);
         targets[1].gameObject.SetActive(false);
@@ -587,56 +913,61 @@ public sealed partial class HouseholdActionBoard
     private void BuildMeasure()
     {
         mode = ActionMode.Measure;
-        Label("MeasureHeading", root, new Vector2(0f, 77f), new Vector2(520f, 30f), "ĐONG GẠO CHO BỮA CƠM", 21f, new Color(.97f, .80f, .47f));
-        targets[0] = Circle("RiceJar", root, new Vector2(-185f, -12f), 110f, new Color(.48f, .31f, .18f));
-        Circle("RiceInJar", targets[0], Vector2.zero, 85f, new Color(.93f, .85f, .64f));
-        Label("JarLabel", targets[0], new Vector2(0f, -40f), new Vector2(110f, 25f), "LU GẠO", 15f, Color.white);
-        targets[1] = Circle("RiceBowl", root, new Vector2(170f, -12f), 112f, new Color(.65f, .75f, .73f));
-        fill = Box("RiceInBowl", targets[1], new Vector2(0f, -25f), new Vector2(65f, 1f), new Color(.96f, .90f, .73f));
-        Shape(targets[1], "EnoughMark", 0f, 8f, 92f, 3f, new Color(.27f, .54f, .32f));
-        Label("EnoughLabel", targets[1], new Vector2(0f, 34f), new Vector2(110f, 22f), "VỪA ĐỦ", 14f, Color.white);
-        token = Circle("RiceScoop", root, new Vector2(-40f, -15f), 66f, new Color(.72f, .51f, .28f));
-        Shape(token, "ScoopHandle", -46f, 0f, 60f, 10f, new Color(.63f, .42f, .22f));
-        status = Label("MeasureStatus", root, new Vector2(0f, -83f), new Vector2(540f, 28f), "Kéo gáo vào lu gạo", 18f, Color.white);
-        Report(0f, "Múc gạo từ lu");
+        Label("MeasureHeading", root, new Vector2(0f, 77f), new Vector2(520f, 30f),
+            "ĐONG GẠO CHO BỮA CƠM", 21f, new Color(.97f, .80f, .47f));
+        targets[0] = Box("RiceJar", root, new Vector2(-172f, -10f),
+            new Vector2(170f, 145f), new Color(.48f, .31f, .18f));
+        if (LoadArt("Rice_Jar") is Sprite jarArt)
+        {
+            var image = targets[0].GetComponent<Image>();
+            image.sprite = jarArt; image.color = Color.white; image.preserveAspect = true;
+        }
+        Label("JarLabel", root, new Vector2(-178f, -68f), new Vector2(125f, 22f),
+            "LU GẠO", 15f, Color.white);
+        targets[1] = Box("RiceBasket", root, new Vector2(177f, -10f),
+            new Vector2(190f, 142f), new Color(.62f, .43f, .23f));
+        if (LoadArt("Rice_Basket_Empty") is Sprite basketArt)
+        {
+            var image = targets[1].GetComponent<Image>();
+            image.sprite = basketArt; image.color = Color.white; image.preserveAspect = true;
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            var pile = Circle("MeasuredRice" + i, targets[1],
+                new Vector2((i - 1) * 31f, 4f + (i % 2) * 5f), 32f,
+                new Color(.96f, .90f, .73f));
+            pile.sizeDelta = new Vector2(40f, 15f);
+            for (int grain = 0; grain < 5; grain++)
+                Shape(pile, "RiceGrain", (grain - 2) * 7f, (grain % 2) * 5f,
+                    8f, 3f, new Color(1f, .98f, .87f), grain % 2 == 0 ? 20f : -18f);
+            items[i] = pile;
+            pile.gameObject.SetActive(false);
+        }
+        Label("BasketLabel", root, new Vector2(178f, -68f), new Vector2(125f, 22f),
+            "RÁ ĐONG  0/3", 15f, Color.white);
+        token = Box("RiceScoop", root, new Vector2(-12f, -9f),
+            new Vector2(135f, 108f), new Color(.72f, .51f, .28f));
+        if (LoadArt("Rice_Scoop") is Sprite scoopArt)
+        {
+            var image = token.GetComponent<Image>();
+            image.sprite = scoopArt; image.color = Color.white; image.preserveAspect = true;
+        }
+        token.SetAsLastSibling();
+        status = Label("MeasureStatus", root, new Vector2(0f, -83f), new Vector2(540f, 28f),
+            "Kéo gáo gạo từ lu sang rá · 3 lần", 18f, Color.white);
+        Report(0f, "Đong gạo · 0/3 gáo");
     }
 
     private void TickMeasure()
     {
-        if (stage == 0)
-        {
-            if (!TickTokenDrag(targets[0]) && !Input.GetKeyDown(KeyCode.Return)) return;
-            stage = 1; token.GetComponent<Image>().color = new Color(.96f, .87f, .65f);
-            status.text = "Đưa gáo sang thau"; pulse?.Invoke(); return;
-        }
-        if (stage == 1)
-        {
-            if (!TickTokenDrag(targets[1]) && !Input.GetKeyDown(KeyCode.Return)) return;
-            stage = 2; token.anchoredPosition = new Vector2(95f, 35f);
-            status.text = "Kéo mép gáo xuống để nghiêng đổ; thả để dừng"; return;
-        }
-        // Once filled, the scoop becomes a movable prop again so it can be put away.
-        if (stage == 3)
-        {
-            if (TickTokenDrag(targets[0]) || Input.GetKeyDown(KeyCode.Return)) Complete();
-            return;
-        }
-        if (Input.GetMouseButtonDown(0) && Inside(token) && Pointer(out Vector2 start))
-        { dragging = true; pointerStart = start; }
-        if (Input.GetMouseButtonUp(0)) dragging = false;
-        float tilt = 0f;
-        if (dragging && Input.GetMouseButton(0) && Pointer(out Vector2 point)) tilt = Mathf.Clamp01((pointerStart.y - point.y) / 65f);
-        if (Input.GetKey(KeyCode.F)) tilt = .5f;
-        token.localRotation = Quaternion.Euler(0f, 0f, -tilt * 85f);
-        amount = Mathf.Clamp01(amount + tilt * Time.deltaTime * .26f);
-        if (amount > .66f && ((Input.GetMouseButton(0) && Inside(targets[1]) && !dragging) || Input.GetKey(KeyCode.Backspace)))
-            amount = Mathf.Max(.66f, amount - Time.deltaTime * .24f);
-        fill.sizeDelta = new Vector2(65f, 50f * amount / .8f);
-        fill.anchoredPosition = new Vector2(0f, -25f + fill.sizeDelta.y * .5f);
-        bool enough = amount >= .62f && amount <= .72f;
-        status.text = enough ? "Vừa đủ rồi — đặt gáo vào lu để cất" : amount > .72f ? "Hơi đầy — giữ chuột trên gạo trong thau để gạt bớt" : "Nghiêng gáo từ từ tới vạch";
-        Report(Mathf.Min(.95f, amount / .66f), status.text);
-        if (enough && !Input.GetMouseButton(0) && !Input.GetKey(KeyCode.F)) { stage = 3; dragging = false; }
+        if (!TickTokenDrag(targets[1]) && !Input.GetKeyDown(KeyCode.Return)) return;
+        successes++;
+        token.anchoredPosition = new Vector2(-12f, -9f);
+        items[successes - 1].gameObject.SetActive(true);
+        root.Find("BasketLabel").GetComponent<TextMeshProUGUI>().text = "RÁ ĐONG  " + successes + "/3";
+        pulse?.Invoke();
+        Report(successes / 3f, "Đong gạo · " + successes + "/3 gáo");
+        if (successes >= 3) Complete();
     }
 
     private void BuildFire()
@@ -645,14 +976,33 @@ public sealed partial class HouseholdActionBoard
         Label("FireHeading", root, new Vector2(0f, 77f), new Vector2(520f, 30f),
             "NHÓM LỬA BẾP CỦI", 21f, new Color(.97f, .80f, .47f));
         token = Box("Kindling", root, new Vector2(-175f, -15f),
-            new Vector2(125f, 73f), new Color(.45f, .30f, .17f));
-        Shape(token, "KindlingLogA", -5f, 11f, 68f, 12f, new Color(.70f, .47f, .27f), 16f);
-        Shape(token, "KindlingLogB", 5f, 5f, 68f, 12f, new Color(.82f, .57f, .32f), -15f);
+            new Vector2(155f, 96f), new Color(.45f, .30f, .17f));
+        if (LoadArt("Wood_Bundle") is Sprite firewood)
+        {
+            var image = token.GetComponent<Image>();
+            image.sprite = firewood;
+            image.color = Color.white;
+            image.preserveAspect = true;
+        }
+        else
+        {
+            Shape(token, "KindlingLogA", -5f, 11f, 68f, 12f, new Color(.70f, .47f, .27f), 16f);
+            Shape(token, "KindlingLogB", 5f, 5f, 68f, 12f, new Color(.82f, .57f, .32f), -15f);
+        }
         tokenText = Label("KindlingName", token, new Vector2(0f, -24f), new Vector2(120f, 23f),
             "CỦI KHÔ", 16f, Color.white);
         targets[0] = Box("Hearth", root, new Vector2(168f, -15f),
-            new Vector2(142f, 100f), new Color(.38f, .18f, .12f));
-        Circle("HearthOpening", targets[0], new Vector2(0f, 9f), 66f, new Color(.16f, .13f, .12f));
+            new Vector2(180f, 130f), new Color(.38f, .18f, .12f));
+        Sprite hearthArt = LoadArt("Fire_Hearth");
+        fireHasArt = hearthArt != null;
+        if (fireHasArt)
+        {
+            var image = targets[0].GetComponent<Image>();
+            image.sprite = hearthArt;
+            image.color = Color.white;
+            image.preserveAspect = true;
+        }
+        else Circle("HearthOpening", targets[0], new Vector2(0f, 9f), 66f, new Color(.16f, .13f, .12f));
         ember = Shape(targets[0], "Ember", 0f, 10f, 28f, 27f,
             new Color(.54f, .27f, .14f)).GetComponent<Image>();
         Label("HearthName", targets[0], new Vector2(0f, -36f), new Vector2(136f, 24f),
@@ -670,7 +1020,8 @@ public sealed partial class HouseholdActionBoard
             stage = 1;
             token.anchoredPosition = new Vector2(-175f, -15f);
             tokenText.text = "MỒI LỬA";
-            token.GetComponent<Image>().color = new Color(.82f, .57f, .24f);
+            token.GetComponent<Image>().color = token.GetComponent<Image>().sprite != null
+                ? Color.white : new Color(.82f, .57f, .24f);
             status.text = "Kéo mồi lửa vào giữa củi khô";
             hint?.Invoke("Đã đặt củi — thêm mồi lửa nhé.");
             pulse?.Invoke();
@@ -691,8 +1042,9 @@ public sealed partial class HouseholdActionBoard
         float beat = (Mathf.Sin(elapsed * 3f) + 1f) * .5f;
         if (beat < .3f) breathUsed = false;
         bool ready = beat >= .48f && beat <= .76f;
-        targets[0].GetComponent<Image>().color = ready ? new Color(.90f, .53f, .18f)
-            : new Color(.38f, .18f, .12f);
+        if (!fireHasArt)
+            targets[0].GetComponent<Image>().color = ready ? new Color(.90f, .53f, .18f)
+                : new Color(.38f, .18f, .12f);
         if (ember != null) ember.color = ready ? new Color(1f, .88f, .38f)
             : new Color(.54f, .27f, .14f);
         if (!(Input.GetKeyDown(KeyCode.Space) || (Input.GetMouseButtonDown(0) && Inside(targets[0])))) return;
@@ -716,10 +1068,15 @@ public sealed partial class HouseholdActionBoard
 
         heatTrack = Box("HeatTrack", root, new Vector2(0f, 0f),
             new Vector2(380f, 50f), new Color(.30f, .18f, .12f));
-        Shape(root, "PotBody", 0f, 56f, 96f, 37f, new Color(.68f, .71f, .65f));
-        Shape(root, "PotLid", 0f, 77f, 108f, 5f, new Color(.89f, .81f, .65f));
-        Shape(root, "PotHandleL", -56f, 56f, 17f, 8f, new Color(.89f, .81f, .65f));
-        Shape(root, "PotHandleR", 56f, 56f, 17f, 8f, new Color(.89f, .81f, .65f));
+        if (LoadArt("Cook_Pot") is Sprite potArt)
+            AddArt("CookPotArt", root, new Vector2(0f, 51f), new Vector2(215f, 145f), potArt);
+        else
+        {
+            Shape(root, "PotBody", 0f, 56f, 96f, 37f, new Color(.68f, .71f, .65f));
+            Shape(root, "PotLid", 0f, 77f, 108f, 5f, new Color(.89f, .81f, .65f));
+            Shape(root, "PotHandleL", -56f, 56f, 17f, 8f, new Color(.89f, .81f, .65f));
+            Shape(root, "PotHandleR", 56f, 56f, 17f, 8f, new Color(.89f, .81f, .65f));
+        }
         Box("WarmEmbers", heatTrack, Vector2.zero,
             new Vector2(76f, 12f), new Color(.96f, .50f, .18f));
         heatHandle = Box("HeatHandle", heatTrack, new Vector2(-114f, 0f),
@@ -760,71 +1117,124 @@ public sealed partial class HouseholdActionBoard
     private void BuildScrub()
     {
         mode = ActionMode.Scrub;
-        Label("ScrubHeading", root, new Vector2(0f, 77f), new Vector2(520f, 30f),
-            "RỬA TỪNG CHIẾC CHÉN", 21f, new Color(.97f, .80f, .47f));
-        dish = Box("Dish", root, new Vector2(0f, -8f),
-            new Vector2(260f, 122f), new Color(.74f, .78f, .72f));
-        dish.GetComponent<Image>().sprite = CircleSprite;
-        Circle("DishWell", dish, new Vector2(0f, -8f), 87f, new Color(.89f, .90f, .79f));
-        dishText = Label("DishName", dish, new Vector2(0f, 42f), new Vector2(230f, 30f),
-            "CHÉN 1/3", 18f, new Color(.16f, .22f, .20f));
+        Label("ScrubHeading", root, new Vector2(0f, 126f), new Vector2(520f, 30f),
+            "CHÉN 1/3  ·  CHÀ VẾT DƠ", 21f, new Color(.97f, .80f, .47f));
+        dish = Box("Dish", root, new Vector2(40f, -3f),
+            new Vector2(360f, 202f), new Color(.74f, .78f, .72f));
+        dish.SetSiblingIndex(2);
+        if (LoadArt("Clean_Dish") is Sprite dishArt)
+        {
+            var image = dish.GetComponent<Image>();
+            image.sprite = dishArt;
+            image.color = Color.white;
+            image.preserveAspect = true;
+        }
+        else
+        {
+            dish.GetComponent<Image>().sprite = CircleSprite;
+            Circle("DishWell", dish, new Vector2(0f, -8f), 87f, new Color(.89f, .90f, .79f));
+        }
+        scrubber = Box("Scrubber", root, new Vector2(-212f, -6f),
+            new Vector2(86f, 86f), new Color(.71f, .47f, .23f));
+        if (LoadArt("Dish_Scrubber") is Sprite scrubberArt)
+        {
+            var image = scrubber.GetComponent<Image>();
+            image.sprite = scrubberArt;
+            image.color = Color.white;
+            image.preserveAspect = true;
+        }
+        dishText = Label("ScrubberLabel", root, new Vector2(-212f, -77f), new Vector2(130f, 24f),
+            "BÙI NHÙI", 15f, new Color(.91f, .80f, .57f));
         for (int i = 0; i < 3; i++)
-            dirt[i] = Circle("Dirt" + i, dish, new Vector2((i - 1) * 65f, -15f),
-                24f, new Color(.42f, .32f, .18f)).GetComponent<Image>();
-        rack = Box("DishRack", root, new Vector2(174f, -8f),
-            new Vector2(136f, 124f), new Color(.23f, .44f, .39f));
-        Label("RackName", rack, Vector2.zero, new Vector2(130f, 116f),
-            "GIÁ CHÉN", 19f, Color.white);
-        rack.gameObject.SetActive(false);
-        rinseZone = Circle("RinseWater", root, new Vector2(0f, -8f), 125f, new Color(.25f, .62f, .74f));
+        {
+            Vector2 spot = i == 0 ? new Vector2(-64f, 17f) :
+                i == 1 ? new Vector2(68f, 19f) : new Vector2(0f, -31f);
+            dirt[i] = Circle("Dirt" + i, dish, spot, 30f,
+                new Color(.45f, .25f, .10f, .88f)).GetComponent<Image>();
+            dirt[i].rectTransform.sizeDelta = new Vector2(i == 2 ? 42f : 35f, i == 1 ? 25f : 20f);
+            dirt[i].rectTransform.localRotation = Quaternion.Euler(0f, 0f, i == 1 ? -18f : 24f);
+        }
+        rinseZone = Box("RinseWater", root, new Vector2(178f, -5f),
+            new Vector2(175f, 150f), new Color(.25f, .62f, .74f));
+        if (LoadArt("Water_Basin") is Sprite rinseArt)
+        {
+            var image = rinseZone.GetComponent<Image>();
+            image.sprite = rinseArt;
+            image.color = Color.white;
+            image.preserveAspect = true;
+        }
         rinseZone.gameObject.SetActive(false);
-        status = Label("ScrubStatus", root, new Vector2(0f, -82f), new Vector2(510f, 28f),
-            "Giữ chuột và chà qua vết bẩn", 18f, new Color(.84f, .89f, .86f));
-        Report(0f, "Chén 1/3 chưa sạch");
+        status = Label("ScrubStatus", root, new Vector2(0f, -126f), new Vector2(510f, 28f),
+            "Kéo bùi nhùi lên từng vết dơ và chà qua lại", 18f, new Color(.84f, .89f, .86f));
+        Report(0f, "Chén 1/3 · 3 vết dơ");
     }
 
     private void TickScrub()
     {
         if (stage == 0)
         {
-            if (Input.GetMouseButtonDown(0) && Inside(dish) && Pointer(out Vector2 start)) { dragging = true; pointerStart = start; }
+            if (Input.GetMouseButtonDown(0) && Inside(scrubber) && Pointer(out Vector2 start))
+            {
+                dragging = true;
+                pointerStart = start;
+                dragOffset = scrubber.anchoredPosition - start;
+                scrubber.SetAsLastSibling();
+            }
             if (Input.GetMouseButtonUp(0)) dragging = false;
             if (dragging && Input.GetMouseButton(0) && Pointer(out Vector2 point))
             {
-                float distance = Vector2.Distance(point, pointerStart); pointerStart = point;
+                float distance = Vector2.Distance(point, pointerStart);
+                pointerStart = point;
+                scrubber.anchoredPosition = ClampToSurface(point + dragOffset);
                 if (distance > .5f && distance < 70f)
                     for (int i = 0; i < 3; i++)
-                        if (Inside(dirt[i].rectTransform)) stainRemaining[i] = Mathf.Max(0f, stainRemaining[i] - distance / 150f);
+                    {
+                        Vector2 stainCenter = root.InverseTransformPoint(dirt[i].rectTransform.position);
+                        if (Vector2.Distance(scrubber.anchoredPosition, stainCenter) < 42f)
+                            stainRemaining[i] = Mathf.Max(0f, stainRemaining[i] - distance / 95f);
+                    }
             }
-            if (Input.GetKey(KeyCode.F))
-                for (int i = 0; i < 3; i++) stainRemaining[i] = Mathf.Max(0f, stainRemaining[i] - Time.deltaTime / 6f);
+            if (!dragging) scrubber.anchoredPosition = Vector2.MoveTowards(
+                scrubber.anchoredPosition, new Vector2(-212f, -6f), Time.deltaTime * 600f);
             float remaining = 0f;
-            for (int i = 0; i < 3; i++) { dirt[i].color = new Color(.42f, .32f, .18f, stainRemaining[i]); remaining += stainRemaining[i]; }
-            Report((successes + (1f - remaining / 3f) * .65f) / 3f, "Chà từng vết bẩn trên chén " + (successes + 1));
+            for (int i = 0; i < 3; i++)
+            {
+                dirt[i].color = new Color(.45f, .25f, .10f, stainRemaining[i] * .88f);
+                remaining += stainRemaining[i];
+            }
+            Report((successes + (1f - remaining / 3f) * .8f) / 3f,
+                "Chén " + (successes + 1) + "/3 · " + Mathf.CeilToInt(remaining) + " vết dơ");
             if (remaining > .01f) return;
-            stage = 1; dragging = false; heldTime = 0f;
-            dish.anchoredPosition = new Vector2(-150f, -8f); dish.sizeDelta = new Vector2(140f, 122f);
-            rinseZone.gameObject.SetActive(true); status.text = "Kéo chén vào nước để tráng"; pulse?.Invoke(); return;
+            stage = 1;
+            dragging = false;
+            scrubber.gameObject.SetActive(false);
+            dish.anchoredPosition = new Vector2(-115f, -4f);
+            dish.sizeDelta = new Vector2(185f, 137f);
+            rinseZone.gameObject.SetActive(true);
+            status.text = "Kéo chén sạch vào thau nước để tráng";
+            hint?.Invoke(status.text);
+            pulse?.Invoke();
+            return;
         }
-        if (stage == 1)
-        {
-            if (!TickTokenDrag(rinseZone, dish) && !Input.GetKeyDown(KeyCode.Return)) return;
-            stage = 2; heldTime = 0f; status.text = "Nước đang tráng sạch bọt…";
-            AudioManager.Instance?.PlaySFX(SfxId.WaterSplash); return;
-        }
-        if (stage == 2)
-        {
-            heldTime += Time.deltaTime; if (heldTime < 1.2f) return;
-            stage = 3; rack.gameObject.SetActive(true); status.text = "Kéo chén đã tráng lên giá bên phải"; return;
-        }
-        if (!TickTokenDrag(rack, dish) && !Input.GetKeyDown(KeyCode.Return)) return;
+        if (!TickTokenDrag(rinseZone, dish)) return;
+        AudioManager.Instance?.PlaySFX(SfxId.WaterSplash);
         successes++; pulse?.Invoke();
         if (successes >= 3) { Complete(); return; }
-        stage = 0; dish.anchoredPosition = new Vector2(0f, -8f); dish.sizeDelta = new Vector2(260f, 122f);
-        dishText.text = "CHÉN " + (successes + 1) + "/3";
-        rack.gameObject.SetActive(false); rinseZone.gameObject.SetActive(false);
-        for (int i = 0; i < 3; i++) { stainRemaining[i] = 1f; dirt[i].color = new Color(.42f, .32f, .18f); }
-        status.text = "Chà các vết bẩn nhìn thấy trên chén";
+        stage = 0;
+        dish.anchoredPosition = new Vector2(40f, -3f);
+        dish.sizeDelta = new Vector2(360f, 202f);
+        scrubber.anchoredPosition = new Vector2(-212f, -6f);
+        scrubber.gameObject.SetActive(true);
+        rinseZone.gameObject.SetActive(false);
+        for (int i = 0; i < 3; i++)
+        {
+            stainRemaining[i] = 1f;
+            dirt[i].color = new Color(.45f, .25f, .10f, .88f);
+        }
+        root.Find("ScrubHeading").GetComponent<TextMeshProUGUI>().text =
+            "CHÉN " + (successes + 1) + "/3  ·  CHÀ VẾT DƠ";
+        status.text = "Kéo bùi nhùi lên từng vết dơ và chà qua lại";
+        hint?.Invoke(status.text);
     }
 
     private void BuildLetter()
@@ -833,12 +1243,23 @@ public sealed partial class HouseholdActionBoard
         Label("LetterHeading", root, new Vector2(0f, 78f), new Vector2(520f, 30f),
             "LÁ THƯ CỦA MẸ", 23f, new Color(.97f, .80f, .47f));
         actionArea = Box("LetterEnvelope", root, Vector2.zero,
-            new Vector2(345f, 118f), new Color(.74f, .62f, .43f));
-        Shape(actionArea, "EnvelopeFoldLeft", -91f, 15f, 151f, 3f, new Color(.58f, .43f, .28f), 29f);
-        Shape(actionArea, "EnvelopeFoldRight", 91f, 15f, 151f, 3f, new Color(.58f, .43f, .28f), -29f);
+            new Vector2(460f, 190f), new Color(.74f, .62f, .43f));
+        actionArea.SetSiblingIndex(2);
+        if (LoadArt("Letter_Envelope") is Sprite letterArt)
+        {
+            var image = actionArea.GetComponent<Image>();
+            image.sprite = letterArt;
+            image.color = Color.white;
+            image.preserveAspect = true;
+        }
+        else
+        {
+            Shape(actionArea, "EnvelopeFoldLeft", -91f, 15f, 151f, 3f, new Color(.58f, .43f, .28f), 29f);
+            Shape(actionArea, "EnvelopeFoldRight", 91f, 15f, 151f, 3f, new Color(.58f, .43f, .28f), -29f);
+        }
         Shape(actionArea, "Ribbon", 0f, -20f, 16f, 73f, new Color(.50f, .26f, .19f));
-        status = Label("EnvelopeText", actionArea, Vector2.zero, new Vector2(330f, 105f),
-            "DÂY BUỘC  ·  KÉO SANG PHẢI", 20f, new Color(.20f, .17f, .13f));
+        status = Label("EnvelopeText", root, new Vector2(0f, -126f), new Vector2(520f, 36f),
+            "DÂY BUỘC  ·  KÉO SANG PHẢI", 16f, new Color(.94f, .91f, .79f));
         Report(0f, "Tháo dây buộc lá thư");
     }
 
@@ -884,7 +1305,8 @@ public sealed partial class HouseholdActionBoard
         pulse?.Invoke();
         if (stage >= 3) { Complete(); return; }
         status.text = stage == 1 ? "MỞ NẾP GIẤY  ·  KÉO LÊN" : "LẬT TRANG  ·  KÉO SANG TRÁI";
-        actionArea.GetComponent<Image>().color = stage == 1 ? new Color(.85f, .76f, .57f) : new Color(.93f, .87f, .71f);
+        if (actionArea.GetComponent<Image>().sprite == null)
+            actionArea.GetComponent<Image>().color = stage == 1 ? new Color(.85f, .76f, .57f) : new Color(.93f, .87f, .71f);
         Report(stage / 3f, stage == 1 ? "Đã tháo dây · mở lá thư" : "Đã mở lá thư · lật trang");
     }
 
@@ -892,15 +1314,22 @@ public sealed partial class HouseholdActionBoard
     {
         switch (mode)
         {
-            case ActionMode.Placement: return chore == HouseholdChore.SortTools && stage == 0 ? "Kéo dụng cụ vào móc cùng hình. Riêng cuốc: giữ R hoặc lăn chuột khi kéo để xoay khớp bóng." : stage == 1 ? "Kéo thẻ ở dưới theo hướng chỉ dẫn để hoàn tất."
+            case ActionMode.Placement: return chore == HouseholdChore.PutAwayDishes
+                ? "Kéo chén, đĩa và đũa ở khay bên phải sang đúng ngăn tủ."
+                : chore == HouseholdChore.SortTools && stage == 0 ? "Kéo dụng cụ vào móc cùng hình. Riêng cuốc: giữ R hoặc lăn chuột khi kéo để xoay khớp bóng." : stage == 1 ? "Kéo thẻ ở dưới theo hướng chỉ dẫn để hoàn tất."
                 : "Giữ chuột lên một vật ở hàng dưới, kéo tới ngăn cùng tên rồi thả.";
             case ActionMode.Dial: return "Kéo quanh núm radio; có thể dùng Q/E hoặc phím mũi tên.";
             case ActionMode.Rotary: return "Giữ chuột và di theo vòng quanh tâm; có thể giữ F.";
+            case ActionMode.WashRice: return stage == 0
+                ? "Giữ chuột khuấy nhẹ gạo trong nồi khoảng hai vòng; có thể giữ F."
+                : "Bấm CHẮT NƯỚC hoặc Enter để hoàn tất.";
             case ActionMode.Fetch: return "Kéo gáo vào lu, giữ chuột để múc, rồi đưa sang thau.";
-            case ActionMode.Measure: return "Múc từ lu, đưa sang thau rồi kéo mép gáo xuống để đổ. Dư gạo thì giữ chuột trong thau để gạt bớt.";
+            case ActionMode.Measure: return "Kéo gáo gạo từ lu sang rá, thả vào rá ba lần.";
             case ActionMode.Fire: return "Đặt củi trước; khi bếp sáng vàng hãy nhấn Space.";
             case ActionMode.Heat: return "Kéo thanh củi vào hoặc rút ra, nghe nồi sôi và nhìn hơi nước để canh lửa.";
-            case ActionMode.Scrub: return "Giữ chuột và chà qua chén; sau đó kéo sang giá.";
+            case ActionMode.Scrub: return stage == 0
+                ? "Cầm bùi nhùi bên trái, kéo lên từng vết dơ và chà qua lại."
+                : "Kéo chén sạch sang thau nước để tráng.";
             default: return "Giữ chuột trên lá thư và kéo theo hướng ghi trên giấy.";
         }
     }
@@ -940,7 +1369,6 @@ public sealed partial class HouseholdActionBoard
         {
             float travel = Mathf.Clamp(Vector2.Dot(point - pointerStart, direction), 0f, 90f);
             actionArea.anchoredPosition = gestureHome + direction * travel;
-            if (chore == HouseholdChore.WashRice) actionArea.localRotation = Quaternion.Euler(0f, 0f, -travel * .6f);
             if (travel >= 85f) { dragging = false; Complete(); return; }
         }
         if (dragging && Input.GetMouseButtonUp(0)) { dragging = false; mistakes++; hint?.Invoke("Kéo thêm một chút theo hướng gợi ý nhé."); }
@@ -978,18 +1406,53 @@ public sealed partial class HouseholdActionBoard
     private static float AngleAround(Vector2 point, Vector2 center) =>
         Mathf.Atan2(point.y - center.y, point.x - center.x) * Mathf.Rad2Deg;
 
+    private static float AngleAroundEllipse(Vector2 point, Vector2 center, float radiusX, float radiusY) =>
+        Mathf.Atan2((point.y - center.y) / radiusY, (point.x - center.x) / radiusX) * Mathf.Rad2Deg;
+
+    private static float EllipseRadius(Vector2 point, Vector2 center, float radiusX, float radiusY)
+    {
+        Vector2 normalized = new Vector2((point.x - center.x) / radiusX,
+            (point.y - center.y) / radiusY);
+        return normalized.magnitude;
+    }
+
     private static Vector2 ClampToSurface(Vector2 point) =>
         new Vector2(Mathf.Clamp(point.x, -260f, 260f), Mathf.Clamp(point.y, -90f, 90f));
 
     private static Sprite LoadArt(string name) => Resources.Load<Sprite>(MiniGameArtPath + name);
 
-    private void AddArtBackground(string name)
+    private static string PlacementArtName(HouseholdChore task)
+    {
+        switch (task)
+        {
+            case HouseholdChore.ArrangeKeepsakes: return "Chest_Open";
+            case HouseholdChore.SortTools: return "Tool_Rack";
+            case HouseholdChore.SetTable: return "Meal_Tray_Empty";
+            case HouseholdChore.PutAwayDishes: return "Dish_Cabinet";
+            default: return null;
+        }
+    }
+
+    private static RectTransform AddArt(string name, Transform parent, Vector2 position, Vector2 size, Sprite sprite)
+    {
+        var artwork = Box(name, parent, position, size, Color.white);
+        var image = artwork.GetComponent<Image>();
+        image.sprite = sprite;
+        image.preserveAspect = true;
+        return artwork;
+    }
+
+    private void AddArtBackground(string name, float opacity = 1f)
     {
         Sprite sprite = LoadArt(name);
         if (sprite == null) return;
-        var background = Box(name + "Background", root, Vector2.zero, new Vector2(558f, 278f), Color.white);
-        background.GetComponent<Image>().sprite = sprite;
-        background.SetAsFirstSibling();
+        var background = AddArt(name + "Background", root, Vector2.zero,
+            new Vector2(558f, Mathf.Min(278f, root.sizeDelta.y - 8f)), sprite);
+        var image = background.GetComponent<Image>();
+        image.color = new Color(1f, 1f, 1f, opacity);
+        if (name == "Dish_Cabinet") background.sizeDelta = new Vector2(465f, 290f);
+        // Keep the illustration above the inset mat and below the frame/header.
+        background.SetSiblingIndex(2);
     }
 
     private void DrawProp(RectTransform card, int index)
@@ -1001,15 +1464,24 @@ public sealed partial class HouseholdActionBoard
             spriteName = index == 0 ? "Old_Shirt" : index == 1 ? "Old_Towel" : "Keepsake_Box";
         else if (chore == HouseholdChore.SortTools)
             spriteName = index == 0 ? "Tool_Rake" : index == 1 ? "Tool_Hoe" : "Tool_Shovel";
+        else if (chore == HouseholdChore.CarryWood)
+            spriteName = "Firewood_Log";
+        else if (chore == HouseholdChore.PutAwayDishes)
+            spriteName = index == 0 ? "Dish_Bowl" : index == 1 ? "Dish_Plate" : "Dish_Chopsticks";
         Sprite art = spriteName == null ? null : LoadArt(spriteName);
         if (art != null)
         {
-            icon.sizeDelta = chore == HouseholdChore.SortTools
-                ? new Vector2(112f, 65f) : new Vector2(96f, 57f);
+            if (chore == HouseholdChore.PutAwayDishes)
+                icon.anchoredPosition = new Vector2(0f, 8f);
+            icon.sizeDelta = chore == HouseholdChore.PutAwayDishes
+                ? new Vector2(101f, 49f) : chore == HouseholdChore.SortTools
+                    ? new Vector2(136f, 83f) : new Vector2(130f, 78f);
             var image = icon.GetComponent<Image>();
             image.sprite = art;
             image.color = Color.white;
             image.preserveAspect = true;
+            if (chore == HouseholdChore.CarryWood)
+                icon.localRotation = Quaternion.Euler(0f, 0f, (index - 1) * 8f);
             return;
         }
         // Keep the native UGUI silhouette as a fallback when an art asset is missing.

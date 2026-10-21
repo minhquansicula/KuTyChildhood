@@ -92,6 +92,8 @@ public sealed class SleepTransitionSmokeRuntime : MonoBehaviour
         var bed = FindObjectOfType<BedWakeUpController>();
         if (!Check(bed != null, "Destination bed controller exists")) yield break;
         Check(GameManager.Instance == null || GameManager.Instance.InputBlocked, "Bed retains input lock after loader releases it");
+        if (GameManager.Instance != null) GameManager.Instance.RefreshCursor();
+        Check(!Cursor.visible, "Wake-up retains Dat's hidden-cursor input lock");
         yield return new WaitForSeconds(.65f);
         Capture("02-opening-eyes.png");
         while (!bed.CanPauseWhileWaiting && Time.realtimeSinceStartup < timeout) yield return null;

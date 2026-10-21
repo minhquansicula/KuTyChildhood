@@ -4,19 +4,39 @@ using UnityEngine;
 public static class Scene2Checkpoint
 {
     private const string Prefix = "KuTy.Scene2Checkpoint.";
-    private const int Version = 1;
+    private const int Version = 2;
     private const int Home = 1;
     private const int Outside = 2;
     private const int Finished = 3;
 
-    private static bool Valid => PlayerPrefs.GetInt(Prefix + "Version", 0) == Version;
+    private static int SavedVersion => PlayerPrefs.GetInt(Prefix + "Version", 0);
+    private static bool Valid => SavedVersion == 1 || SavedVersion == Version;
     private static int Stage => Valid ? PlayerPrefs.GetInt(Prefix + "Stage", 0) : 0;
-    public static int HomeChores => Stage == Home
-        ? Mathf.Clamp(PlayerPrefs.GetInt(Prefix + "Chores", 0), 0, HouseholdChoreFlow.ChoreCount - 1) : 0;
+    public static int HomeChores
+    {
+        get
+        {
+            if (Stage != Home) return 0;
+            int saved = PlayerPrefs.GetInt(Prefix + "Chores", 0);
+            // Version 1 counted Xếp dụng cụ and Xay ngô in the required order.
+            if (SavedVersion == 1) saved -= Mathf.Min(2, Mathf.Max(0, saved - 2));
+            return Mathf.Clamp(saved, 0, HouseholdChoreFlow.ChoreCount - 1);
+        }
+    }
+    public static int HomeOptional
+    {
+        get
+        {
+            if (Stage != Home) return 0;
+            if (SavedVersion != 1) return PlayerPrefs.GetInt(Prefix + "Optional", 0) & 3;
+            int saved = PlayerPrefs.GetInt(Prefix + "Chores", 0);
+            return (saved >= 3 ? 1 : 0) | (saved >= 4 ? 2 : 0);
+        }
+    }
     public static bool HasOutsideProgress => Stage == Outside &&
         PlayerPrefs.GetInt(Prefix + "Step", -1) >= (int)QuestStep.BuyCandyAndMarbles &&
         PlayerPrefs.GetInt(Prefix + "Step", -1) <= (int)QuestStep.UnlockFrontDoor;
-    public static bool HasCheckpoint => HomeChores > 0 || HasOutsideProgress;
+    public static bool HasCheckpoint => HomeChores > 0 || HomeOptional != 0 || HasOutsideProgress;
     public static string ResumeScene => HasOutsideProgress ? SceneNames.Act3_OutSide : SceneNames.Act2_Home;
     public static QuestStep OutsideStep => HasOutsideProgress
         ? (QuestStep)PlayerPrefs.GetInt(Prefix + "Step") : QuestStep.BuyCandyAndMarbles;
@@ -27,11 +47,12 @@ public static class Scene2Checkpoint
     public static bool HasMemory(MemoryType type) => HasOutsideProgress &&
         (PlayerPrefs.GetInt(Prefix + "Memories", 0) & (1 << (int)type)) != 0;
 
-    public static void SaveHome(int completedChores)
+    public static void SaveHome(int completedChores, int optionalBits = 0)
     {
-        if (completedChores <= 0 || completedChores >= HouseholdChoreFlow.ChoreCount) return;
+        if (completedChores < 0 || completedChores >= HouseholdChoreFlow.ChoreCount) return;
         PlayerPrefs.SetInt(Prefix + "Stage", Home);
         PlayerPrefs.SetInt(Prefix + "Chores", completedChores);
+        PlayerPrefs.SetInt(Prefix + "Optional", optionalBits & 3);
         Commit();
     }
 
@@ -62,7 +83,7 @@ public static class Scene2Checkpoint
 
     public static void Clear()
     {
-        foreach (string name in new[] { "Version", "Stage", "Chores", "Step", "Money", "Candy", "Marbles", "Key", "Memories" })
+        foreach (string name in new[] { "Version", "Stage", "Chores", "Optional", "Step", "Money", "Candy", "Marbles", "Key", "Memories" })
             PlayerPrefs.DeleteKey(Prefix + name);
         PlayerPrefs.Save();
     }

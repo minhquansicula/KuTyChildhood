@@ -135,12 +135,40 @@ public class KuTyStoryRunner : MonoBehaviour
         first.enabled = false;
         first.enabled = true;
         Check(flow.Pieces == 0 && currency.CurrentMoney == 0, "Cancelled chore granted a reward");
+        var actionBoard = Get<HouseholdActionBoard>(flow.UI, "actionBoard");
+        int boardCompletions = 0;
+        foreach (HouseholdChore task in Enum.GetValues(typeof(HouseholdChore)))
+        {
+            actionBoard.Begin(task, () => boardCompletions++, (value, message) => { }, message => { }, () => { });
+            Check(Get<bool>(actionBoard, "active"), "Minigame did not open: " + task);
+            Check(actionBoard.Restart(), "Minigame did not restart: " + task);
+            actionBoard.Hide();
+            yield return null;
+            Check(!Get<bool>(actionBoard, "active") && boardCompletions == 0 && flow.Pieces == 0,
+                "Closing or restarting a minigame granted progress: " + task);
+        }
+        PlayerPrefs.SetInt("KuTy.Scene2Checkpoint.Version", 1);
+        PlayerPrefs.SetInt("KuTy.Scene2Checkpoint.Stage", 1);
+        PlayerPrefs.SetInt("KuTy.Scene2Checkpoint.Chores", 3);
+        Check(Scene2Checkpoint.HomeChores == 2 && Scene2Checkpoint.HomeOptional == 1,
+            "Version 1 checkpoint did not migrate the completed tools task");
+        PlayerPrefs.SetInt("KuTy.Scene2Checkpoint.Chores", 4);
+        Check(Scene2Checkpoint.HomeChores == 2 && Scene2Checkpoint.HomeOptional == 3,
+            "Version 1 checkpoint did not migrate both optional tasks");
+        Scene2Checkpoint.Clear();
+        foreach (var optional in new[] { HouseholdChore.SortTools, HouseholdChore.GrindCorn })
+            Check(flow.Complete(optional) && !flow.Complete(optional),
+                "Optional chore did not complete exactly once: " + optional);
+        Check(flow.Pieces == 2 * HouseholdChoreFlow.OptionalPiecesPerChore &&
+            flow.ActiveIndex == 0 && Scene2Checkpoint.HomeOptional == 3,
+            "Optional chores changed required progression or were not saved");
         Check(!flow.Complete(HouseholdChore.ReadLetter), "Out-of-order chore completed");
         foreach (var chore in HouseholdChoreFlow.Order)
         {
             Check(flow.Complete(chore) && !flow.Complete(chore), "Chore did not complete exactly once: " + chore);
         }
-        Check(flow.Pieces == 140 && currency.CurrentMoney == 2000, "14 chores must award 140 pieces and 2000đ");
+        Check(flow.Pieces == HouseholdChoreFlow.TotalPieces && currency.CurrentMoney == 2000,
+            "Required and optional chores did not award the configured memory total and 2000đ");
         Check(!quests.CompleteHouseholdChores() && currency.CurrentMoney == 2000, "Allowance duplicated");
         DialogueUI.Instance?.HideDialogue();
         quests.ContinueOutside();

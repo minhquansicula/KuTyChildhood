@@ -4,4 +4,5 @@ Assets/_Project/Scenes/Act2_MemoryWorld_Home.unity: PASS
 Vegetation: 1530 plants, 8 prototypes
 Assets/_Project/Scenes/Act3_MemoryWorld_OutSide.unity: PASS
 Assets/_Project/Scenes/Act_Ending.unity: PASS
+Scene 2 minigame sprites checked: 32
 Total issues: 0

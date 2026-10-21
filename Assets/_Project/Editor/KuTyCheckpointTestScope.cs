@@ -10,7 +10,7 @@ public static class KuTyCheckpointTestScope
     private const string BackupKey = "KuTy.Tests.CheckpointBackup";
     private const string Prefix = "KuTy.Scene2Checkpoint.";
     private const string BackupPath = "Library/KuTyCheckpointTestBackup.json";
-    private static readonly string[] Keys = { "Version", "Stage", "Chores", "Step", "Money", "Candy", "Marbles", "Key", "Memories" };
+    private static readonly string[] Keys = { "Version", "Stage", "Chores", "Step", "Money", "Candy", "Marbles", "Key", "Memories", "Optional" };
     [Serializable] private sealed class Backup { public bool[] present; public int[] values; }
 
     static KuTyCheckpointTestScope()
@@ -52,6 +52,7 @@ public static class KuTyCheckpointTestScope
         var backup = JsonUtility.FromJson<Backup>(saved);
         for (int i = 0; i < Keys.Length; i++)
         {
+            if (i >= backup.present.Length || i >= backup.values.Length) continue;
             if (backup.present[i]) PlayerPrefs.SetInt(Prefix + Keys[i], backup.values[i]);
             else PlayerPrefs.DeleteKey(Prefix + Keys[i]);
         }
