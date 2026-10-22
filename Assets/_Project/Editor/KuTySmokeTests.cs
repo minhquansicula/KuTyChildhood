@@ -135,6 +135,9 @@ public class KuTyStoryRunner : MonoBehaviour
         first.enabled = false;
         first.enabled = true;
         Check(flow.Pieces == 0 && currency.CurrentMoney == 0, "Cancelled chore granted a reward");
+        HouseholdArtReview.Run();
+        Check(File.ReadAllText("Logs/HouseholdArtReview/result.txt").StartsWith("PASS"),
+            "Household artwork or wood/rice/letter/dish stage gates failed");
         var actionBoard = Get<HouseholdActionBoard>(flow.UI, "actionBoard");
         int boardCompletions = 0;
         foreach (HouseholdChore task in Enum.GetValues(typeof(HouseholdChore)))

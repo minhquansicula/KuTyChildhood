@@ -57,7 +57,7 @@ public sealed class Scene2PreciseTargetingSmoke : MonoBehaviour
         motor.enabled = false;
         flow.ShowChecklist();
         var rayField = typeof(PlayerInteraction).GetField("raycastOrigin", BindingFlags.Instance | BindingFlags.NonPublic);
-        var ray = new GameObject("Precise interaction ray").transform;
+        var ray = motor.PlayerCamera;
         rayField.SetValue(interaction, ray);
         float floor = motor.transform.position.y;
         float eye = motor.PlayerCamera.localPosition.y;
@@ -116,6 +116,9 @@ public sealed class Scene2PreciseTargetingSmoke : MonoBehaviour
                     continue;
                 }
                 ray.rotation = Quaternion.LookRotation(Vector3.up);
+                if (task == HouseholdChore.WashRice)
+                    report.AppendLine("  looking away: ray=" + ray.forward + ", main=" + Camera.main.transform.forward +
+                        ", assist=" + target.TryGetProximityDistance(motor.transform.position, out _));
                 Call(interaction, "HandleRaycast");
                 Check(!ReferenceEquals(interaction.CurrentTarget, target), task + ": can focus without looking at the prop");
             }
@@ -132,13 +135,24 @@ public sealed class Scene2PreciseTargetingSmoke : MonoBehaviour
             Check(!ReferenceEquals(interaction.CurrentTarget, target), task + ": can interact through a wall");
             wall.SetActive(false); Destroy(wall);
             ray.position = selectedAim + Vector3.back * 5f;
+            motor.TeleportTo(new Vector3(ray.position.x, floor, ray.position.z), Quaternion.identity);
+            ray.position = motor.transform.position + Vector3.up * eye;
             ray.rotation = Quaternion.LookRotation(selectedAim - ray.position);
             Call(interaction, "HandleRaycast");
             Check(!ReferenceEquals(interaction.CurrentTarget, target), task + ": can interact from five metres away");
+            motor.TeleportTo(selectedFeet, Quaternion.identity);
             ray.position = selectedFeet + Vector3.up * eye;
             ray.rotation = Quaternion.LookRotation(selectedAim - ray.position);
             Call(interaction, "HandleRaycast");
             Check(ReferenceEquals(interaction.CurrentTarget, target), task + ": lost focus after clearing obstruction");
+            if (task == HouseholdChore.WashRice)
+            {
+                ray.rotation *= Quaternion.Euler(0f, 20f, 0f);
+                Call(interaction, "HandleRaycast");
+                Check(ReferenceEquals(interaction.CurrentTarget, target),
+                    "Rice pot aim assistance did not register the initially hidden pot");
+                ray.rotation = Quaternion.LookRotation(selectedAim - ray.position);
+            }
             interaction.CurrentTarget.Interact();
             Check(GameManager.Instance.InputBlocked, task + ": selected prop did not open its minigame");
             Call(target, "EndInteraction");

@@ -10,6 +10,7 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
     private HouseholdChoreFlow flow;
     private HouseholdWorkFeedback feedback;
     private bool running;
+    private readonly RaycastHit[] focusHits = new RaycastHit[32];
 
     public HouseholdChore Chore => chore;
 
@@ -48,8 +49,22 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
         Camera view = Camera.main;
         if (view == null) return false;
         Vector3 towardPot = pot.position + Vector3.up * .38f - view.transform.position;
-        return towardPot.sqrMagnitude > .01f &&
-            Vector3.Dot(view.transform.forward, towardPot.normalized) >= .55f;
+        if (towardPot.sqrMagnitude <= .01f ||
+            Vector3.Dot(view.transform.forward, towardPot.normalized) < .55f) return false;
+        // Assist aiming, but never use the pot through a wall or another prop.
+        int count = Physics.RaycastNonAlloc(view.transform.position, towardPot.normalized,
+            focusHits, towardPot.magnitude + .5f, ~0, QueryTriggerInteraction.Ignore);
+        Collider nearest = null;
+        float nearestDistance = float.PositiveInfinity;
+        for (int i = 0; i < count; i++)
+        {
+            var hit = focusHits[i];
+            if (hit.collider == null || hit.collider.GetComponentInParent<FirstPersonController>() != null ||
+                hit.distance >= nearestDistance) continue;
+            nearest = hit.collider;
+            nearestDistance = hit.distance;
+        }
+        return nearest != null && nearest.GetComponentInParent<HouseholdChoreInteractable>() == this;
     }
 
     protected override void OnInteract()
