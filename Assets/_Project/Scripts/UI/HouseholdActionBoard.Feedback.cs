@@ -28,6 +28,11 @@ public sealed partial class HouseholdActionBoard
     private void TickHandGuide()
     {
         if (tutorialHand == null) return;
+        if (mode == ActionMode.Placement && chore == HouseholdChore.CarryWood && stage == 2)
+        {
+            tutorialHand.gameObject.SetActive(false);
+            return;
+        }
         bool show = !dragging && (elapsed < 5f || idleSeconds >= 7f || mistakes >= 2);
         tutorialHand.gameObject.SetActive(show);
         if (!show) return;
@@ -35,7 +40,8 @@ public sealed partial class HouseholdActionBoard
         Vector2 to = Vector2.right * 65f;
         if (mode == ActionMode.Placement)
         {
-            if (stage == 1) { from = gestureHome; to = from + (chore == HouseholdChore.ArrangeKeepsakes ? Vector2.down : Vector2.right) * 85f; }
+            if (stage == 1) { from = gestureHome; to = from + (chore == HouseholdChore.ArrangeKeepsakes ? Vector2.down : Vector2.right) *
+                (chore == HouseholdChore.CarryWood ? 250f : 85f); }
             else
                 for (int i = 0; i < 3; i++)
                     if (!placed[i]) { from = items[i].anchoredPosition; to = targets[i].anchoredPosition; break; }
@@ -75,13 +81,19 @@ public sealed partial class HouseholdActionBoard
         }
         else if (mode == ActionMode.WashRice && stage == 1)
             from = to = rinseZone.anchoredPosition;
+        else if (mode == ActionMode.WashRice && stage == 2)
+        {
+            tutorialHand.gameObject.SetActive(false);
+            return;
+        }
+        else if (mode == ActionMode.Letter && stage == 2)
+            from = to = letterReadButton.anchoredPosition;
         else if (mode == ActionMode.Heat)
         { from = heatHandle.anchoredPosition; to = Vector2.zero; }
         else if (actionArea != null)
         {
             from = actionArea.anchoredPosition;
-            to = from + (mode == ActionMode.Letter && stage == 1 ? Vector2.up :
-                mode == ActionMode.Letter && stage == 2 ? Vector2.left : Vector2.right) * 75f;
+            to = from + (mode == ActionMode.Letter && stage == 1 ? Vector2.up : Vector2.right) * 75f;
         }
         float t = Mathf.SmoothStep(0f, 1f, Mathf.Repeat(Time.unscaledTime * .55f, 1f));
         tutorialHand.anchoredPosition = Vector2.Lerp(from, to, t) + new Vector2(4f, -15f);

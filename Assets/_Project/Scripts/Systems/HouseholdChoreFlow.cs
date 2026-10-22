@@ -430,11 +430,11 @@ public sealed class HouseholdChoreUI
         gamePanel = Box("ChorePanel", canvasObject.transform, Vector2.zero, new Vector2(1120, 780),
             new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.11f, .075f, .045f, .99f));
         Box("PanelInset", gamePanel.transform, Vector2.zero, new Vector2(1104, 764),
-            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.065f, .075f, .065f, 1f));
+            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.88f, .83f, .70f, 1f));
         Box("HeaderLeather", gamePanel.transform, new Vector2(0, 325), new Vector2(1098, 114),
-            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.18f, .12f, .075f, 1f));
+            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.17f, .28f, .26f, 1f));
         Box("FooterLeather", gamePanel.transform, new Vector2(0, -348), new Vector2(1098, 60),
-            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.15f, .11f, .073f, 1f));
+            new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.17f, .28f, .26f, 1f));
         Box("PanelTopTrim", gamePanel.transform, new Vector2(0, 382), new Vector2(1098, 2),
             new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.76f, .54f, .25f));
         Box("PanelBottomTrim", gamePanel.transform, new Vector2(0, -382), new Vector2(1098, 2),
@@ -455,11 +455,11 @@ public sealed class HouseholdChoreUI
         titleText.fontStyle = FontStyles.Bold;
         titleText.characterSpacing = 1.1f;
         hintText = Label("Instructions", gamePanel.transform, new Vector2(0, 245), new Vector2(980, 48), 20, TextAlignmentOptions.Center);
-        hintText.color = new Color(.87f, .89f, .82f);
+        hintText.color = new Color(.25f, .24f, .19f);
         feedbackText = Label("Feedback", gamePanel.transform, new Vector2(0, -244), new Vector2(1000, 37), 19, TextAlignmentOptions.Center);
-        feedbackText.color = new Color(.98f, .83f, .55f);
+        feedbackText.color = new Color(.18f, .36f, .29f);
         progressText = Label("Progress", gamePanel.transform, new Vector2(0, -278), new Vector2(1000, 28), 17, TextAlignmentOptions.Center);
-        progressText.color = new Color(.87f, .89f, .82f);
+        progressText.color = new Color(.25f, .24f, .19f);
         cancelText = Label("CancelHint", gamePanel.transform, new Vector2(0, -349), new Vector2(1000, 31), 17, TextAlignmentOptions.Center);
         cancelText.color = new Color(.82f, .76f, .62f);
         cancelText.text = "P  LÀM LẠI     ·     ESC  TẠM DỪNG";
@@ -573,7 +573,7 @@ public sealed class HouseholdChoreUI
         titleText.text = title;
         hintText.text = instructions;
         feedbackText.text = string.Empty;
-        feedbackText.color = new Color(.98f, .83f, .55f);
+        feedbackText.color = new Color(.18f, .36f, .29f);
         feedbackText.rectTransform.localScale = Vector3.one;
         feedbackPulseRemaining = 0f;
         ApplyHudFont();
