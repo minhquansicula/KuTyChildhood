@@ -9,7 +9,8 @@ public sealed partial class HouseholdActionBoard
     {
         foreach (var image in root.GetComponentsInChildren<Image>(true))
         {
-            if (image.sprite == null || image.sprite == circleSprite || image.name == "WorkCloth") continue;
+            if (image.sprite == null || image.sprite == circleSprite || image.name == "WorkCloth" ||
+                image.name == "Steam" || image.name == "Ember" || image.name.StartsWith("SoapBubble")) continue;
             if (image.GetComponent<Shadow>() == null)
             {
                 var shadow = image.gameObject.AddComponent<Shadow>();
@@ -21,14 +22,16 @@ public sealed partial class HouseholdActionBoard
         {
             label.raycastTarget = false;
             label.enableAutoSizing = true;
-            label.fontSizeMin = Mathf.Min(11f, label.fontSize);
-            label.fontSizeMax = label.fontSize;
+            label.fontSizeMin = Mathf.Min(15f, label.fontSize);
+            label.fontSizeMax = Mathf.Max(14f, label.fontSize);
+            if (label.fontSize < 14f && label.rectTransform.sizeDelta.y < 24f)
+                label.rectTransform.sizeDelta = new Vector2(label.rectTransform.sizeDelta.x, 24f);
             if (label.transform.parent == root && label != status &&
-                !label.name.EndsWith("Heading") && label.name != "PlacementGuide")
-                label.color = new Color(.20f, .14f, .09f);
+                !label.name.EndsWith("Heading") && label.name != "PlacementGuide" && label != letterMessage)
+                label.color = GameUiPresentation.Paper;
         }
         if (mode == ActionMode.Heat)
             Label("HeatTarget", root, new Vector2(0f, -47f), new Vector2(300f, 25f),
-                "NHỎ     ·     VỪA     ·     LỚN", 13f, new Color(.20f, .14f, .09f));
+                "NHỎ     ·     VỪA     ·     LỚN", 15f, GameUiPresentation.Paper);
     }
 }

@@ -16,6 +16,7 @@ public class ProgressBarUI : MonoBehaviour
     // ========== SINGLETON ==========
     public static ProgressBarUI Instance { get; private set; }
     private void OnDestroy() { if (Instance == this) Instance = null; }
+    private TMP_Text percentText;
 
     // ========== UI REFERENCES ==========
     [Header("References")]
@@ -37,6 +38,31 @@ public class ProgressBarUI : MonoBehaviour
             return;
         }
         Instance = this;
+        if (panel)
+        {
+            GameUiPresentation.ConfigureCanvas(panel.GetComponentInParent<Canvas>(true));
+            GameUiPresentation.Card(panel.GetComponent<Image>());
+            OfficeUiStyle.Rect((RectTransform)panel.transform, new Vector2(.5f, 0), new Vector2(820, 154), new Vector2(0, 112));
+            percentText = OfficeUiStyle.Label("TaskPercent", panel.transform, GameUiTheme.Current ? GameUiTheme.Current.font : null,
+                "0%", 23, new Vector2(90, 34), new Vector2(335, -43), GameUiPresentation.Gold);
+        }
+        if (labelText)
+        {
+            GameUiPresentation.Text(labelText, 26, GameUiPresentation.Paper);
+            OfficeUiStyle.Rect(labelText.rectTransform, new Vector2(.5f, 1), new Vector2(750, 68), new Vector2(0, -47));
+            labelText.enableAutoSizing = true;
+            labelText.fontSizeMin = 22; labelText.fontSizeMax = 26;
+            labelText.alignment = TextAlignmentOptions.Center;
+        }
+        if (progressSlider)
+        {
+            progressSlider.interactable = false;
+            OfficeUiStyle.Rect((RectTransform)progressSlider.transform, new Vector2(.5f, 0), new Vector2(650, 12), new Vector2(-35, 34));
+            progressSlider.minValue = 0; progressSlider.maxValue = 1;
+            if (progressSlider.handleRect) progressSlider.handleRect.gameObject.SetActive(false);
+        }
+        fillColorStart = new Color(.46f, .66f, .58f);
+        fillColorEnd = GameUiPresentation.Gold;
 
         // Ẩn mặc định
         if (panel != null)
@@ -68,6 +94,7 @@ public class ProgressBarUI : MonoBehaviour
     public void SetProgress(float value)
     {
         value = Mathf.Clamp01(value);
+        if (percentText) percentText.text = Mathf.RoundToInt(value * 100) + "%";
 
         if (progressSlider != null)
             progressSlider.value = value;

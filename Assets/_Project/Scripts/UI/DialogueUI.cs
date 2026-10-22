@@ -21,11 +21,13 @@ public class DialogueUI : MonoBehaviour
     private Action onClosed;
     private Coroutine popInRoutine;
     private Coroutine pulseRoutine;
+    private bool styled;
 
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+        ConfigurePresentation();
         if (panel != null) panel.SetActive(false);
         if (continuePrompt != null) continuePrompt.SetActive(false);
     }
@@ -45,6 +47,12 @@ public class DialogueUI : MonoBehaviour
         if (canvasGroup != null) canvasGroup.alpha = 1;
         if (titleText != null) titleText.text = title;
         if (bodyText != null) { bodyText.text = body; bodyText.maxVisibleCharacters = 0; bodyText.ForceMeshUpdate(); }
+        if (panel != null && bodyText != null && panel.transform is RectTransform rect)
+        {
+            Canvas.ForceUpdateCanvases();
+            float height = bodyText.GetPreferredValues(body, Mathf.Max(400f, rect.rect.width - 64f), 0).y;
+            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Clamp(height + 132f, 220f, 380f));
+        }
 
         // Hiển thị khung tên người nói nếu có tên, ẩn nếu thoại trống tên
         if (speakerBadge != null) speakerBadge.SetActive(!string.IsNullOrEmpty(title));
@@ -131,9 +139,75 @@ public class DialogueUI : MonoBehaviour
         if (cg == null) cg = continuePrompt.AddComponent<CanvasGroup>();
         while (true)
         {
-            float wave = 0.5f + 0.5f * Mathf.Sin(Time.unscaledTime * 5f);
-            cg.alpha = Mathf.Lerp(0.35f, 1f, wave);
+            float wave = 0.5f + 0.5f * Mathf.Sin(Time.unscaledTime * 3f);
+            cg.alpha = Mathf.Lerp(0.65f, 1f, wave);
             yield return null;
+        }
+    }
+
+    private void ConfigurePresentation()
+    {
+        if (styled || !panel) return;
+        styled = true;
+        GameUiPresentation.ConfigureCanvas(panel.GetComponentInParent<Canvas>(true));
+        var rect = panel.transform as RectTransform;
+        if (rect)
+        {
+            rect.anchorMin = new Vector2(.12f, 0); rect.anchorMax = new Vector2(.88f, 0);
+            rect.pivot = new Vector2(.5f, 0);
+            rect.anchoredPosition = new Vector2(0, 48);
+            rect.sizeDelta = new Vector2(0, 240);
+            rect.localScale = Vector3.one;
+        }
+        GameUiPresentation.Card(panel.GetComponent<UnityEngine.UI.Image>());
+        if (speakerBadge && speakerBadge.transform is RectTransform badge)
+        {
+            badge.anchorMin = badge.anchorMax = badge.pivot = new Vector2(0, 1);
+            badge.anchoredPosition = new Vector2(26, -15);
+            badge.sizeDelta = new Vector2(300, 42);
+            GameUiPresentation.Card(speakerBadge.GetComponent<UnityEngine.UI.Image>());
+        }
+        if (titleText)
+        {
+            GameUiPresentation.Text(titleText, 24, GameUiPresentation.Gold, false);
+            titleText.alignment = TextAlignmentOptions.Left;
+            if (speakerBadge) GameUiPresentation.Stretch(titleText.rectTransform, 12, 3);
+            else
+            {
+                OfficeUiStyle.Rect(titleText.rectTransform, new Vector2(0, 1), new Vector2(500, 40), new Vector2(280, -34));
+            }
+        }
+        if (bodyText)
+        {
+            GameUiPresentation.Text(bodyText, 30, GameUiPresentation.Paper);
+            bodyText.alignment = TextAlignmentOptions.TopLeft;
+            bodyText.rectTransform.anchorMin = Vector2.zero; bodyText.rectTransform.anchorMax = Vector2.one;
+            bodyText.rectTransform.offsetMin = new Vector2(32, 49);
+            bodyText.rectTransform.offsetMax = new Vector2(-32, -66);
+        }
+        foreach (var legacy in panel.GetComponentsInChildren<TMP_Text>(true))
+        {
+            if (legacy == titleText || legacy == bodyText || string.IsNullOrEmpty(legacy.text) || !legacy.text.TrimStart().StartsWith("Space")) continue;
+            if (!continuePrompt) continuePrompt = legacy.gameObject;
+            else if (legacy.gameObject != continuePrompt && !legacy.transform.IsChildOf(continuePrompt.transform)) legacy.gameObject.SetActive(false);
+        }
+        if (!continuePrompt)
+        {
+            var label = OfficeUiStyle.Label("DialogueContinue", panel.transform, GameUiTheme.Current ? GameUiTheme.Current.font : null,
+                "SPACE  Tiếp tục", 20, new Vector2(300, 30), Vector2.zero, GameUiPresentation.Muted);
+            continuePrompt = label.gameObject;
+        }
+        if (continuePrompt.transform is RectTransform promptRect)
+        {
+            promptRect.anchorMin = promptRect.anchorMax = promptRect.pivot = new Vector2(1, 0);
+            promptRect.anchoredPosition = new Vector2(-30, 15);
+            promptRect.sizeDelta = new Vector2(340, 30);
+        }
+        foreach (var label in continuePrompt.GetComponentsInChildren<TMP_Text>(true))
+        {
+            GameUiPresentation.Text(label, 20, GameUiPresentation.Muted, false);
+            label.text = "SPACE  Tiếp tục";
+            label.alignment = TextAlignmentOptions.Right;
         }
     }
 }

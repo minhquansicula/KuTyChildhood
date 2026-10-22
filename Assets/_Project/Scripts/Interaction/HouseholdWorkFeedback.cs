@@ -1,154 +1,103 @@
 using UnityEngine;
 
-/// <summary>Scene 2 work effects, kept separate from chore rules and imported colliders.</summary>
+/// <summary>Material-specific work feedback; placement, radio and letter actions do not spray confetti.</summary>
 public sealed class HouseholdWorkFeedback
 {
     private readonly HouseholdChore chore;
     private readonly GameObject root;
     private readonly ParticleSystem particles;
+    private readonly ParticleSystem secondary;
     private readonly Light fireLight;
-    private readonly Material particleMaterial;
     private readonly Transform swayingVisual;
     private readonly Quaternion visualRotation;
-    private float intensity;
-    private float pulse;
+    private float intensity, pulse;
 
     public HouseholdWorkFeedback(HouseholdChore task, Transform anchor)
     {
         chore = task;
-        if (anchor != null && anchor.GetComponentInChildren<Collider>() == null &&
-            (task == HouseholdChore.WashRice || task == HouseholdChore.FoldBlanket ||
-             task == HouseholdChore.CarryWood || task == HouseholdChore.GrindCorn))
-        {
-            swayingVisual = anchor;
-            visualRotation = anchor.localRotation;
-        }
-
         root = new GameObject("HouseholdWorkEffect_" + task);
-        root.transform.position = PositionFor(anchor);
-        var particleObject = new GameObject("WorkParticles");
-        particleObject.transform.SetParent(root.transform, false);
-        particles = particleObject.AddComponent<ParticleSystem>();
-        particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        var main = particles.main;
-        main.playOnAwake = false;
-        main.loop = true;
-        main.startLifetime = task == HouseholdChore.CookRice ? 1.4f : .7f;
-        main.startSpeed = IsRising(task) ? .32f : .8f;
-        main.startSize = task == HouseholdChore.LightFire ? .028f : .022f;
-        main.startColor = ParticleColor(task);
-        main.maxParticles = 56;
-        main.simulationSpace = ParticleSystemSimulationSpace.World;
-        var shape = particles.shape;
-        shape.shapeType = ParticleSystemShapeType.Sphere;
-        shape.radius = task == HouseholdChore.FoldBlanket ? .22f : .13f;
-        var emission = particles.emission;
-        emission.rateOverTime = AmbientRate(task);
-        var velocity = particles.velocityOverLifetime;
-        velocity.enabled = true;
-        velocity.y = IsRising(task) ? .45f : -.35f;
-        var renderer = particles.GetComponent<ParticleSystemRenderer>();
-        Shader shader = Shader.Find("Universal Render Pipeline/Particles/Unlit") ??
-                        Shader.Find("Particles/Standard Unlit");
-        if (shader != null)
-        {
-            particleMaterial = new Material(shader);
-            renderer.sharedMaterial = particleMaterial;
-        }
+        root.transform.position = PositionFor(anchor, task);
+        if (anchor && anchor.GetComponentInChildren<Collider>() == null && task == HouseholdChore.GrindCorn)
+        { swayingVisual = anchor; visualRotation = anchor.localRotation; }
 
+        InteractionVfxKind? kind = null;
+        switch (task)
+        {
+            case HouseholdChore.CookRice: kind = InteractionVfxKind.Steam; break;
+            case HouseholdChore.LightFire: kind = InteractionVfxKind.Ember; break;
+            case HouseholdChore.WashRice:
+            case HouseholdChore.FetchWater: kind = InteractionVfxKind.Droplet; break;
+            case HouseholdChore.WashDishes: kind = InteractionVfxKind.Bubble; break;
+            case HouseholdChore.GrindCorn:
+            case HouseholdChore.MeasureRice: kind = InteractionVfxKind.Grain; break;
+            case HouseholdChore.FoldBlanket:
+            case HouseholdChore.CarryWood:
+            case HouseholdChore.ArrangeKeepsakes: kind = InteractionVfxKind.Dust; break;
+        }
+        if (kind.HasValue)
+        {
+            particles = InteractionVfx.Create(root.transform, "WorkParticles", kind.Value);
+            particles.Play();
+        }
+        if (task == HouseholdChore.LightFire)
+        {
+            secondary = InteractionVfx.Create(root.transform, "KindlingSmoke", InteractionVfxKind.Steam);
+            var color = secondary.main;
+            color.startColor = new Color(.43f, .40f, .35f, .12f);
+            secondary.Play();
+        }
         if (task == HouseholdChore.LightFire || task == HouseholdChore.CookRice)
         {
             var glow = new GameObject("FireWorkGlow");
             glow.transform.SetParent(root.transform, false);
+            glow.transform.localPosition = task == HouseholdChore.CookRice ? Vector3.down * .35f : Vector3.zero;
             fireLight = glow.AddComponent<Light>();
-            fireLight.type = LightType.Point;
-            fireLight.color = new Color(1f, .38f, .1f);
-            fireLight.range = 1.25f;
-            fireLight.intensity = .16f;
+            fireLight.color = new Color(1f, .56f, .24f);
+            fireLight.range = 1.0f;
+            fireLight.intensity = .08f;
             fireLight.shadows = LightShadows.None;
         }
-        particles.Play();
     }
 
     public void Tick()
     {
-        if (root == null || GameManager.Instance?.IsPaused == true) return;
-        pulse = Mathf.MoveTowards(pulse, 0f, Time.deltaTime * 2.2f);
-        var emission = particles.emission;
-        emission.rateOverTime = AmbientRate(chore) + intensity * 12f + pulse * 20f;
-        if (swayingVisual != null)
-        {
-            float angle = Mathf.Sin(Time.time * (chore == HouseholdChore.GrindCorn ? 6f : 3f)) *
-                          (1.5f + 3f * intensity);
-            swayingVisual.localRotation = visualRotation * Quaternion.Euler(0f, 0f, angle);
-        }
-        if (fireLight != null)
-            fireLight.intensity = .16f + intensity * .45f + pulse * .4f + .045f * Mathf.Sin(Time.time * 12f);
+        if (!root || GameManager.Instance?.IsPaused == true) return;
+        pulse = Mathf.MoveTowards(pulse, 0, Time.deltaTime * 2.8f);
+        float rate = chore == HouseholdChore.CookRice ? 1.5f + intensity * 3 :
+            chore == HouseholdChore.LightFire ? intensity * 1.3f + pulse * 5 : pulse * 7;
+        InteractionVfx.Rate(particles, rate);
+        InteractionVfx.Rate(secondary, chore == HouseholdChore.LightFire ? .5f + intensity : 0);
+        if (swayingVisual)
+            swayingVisual.localRotation = visualRotation * Quaternion.Euler(0, 0, Mathf.Sin(Time.time * 4) * intensity * 1.3f);
+        if (fireLight)
+            fireLight.intensity = .08f + intensity * .18f + pulse * .10f + Mathf.PerlinNoise(Time.time * 2.1f, 3.7f) * .04f;
     }
-
     public void Pulse()
     {
-        pulse = 1f;
-        intensity = Mathf.Min(1f, intensity + .12f);
-        if (particles != null) particles.Emit(chore == HouseholdChore.ReadLetter ? 18 : 10);
+        pulse = 1;
+        if (particles) particles.Emit(chore == HouseholdChore.CookRice ? 2 : chore == HouseholdChore.LightFire ? 3 : 4);
     }
-
     public void SetIntensity(float value) => intensity = Mathf.Clamp01(value);
-
     public void Dispose()
     {
-        if (swayingVisual != null) swayingVisual.localRotation = visualRotation;
-        if (root != null) Object.Destroy(root);
-        if (particleMaterial != null) Object.Destroy(particleMaterial);
+        if (swayingVisual) swayingVisual.localRotation = visualRotation;
+        if (root) Object.Destroy(root);
     }
-
-    private static bool IsRising(HouseholdChore task) =>
-        task == HouseholdChore.LightFire || task == HouseholdChore.CookRice ||
-        task == HouseholdChore.ReadLetter || task == HouseholdChore.TuneRadio;
-
-    private static float AmbientRate(HouseholdChore task)
+    private static Vector3 PositionFor(Transform anchor, HouseholdChore task)
     {
-        switch (task)
+        if (!anchor) return Vector3.zero;
+        var collider = anchor.GetComponent<Collider>();
+        Bounds bounds = collider ? collider.bounds : new Bounds(anchor.position, Vector3.one * .4f);
+        bool foundVisual = false;
+        foreach (var visual in anchor.GetComponentsInChildren<Renderer>())
         {
-            case HouseholdChore.LightFire: return 7f;
-            case HouseholdChore.CookRice: return 5f;
-            case HouseholdChore.ReadLetter: return 3f;
-            case HouseholdChore.WashRice:
-            case HouseholdChore.FetchWater:
-            case HouseholdChore.WashDishes: return 3f;
-            case HouseholdChore.MeasureRice:
-            case HouseholdChore.GrindCorn: return 2f;
-            default: return .4f;
+            if (!visual.enabled || visual is ParticleSystemRenderer || visual is LineRenderer) continue;
+            if (!foundVisual) { bounds = visual.bounds; foundVisual = true; }
+            else bounds.Encapsulate(visual.bounds);
         }
-    }
-
-    private static Vector3 PositionFor(Transform anchor)
-    {
-        if (anchor == null) return Vector3.zero;
-        Renderer renderer = anchor.GetComponent<Renderer>();
-        if (renderer != null) return renderer.bounds.center + Vector3.up * Mathf.Min(.4f, renderer.bounds.extents.y);
-        Collider collider = anchor.GetComponent<Collider>();
-        if (collider != null) return collider.bounds.center + Vector3.up * .2f;
-        return anchor.position + Vector3.up * .7f;
-    }
-
-    private static Color ParticleColor(HouseholdChore task)
-    {
-        switch (task)
-        {
-            case HouseholdChore.LightFire: return new Color(1f, .38f, .06f, .8f);
-            case HouseholdChore.CookRice: return new Color(.95f, .95f, .87f, .42f);
-            case HouseholdChore.GrindCorn:
-            case HouseholdChore.MeasureRice: return new Color(.95f, .86f, .65f, .82f);
-            case HouseholdChore.ReadLetter: return new Color(1f, .8f, .43f, .68f);
-            case HouseholdChore.FoldBlanket:
-            case HouseholdChore.ArrangeKeepsakes:
-            case HouseholdChore.SortTools:
-            case HouseholdChore.CarryWood:
-            case HouseholdChore.TuneRadio:
-            case HouseholdChore.SetTable:
-            case HouseholdChore.PutAwayDishes: return new Color(1f, .78f, .48f, .55f);
-            default: return new Color(.63f, .86f, 1f, .65f);
-        }
+        if (bounds.size.magnitude > 4) return anchor.position + Vector3.up * .25f;
+        var point = bounds.center;
+        point.y = task == HouseholdChore.LightFire ? Mathf.Lerp(bounds.min.y, bounds.max.y, .22f) : bounds.max.y + .025f;
+        return point;
     }
 }

@@ -13,13 +13,16 @@ public sealed class MusicCreditsUI : MonoBehaviour
         Canvas canvas = GetComponentInParent<Canvas>();
         if (canvas == null) canvas = GetComponentInChildren<Canvas>();
         if (canvas == null) return;
+        GameUiPresentation.ConfigureCanvas(canvas);
         var existing = canvas.GetComponentInChildren<TMP_Text>(true);
         font = existing != null ? existing.font : TMP_Settings.defaultFontAsset;
         var launch = Button(canvas.transform, "MusicCreditsButton", "Nhạc / Ghi công", new Vector2(240, 44));
         var launchRect = (RectTransform)launch.transform;
         launchRect.anchorMin = launchRect.anchorMax = Vector2.zero;
         launchRect.pivot = Vector2.zero;
-        launchRect.anchoredPosition = new Vector2(20, 20);
+        launchRect.anchoredPosition = new Vector2(32, 32);
+        launchRect.sizeDelta = new Vector2(300, 64);
+        GameUiPresentation.Button(launch);
 
         panel = new GameObject("MusicCreditsPanel", typeof(RectTransform), typeof(Image));
         panel.transform.SetParent(canvas.transform, false);
@@ -27,10 +30,11 @@ public sealed class MusicCreditsUI : MonoBehaviour
         rect.anchorMin = Vector2.zero;
         rect.anchorMax = Vector2.one;
         rect.offsetMin = rect.offsetMax = Vector2.zero;
-        panel.GetComponent<Image>().color = new Color(.06f, .08f, .08f, .98f);
-        var text = Label(panel.transform, "Attribution", new Vector2(860, 510));
+        panel.GetComponent<Image>().color = GameUiPresentation.Ink;
+        var text = Label(panel.transform, "Attribution", new Vector2(1000, 790));
+        ((RectTransform)text.transform).anchoredPosition = new Vector2(0, 35);
         text.enableAutoSizing = true;
-        text.fontSizeMin = 16;
+        text.fontSizeMin = 22;
         text.fontSizeMax = 26;
         text.text = "<b>ÂM NHẠC</b>\n\n" +
             "Childhood — Scott Buckley\nMenu chính\n\n" +
@@ -39,8 +43,9 @@ public sealed class MusicCreditsUI : MonoBehaviour
             "Countryside Summer (Inaka no Natsuyasumi)\nYoshinori Tanaka — Nhà và đường làng\n" +
             "OpenTracks / DOVA-SYNDROME\nopentracks.com/bgm/detail/19313\n\n" +
             "Nhạc được chuyển mã và chuyển âm lượng khi phát trong game.";
-        var back = Button(panel.transform, "CloseMusicCredits", "Quay lại", new Vector2(240, 48));
-        ((RectTransform)back.transform).anchoredPosition = new Vector2(0, -310);
+        var back = Button(panel.transform, "CloseMusicCredits", "Quay lại", new Vector2(320, 76));
+        ((RectTransform)back.transform).anchoredPosition = new Vector2(0, -440);
+        GameUiPresentation.Button(back);
         back.onClick.AddListener(() => panel.SetActive(false));
         launch.onClick.AddListener(() => { panel.SetActive(true); panel.transform.SetAsLastSibling(); back.Select(); });
         MenuButtonSfx.Attach(launch);
@@ -60,7 +65,7 @@ public sealed class MusicCreditsUI : MonoBehaviour
         ((RectTransform)obj.transform).sizeDelta = size;
         var text = obj.GetComponent<TextMeshProUGUI>();
         text.font = font;
-        text.fontSize = 24;
+        GameUiPresentation.Text(text, 24, GameUiPresentation.Paper);
         text.alignment = TextAlignmentOptions.Center;
         text.color = new Color(.95f, .91f, .8f);
         text.raycastTarget = false;

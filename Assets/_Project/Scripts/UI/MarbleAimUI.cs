@@ -14,7 +14,19 @@ public class MarbleAimUI : MonoBehaviour
 {
     // ========== SINGLETON ==========
     public static MarbleAimUI Instance { get; private set; }
+    public bool IsVisible => panel != null && panel.activeInHierarchy;
     private void OnDestroy() { if (Instance == this) Instance = null; }
+    private TextMeshProUGUI powerText;
+    private TextMeshProUGUI heading;
+    private Image scoreFill;
+    private Button leaveButton;
+    private System.Action leaveAction;
+
+    public void SetExitAction(System.Action action)
+    {
+        leaveAction = action;
+        if (leaveButton) leaveButton.interactable = action != null;
+    }
 
     // ========== UI REFERENCES ==========
     [Header("References")]
@@ -64,30 +76,66 @@ public class MarbleAimUI : MonoBehaviour
             statusText.raycastTarget = false;
         }
         if (panel == null) return;
+        if (heading == null)
+        {
+            heading = OfficeUiStyle.Label("MarbleHeading", panel.transform, GameUiTheme.Current ? GameUiTheme.Current.font : null,
+                "BẮN BI  /  MỘT CHIỀU TUỔI THƠ", 20, Vector2.zero, Vector2.zero, GameUiPresentation.Gold);
+            powerText = OfficeUiStyle.Label("MarblePower", panel.transform, heading.font,
+                "LỰC BẮN · 0%", 20, Vector2.zero, Vector2.zero, GameUiPresentation.Paper);
+            var track = OfficeUiStyle.Panel("MarbleScoreTrack", panel.transform, Vector2.zero, Vector2.zero, new Color(.2f, .28f, .23f));
+            track.rectTransform.anchorMin = new Vector2(.70f, .035f);
+            track.rectTransform.anchorMax = new Vector2(.96f, .065f);
+            track.rectTransform.offsetMin = track.rectTransform.offsetMax = Vector2.zero;
+            scoreFill = OfficeUiStyle.Panel("ScoreFill", track.transform, Vector2.zero, Vector2.zero, GameUiPresentation.Gold);
+            GameUiPresentation.Stretch(scoreFill.rectTransform, 0, 0);
+            var exit = OfficeUiStyle.Panel("LeaveMarbles", panel.transform, Vector2.zero, Vector2.zero, new Color(.13f, .22f, .18f));
+            exit.rectTransform.anchorMin = new Vector2(.80f, .78f);
+            exit.rectTransform.anchorMax = new Vector2(.98f, .98f);
+            exit.rectTransform.offsetMin = exit.rectTransform.offsetMax = Vector2.zero;
+            leaveButton = exit.gameObject.AddComponent<Button>();
+            leaveButton.targetGraphic = exit;
+            leaveButton.onClick.AddListener(() => { if (GameManager.Instance?.IsPaused != true) leaveAction?.Invoke(); });
+            var caption = OfficeUiStyle.Label("LeaveCaption", exit.transform, heading.font, "RỜI BÀN  [ESC]", 19,
+                Vector2.zero, Vector2.zero, GameUiPresentation.Paper);
+            GameUiPresentation.Stretch(caption.rectTransform, 6, 2);
+            MenuButtonSfx.Attach(leaveButton);
+        }
         var panelRect = panel.GetComponent<RectTransform>();
         if (panelRect == null) return;
-        panelRect.anchorMin = new Vector2(0f, .88f);
-        panelRect.anchorMax = Vector2.one;
-        panelRect.offsetMin = Vector2.zero;
-        panelRect.offsetMax = Vector2.zero;
+        GameUiPresentation.ConfigureCanvas(panel.GetComponentInParent<Canvas>(true));
+        panelRect.anchorMin = new Vector2(.08f, 1f);
+        panelRect.anchorMax = new Vector2(.92f, 1f);
+        panelRect.pivot = new Vector2(.5f, 1f);
+        panelRect.anchoredPosition = new Vector2(0, -32);
+        panelRect.sizeDelta = new Vector2(0, 184);
+        GameUiPresentation.Card(panel.GetComponent<Image>());
         foreach (var label in panel.GetComponentsInChildren<TextMeshProUGUI>(true))
         {
-            if (label != shotsText && label != knockedText && label != statusText)
+            if (label != shotsText && label != knockedText && label != statusText && label != powerText && label != heading && label.name != "LeaveCaption")
                 label.enabled = false; // Replaced by the live instruction/status row.
             label.raycastTarget = false;
         }
-        PlaceLabel(statusText, new Vector2(.02f, .50f), new Vector2(.98f, .98f));
-        PlaceLabel(shotsText, new Vector2(.02f, .04f), new Vector2(.35f, .50f));
-        PlaceLabel(knockedText, new Vector2(.67f, .04f), new Vector2(.98f, .50f));
+        PlaceLabel(heading, new Vector2(.02f, .78f), new Vector2(.76f, .98f));
+        heading.fontSizeMin = 18; heading.fontSizeMax = 20;
+        PlaceLabel(statusText, new Vector2(.02f, .43f), new Vector2(.98f, .76f));
+        PlaceLabel(shotsText, new Vector2(.02f, .04f), new Vector2(.35f, .40f));
+        PlaceLabel(knockedText, new Vector2(.67f, .09f), new Vector2(.98f, .40f));
+        PlaceLabel(powerText, new Vector2(.36f, .17f), new Vector2(.64f, .40f));
+        powerText.fontSizeMin = 18; powerText.fontSizeMax = 20;
         if (forceSlider != null)
         {
             var bar = forceSlider.GetComponent<RectTransform>();
-            bar.anchorMin = new Vector2(.40f, .18f);
-            bar.anchorMax = new Vector2(.60f, .32f);
+            bar.anchorMin = new Vector2(.39f, .09f);
+            bar.anchorMax = new Vector2(.61f, .15f);
             bar.offsetMin = bar.offsetMax = Vector2.zero;
+            forceSlider.minValue = 0; forceSlider.maxValue = 1;
+            forceSlider.interactable = false;
+            if (forceSlider.handleRect) forceSlider.handleRect.gameObject.SetActive(false);
         }
         foreach (var graphic in panel.GetComponentsInChildren<Graphic>(true))
             graphic.raycastTarget = false;
+        leaveButton.targetGraphic.raycastTarget = true;
+        leaveButton.interactable = leaveAction != null;
     }
 
     private static void PlaceLabel(TextMeshProUGUI label, Vector2 min, Vector2 max)
@@ -98,9 +146,11 @@ public class MarbleAimUI : MonoBehaviour
         rect.offsetMin = rect.offsetMax = Vector2.zero;
         label.alignment = TextAlignmentOptions.Center;
         label.enableAutoSizing = true;
-        label.fontSizeMin = 12f;
-        label.fontSizeMax = 21f;
-        label.enableWordWrapping = false;
+        GameUiPresentation.Text(label, 25, label.name == "MarbleInstructions" ? GameUiPresentation.Gold : GameUiPresentation.Paper);
+        label.enableAutoSizing = true;
+        label.fontSizeMin = 21f;
+        label.fontSizeMax = 25f;
+        label.enableWordWrapping = true;
     }
 
     // ========== PUBLIC METHODS ==========
@@ -125,11 +175,16 @@ public class MarbleAimUI : MonoBehaviour
     {
         if (panel != null)
             panel.SetActive(false);
+        leaveAction = null;
     }
 
     public void SetStatus(string message)
     {
-        if (statusText != null) statusText.text = message;
+        if (statusText != null)
+        {
+            statusText.text = message;
+            statusText.color = message.StartsWith("Chưa") ? new Color(1f, .79f, .52f) : GameUiPresentation.Paper;
+        }
     }
 
     /// <summary>Cập nhật số lượt bắn.</summary>
@@ -144,12 +199,14 @@ public class MarbleAimUI : MonoBehaviour
     {
         if (knockedText != null)
             knockedText.text = $"Bi ra khỏi vòng: {knocked}/{target}";
+        if (scoreFill) scoreFill.rectTransform.anchorMax = new Vector2(target > 0 ? Mathf.Clamp01((float)knocked / target) : 0f, 1f);
     }
 
     /// <summary>Cập nhật thanh lực bắn (0-1).</summary>
     public void UpdateForceIndicator(float forcePercent)
     {
         forcePercent = Mathf.Clamp01(forcePercent);
+        if (powerText) powerText.text = $"LỰC BẮN · {Mathf.RoundToInt(forcePercent * 100f)}%";
 
         if (forceSlider != null)
             forceSlider.value = forcePercent;

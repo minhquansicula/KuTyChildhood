@@ -1099,6 +1099,8 @@ public sealed partial class HouseholdActionBoard
         else Circle("HearthOpening", targets[0], new Vector2(0f, 9f), 66f, new Color(.16f, .13f, .12f));
         ember = Shape(targets[0], "Ember", 0f, 10f, 28f, 27f,
             new Color(.54f, .27f, .14f)).GetComponent<Image>();
+        ember.sprite = InteractionVfx.SpriteFor(InteractionVfxKind.Ember);
+        ember.raycastTarget = false;
         Label("HearthName", targets[0], new Vector2(0f, -36f), new Vector2(136f, 24f),
             "BẾP CỦI", 17f, Color.white);
         status = Label("FireStatus", root, new Vector2(0f, -82f), new Vector2(520f, 28f),
@@ -1185,7 +1187,13 @@ public sealed partial class HouseholdActionBoard
             heatHandle.sizeDelta = new Vector2(100f, 44f);
         }
         for (int i = 0; i < 3; i++)
-            steam[i] = Circle("Steam", root, new Vector2((i - 1) * 25f, 82f), 14f, new Color(1f, 1f, 1f, .2f));
+        {
+            steam[i] = Circle("Steam", root, new Vector2((i - 1) * 19f, 82f), 35f, new Color(1f, 1f, 1f, .2f));
+            steam[i].sizeDelta = new Vector2(35f, 52f);
+            var image = steam[i].GetComponent<Image>();
+            image.sprite = InteractionVfx.SpriteFor(InteractionVfxKind.Steam);
+            image.raycastTarget = false;
+        }
         amount = .2f;
         status = Label("HeatStatus", root, new Vector2(0f, -71f), new Vector2(510f, 32f),
             "Đẩy củi vào hoặc rút ra để cơm sôi đều", 19f, new Color(.85f, .90f, .86f));
@@ -1207,9 +1215,10 @@ public sealed partial class HouseholdActionBoard
         heldTime = Mathf.Clamp(heldTime + Time.deltaTime * (warm ? 1f : 0f), 0f, 16f);
         for (int i = 0; i < 3; i++)
         {
-            float rise = Mathf.Repeat(elapsed * (warm ? 18f : 8f) + i * 17f, 48f);
-            steam[i].anchoredPosition = new Vector2((i - 1) * 25f + Mathf.Sin(elapsed + i) * 6f, 63f + rise);
-            steam[i].GetComponent<Image>().color = new Color(1f, .96f, .87f, (1f - rise / 48f) * .5f);
+            float life = Mathf.Repeat(elapsed * (warm ? .32f : .16f) + i / 3f, 1f);
+            steam[i].anchoredPosition = new Vector2((i - 1) * 19f + Mathf.Sin(elapsed * .9f + i) * 8f, 73f + life * 47f);
+            steam[i].localScale = Vector3.one * Mathf.Lerp(.65f, 1.4f, life);
+            steam[i].GetComponent<Image>().color = new Color(.95f, .94f, .88f, Mathf.Sin(life * Mathf.PI) * (warm ? .32f : .12f));
         }
         status.text = warm ? "Lửa vừa · cơm đang sôi đều" : amount < .40f ? "Lửa hơi nhỏ" : "Lửa hơi lớn";
         Report(heldTime / 16f, warm ? "Cơm đang sôi đều" : "Kéo củi gần hoặc xa tâm bếp một chút");
@@ -1249,6 +1258,7 @@ public sealed partial class HouseholdActionBoard
         {
             soapBubbles[i] = Circle("SoapBubble" + i, dish, Vector2.zero, 8f + i % 3 * 4f,
                 new Color(.92f, 1f, 1f, 0f)).GetComponent<Image>();
+            soapBubbles[i].sprite = InteractionVfx.SpriteFor(InteractionVfxKind.Bubble);
             soapBubbles[i].raycastTarget = false;
         }
         rinseZone = AddArt("RinseWater", root, new Vector2(175f, -12f), new Vector2(164f, 132f), LoadArt("Water_Basin"));

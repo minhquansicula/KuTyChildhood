@@ -192,8 +192,8 @@ public sealed class OfficeIntroController : MonoBehaviour
     {
         float limit=State==IntroState.OpeningDialogue ? openingYaw : seatedYaw;
         Vector2 bounds=State==IntroState.OpeningDialogue ? openingPitch : seatedPitch;
-        yaw=Mathf.Clamp(yaw+Input.GetAxis("Mouse X")*lookSensitivity,-limit,limit);
-        pitch=Mathf.Clamp(pitch-Input.GetAxis("Mouse Y")*lookSensitivity,bounds.x,bounds.y);
+        yaw=Mathf.Clamp(yaw+Input.GetAxis("Mouse X")*lookSensitivity*GameUiPreferences.LookSensitivity,-limit,limit);
+        pitch=Mathf.Clamp(pitch-Input.GetAxis("Mouse Y")*lookSensitivity*GameUiPreferences.LookSensitivity,bounds.x,bounds.y);
         body.transform.rotation=Quaternion.Euler(0,centerYaw+yaw,0);
         view.transform.localRotation=Quaternion.Euler(pitch,0,0);
     }

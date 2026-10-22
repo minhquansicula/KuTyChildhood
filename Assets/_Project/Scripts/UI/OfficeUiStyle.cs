@@ -68,7 +68,9 @@ public static class OfficeUiStyle
     {
         if (!panel || !resume) return menu;
         var theme = GameUiTheme.Current;
+        if (!theme) return menu;
         font = theme.font;
+        GameUiPresentation.ConfigureCanvas(panel.GetComponentInParent<Canvas>(true));
         foreach (Transform old in panel.transform) old.gameObject.SetActive(false);
         var canvas = panel.GetComponent<Canvas>();
         if (canvas == null) canvas = panel.AddComponent<Canvas>();
@@ -107,7 +109,8 @@ public static class OfficeUiStyle
         var card = panel.transform.Find("OfficePauseCard");
         var canvas = panel.GetComponent<Canvas>();
         if (card == null || canvas == null) return;
-        float scale = Screen.height / 1080f / Mathf.Max(.01f, canvas.rootCanvas.scaleFactor);
+        var available = ((RectTransform)canvas.rootCanvas.transform).rect.size - Vector2.one * 64f;
+        float scale = Mathf.Min(1f, available.x / 590f, available.y / 570f);
         card.localScale = Vector3.one * scale;
     }
 

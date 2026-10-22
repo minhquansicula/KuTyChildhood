@@ -24,6 +24,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
     private TextMeshProUGUI objectiveText;
     private TextMeshProUGUI boardText;
     private TextMeshProUGUI hintText;
+    private RectTransform objectiveRect;
     private RectTransform marker;
     private Transform shopTarget;
     private Transform marbleTarget;
@@ -98,6 +99,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
 
     private bool CanShow()
     {
+        if (MarbleAimUI.Instance != null && MarbleAimUI.Instance.IsVisible) return false;
         if (quests == null || quests.CurrentStep == QuestStep.Ending || quests.IsLeavingHome) return false;
         if (quests.CurrentStep == QuestStep.WashDishes && (chores == null || !chores.ChecklistVisible)) return false;
         return GameManager.Instance == null || !GameManager.Instance.InputBlocked;
@@ -138,13 +140,14 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         string action = household && chores != null ? "Phụ mẹ: " + chores.CurrentTitle : quests.ObjectiveText;
         string chapter = SceneManager.GetActiveScene().name == SceneNames.Act3_OutSide
             ? "CHƯƠNG 02 · SÂN NHÀ" : "CHƯƠNG 02 · NHÀ MÌNH";
-        objectiveText.text = "<size=15><color=#F4C66A>" + chapter + "</color></size>\n" +
-            "<size=24><b><color=#EDF3F8>" + status + "</color></b></size>\n\n" +
-            "<size=16><color=#B5C3CF>NHIỆM VỤ HIỆN TẠI</color></size>\n" +
-            "<size=21><b><color=#FFFFFF>›  " + action + "</color></b></size>\n" +
-            (string.IsNullOrEmpty(location) ? string.Empty : "<size=15><color=#F4C66A>" + location + "</color></size>\n") +
-            "<size=15><color=#A9BBC9>E Tương tác  ·  H Gợi ý  ·  Tab Bảng nhiệm vụ</color></size>" +
-            (household ? "\n<size=17><color=#F4C66A>P · Làm lại việc nhà từ đầu</color></size>" : string.Empty);
+        objectiveText.text = "<size=19><color=#F0C26E>" + chapter + "</color></size>\n" +
+            "<size=22><color=#C1CABC>" + status + "</color></size>\n\n" +
+            "<size=28><b><color=#F7F0D8>" + action + "</color></b></size>\n" +
+            (string.IsNullOrEmpty(location) ? string.Empty : "<size=21><color=#F0C26E>" + location + "</color></size>\n") +
+            "\n<size=19><color=#C1CABC>E  Tương tác   ·   H  Gợi ý\nTAB  Xem hành trình</color></size>";
+        if (objectiveRect != null)
+            objectiveRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,
+                Mathf.Clamp(objectiveText.GetPreferredValues(objectiveText.text, 444f, 0).y + 48f, 255f, 400f));
         boardText.text = BuildBoardText();
     }
 
@@ -155,7 +158,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         if (household)
         {
             int active = chores != null ? chores.ActiveIndex : 0;
-            text.Append("<size=24><b>VIỆC NHÀ CÙNG MẸ</b></size>\n");
+            text.Append("<size=28><b>VIỆC NHÀ CÙNG MẸ</b></size>\n");
             text.Append("<color=#F4C66A>Mảnh ký ức: ").Append(chores != null ? chores.Pieces : 0)
                 .Append('/').Append(HouseholdChoreFlow.TotalPieces).Append("</color>\n\n");
             for (int i = 0; i < HouseholdChoreFlow.ChoreCount; i++)
@@ -168,7 +171,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         }
         else
         {
-            text.Append("<size=24><b>HÀNH TRÌNH KÝ ỨC</b></size>\n\n");
+            text.Append("<size=28><b>HÀNH TRÌNH KÝ ỨC</b></size>\n\n");
             AppendStage(text, QuestStep.WashDishes, "Phụ mẹ làm việc nhà");
             AppendStage(text, QuestStep.BuyCandyAndMarbles, "Mua kẹo và bi ve");
             AppendStage(text, QuestStep.PlayMarbles, "Chơi bi ngoài sân");
@@ -177,8 +180,8 @@ public sealed class Scene2QuestHUD : MonoBehaviour
             AppendStage(text, QuestStep.UnlockFrontDoor, "Mở cửa bị xích");
         }
         text.Append(household
-            ? "\n<size=15><color=#F4C66A>P · Làm lại từ đầu</color></size>"
-            : "\n<size=15><color=#9CAEB8>Tự động lưu sau mỗi bước.</color></size>");
+            ? "\n<size=19><color=#F4C66A>TAB  Đóng bảng  ·  P  Làm lại từ đầu</color></size>"
+            : "\n<size=19><color=#C1CABC>TAB  Đóng bảng\nTiến độ được lưu sau mỗi bước.</color></size>");
         return text.ToString();
     }
 
@@ -209,7 +212,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
             ? "Đến " + chores.CurrentLocation + ", tìm " + chores.CurrentTitle + " rồi nhấn E."
             : ResolveTarget() != null
                 ? quests.ObjectiveText + " Hãy tìm vật có lời nhắc [E] khi lại gần."
-                : "Nhiệm vụ này chưa có điểm tương tác trong cảnh hiện tại.";
+                : "Hãy đi tiếp theo chỉ dẫn trong bảng nhiệm vụ.";
         hintRemaining = HintDuration;
         textHintShown = true;
         hintPanel.SetActive(true);
@@ -302,23 +305,25 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         scaler.matchWidthOrHeight = .5f;
         rootGroup = root.GetComponent<CanvasGroup>();
         rootGroup.interactable = rootGroup.blocksRaycasts = false;
+        var safe = GameUiPresentation.SafeRoot(root.transform, "QuestSafeArea");
 
-        var card = Panel("CurrentObjective", root.transform, new Vector2(1, 1),
-            new Vector2(-28, -112), new Vector2(455, 255));
-        objectiveText = Label("ObjectiveText", card.transform, new Vector2(22, 17), new Vector2(-22, -17), 20);
+        var card = Panel("CurrentObjective", safe, new Vector2(1, 1),
+            new Vector2(0, -110), new Vector2(492, 310));
+        objectiveRect = (RectTransform)card.transform;
+        objectiveText = Label("ObjectiveText", card.transform, new Vector2(24, 24), new Vector2(-24, -24), 24);
 
-        board = Panel("MissionBoard", root.transform, new Vector2(0, 1),
-            new Vector2(28, -112), new Vector2(400, 535));
-        boardText = Label("MissionList", board.transform, new Vector2(22, 15), new Vector2(-22, -15), 20);
+        board = Panel("MissionBoard", safe, new Vector2(0, 1),
+            new Vector2(0, -140), new Vector2(480, 650));
+        boardText = Label("MissionList", board.transform, new Vector2(26, 24), new Vector2(-26, -24), 23);
         board.SetActive(false);
 
-        hintPanel = Panel("GuidanceHint", root.transform, new Vector2(.5f, 0),
-            new Vector2(0, 100), new Vector2(800, 76));
-        hintText = Label("HintText", hintPanel.transform, new Vector2(18, 8), new Vector2(-18, -8), 21);
+        hintPanel = Panel("GuidanceHint", safe, new Vector2(.5f, 0),
+            new Vector2(0, 124), new Vector2(900, 94));
+        hintText = Label("HintText", hintPanel.transform, new Vector2(24, 12), new Vector2(-24, -12), 24);
         hintText.alignment = TextAlignmentOptions.Center;
         hintPanel.SetActive(false);
 
-        TMP_FontAsset sharedFont = existingHud != null ? existingHud.ObjectiveFont : null;
+        TMP_FontAsset sharedFont = GameUiTheme.Current ? GameUiTheme.Current.font : existingHud != null ? existingHud.ObjectiveFont : null;
         if (sharedFont != null)
         {
             objectiveText.font = sharedFont;
@@ -354,8 +359,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         rect.anchoredPosition = offset;
         rect.sizeDelta = size;
         var image = go.GetComponent<Image>();
-        image.color = new Color(.025f, .045f, .06f, .94f);
-        image.raycastTarget = false;
+        GameUiPresentation.Card(image);
         return go;
     }
 
@@ -368,7 +372,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         text.rectTransform.anchorMax = Vector2.one;
         text.rectTransform.offsetMin = min;
         text.rectTransform.offsetMax = max;
-        text.fontSize = size;
+        GameUiPresentation.Text(text, size, GameUiPresentation.Paper);
         text.alignment = TextAlignmentOptions.TopLeft;
         text.enableWordWrapping = true;
         text.raycastTarget = false;

@@ -24,6 +24,34 @@ public class EndingUI : MonoBehaviour
     // ========== LIFECYCLE ==========
     private void Start()
     {
+        var canvas = GetComponentInParent<Canvas>() ?? GetComponentInChildren<Canvas>(true);
+        GameUiPresentation.ConfigureCanvas(canvas);
+        foreach (var label in GetComponentsInChildren<TMP_Text>(true))
+        {
+            if (string.IsNullOrEmpty(label.text)) continue;
+            if (label.text.StartsWith("Bản prototype")) label.gameObject.SetActive(false);
+            else if (!messageText && label.text.StartsWith("Trước hiên")) messageText = label as TextMeshProUGUI;
+            else if (label.text.Contains("CHÌA KHÓA ƯỚC MƠ"))
+            {
+                GameUiPresentation.Text(label, 44, GameUiPresentation.Gold);
+                OfficeUiStyle.Rect(label.rectTransform, Vector2.one * .5f, new Vector2(1200, 90), new Vector2(0, 290));
+                label.alignment = TextAlignmentOptions.Center;
+            }
+        }
+        if (messageText)
+        {
+            GameUiPresentation.Text(messageText, 34, GameUiPresentation.Paper);
+            messageText.alignment = TextAlignmentOptions.Center;
+            OfficeUiStyle.Rect(messageText.rectTransform, Vector2.one * .5f, new Vector2(1160, 360), new Vector2(0, 25));
+            messageText.lineSpacing = 12;
+        }
+        var buttons = GetComponentsInChildren<UnityEngine.UI.Button>(true);
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            OfficeUiStyle.Rect((RectTransform)buttons[i].transform, Vector2.one * .5f,
+                new Vector2(380, 84), new Vector2((i - (buttons.Length - 1) * .5f) * 420, -270));
+            GameUiPresentation.Button(buttons[i]);
+        }
         // Set message
         if (messageText != null)
             messageText.text = endingMessage;

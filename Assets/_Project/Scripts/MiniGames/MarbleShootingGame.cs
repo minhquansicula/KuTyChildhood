@@ -93,6 +93,7 @@ public class MarbleShootingGame : MonoBehaviour
         if (gameCameraLookAt != null) gameCamera.transform.LookAt(gameCameraLookAt);
         if (gameFieldOfView > 0) gameCamera.fieldOfView = gameFieldOfView;
         if (gameNearClip > 0) gameCamera.nearClipPlane = gameNearClip;
+        MarbleAimUI.Instance?.SetExitAction(CancelGame);
         ResetAllMarbles();
         State = PlayState.Aiming;
     }

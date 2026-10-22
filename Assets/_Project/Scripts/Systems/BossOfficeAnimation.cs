@@ -104,5 +104,6 @@ public sealed class BossOfficeAnimation : MonoBehaviour
         ImpactCount++;
         LastImpactLineTime = intro.LineElapsed;
         if (intro.deskSlam && intro.deskSlam.clip) intro.deskSlam.Play();
+        if (office) office.GetComponent<OfficeSceneEffects>()?.PlayDeskImpact();
     }
 }

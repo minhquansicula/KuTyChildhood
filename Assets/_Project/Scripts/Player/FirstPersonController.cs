@@ -144,8 +144,8 @@ public class FirstPersonController : MonoBehaviour
     private void HandleMouseLook()
     {
         // Lấy input chuột
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * 0.02f;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * 0.02f;
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * GameUiPreferences.LookSensitivity * 0.02f;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * GameUiPreferences.LookSensitivity * 0.02f;
 
         // Xoay dọc (nhìn lên/xuống) — xoay camera, KHÔNG xoay body
         xRotation -= mouseY;

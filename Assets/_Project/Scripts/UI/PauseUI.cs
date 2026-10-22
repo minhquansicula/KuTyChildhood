@@ -22,6 +22,7 @@ public class PauseUI : MonoBehaviour
     private void Update()
     {
         var game = GameManager.Instance;
+        if (game != null && game.IsPaused) OfficeUiStyle.FitPauseCard(panel);
         if (game == null || !Input.GetKeyDown(KeyCode.Escape)) return;
         if (game.IsPaused) Resume();
         else if (!game.InputBlocked || CanPauseFromBed())

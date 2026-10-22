@@ -92,70 +92,75 @@ public class ShopUI : MonoBehaviour
             case PurchaseFailure.InsufficientMoney: messageText.text = "Chưa đủ tiền cho món này. Hãy kiểm tra số tiền và giá món hàng."; break;
             case PurchaseFailure.AlreadyOwned: messageText.text = "Bạn đã mua món này rồi."; break;
             case PurchaseFailure.QuestLocked: messageText.text = "Hãy xem nhiệm vụ trong nhật ký trước."; break;
-            default: messageText.text = "Không thể mua. Hãy kiểm tra cấu hình cửa hàng."; break;
+            default: messageText.text = "Chưa mua được món này. Bạn thử lại nhé."; break;
         }
     }
-    private void MoneyChanged(int amount) { if (playerMoneyText != null) playerMoneyText.text = "Tiền: " + amount + " đồng"; }
+    private void MoneyChanged(int amount) { if (playerMoneyText != null) playerMoneyText.text = "Trong túi: " + GameUiPresentation.Money(amount); }
 
     private void StyleModal()
     {
         if (shopPanel == null) return;
+        StyleShopPresentation();
+    }
+
+    private void StyleShopPresentation()
+    {
+        if (shopPanel == null) return;
         var parentCanvas = shopPanel.GetComponentInParent<Canvas>(true);
         if (parentCanvas == null) return;
-        modalRoot = new GameObject("ShopModalCanvas", typeof(RectTransform), typeof(Canvas), typeof(GraphicRaycaster));
-        modalRoot.transform.SetParent(parentCanvas.transform, false);
-        var rootRect = (RectTransform)modalRoot.transform;
-        rootRect.anchorMin = Vector2.zero;
-        rootRect.anchorMax = Vector2.one;
-        rootRect.offsetMin = rootRect.offsetMax = Vector2.zero;
-        var canvas = modalRoot.GetComponent<Canvas>();
-        canvas.overrideSorting = true;
-        canvas.sortingOrder = 90;
-
-        var backdrop = new GameObject("ShopDimmer", typeof(RectTransform), typeof(Image));
-        backdrop.transform.SetParent(modalRoot.transform, false);
-        var backdropRect = (RectTransform)backdrop.transform;
-        backdropRect.anchorMin = Vector2.zero;
-        backdropRect.anchorMax = Vector2.one;
-        backdropRect.offsetMin = backdropRect.offsetMax = Vector2.zero;
-        backdrop.GetComponent<Image>().color = new Color(.015f, .025f, .035f, .70f);
-
-        shopPanel.transform.SetParent(modalRoot.transform, false);
+        modalRoot = GameUiPresentation.ModalRoot(shopPanel, "ShopModalCanvas", 90);
         var rect = shopPanel.transform as RectTransform;
-        if (rect != null) rect.sizeDelta = new Vector2(840f, 550f);
+        if (rect != null) OfficeUiStyle.Rect(rect, Vector2.one * .5f, new Vector2(1040f, 740f), Vector2.zero);
         var panelImage = shopPanel.GetComponent<Image>();
-        if (panelImage != null) panelImage.color = new Color(.055f, .10f, .13f, .98f);
+        GameUiPresentation.Card(panelImage, true);
         foreach (Transform child in shopPanel.transform)
         {
             var title = child.GetComponent<TextMeshProUGUI>();
             if (title == null || title == playerMoneyText || title == messageText) continue;
             title.text = "TIỆM TẠP HÓA";
-            title.fontSize = 31f;
+            GameUiPresentation.Text(title, 34, GameUiTheme.Current.text);
+            OfficeUiStyle.Rect(title.rectTransform, new Vector2(.5f, 1), new Vector2(850, 50), new Vector2(0, -57));
             title.fontStyle = FontStyles.Bold;
-            title.color = new Color(.97f, .79f, .42f);
         }
         if (playerMoneyText != null)
         {
-            playerMoneyText.fontSize = 23f;
-            playerMoneyText.color = new Color(.84f, .95f, .88f);
+            GameUiPresentation.Text(playerMoneyText, 25, GameUiTheme.Current.muted);
+            OfficeUiStyle.Rect(playerMoneyText.rectTransform, new Vector2(.5f, 1), new Vector2(850, 40), new Vector2(0, -110));
+            playerMoneyText.alignment = TextAlignmentOptions.Center;
         }
         if (messageText != null)
         {
-            messageText.fontSize = 18f;
-            messageText.color = new Color(.85f, .90f, .91f);
-            messageText.enableWordWrapping = true;
+            GameUiPresentation.Text(messageText, 24, GameUiTheme.Current.text);
+            OfficeUiStyle.Rect(messageText.rectTransform, new Vector2(.5f, 0), new Vector2(880, 80), new Vector2(0, 165));
+            messageText.alignment = TextAlignmentOptions.Center;
         }
         if (closeButton != null)
         {
-            var buttonImage = closeButton.GetComponent<Image>();
-            if (buttonImage != null) buttonImage.color = new Color(.16f, .25f, .32f);
+            OfficeUiStyle.Rect((RectTransform)closeButton.transform, new Vector2(.5f, 0), new Vector2(360, 78), new Vector2(0, 69));
             var label = closeButton.GetComponentInChildren<TextMeshProUGUI>(true);
             if (label != null)
             {
                 label.text = "Đóng · Esc";
-                label.fontSize = 20f;
-                label.color = new Color(.96f, .97f, .92f);
             }
+            GameUiPresentation.Button(closeButton);
+        }
+        if (itemListParent is RectTransform list)
+        {
+            list.anchorMin = new Vector2(.06f, .34f); list.anchorMax = new Vector2(.94f, .78f);
+            list.offsetMin = list.offsetMax = Vector2.zero;
+            foreach (var layout in list.GetComponents<LayoutGroup>()) layout.enabled = false;
+            var fitter = list.GetComponent<ContentSizeFitter>();
+            if (fitter) fitter.enabled = false;
+            var content = new GameObject("ShopItemGrid", typeof(RectTransform), typeof(GridLayoutGroup));
+            content.transform.SetParent(list, false);
+            GameUiPresentation.Stretch((RectTransform)content.transform, 0, 0);
+            itemListParent = content.transform;
+            var grid = content.GetComponent<GridLayoutGroup>();
+            grid.cellSize = new Vector2(430, 310);
+            grid.spacing = new Vector2(24, 20);
+            grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            grid.constraintCount = 2;
+            grid.childAlignment = TextAnchor.UpperCenter;
         }
         modalRoot.SetActive(false);
     }

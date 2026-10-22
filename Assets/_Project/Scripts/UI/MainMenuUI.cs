@@ -14,6 +14,8 @@ public class MainMenuUI : MonoBehaviour
 
     private void Start()
     {
+        GameUiPresentation.ConfigureCanvas(GetComponentInParent<Canvas>() ?? GetComponentInChildren<Canvas>(true));
+        GameSettingsUI.Build(this);
         if (GetComponent<MusicCreditsUI>() == null) gameObject.AddComponent<MusicCreditsUI>();
         StartCoroutine(BindButtonSounds());
         // The authored menu already reserves a slot for Continue; keep its layout intact.
@@ -59,6 +61,13 @@ public class MainMenuUI : MonoBehaviour
         foreach (var button in GetComponentsInChildren<Button>(true))
         {
             GameUiTheme.Current.StyleButton(button);
+            foreach (var label in button.GetComponentsInChildren<TMP_Text>(true))
+            {
+                label.enableAutoSizing = true;
+                label.fontSizeMin = 22;
+                label.fontSizeMax = Mathf.Max(26f, label.fontSize);
+                label.raycastTarget = false;
+            }
             MenuButtonSfx.Attach(button);
         }
     }

@@ -19,7 +19,7 @@ using TMPro;
 /// 5. Thêm 3 Image cho mảnh ký ức (góc trên trái)
 /// 6. Gán references
 /// </summary>
-public class HUDController : MonoBehaviour
+public partial class HUDController : MonoBehaviour
 {
     // ========== SINGLETON ==========
     public static HUDController Instance { get; private set; }
@@ -56,6 +56,7 @@ public class HUDController : MonoBehaviour
 
     private void Start()
     {
+        BuildPresentation();
         if (gameObject.scene.name == SceneNames.Act1 && promptPanel != null)
         {
             var rect = promptPanel.GetComponent<RectTransform>();
@@ -158,6 +159,7 @@ public class HUDController : MonoBehaviour
     public void SetObjectiveVisible(bool visible)
     {
         if (objectiveText != null) objectiveText.gameObject.SetActive(visible);
+        if (objectiveCard != null) objectiveCard.SetActive(visible);
     }
 
     public TMP_FontAsset ObjectiveFont => objectiveText != null ? objectiveText.font : null;
@@ -170,8 +172,9 @@ public class HUDController : MonoBehaviour
     {
         if (moneyText != null)
         {
-            moneyText.text = $"{amount} đồng";
+            moneyText.text = GameUiPresentation.Money(amount);
         }
+        UpdateMemorySummary();
     }
     private void QuestChanged(QuestStep step)
     {
@@ -183,6 +186,7 @@ public class HUDController : MonoBehaviour
 
     private void ResetMemoryIcons()
     {
+        UpdateMemorySummary();
         if (memoryIcons == null) return;
 
         for (int i = 0; i < memoryIcons.Length; i++)
@@ -199,6 +203,7 @@ public class HUDController : MonoBehaviour
     private void OnMemoryCollected(MemoryType type, int totalCollected)
     {
         int index = (int)type;
+        UpdateMemorySummary();
 
         if (memoryIcons != null && index < memoryIcons.Length && memoryIcons[index] != null)
         {

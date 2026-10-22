@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ExcelDataAuditorGame : MonoBehaviour
+public partial class ExcelDataAuditorGame : MonoBehaviour
 {
     [System.Serializable]
     public class ChatMessageData
@@ -286,7 +286,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
         closeObject.GetComponent<Image>().color = new Color(.23f, .3f, .27f);
         var closeButton = closeObject.GetComponent<Button>();
         ConfigureButton(closeButton);
-        closeButton.onClick.AddListener(() => owner?.CancelWork());
+        closeButton.onClick.AddListener(LeaveWorkbook);
         var closeLabel = new GameObject("Label", typeof(RectTransform)).AddComponent<TextMeshProUGUI>();
         closeLabel.transform.SetParent(closeObject.transform, false);
         StretchRect(closeLabel.rectTransform);
@@ -397,6 +397,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
             var tmp = submitButton.GetComponentInChildren<TextMeshProUGUI>();
             if (tmp != null) globalFont = tmp.font;
         }
+        if (GameUiTheme.Current && GameUiTheme.Current.font) globalFont = GameUiTheme.Current.font;
 
         InitializeSheets();
         if (mainPanel == null)
@@ -588,6 +589,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
                 new ChatMessageData { senderName = "Đồng nghiệp", messageContent = "Mọi người về rồi, Tý còn làm à?", responseButtonText = "Ừ, mình đang làm nốt báo cáo." }
             };
         }
+        CompletePresentation();
     }
 
     private void Update()
@@ -631,6 +633,8 @@ public class ExcelDataAuditorGame : MonoBehaviour
         owner = controller;
         isGameActive = true;
         attemptRunning = false;
+        if (workbookModal != null) workbookModal.SetActive(true);
+        resultCard?.Hide();
         
         mainPanel.SetActive(true);
         mainPanel.transform.SetAsLastSibling();
@@ -693,6 +697,8 @@ public class ExcelDataAuditorGame : MonoBehaviour
         if (chatPopupPanel != null) chatPopupPanel.SetActive(false);
         if (chatBackdrop != null) chatBackdrop.gameObject.SetActive(false);
         if (mainPanel != null) mainPanel.SetActive(false);
+        resultCard?.Hide();
+        if (workbookModal != null) workbookModal.SetActive(false);
     }
 
     private void GenerateGrid()
@@ -741,6 +747,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
             for (int c = 0; c < 4; c++)
             {
                 var cellObj = Instantiate(cellPrefab, gridParent);
+                cellObj.transform.localScale = Vector3.one;
                 cellObj.name = $"Cell_{r}_{c}";
                 cellObj.SetActive(true);
 
@@ -787,6 +794,10 @@ public class ExcelDataAuditorGame : MonoBehaviour
 
                 if (inputField != null)
                 {
+                    if (inputField.transform != cellObj.transform)
+                        GameUiPresentation.Stretch((RectTransform)inputField.transform, 0, 0);
+                    if (inputField.textViewport != null && inputField.textViewport != inputField.transform)
+                        GameUiPresentation.Stretch(inputField.textViewport, 10, 4);
                     var colors = inputField.colors;
                     colors.disabledColor = Color.white;
                     colors.normalColor = Color.white;
@@ -816,8 +827,9 @@ public class ExcelDataAuditorGame : MonoBehaviour
                         txt.fontStyle = isHeader ? FontStyles.Bold : FontStyles.Normal;
                         txt.alignment = TextAlignmentOptions.Center;
                         txt.enableAutoSizing = true;
-                        txt.fontSizeMin = 12f;
-                        txt.fontSizeMax = 22f;
+                        GameUiPresentation.Stretch(txt.rectTransform, 2, 0);
+                        txt.fontSizeMin = 20f;
+                        txt.fontSizeMax = 26f;
                         txt.raycastTarget = false;
                     }
                     
@@ -918,7 +930,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
             }
             if (relaxedMode)
             {
-                timerText.text = "THƯ THẢ · KHÔNG GIỚI HẠN";
+                timerText.text = "THƯ THẢ\n<size=70%>KHÔNG GIỚI HẠN</size>";
                 timerText.color = new Color(.75f, 1f, .85f, 1f);
                 return;
             }
@@ -1051,6 +1063,7 @@ public class ExcelDataAuditorGame : MonoBehaviour
         SetFeedback("Dữ liệu chính xác. Đang gửi lệnh in tới máy photo.", successTextColor, "OK");
         PulseFeedback();
         AudioManager.Instance?.PlaySFX(SfxId.TaskComplete);
+        resultCard?.Show(true, "Báo cáo đã sẵn sàng", "Hai ô số liệu đều chính xác.\nĐang gửi lệnh in tới máy photo…");
         StartCoroutine(CompleteTaskAfterDelay(1.5f));
     }
 
@@ -1066,7 +1079,8 @@ public class ExcelDataAuditorGame : MonoBehaviour
         SetFeedback(reason, errorTextColor, "!");
         PulseFeedback();
         AudioManager.Instance?.PlaySFX(SfxId.UIInvalid);
-        StartCoroutine(RestartAfterFailure(2.0f));
+        resultCard?.Show(false, "Nghỉ một nhịp, thử lại nhé", "Đồng hồ đã hết, nhưng dữ liệu của bạn vẫn còn.\nChọn thử lại hoặc tiếp tục không giới hạn thời gian.",
+            () => RetryFromResult(false), () => RetryFromResult(true), LeaveWorkbook);
     }
 
     private IEnumerator RestartAfterFailure(float delay)

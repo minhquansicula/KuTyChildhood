@@ -62,14 +62,15 @@ public sealed class OfficeShiftHUD : MonoBehaviour
         scaler.matchWidthOrHeight = .5f;
         group = root.GetComponent<CanvasGroup>();
         group.interactable = group.blocksRaycasts = false;
+        var safe = GameUiPresentation.SafeRoot(root.transform, "OfficeObjectiveSafeArea");
 
         var card = new GameObject("ObjectiveCard", typeof(RectTransform), typeof(Image));
-        card.transform.SetParent(root.transform, false);
+        card.transform.SetParent(safe, false);
         RectTransform rect = (RectTransform)card.transform;
         objectiveCard = rect;
         rect.anchorMin = rect.anchorMax = rect.pivot = Vector2.one;
-        rect.anchoredPosition = new Vector2(-36f, -42f);
-        rect.sizeDelta = new Vector2(470f, 224f);
+        rect.anchoredPosition = Vector2.zero;
+        rect.sizeDelta = new Vector2(492f, 250f);
         Image background = card.GetComponent<Image>();
         background.sprite = OfficeUiStyle.Rounded;
         background.type = Image.Type.Sliced;
@@ -87,8 +88,9 @@ public sealed class OfficeShiftHUD : MonoBehaviour
         content.rectTransform.offsetMin = new Vector2(27f, 22f);
         content.rectTransform.offsetMax = new Vector2(-27f, -22f);
         content.fontSize = 20f;
+        GameUiPresentation.Text(content, 24, GameUiPresentation.Paper);
         content.lineSpacing = 3f;
-        content.enableAutoSizing = true; content.fontSizeMin = 19; content.fontSizeMax = 22;
+        content.enableAutoSizing = false;
         content.alignment = TextAlignmentOptions.TopLeft;
         content.raycastTarget = false;
     }
@@ -100,22 +102,22 @@ public sealed class OfficeShiftHUD : MonoBehaviour
             ? "18:17 · ĐÃ NỘP"
             : office.HasPrintedReport ? "18:14 · ĐANG GIAO" : "17:42 · VĂN PHÒNG";
         string action = string.IsNullOrEmpty(office.ObjectiveText) ? "Đợi chỉ dẫn tiếp theo." : office.ObjectiveText;
-        string text = "<size=16><color=#" + ColorUtility.ToHtmlStringRGB(OfficeUiStyle.Gold) + ">CHƯƠNG 01 · CA LÀM CUỐI NGÀY</color></size>\n" +
-            "<size=19><color=#" + ColorUtility.ToHtmlStringRGB(OfficeUiStyle.Muted) + ">" + status + "</color></size>\n\n" +
-            "<size=25><color=#" + ColorUtility.ToHtmlStringRGB(OfficeUiStyle.Paper) + ">" + action + "</color></size>\n\n" +
-            "<size=17><color=#" + ColorUtility.ToHtmlStringRGB(OfficeUiStyle.Muted) + ">" + ControlHint() + "</color></size>";
+        string text = "<size=19><color=#" + ColorUtility.ToHtmlStringRGB(OfficeUiStyle.Gold) + ">CHƯƠNG 01 · CA LÀM CUỐI NGÀY</color></size>\n" +
+            "<size=21><color=#" + ColorUtility.ToHtmlStringRGB(OfficeUiStyle.Muted) + ">" + status + "</color></size>\n\n" +
+            "<size=28><color=#" + ColorUtility.ToHtmlStringRGB(OfficeUiStyle.Paper) + ">" + action + "</color></size>\n\n" +
+            "<size=20><color=#" + ColorUtility.ToHtmlStringRGB(OfficeUiStyle.Muted) + ">" + ControlHint() + "</color></size>";
         if (text != lastText)
         {
             content.text = lastText = text;
-            float preferredHeight = content.GetPreferredValues(text, 416f, 0f).y;
-            objectiveCard.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Clamp(preferredHeight + 44f, 190f, 340f));
+            float preferredHeight = content.GetPreferredValues(text, 438f, 0f).y;
+            objectiveCard.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Clamp(preferredHeight + 44f, 220f, 360f));
         }
     }
 
     private string ControlHint()
     {
         if (office.Phase == OfficePhase.Rest && office.IsSeated) return "E Nghỉ  ·  H Xem gợi ý";
-        if (office.IsSeated) return "E Tương tác  ·  SPACE Đứng dậy  ·  H Xem gợi ý";
+        if (office.IsSeated) return "E  Tương tác  ·  H  Gợi ý\nSPACE  Đứng dậy";
         return "E Tương tác  ·  H Xem gợi ý";
     }
 

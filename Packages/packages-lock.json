@@ -8,7 +8,7 @@
       "hash": "052001cf62c44b1af3d8bd6339939f5f2c34966d"
     },
     "com.besty.unity-skills": {
-      "version": "https://github.com/Besty0728/Unity-Skills.git?path=/SkillsForUnity",
+      "version": "https://github.com/Besty0728/Unity-Skills.git?path=/SkillsForUnity#v2.9.1",
       "depth": 0,
       "source": "git",
       "dependencies": {
@@ -17,7 +17,7 @@
         "com.unity.timeline": "1.7.7",
         "com.unity.ugui": "1.0.0"
       },
-      "hash": "5f1dfe2cef2ac29becdeb0de504e0338f41fee54"
+      "hash": "f4daf24ebfe34907e8a0942f95d14401324cda64"
     },
     "com.unity.burst": {
       "version": "1.8.21",

@@ -263,7 +263,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         RefreshUI();
         bool resumed = ActiveIndex > 0 || OptionalBits != 0;
         float seconds = Voice.Play(resumed ? "act2_mom_resume_001" : "act2_mom_wakeup_001");
-        ui.Notify("Mẹ: " + (resumed ? ResumeText : WakeupText) + " Tab: bảng nhiệm vụ · H: gợi ý.", Mathf.Max(7f, seconds));
+        ui.Notify("Mẹ: " + (resumed ? ResumeText : WakeupText), Mathf.Max(7f, seconds));
         QuestManager.Instance?.RefreshHouseholdObjective();
     }
 
@@ -365,10 +365,16 @@ public sealed class HouseholdChoreUI
     private readonly GameObject progressBar;
     private readonly TextMeshProUGUI checklistText;
     private readonly TextMeshProUGUI notificationText;
+    private readonly GameObject notificationCard;
     private readonly TextMeshProUGUI titleText;
     private readonly TextMeshProUGUI hintText;
     private readonly TextMeshProUGUI feedbackText;
     private readonly TextMeshProUGUI progressText;
+    private readonly TextMeshProUGUI progressPercent;
+    private readonly Button restartButton;
+    private readonly Button leaveButton;
+    private Action cancelAction;
+    private Action restartAction;
     private readonly TextMeshProUGUI cancelText;
     private readonly TextMeshProUGUI timingZoneText;
     private readonly TextMeshProUGUI measureZoneText;
@@ -413,12 +419,12 @@ public sealed class HouseholdChoreUI
         checklist = Box("Checklist", canvasObject.transform, new Vector2(15, -15), new Vector2(365, 335),
             new Vector2(0, 1), new Vector2(0, 1), new Vector2(0, 1), new Color(.07f, .055f, .04f, .78f));
         checklistText = Label("Tasks", checklist.transform, new Vector2(14, -12), new Vector2(340, 310), 23, TextAlignmentOptions.TopLeft);
-        notificationText = Label("MemoryNotice", canvasObject.transform, new Vector2(0, -38), new Vector2(900, 60), 28, TextAlignmentOptions.Center);
-        notificationText.rectTransform.anchorMin = new Vector2(.5f, 1);
-        notificationText.rectTransform.anchorMax = new Vector2(.5f, 1);
-        notificationText.rectTransform.pivot = new Vector2(.5f, 1);
-        notificationText.color = new Color(1f, .9f, .55f);
+        notificationCard = GameUiPresentation.Panel("MemoryNoticeCard", canvasObject.transform, new Vector2(.5f, 0),
+            new Vector2(940, 104), new Vector2(0, 250)).gameObject;
+        notificationText = Label("MemoryNotice", notificationCard.transform, Vector2.zero, new Vector2(890, 78), 26, TextAlignmentOptions.Center);
+        notificationText.color = GameUiPresentation.Paper;
         notificationText.text = "";
+        notificationCard.SetActive(false);
         rewardText = Label("MemoryReward", canvasObject.transform, Vector2.zero,
             new Vector2(390, 52), 26, TextAlignmentOptions.Center);
         rewardText.color = new Color(1f, .85f, .5f, 0f);
@@ -446,28 +452,39 @@ public sealed class HouseholdChoreUI
         Box("PanelTitleRule", gamePanel.transform, new Vector2(0, 273), new Vector2(1010, 2),
             new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.60f, .44f, .25f, .7f));
         var chapter = Label("ChapterKicker", gamePanel.transform, new Vector2(-391, 344),
-            new Vector2(230, 28), 15, TextAlignmentOptions.Left);
+            new Vector2(300, 28), 18, TextAlignmentOptions.Left);
         chapter.text = "CHƯƠNG 02  /  NHÀ MÌNH";
         chapter.color = new Color(.82f, .68f, .43f);
         chapter.characterSpacing = 1.5f;
-        titleText = Label("Title", gamePanel.transform, new Vector2(0, 315), new Vector2(1020, 48), 33, TextAlignmentOptions.Center);
+        titleText = Label("Title", gamePanel.transform, new Vector2(0, 315), new Vector2(1020, 48), 36, TextAlignmentOptions.Center);
         titleText.color = new Color(.98f, .81f, .50f);
         titleText.fontStyle = FontStyles.Bold;
         titleText.characterSpacing = 1.1f;
-        hintText = Label("Instructions", gamePanel.transform, new Vector2(0, 245), new Vector2(980, 48), 20, TextAlignmentOptions.Center);
+        hintText = Label("Instructions", gamePanel.transform, new Vector2(0, 245), new Vector2(980, 56), 24, TextAlignmentOptions.Center);
         hintText.color = new Color(.25f, .24f, .19f);
-        feedbackText = Label("Feedback", gamePanel.transform, new Vector2(0, -244), new Vector2(1000, 37), 19, TextAlignmentOptions.Center);
+        feedbackText = Label("Feedback", gamePanel.transform, new Vector2(0, -244), new Vector2(1000, 37), 23, TextAlignmentOptions.Center);
         feedbackText.color = new Color(.18f, .36f, .29f);
-        progressText = Label("Progress", gamePanel.transform, new Vector2(0, -278), new Vector2(1000, 28), 17, TextAlignmentOptions.Center);
+        progressText = Label("Progress", gamePanel.transform, new Vector2(0, -278), new Vector2(1000, 28), 20, TextAlignmentOptions.Center);
         progressText.color = new Color(.25f, .24f, .19f);
-        cancelText = Label("CancelHint", gamePanel.transform, new Vector2(0, -349), new Vector2(1000, 31), 17, TextAlignmentOptions.Center);
+        cancelText = Label("CancelHint", gamePanel.transform, new Vector2(0, -349), new Vector2(1000, 31), 21, TextAlignmentOptions.Center);
         cancelText.color = new Color(.82f, .76f, .62f);
         cancelText.text = "P  LÀM LẠI     ·     ESC  TẠM DỪNG";
+        cancelText.text = "THAO TÁC TRỰC TIẾP BẰNG CHUỘT";
+        cancelText.rectTransform.sizeDelta = new Vector2(500, 31);
+        cancelText.fontSize = 17f;
+        restartButton = FooterButton("RestartChore", gamePanel.transform, new Vector2(-405, -348), "LÀM LẠI  [P]",
+            () => { if (GameManager.Instance?.IsPaused != true) restartAction?.Invoke(); });
+        leaveButton = FooterButton("LeaveChore", gamePanel.transform, new Vector2(405, -348), "RỜI VIỆC  [ESC]",
+            () => { if (GameManager.Instance?.IsPaused != true) cancelAction?.Invoke(); });
+        gamePanel.AddComponent<MiniGamePanelFit>();
         progressBar = Box("ProgressBar", gamePanel.transform, new Vector2(0, -306), new Vector2(520, 7),
             new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.27f, .24f, .18f));
         var fillObject = Box("Fill", progressBar.transform, new Vector2(0, 0), new Vector2(0, 7),
             new Vector2(0, .5f), new Vector2(0, .5f), new Vector2(0, .5f), new Color(.94f, .69f, .28f));
         progressFill = fillObject.GetComponent<Image>();
+        progressPercent = Label("ProgressPercent", gamePanel.transform, new Vector2(315, -306),
+            new Vector2(90, 30), 22, TextAlignmentOptions.Left);
+        progressPercent.color = new Color(.20f, .28f, .22f);
         measureZone = Box("MeasureSuccessZone", progressBar.transform, new Vector2(520 * .65f, 0),
             new Vector2(520 * .20f, 26), new Vector2(0, .5f), new Vector2(0, .5f),
             new Vector2(.5f, .5f), new Color(.30f, .82f, .43f, .72f));
@@ -530,6 +547,8 @@ public sealed class HouseholdChoreUI
     public void Tick()
     {
         actionBoard.Tick();
+        notificationCard.SetActive(notificationUntil > Time.time &&
+            (GameManager.Instance == null || !GameManager.Instance.InputBlocked));
         if (notificationUntil > 0f && Time.time >= notificationUntil)
         {
             notificationUntil = 0f;
@@ -563,9 +582,13 @@ public sealed class HouseholdChoreUI
         if (finalLetter) glowRemaining = 2f;
     }
 
-    public void ShowGame(string title, string instructions, bool showMeter)
+    public void ShowGame(string title, string instructions, bool showMeter, Action onCancel = null, Action onRestart = null)
     {
         actionBoard.Hide();
+        cancelAction = onCancel;
+        restartAction = onRestart;
+        leaveButton.interactable = cancelAction != null;
+        restartButton.interactable = restartAction != null;
         modalBackdrop.SetActive(true);
         gamePanel.SetActive(true);
         notificationText.text = string.Empty;
@@ -614,6 +637,7 @@ public sealed class HouseholdChoreUI
     {
         progressFill.rectTransform.sizeDelta = new Vector2(520 * Mathf.Clamp01(value), 7);
         progressText.text = message;
+        progressPercent.text = Mathf.RoundToInt(Mathf.Clamp01(value) * 100f) + "%";
     }
 
     public void SetHint(string message)
@@ -621,13 +645,14 @@ public sealed class HouseholdChoreUI
         bool correction = message.StartsWith("Chưa");
         if (!correction) hintText.text = message;
         feedbackText.text = correction ? message : string.Empty;
-        feedbackText.color = correction ? new Color(1f, .65f, .5f) :
-            new Color(.69f, .94f, .71f);
+        feedbackText.color = correction ? new Color(.65f, .17f, .12f) :
+            new Color(.16f, .36f, .25f);
         feedbackPulseRemaining = .22f;
     }
     public void HideGame()
     {
         actionBoard.Hide();
+        cancelAction = restartAction = null;
         gamePanel.SetActive(false);
         modalBackdrop.SetActive(false);
     }
@@ -636,12 +661,29 @@ public sealed class HouseholdChoreUI
     {
         TMP_FontAsset font = HUDController.Instance != null ? HUDController.Instance.ObjectiveFont : null;
         if (font == null) return;
-        titleText.font = hintText.font = feedbackText.font = progressText.font = cancelText.font = font;
+        titleText.font = hintText.font = feedbackText.font = progressText.font = cancelText.font = progressPercent.font = font;
         timingZoneText.font = measureZoneText.font = font;
         rewardText.font = font;
         for (int i = 0; i < choiceTexts.Length; i++) choiceTexts[i].font = font;
         actionBoard.SetFont(font);
         notificationText.font = checklistText.font = font;
+        foreach (var label in restartButton.GetComponentsInChildren<TMP_Text>(true)) label.font = font;
+        foreach (var label in leaveButton.GetComponentsInChildren<TMP_Text>(true)) label.font = font;
+    }
+
+    private static Button FooterButton(string name, Transform parent, Vector2 position, string caption, Action action)
+    {
+        var image = OfficeUiStyle.Panel(name, parent, new Vector2(230, 44), position, new Color(.11f, .20f, .18f));
+        image.raycastTarget = true;
+        var button = image.gameObject.AddComponent<Button>();
+        button.targetGraphic = image;
+        var label = Label("Caption", image.transform, Vector2.zero, new Vector2(218, 38), 19, TextAlignmentOptions.Center);
+        label.color = GameUiPresentation.Paper;
+        if (GameUiTheme.Current) label.font = GameUiTheme.Current.font;
+        label.text = caption;
+        button.onClick.AddListener(() => action());
+        MenuButtonSfx.Attach(button);
+        return button;
     }
 
     private static GameObject Box(string name, Transform parent, Vector2 position, Vector2 size,

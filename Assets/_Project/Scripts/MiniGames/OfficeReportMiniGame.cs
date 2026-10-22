@@ -469,6 +469,11 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
     private void ConfigurePresentation()
     {
         if (panel == null) return;
+        foreach (var caption in panel.GetComponentsInChildren<TMP_Text>(true))
+        {
+            if (GameUiTheme.Current && GameUiTheme.Current.font) caption.font = GameUiTheme.Current.font;
+            caption.raycastTarget = false;
+        }
 
         panelCanvasGroup = panel.GetComponent<CanvasGroup>();
         if (panelCanvasGroup == null) panelCanvasGroup = panel.AddComponent<CanvasGroup>();
@@ -480,7 +485,10 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
 
         TextMeshProUGUI footer = panel.transform.Find("ReportWorkspace/ReportFooter")?.GetComponent<TextMeshProUGUI>();
         if (footer != null)
+        {
             footer.text = "PHÍM 1–4  Chọn phương án   ·   ESC  Tạm dừng   ·   Tiến độ tự động lưu";
+            footer.enableAutoSizing = true; footer.fontSizeMin = 18; footer.fontSizeMax = 21;
+        }
 
         if (feedbackText != null)
         {
@@ -493,8 +501,8 @@ public sealed class OfficeReportMiniGame : MonoBehaviour
             TextMeshProUGUI label = optionLabels[i];
             if (label == null) continue;
             label.enableAutoSizing = true;
-            label.fontSizeMin = 13f;
-            label.fontSizeMax = 17f;
+            label.fontSizeMin = 18f;
+            label.fontSizeMax = 22f;
             label.raycastTarget = false;
         }
     }
