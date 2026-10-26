@@ -272,7 +272,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         (IsOptional(chore) ? !completed[(int)chore] :
             ActiveIndex < ChoreCount && Order[ActiveIndex] == chore);
 
-    public bool Complete(HouseholdChore chore)
+    public bool Complete(HouseholdChore chore, bool presentMemory = true)
     {
         int index = (int)chore;
         if (!IsCurrent(chore) || completed[index]) return false;
@@ -289,14 +289,17 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         RefreshRiceWashingPot();
         if (ActiveIndex < ChoreCount) Scene2Checkpoint.SaveHome(ActiveIndex, OptionalBits);
         RefreshUI();
-        float voiceSeconds = chore != HouseholdChore.ReadLetter ? Voice.Play(HouseholdVoicePlayer.ChoreId(chore)) : 0f;
+        float voiceSeconds = presentMemory && chore != HouseholdChore.ReadLetter ? Voice.Play(HouseholdVoicePlayer.ChoreId(chore)) : 0f;
         bool finishedRequired = !optional && ActiveIndex == ChoreCount;
-        ui.Notify(finishedRequired
-            ? pieces + "/" + TotalPieces + " mảnh ký ức — Nhà mình vẫn có một chỗ chờ con."
-            : "+" + (optional ? OptionalPiecesPerChore : PiecesPerChore) + " mảnh ký ức — " + Memories[index],
-            Mathf.Max(7f, voiceSeconds));
-        ui.PlayMemoryReward(finishedRequired);
-        AudioManager.Instance?.PlaySFX(SfxId.MemoryCollected);
+        if (presentMemory)
+        {
+            ui.Notify(finishedRequired
+                ? pieces + "/" + TotalPieces + " mảnh ký ức — Nhà mình vẫn có một chỗ chờ con."
+                : "+" + (optional ? OptionalPiecesPerChore : PiecesPerChore) + " mảnh ký ức — " + Memories[index],
+                Mathf.Max(7f, voiceSeconds));
+            ui.PlayMemoryReward(finishedRequired);
+            AudioManager.Instance?.PlaySFX(SfxId.MemoryCollected);
+        }
         OnChoreCompleted?.Invoke(chore, pieces);
         QuestManager.Instance?.RefreshHouseholdObjective();
         if (finishedRequired) QuestManager.Instance?.CompleteHouseholdChores();

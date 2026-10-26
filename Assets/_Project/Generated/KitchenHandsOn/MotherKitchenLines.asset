@@ -1,0 +1,191 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54762951ca938e243b5f54aaa1041815, type: 3}
+  m_Name: MotherKitchenLines
+  m_EditorClassIdentifier: 
+  lines:
+  - id: wash_start
+    speakerId: "M\u1EB8"
+    text: "Con vo nh\u1EB9 tay th\xF4i nh\xE9. Xoay quanh l\xF2ng n\u1ED3i, \u0111\u1EEBng
+      ch\xE0 m\u1EA1nh k\u1EBBo g\xE3y h\u1EA1t g\u1EA1o."
+    spokenText: "Con vo nh\u1EB9 tay th\xF4i nh\xE9. Xoay quanh l\xF2ng n\u1ED3i,
+      \u0111\u1EEBng ch\xE0 m\u1EA1nh k\u1EBBo g\xE3y h\u1EA1t g\u1EA1o."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: wash_drain
+    speakerId: "M\u1EB8"
+    text: "N\u01B0\u1EDBc \u0111\u1EE5c r\u1ED3i \u0111\u1EA5y. Con n\u1EAFm quai,
+      nghi\xEAng n\u1ED3i ch\u1EAFt t\u1EEB t\u1EEB, gi\u1EEF l\u1EA1i h\u1EA1t g\u1EA1o
+      nh\xE9."
+    spokenText: "N\u01B0\u1EDBc \u0111\u1EE5c r\u1ED3i \u0111\u1EA5y. Con n\u1EAFm
+      quai, nghi\xEAng n\u1ED3i ch\u1EAFt t\u1EEB t\u1EEB, gi\u1EEF l\u1EA1i h\u1EA1t
+      g\u1EA1o nh\xE9."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: wash_again
+    speakerId: "M\u1EB8"
+    text: "\u1EEA, kh\xE9o r\u1ED3i \u0111\xF3. M\u1EB9 th\xEAm n\u01B0\u1EDBc r\u1ED3i,
+      con vo nh\u1EB9 th\xEAm m\u1ED9t l\u01B0\u1EE3t n\u1EEFa nh\xE9."
+    spokenText: "\u1EEA, kh\xE9o r\u1ED3i \u0111\xF3. M\u1EB9 th\xEAm n\u01B0\u1EDBc
+      r\u1ED3i, con vo nh\u1EB9 th\xEAm m\u1ED9t l\u01B0\u1EE3t n\u1EEFa nh\xE9."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: wash_done
+    speakerId: "M\u1EB8"
+    text: "G\u1EA1o s\u1EA1ch r\u1ED3i, c\u1EA3m \u01A1n con. Qua \u0111\xE2y nh\xF3m
+      b\u1EBFp c\xF9ng m\u1EB9 n\xE0o."
+    spokenText: "G\u1EA1o s\u1EA1ch r\u1ED3i, c\u1EA3m \u01A1n con. Qua \u0111\xE2y
+      nh\xF3m b\u1EBFp c\xF9ng m\u1EB9 n\xE0o."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: fire_start
+    speakerId: "M\u1EB8"
+    text: "\u0110\u1EB7t t\u1EEBng thanh c\u1EE7i v\xE0o mi\u1EC7ng b\u1EBFp, ch\u1EEBa
+      ch\xFAt khe cho gi\xF3 v\xE0o nh\xE9 con."
+    spokenText: "\u0110\u1EB7t t\u1EEBng thanh c\u1EE7i v\xE0o mi\u1EC7ng b\u1EBFp,
+      ch\u1EEBa ch\xFAt khe cho gi\xF3 v\xE0o nh\xE9 con."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: fire_blow
+    speakerId: "M\u1EB8"
+    text: "Gi\u1ECFi qu\xE1. C\u1EA7m \u1ED1ng tre th\u1ED5i t\u1EEBng h\u01A1i ng\u1EAFn
+      th\xF4i, \u0111\u1EC3 than b\u1EAFt l\u1EEDa d\u1EA7n."
+    spokenText: "Gi\u1ECFi qu\xE1. C\u1EA7m \u1ED1ng tre th\u1ED5i t\u1EEBng h\u01A1i
+      ng\u1EAFn th\xF4i, \u0111\u1EC3 than b\u1EAFt l\u1EEDa d\u1EA7n."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: fire_short
+    speakerId: "M\u1EB8"
+    text: "H\u01A1i ng\u1EAFn qu\xE1, than ch\u01B0a k\u1ECBp h\u1ED3ng. Con th\u1EED
+      th\u1ED5i ch\u1EADm th\xEAm m\u1ED9t ch\xFAt nh\xE9."
+    spokenText: "H\u01A1i ng\u1EAFn qu\xE1, than ch\u01B0a k\u1ECBp h\u1ED3ng. Con
+      th\u1EED th\u1ED5i ch\u1EADm th\xEAm m\u1ED9t ch\xFAt nh\xE9."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: fire_gentle
+    speakerId: "M\u1EB8"
+    text: "Nh\u1EB9 th\xF4i con, th\u1ED5i l\xE2u qu\xE1 l\u1EA1i bay tro. Ngh\u1EC9
+      m\u1ED9t nh\u1ECBp r\u1ED3i m\xECnh th\u1EED l\u1EA1i."
+    spokenText: "Nh\u1EB9 th\xF4i con, th\u1ED5i l\xE2u qu\xE1 l\u1EA1i bay tro.
+      Ngh\u1EC9 m\u1ED9t nh\u1ECBp r\u1ED3i m\xECnh th\u1EED l\u1EA1i."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: fire_done
+    speakerId: "M\u1EB8"
+    text: "B\u1EBFp \u1EA5m r\u1ED3i! M\u1EB9 \u0111\u1EB7t n\u1ED3i l\xEAn b\u1EBFp
+      b\xEAn n\xE0y, con canh c\u01A1m gi\xFAp m\u1EB9 nh\xE9."
+    spokenText: "B\u1EBFp \u1EA5m r\u1ED3i! M\u1EB9 \u0111\u1EB7t n\u1ED3i l\xEAn
+      b\u1EBFp b\xEAn n\xE0y, con canh c\u01A1m gi\xFAp m\u1EB9 nh\xE9."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: cook_start
+    speakerId: "M\u1EB8"
+    text: "C\u01A1m m\u1EDBi s\xF4i th\xEC h\u1EA1 l\u1EEDa xu\u1ED1ng con nh\xE9.
+      \u0110\u1EA9y c\u1EE7i v\xE0o th\xEC l\u1EEDa l\u1EDBn, r\xFAt ra th\xEC l\u1EEDa
+      d\u1ECBu."
+    spokenText: "C\u01A1m m\u1EDBi s\xF4i th\xEC h\u1EA1 l\u1EEDa xu\u1ED1ng con
+      nh\xE9. \u0110\u1EA9y c\u1EE7i v\xE0o th\xEC l\u1EEDa l\u1EDBn, r\xFAt ra th\xEC
+      l\u1EEDa d\u1ECBu."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: cook_hot
+    speakerId: "M\u1EB8"
+    text: "L\u1EEDa h\u01A1i to r\u1ED3i con. R\xFAt b\u1EDBt c\u1EE7i ra, \u0111\u1EC3
+      c\u01A1m s\xF4i l\u0103n t\u0103n th\xF4i, kh\xF4ng l\u1EA1i b\xE9n n\u1ED3i."
+    spokenText: "L\u1EEDa h\u01A1i to r\u1ED3i con. R\xFAt b\u1EDBt c\u1EE7i ra,
+      \u0111\u1EC3 c\u01A1m s\xF4i l\u0103n t\u0103n th\xF4i, kh\xF4ng l\u1EA1i b\xE9n
+      n\u1ED3i."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: cook_low
+    speakerId: "M\u1EB8"
+    text: "B\u1EBFp y\u1EBFu r\u1ED3i, con \u0111\u1EA9y c\u1EE7i v\xE0o th\xEAm
+      m\u1ED9t ch\xFAt nh\xE9. M\u1EB9 \u0111\u1EE9ng ngay \u0111\xE2y m\xE0."
+    spokenText: "B\u1EBFp y\u1EBFu r\u1ED3i, con \u0111\u1EA9y c\u1EE7i v\xE0o th\xEAm
+      m\u1ED9t ch\xFAt nh\xE9. M\u1EB9 \u0111\u1EE9ng ngay \u0111\xE2y m\xE0."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: cook_good
+    speakerId: "M\u1EB8"
+    text: "\u0110\xFAng r\u1ED3i, c\u1EE9 gi\u1EEF l\u1EEDa th\u1EBF n\xE0y. H\u1ED3i
+      nh\u1ECF m\u1EB9 c\u0169ng \u0111\u01B0\u1EE3c b\xE0 ch\u1EC9 n\u1EA5u c\u01A1m
+      nh\u01B0 v\u1EADy \u0111\u1EA5y."
+    spokenText: "\u0110\xFAng r\u1ED3i, c\u1EE9 gi\u1EEF l\u1EEDa th\u1EBF n\xE0y.
+      H\u1ED3i nh\u1ECF m\u1EB9 c\u0169ng \u0111\u01B0\u1EE3c b\xE0 ch\u1EC9 n\u1EA5u
+      c\u01A1m nh\u01B0 v\u1EADy \u0111\u1EA5y."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: cook_check
+    speakerId: "M\u1EB8"
+    text: "Nghe ti\u1EBFng s\xF4i nh\u1ECF l\u1EA1i r\u1ED3i. Con nh\u1EA5c vung
+      l\xEAn m\u1ED9t ch\xFAt xem c\u01A1m c\u1EA1n ch\u01B0a, c\u1EA9n th\u1EADn
+      h\u01A1i n\xF3ng nh\xE9."
+    spokenText: "Nghe ti\u1EBFng s\xF4i nh\u1ECF l\u1EA1i r\u1ED3i. Con nh\u1EA5c
+      vung l\xEAn m\u1ED9t ch\xFAt xem c\u01A1m c\u1EA1n ch\u01B0a, c\u1EA9n th\u1EADn
+      h\u01A1i n\xF3ng nh\xE9."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0
+  - id: cook_done
+    speakerId: "M\u1EB8"
+    text: "C\u01A1m ch\xEDn th\u01A1m qu\xE1. C\xF3 con ph\u1EE5, m\u1EB9 \u0111\u1EE1
+      v\u1EA5t v\u1EA3 h\u1EB3n. M\xECnh d\u1ECDn m\xE2m \u0103n c\u01A1m th\xF4i
+      con."
+    spokenText: "C\u01A1m ch\xEDn th\u01A1m qu\xE1. C\xF3 con ph\u1EE5, m\u1EB9 \u0111\u1EE1
+      v\u1EA5t v\u1EA3 h\u1EB3n. M\xECnh d\u1ECDn m\xE2m \u0103n c\u01A1m th\xF4i
+      con."
+    fallbackDuration: 7
+    postDelay: 0
+    voiceClip: {fileID: 0}
+    slam: 0
+    silentBeat: 0

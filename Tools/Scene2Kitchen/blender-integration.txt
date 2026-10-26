@@ -1,0 +1,7 @@
+Imported models bound to Scene 2.
+Wash=Center: (-3.50, 0.15, -2.40), Extents: (0.21, 0.00, 0.21)
+Fire=Center: (-5.95, 0.27, -5.02), Extents: (0.42, 0.24, 0.48)
+Cook=Center: (-6.08, 0.47, -6.41), Extents: (0.43, 0.45, 0.48)
+WashRadius=0.19646
+TiltAxis=(-1.00, 0.00, 0.00)
+Inward=(-1.00, 0.00, 0.00)

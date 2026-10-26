@@ -1,0 +1,586 @@
+{
+  "file": "C:\\Users\\LENOVO\\AppData\\Local\\Temp\\opencode\\kitchen-relocation-check\\KitchenAssets.blend",
+  "images": {
+    "M_AgedBamboo_BaseColor": {
+      "path": "//Textures\\M_AgedBamboo_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_AgedBamboo_Metallic": {
+      "path": "//Textures\\M_AgedBamboo_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_AgedBamboo_Normal": {
+      "path": "//Textures\\M_AgedBamboo_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_AgedBamboo_Roughness": {
+      "path": "//Textures\\M_AgedBamboo_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_Aluminum_Soot_BaseColor": {
+      "path": "//Textures\\M_Aluminum_Soot_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Soot_Metallic": {
+      "path": "//Textures\\M_Aluminum_Soot_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Soot_Normal": {
+      "path": "//Textures\\M_Aluminum_Soot_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Soot_Roughness": {
+      "path": "//Textures\\M_Aluminum_Soot_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Worn_BaseColor": {
+      "path": "//Textures\\M_Aluminum_Worn_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Worn_Metallic": {
+      "path": "//Textures\\M_Aluminum_Worn_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Worn_Normal": {
+      "path": "//Textures\\M_Aluminum_Worn_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Worn_Roughness": {
+      "path": "//Textures\\M_Aluminum_Worn_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_Ash_BaseColor": {
+      "path": "//Textures\\M_Ash_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ash_Metallic": {
+      "path": "//Textures\\M_Ash_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ash_Normal": {
+      "path": "//Textures\\M_Ash_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ash_Roughness": {
+      "path": "//Textures\\M_Ash_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooInside_BaseColor": {
+      "path": "//Textures\\M_BambooInside_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooInside_Metallic": {
+      "path": "//Textures\\M_BambooInside_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooInside_Normal": {
+      "path": "//Textures\\M_BambooInside_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooInside_Roughness": {
+      "path": "//Textures\\M_BambooInside_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooWeave_BaseColor": {
+      "path": "//Textures\\M_BambooWeave_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooWeave_Metallic": {
+      "path": "//Textures\\M_BambooWeave_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooWeave_Normal": {
+      "path": "//Textures\\M_BambooWeave_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooWeave_Roughness": {
+      "path": "//Textures\\M_BambooWeave_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_Charcoal_BaseColor": {
+      "path": "//Textures\\M_Charcoal_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_Charcoal_Metallic": {
+      "path": "//Textures\\M_Charcoal_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_Charcoal_Normal": {
+      "path": "//Textures\\M_Charcoal_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_Charcoal_Roughness": {
+      "path": "//Textures\\M_Charcoal_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_Clay_Plaster_BaseColor": {
+      "path": "//Textures\\M_Clay_Plaster_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_Clay_Plaster_Metallic": {
+      "path": "//Textures\\M_Clay_Plaster_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_Clay_Plaster_Normal": {
+      "path": "//Textures\\M_Clay_Plaster_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_Clay_Plaster_Roughness": {
+      "path": "//Textures\\M_Clay_Plaster_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_CookedRice_BaseColor": {
+      "path": "//Textures\\M_CookedRice_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_CookedRice_Metallic": {
+      "path": "//Textures\\M_CookedRice_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_CookedRice_Normal": {
+      "path": "//Textures\\M_CookedRice_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_CookedRice_Roughness": {
+      "path": "//Textures\\M_CookedRice_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_DarkWood_BaseColor": {
+      "path": "//Textures\\M_DarkWood_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_DarkWood_Metallic": {
+      "path": "//Textures\\M_DarkWood_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_DarkWood_Normal": {
+      "path": "//Textures\\M_DarkWood_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_DarkWood_Roughness": {
+      "path": "//Textures\\M_DarkWood_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryBark_BaseColor": {
+      "path": "//Textures\\M_DryBark_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryBark_Metallic": {
+      "path": "//Textures\\M_DryBark_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryBark_Normal": {
+      "path": "//Textures\\M_DryBark_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryBark_Roughness": {
+      "path": "//Textures\\M_DryBark_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryWood_BaseColor": {
+      "path": "//Textures\\M_DryWood_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryWood_Metallic": {
+      "path": "//Textures\\M_DryWood_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryWood_Normal": {
+      "path": "//Textures\\M_DryWood_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryWood_Roughness": {
+      "path": "//Textures\\M_DryWood_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ember_BaseColor": {
+      "path": "//Textures\\M_Ember_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ember_Metallic": {
+      "path": "//Textures\\M_Ember_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ember_Normal": {
+      "path": "//Textures\\M_Ember_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ember_Roughness": {
+      "path": "//Textures\\M_Ember_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_FiredBrick_BaseColor": {
+      "path": "//Textures\\M_FiredBrick_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_FiredBrick_Metallic": {
+      "path": "//Textures\\M_FiredBrick_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_FiredBrick_Normal": {
+      "path": "//Textures\\M_FiredBrick_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_FiredBrick_Roughness": {
+      "path": "//Textures\\M_FiredBrick_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "M_RawRice_BaseColor": {
+      "path": "//Textures\\M_RawRice_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_RawRice_Metallic": {
+      "path": "//Textures\\M_RawRice_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_RawRice_Normal": {
+      "path": "//Textures\\M_RawRice_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_RawRice_Roughness": {
+      "path": "//Textures\\M_RawRice_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_WoodEnd_BaseColor": {
+      "path": "//Textures\\M_WoodEnd_BaseColor.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_WoodEnd_Metallic": {
+      "path": "//Textures\\M_WoodEnd_Metallic.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_WoodEnd_Normal": {
+      "path": "//Textures\\M_WoodEnd_Normal.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    },
+    "M_WoodEnd_Roughness": {
+      "path": "//Textures\\M_WoodEnd_Roughness.png",
+      "exists": true,
+      "loaded": true,
+      "resolution": [
+        1024,
+        1024
+      ]
+    }
+  },
+  "missing": [],
+  "outside_delivery": [],
+  "pass": true,
+  "process_exit_code": 0,
+  "copied_texture_hashes_match": true
+}

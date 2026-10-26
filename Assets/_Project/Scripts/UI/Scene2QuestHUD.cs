@@ -136,8 +136,10 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         string status = household
             ? "VIỆC NHÀ  " + Mathf.Min(completed + 1, HouseholdChoreFlow.ChoreCount) + "/" + HouseholdChoreFlow.ChoreCount
             : StageName(quests.CurrentStep);
-        string location = household && chores != null ? chores.CurrentLocation : string.Empty;
-        string action = household && chores != null ? "Phụ mẹ: " + chores.CurrentTitle : quests.ObjectiveText;
+        var worldSequence = chores != null ? chores.GetComponent<Scene2RadioKitchenSequence>() : null;
+        bool carrying = worldSequence != null && worldSequence.CarryingWood;
+        string location = carrying ? "Bếp · cạnh bếp củi" : household && chores != null ? chores.CurrentLocation : string.Empty;
+        string action = carrying ? "Mang bó củi vào bếp phụ mẹ" : household && chores != null ? "Phụ mẹ: " + chores.CurrentTitle : quests.ObjectiveText;
         string chapter = SceneManager.GetActiveScene().name == SceneNames.Act3_OutSide
             ? "CHƯƠNG 02 · SÂN NHÀ" : "CHƯƠNG 02 · NHÀ MÌNH";
         objectiveText.text = "<size=19><color=#F0C26E>" + chapter + "</color></size>\n" +
@@ -208,6 +210,15 @@ public sealed class Scene2QuestHUD : MonoBehaviour
     private void ShowHint()
     {
         if (quests == null || hintText == null) return;
+        var sequence = chores != null ? chores.GetComponent<Scene2RadioKitchenSequence>() : null;
+        if (sequence != null && sequence.CarryingWood)
+        {
+            hintText.text = "Mang bó củi tới cạnh bếp, nhìn vào chỗ đặt rồi nhấn E. Q để trả củi về giỏ.";
+            hintRemaining = HintDuration;
+            textHintShown = true;
+            hintPanel.SetActive(true);
+            return;
+        }
         hintText.text = quests.CurrentStep == QuestStep.WashDishes && chores != null
             ? "Đến " + chores.CurrentLocation + ", tìm " + chores.CurrentTitle + " rồi nhấn E."
             : ResolveTarget() != null
@@ -247,6 +258,8 @@ public sealed class Scene2QuestHUD : MonoBehaviour
     private Transform ResolveTarget()
     {
         if (quests == null) return null;
+        var sequence = chores != null ? chores.GetComponent<Scene2RadioKitchenSequence>() : null;
+        if (sequence != null && sequence.GuidanceTarget != null) return sequence.GuidanceTarget;
         Transform target;
         if (quests.CurrentStep == QuestStep.WashDishes && chores != null && chores.ActiveIndex < HouseholdChoreFlow.ChoreCount)
             choreTargets.TryGetValue(HouseholdChoreFlow.Order[chores.ActiveIndex], out target);
@@ -263,6 +276,12 @@ public sealed class Scene2QuestHUD : MonoBehaviour
             }
         }
         return target != null && target.gameObject.activeInHierarchy ? target : null;
+    }
+
+    public void RefreshWorldObjective()
+    {
+        ResetGuidance();
+        Refresh();
     }
 
     private void UpdateMarker()

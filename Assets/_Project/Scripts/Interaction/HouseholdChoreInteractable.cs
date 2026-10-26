@@ -30,7 +30,12 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
 
     public override string GetPromptText()
     {
+        if (!isActiveAndEnabled || running) return "";
         if (flow == null) flow = HouseholdChoreFlow.Instance;
+        var kitchen = flow != null ? flow.GetComponent<Scene2KitchenHandsOn>() : null;
+        if (kitchen != null && kitchen.Handles(chore)) return kitchen.PromptFor(chore);
+        var sequence = flow != null ? flow.GetComponent<Scene2RadioKitchenSequence>() : null;
+        if (sequence != null && sequence.Handles(chore)) return sequence.PromptFor(chore);
         return isActiveAndEnabled && !running && flow != null && flow.IsCurrent(chore)
             ? "[E] " + HouseholdChoreFlow.Titles[(int)chore] +
               (HouseholdChoreFlow.IsOptional(chore) ? " · Tùy chọn (+5 mảnh)" : "") : "";
@@ -71,6 +76,20 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
     {
         if (flow == null) flow = HouseholdChoreFlow.Instance;
         if (!isActiveAndEnabled || running || flow == null || flow.UI == null || !flow.IsCurrent(chore)) return;
+
+        var kitchen = flow.GetComponent<Scene2KitchenHandsOn>();
+        if (kitchen != null && kitchen.Handles(chore))
+        {
+            kitchen.Begin(chore);
+            return;
+        }
+
+        var sequence = flow.GetComponent<Scene2RadioKitchenSequence>();
+        if (sequence != null && sequence.Handles(chore))
+        {
+            sequence.InteractWith(chore);
+            return;
+        }
 
         running = true;
         GameManager.Instance?.AcquireInput(this);

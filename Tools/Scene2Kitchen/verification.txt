@@ -1,0 +1,42 @@
+PASS — 39 assertions
+PASS Preview starts at washing rice in the original chore order
+PASS All 15 contextual mother lines have valid authored text and unique IDs
+PASS All three local kitchen sound clips are bound
+PASS Every kitchen mesh comes from the delivered FBX assets rather than prototype primitives
+PASS Imported materials all use the URP Lit shader
+PASS Imported water lies horizontally after FBX axis conversion
+PASS Authored wood destinations and physical stove/pot colliders remain bound
+PASS Cooking cannot start before rice washing and lighting the fire
+PASS The real rice pot can be targeted with E from a clear standing position
+PASS Washing acquires modal input without opening the old minigame
+PASS Water surface and tilt handle are clickable in the real pot view
+PASS Unwashed rice cannot be completed by draining alone
+PASS A partial washing gesture does not skip the rinse
+PASS Leaving the rice pot restores camera and input
+PASS Circular motion in the water makes it cloudy and enables draining
+PASS Half tilting the pot does not count as an emptied rinse
+PASS The first drained rinse refills without awarding the chore
+PASS Two washes and drains save exactly one washing reward
+PASS Rice washing cannot award twice
+PASS The real fire stove has a clear E interaction
+PASS Kindling, hearth and blowing tube all project into the close view
+PASS Blowing before placing wood cannot light the stove
+PASS A wood piece cannot be placed twice
+PASS Leaving the stove preserves placed wood for the current visit
+PASS Very short and excessive breaths do not instantly light the stove
+PASS Three controlled breaths light the stove, save its reward and release input
+PASS The real cooking stove can be targeted with E
+PASS Firewood and lid knob are both reachable in the cooking view
+PASS Lifting the lid early cannot skip cooking
+PASS Excessive heat does not advance cooking
+PASS Adjusting real wood establishes a gentle simmer and advances cooking
+PASS Pause freezes cooking progress
+PASS Stepping away preserves simmer progress and releases input
+PASS Cooked rice still waits for the player's lid check
+PASS The imported lid lifts in world-up despite its authored Blender hierarchy
+PASS Checking the rice completes cooking exactly once and continues to setting the table
+PASS Cooking cannot award twice
+PASS A checkpoint reconstructs lit fire and the completed kitchen world
+PASS Chapter restart clears fire and cooking while retaining the room's stove
+
+All checks passed.

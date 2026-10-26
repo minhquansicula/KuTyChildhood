@@ -1,0 +1,1852 @@
+{
+  "SM_BambooTray": {
+    "bounds_min_m": [
+      -0.25721246004104614,
+      -0.2567000091075897,
+      0.0
+    ],
+    "bounds_max_m": [
+      0.25721246004104614,
+      0.2574000060558319,
+      0.04180089756846428
+    ],
+    "dimensions_xyz_m": [
+      0.5144249200820923,
+      0.5141000151634216,
+      0.04180089756846428
+    ],
+    "triangles": 3868,
+    "materials": [
+      "M_AgedBamboo",
+      "M_BambooWeave"
+    ],
+    "hierarchy": [
+      {
+        "name": "SM_BambooTray",
+        "parent": null,
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Tray_Rim",
+        "parent": "SM_BambooTray",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          -0.001499100006185472
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          -0.001499100006185472
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Tray_Weave",
+        "parent": "SM_BambooTray",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          -0.001499100006185472
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          -0.001499100006185472
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ]
+  },
+  "SM_BlowTube": {
+    "bounds_min_m": [
+      -0.01979999989271164,
+      -0.20001620054244995,
+      0.0
+    ],
+    "bounds_max_m": [
+      0.01979999989271164,
+      0.2000148445367813,
+      0.03959999978542328
+    ],
+    "dimensions_xyz_m": [
+      0.03959999978542328,
+      0.40003104507923126,
+      0.03959999978542328
+    ],
+    "triangles": 1792,
+    "materials": [
+      "M_AgedBamboo",
+      "M_BambooInside"
+    ],
+    "hierarchy": [
+      {
+        "name": "SM_BlowTube",
+        "parent": null,
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "AirOut_Anchor",
+        "parent": "SM_BlowTube",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.20000000298023224,
+          0.01979999989271164
+        ],
+        "local_position_m": [
+          0.0,
+          0.20000000298023224,
+          0.01979999989271164
+        ],
+        "rotation_radians": [
+          -1.5707963705062866,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Grip_Pivot",
+        "parent": "SM_BlowTube",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          -0.14499999582767487,
+          0.01979999989271164
+        ],
+        "local_position_m": [
+          0.0,
+          -0.14499999582767487,
+          0.01979999989271164
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "BlowTube_Mesh",
+        "parent": "Grip_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          -0.14499999582767487,
+          0.01979999989271164
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Mouth_Anchor",
+        "parent": "SM_BlowTube",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          -0.20000000298023224,
+          0.01979999989271164
+        ],
+        "local_position_m": [
+          0.0,
+          -0.20000000298023224,
+          0.01979999989271164
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ]
+  },
+  "SM_CookingPot": {
+    "bounds_min_m": [
+      -0.31200000643730164,
+      -0.25410526990890503,
+      0.0
+    ],
+    "bounds_max_m": [
+      0.31200000643730164,
+      0.2518947124481201,
+      0.40802061557769775
+    ],
+    "dimensions_xyz_m": [
+      0.6240000128746033,
+      0.5059999823570251,
+      0.40802061557769775
+    ],
+    "triangles": 11912,
+    "materials": [
+      "M_Aluminum_Soot",
+      "M_Aluminum_Worn",
+      "M_CookedRice",
+      "M_DarkWood"
+    ],
+    "hierarchy": [
+      {
+        "name": "SM_CookingPot",
+        "parent": null,
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "CookedRice",
+        "parent": "SM_CookingPot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          -0.003640000009909272
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          -0.003640000009909272
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Handle_Left",
+        "parent": "SM_CookingPot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          -0.003640000009909272
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          -0.003640000009909272
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Handle_Right",
+        "parent": "SM_CookingPot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          -0.003640000009909272
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          -0.003640000009909272
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Lid_Pivot",
+        "parent": "SM_CookingPot",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.33202001452445984
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.33202001452445984
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Lid_Knob",
+        "parent": "Lid_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.33202001452445984
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Lid_Mesh",
+        "parent": "Lid_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.33202001452445984
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "LidGrip_Anchor",
+        "parent": "SM_CookingPot",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.4030199944972992
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.4030199944972992
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Pot_Body",
+        "parent": "SM_CookingPot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          -0.003640000009909272
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          -0.003640000009909272
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Steam_Anchor",
+        "parent": "SM_CookingPot",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.31836000084877014
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.31836000084877014
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ]
+  },
+  "SM_Firewood_01": {
+    "bounds_min_m": [
+      -0.028200551867485046,
+      -0.1719999760389328,
+      0.0
+    ],
+    "bounds_max_m": [
+      0.03201223909854889,
+      0.17191274464130402,
+      0.055887866765260696
+    ],
+    "dimensions_xyz_m": [
+      0.060212790966033936,
+      0.3439127206802368,
+      0.055887866765260696
+    ],
+    "triangles": 420,
+    "materials": [
+      "M_DryBark",
+      "M_DryWood",
+      "M_WoodEnd"
+    ],
+    "hierarchy": [
+      {
+        "name": "SM_Firewood_01",
+        "parent": null,
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Grip_Pivot",
+        "parent": "SM_Firewood_01",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.02493053674697876
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.02493053674697876
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Feed_Anchor",
+        "parent": "Grip_Pivot",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.17000000178813934,
+          0.02493053674697876
+        ],
+        "local_position_m": [
+          0.0,
+          0.17000000178813934,
+          0.0
+        ],
+        "rotation_radians": [
+          -1.5707963705062866,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Firewood_Mesh",
+        "parent": "Grip_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.02493053674697876
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ]
+  },
+  "SM_Firewood_02": {
+    "bounds_min_m": [
+      -0.03354024514555931,
+      -0.19681115448474884,
+      0.0
+    ],
+    "bounds_max_m": [
+      0.03923764452338219,
+      0.19698122143745422,
+      0.03830781951546669
+    ],
+    "dimensions_xyz_m": [
+      0.0727778896689415,
+      0.39379237592220306,
+      0.03830781951546669
+    ],
+    "triangles": 420,
+    "materials": [
+      "M_DryBark",
+      "M_DryWood",
+      "M_WoodEnd"
+    ],
+    "hierarchy": [
+      {
+        "name": "SM_Firewood_02",
+        "parent": null,
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Grip_Pivot",
+        "parent": "SM_Firewood_02",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.01764608919620514
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.01764608919620514
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Feed_Anchor",
+        "parent": "Grip_Pivot",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.19499999284744263,
+          0.01764608919620514
+        ],
+        "local_position_m": [
+          0.0,
+          0.19499999284744263,
+          0.0
+        ],
+        "rotation_radians": [
+          -1.5707963705062866,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Firewood_Mesh",
+        "parent": "Grip_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.01764608919620514
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ]
+  },
+  "SM_Firewood_03": {
+    "bounds_min_m": [
+      -0.02769312635064125,
+      -0.21699997782707214,
+      0.0
+    ],
+    "bounds_max_m": [
+      0.04057398438453674,
+      0.21691274642944336,
+      0.05780293792486191
+    ],
+    "dimensions_xyz_m": [
+      0.068267110735178,
+      0.4339127242565155,
+      0.05780293792486191
+    ],
+    "triangles": 420,
+    "materials": [
+      "M_DryBark",
+      "M_DryWood",
+      "M_WoodEnd"
+    ],
+    "hierarchy": [
+      {
+        "name": "SM_Firewood_03",
+        "parent": null,
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Grip_Pivot",
+        "parent": "SM_Firewood_03",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.03011428937315941
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.03011428937315941
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Feed_Anchor",
+        "parent": "Grip_Pivot",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.2150000035762787,
+          0.03011428937315941
+        ],
+        "local_position_m": [
+          0.0,
+          0.2150000035762787,
+          0.0
+        ],
+        "rotation_radians": [
+          -1.5707963705062866,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Firewood_Mesh",
+        "parent": "Grip_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.03011428937315941
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ]
+  },
+  "SM_Firewood_04": {
+    "bounds_min_m": [
+      -0.04102134704589844,
+      -0.15947605669498444,
+      0.0
+    ],
+    "bounds_max_m": [
+      0.03643040359020233,
+      0.16620972752571106,
+      0.07263706624507904
+    ],
+    "dimensions_xyz_m": [
+      0.07745175063610077,
+      0.3256857842206955,
+      0.07263706624507904
+    ],
+    "triangles": 420,
+    "materials": [
+      "M_DryBark",
+      "M_DryWood",
+      "M_WoodEnd"
+    ],
+    "hierarchy": [
+      {
+        "name": "SM_Firewood_04",
+        "parent": null,
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Grip_Pivot",
+        "parent": "SM_Firewood_04",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.03572596237063408
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.03572596237063408
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Feed_Anchor",
+        "parent": "Grip_Pivot",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.1574999988079071,
+          0.03572596237063408
+        ],
+        "local_position_m": [
+          0.0,
+          0.1574999988079071,
+          0.0
+        ],
+        "rotation_radians": [
+          -1.5707963705062866,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Firewood_Mesh",
+        "parent": "Grip_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.03572596237063408
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ]
+  },
+  "SM_Firewood_05": {
+    "bounds_min_m": [
+      -0.03646008297801018,
+      -0.18699997663497925,
+      0.0
+    ],
+    "bounds_max_m": [
+      0.03148438408970833,
+      0.18691274523735046,
+      0.052534766495227814
+    ],
+    "dimensions_xyz_m": [
+      0.0679444670677185,
+      0.3739127218723297,
+      0.052534766495227814
+    ],
+    "triangles": 420,
+    "materials": [
+      "M_DryBark",
+      "M_DryWood",
+      "M_WoodEnd"
+    ],
+    "hierarchy": [
+      {
+        "name": "SM_Firewood_05",
+        "parent": null,
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Grip_Pivot",
+        "parent": "SM_Firewood_05",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.02323261834681034
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.02323261834681034
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Feed_Anchor",
+        "parent": "Grip_Pivot",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.1850000023841858,
+          0.02323261834681034
+        ],
+        "local_position_m": [
+          0.0,
+          0.1850000023841858,
+          0.0
+        ],
+        "rotation_radians": [
+          -1.5707963705062866,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Firewood_Mesh",
+        "parent": "Grip_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.02323261834681034
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ]
+  },
+  "SM_RicePaddle": {
+    "bounds_min_m": [
+      -0.03400000184774399,
+      -0.125,
+      0.0
+    ],
+    "bounds_max_m": [
+      0.03400000184774399,
+      0.12700000405311584,
+      0.012000000104308128
+    ],
+    "dimensions_xyz_m": [
+      0.06800000369548798,
+      0.25200000405311584,
+      0.012000000104308128
+    ],
+    "triangles": 348,
+    "materials": [
+      "M_DryWood"
+    ],
+    "hierarchy": [
+      {
+        "name": "SM_RicePaddle",
+        "parent": null,
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Grip_Pivot",
+        "parent": "SM_RicePaddle",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          -0.10499999672174454,
+          0.006000000052154064
+        ],
+        "local_position_m": [
+          0.0,
+          -0.10499999672174454,
+          0.006000000052154064
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Paddle_Mesh",
+        "parent": "Grip_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          -0.10499999672174454,
+          0.006000000052154064
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ]
+  },
+  "SM_RiceWashingPot": {
+    "bounds_min_m": [
+      -0.29600000381469727,
+      -0.23510527610778809,
+      2.3283064365386963e-10
+    ],
+    "bounds_max_m": [
+      0.29600000381469727,
+      0.23289473354816437,
+      0.2747200131416321
+    ],
+    "dimensions_xyz_m": [
+      0.5920000076293945,
+      0.46800000965595245,
+      0.27472001290880144
+    ],
+    "triangles": 9742,
+    "materials": [
+      "M_Aluminum_Soot",
+      "M_Aluminum_Worn",
+      "M_RawRice",
+      "M_RiceWater"
+    ],
+    "hierarchy": [
+      {
+        "name": "SM_RiceWashingPot",
+        "parent": null,
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Tilt_Pivot",
+        "parent": "SM_RiceWashingPot",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          -0.17599999904632568,
+          0.015359999611973763
+        ],
+        "local_position_m": [
+          0.0,
+          -0.17599999904632568,
+          0.015359999611973763
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Drain_Anchor",
+        "parent": "Tilt_Pivot",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          -0.23000000417232513,
+          0.27035999298095703
+        ],
+        "local_position_m": [
+          0.0,
+          -0.05400000512599945,
+          0.2549999952316284
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Grip_Anchor",
+        "parent": "Tilt_Pivot",
+        "type": "EMPTY",
+        "world_position_m": [
+          -0.2800000011920929,
+          0.0,
+          0.23336000740528107
+        ],
+        "local_position_m": [
+          -0.2800000011920929,
+          0.17599999904632568,
+          0.21800000965595245
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Handle_Left",
+        "parent": "Tilt_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          -0.0036399997770786285
+        ],
+        "local_position_m": [
+          0.0,
+          0.17599999904632568,
+          -0.01899999938905239
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Handle_Right",
+        "parent": "Tilt_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          -0.0036399997770786285
+        ],
+        "local_position_m": [
+          0.0,
+          0.17599999904632568,
+          -0.01899999938905239
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Pot_Body",
+        "parent": "Tilt_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          -0.0036399997770786285
+        ],
+        "local_position_m": [
+          0.0,
+          0.17599999904632568,
+          -0.01899999938905239
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Rice_Grains",
+        "parent": "Tilt_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          -0.0036399997770786285
+        ],
+        "local_position_m": [
+          0.0,
+          0.17599999904632568,
+          -0.01899999938905239
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Stir_Anchor",
+        "parent": "Tilt_Pivot",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.12035999447107315
+        ],
+        "local_position_m": [
+          0.0,
+          0.17599999904632568,
+          0.10499999672174454
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Water_Surface",
+        "parent": "Tilt_Pivot",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.12035999447107315
+        ],
+        "local_position_m": [
+          0.0,
+          0.17599999904632568,
+          0.10499999672174454
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ]
+  },
+  "SM_WoodStove": {
+    "bounds_min_m": [
+      -0.47929486632347107,
+      -0.4179999828338623,
+      0.0
+    ],
+    "bounds_max_m": [
+      0.4811600148677826,
+      0.4244389533996582,
+      0.48500001430511475
+    ],
+    "dimensions_xyz_m": [
+      0.9604548811912537,
+      0.8424389362335205,
+      0.48500001430511475
+    ],
+    "triangles": 8686,
+    "materials": [
+      "M_Ash",
+      "M_Charcoal",
+      "M_Clay_Plaster",
+      "M_Ember",
+      "M_FiredBrick"
+    ],
+    "hierarchy": [
+      {
+        "name": "SM_WoodStove",
+        "parent": null,
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Ash_Bed",
+        "parent": "SM_WoodStove",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          -0.004999999888241291
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          -0.004999999888241291
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Ember_Bed",
+        "parent": "SM_WoodStove",
+        "type": "MESH",
+        "world_position_m": [
+          0.05958910658955574,
+          0.08438743650913239,
+          0.08419899642467499
+        ],
+        "local_position_m": [
+          0.05958910658955574,
+          0.08438743650913239,
+          0.08419899642467499
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Fire_Anchor",
+        "parent": "SM_WoodStove",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          -0.019999999552965164,
+          0.1850000023841858
+        ],
+        "local_position_m": [
+          0.0,
+          -0.019999999552965164,
+          0.1850000023841858
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Hearth_Anchor",
+        "parent": "SM_WoodStove",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          -0.03999999910593033,
+          0.09999999403953552
+        ],
+        "local_position_m": [
+          0.0,
+          -0.03999999910593033,
+          0.09999999403953552
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "PotRest_Anchor",
+        "parent": "SM_WoodStove",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.4832000136375427
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.4832000136375427
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Smoke_Anchor",
+        "parent": "SM_WoodStove",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          0.0,
+          0.45500001311302185
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          0.45500001311302185
+        ],
+        "rotation_radians": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Stove_Body",
+        "parent": "SM_WoodStove",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          -0.004999999888241291
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          -0.004999999888241291
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "Stove_Top",
+        "parent": "SM_WoodStove",
+        "type": "MESH",
+        "world_position_m": [
+          0.0,
+          0.0,
+          -0.004999999888241291
+        ],
+        "local_position_m": [
+          0.0,
+          0.0,
+          -0.004999999888241291
+        ],
+        "rotation_radians": [
+          0.0,
+          -0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "WoodSlot_01",
+        "parent": "SM_WoodStove",
+        "type": "EMPTY",
+        "world_position_m": [
+          -0.08500000089406967,
+          -0.1599999964237213,
+          0.12099999934434891
+        ],
+        "local_position_m": [
+          -0.08500000089406967,
+          -0.1599999964237213,
+          0.12099999934434891
+        ],
+        "rotation_radians": [
+          -1.5707963705062866,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "WoodSlot_02",
+        "parent": "SM_WoodStove",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.0,
+          -0.1599999964237213,
+          0.12099999934434891
+        ],
+        "local_position_m": [
+          0.0,
+          -0.1599999964237213,
+          0.12099999934434891
+        ],
+        "rotation_radians": [
+          -1.5707963705062866,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "name": "WoodSlot_03",
+        "parent": "SM_WoodStove",
+        "type": "EMPTY",
+        "world_position_m": [
+          0.08500000089406967,
+          -0.1599999964237213,
+          0.12099999934434891
+        ],
+        "local_position_m": [
+          0.08500000089406967,
+          -0.1599999964237213,
+          0.12099999934434891
+        ],
+        "rotation_radians": [
+          -1.5707963705062866,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ]
+  }
+}

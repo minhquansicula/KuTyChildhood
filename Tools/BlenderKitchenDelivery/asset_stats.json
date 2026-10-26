@@ -1,0 +1,101 @@
+{
+  "SM_BambooTray": {
+    "triangles": 3868,
+    "objects": 3,
+    "materials": [
+      "M_AgedBamboo",
+      "M_BambooWeave"
+    ]
+  },
+  "SM_BlowTube": {
+    "triangles": 1792,
+    "objects": 5,
+    "materials": [
+      "M_AgedBamboo",
+      "M_BambooInside"
+    ]
+  },
+  "SM_CookingPot": {
+    "triangles": 11912,
+    "objects": 10,
+    "materials": [
+      "M_Aluminum_Soot",
+      "M_Aluminum_Worn",
+      "M_CookedRice",
+      "M_DarkWood"
+    ]
+  },
+  "SM_Firewood_01": {
+    "triangles": 420,
+    "objects": 4,
+    "materials": [
+      "M_DryBark",
+      "M_DryWood",
+      "M_WoodEnd"
+    ]
+  },
+  "SM_Firewood_02": {
+    "triangles": 420,
+    "objects": 4,
+    "materials": [
+      "M_DryBark",
+      "M_DryWood",
+      "M_WoodEnd"
+    ]
+  },
+  "SM_Firewood_03": {
+    "triangles": 420,
+    "objects": 4,
+    "materials": [
+      "M_DryBark",
+      "M_DryWood",
+      "M_WoodEnd"
+    ]
+  },
+  "SM_Firewood_04": {
+    "triangles": 420,
+    "objects": 4,
+    "materials": [
+      "M_DryBark",
+      "M_DryWood",
+      "M_WoodEnd"
+    ]
+  },
+  "SM_Firewood_05": {
+    "triangles": 420,
+    "objects": 4,
+    "materials": [
+      "M_DryBark",
+      "M_DryWood",
+      "M_WoodEnd"
+    ]
+  },
+  "SM_RicePaddle": {
+    "triangles": 348,
+    "objects": 3,
+    "materials": [
+      "M_DryWood"
+    ]
+  },
+  "SM_RiceWashingPot": {
+    "triangles": 9742,
+    "objects": 10,
+    "materials": [
+      "M_Aluminum_Soot",
+      "M_Aluminum_Worn",
+      "M_RawRice",
+      "M_RiceWater"
+    ]
+  },
+  "SM_WoodStove": {
+    "triangles": 8686,
+    "objects": 12,
+    "materials": [
+      "M_Ash",
+      "M_Charcoal",
+      "M_Clay_Plaster",
+      "M_Ember",
+      "M_FiredBrick"
+    ]
+  }
+}

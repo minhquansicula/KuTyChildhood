@@ -1,0 +1,995 @@
+{
+  "blender_version": "5.2.2 LTS",
+  "tolerance_m": 2e-05,
+  "fbx_roundtrip": {
+    "SM_BambooTray": {
+      "pass": true,
+      "object_count": 3,
+      "hierarchy_matches": true,
+      "dimension_error_m": 3.336424182764919e-08,
+      "dimensions_m": [
+        0.5144249200820923,
+        0.5141000151634216,
+        0.04180093093270611
+      ],
+      "max_origin_anchor_error_m": 2.4423441539562427e-10,
+      "max_orientation_error_radians": 0,
+      "max_scale_error": 0,
+      "root_distance_from_zero_m": 0.0,
+      "triangles": 3868,
+      "triangle_count_matches": true,
+      "expected_missing": [],
+      "unexpected": [],
+      "transform_mismatches": [],
+      "no_camera_lights": true
+    },
+    "SM_BlowTube": {
+      "pass": true,
+      "object_count": 5,
+      "hierarchy_matches": true,
+      "dimension_error_m": 2.6062448199581922e-08,
+      "dimensions_m": [
+        0.03959999978542328,
+        0.40003104507923126,
+        0.03960002584787148
+      ],
+      "max_origin_anchor_error_m": 3.166496753692627e-08,
+      "max_orientation_error_radians": 0,
+      "max_scale_error": 8.429369702178807e-08,
+      "root_distance_from_zero_m": 0.0,
+      "triangles": 1792,
+      "triangle_count_matches": true,
+      "expected_missing": [],
+      "unexpected": [],
+      "transform_mismatches": [],
+      "no_camera_lights": true
+    },
+    "SM_CookingPot": {
+      "pass": true,
+      "object_count": 10,
+      "hierarchy_matches": true,
+      "dimension_error_m": 1.9730554967622993e-08,
+      "dimensions_m": [
+        0.6240000128746033,
+        0.5059999823570251,
+        0.4080205958471428
+      ],
+      "max_origin_anchor_error_m": 6.566029590422635e-08,
+      "max_orientation_error_radians": 0,
+      "max_scale_error": 0,
+      "root_distance_from_zero_m": 0.0,
+      "triangles": 11912,
+      "triangle_count_matches": true,
+      "expected_missing": [],
+      "unexpected": [],
+      "transform_mismatches": [],
+      "no_camera_lights": true
+    },
+    "SM_Firewood_01": {
+      "pass": true,
+      "object_count": 4,
+      "hierarchy_matches": true,
+      "dimension_error_m": 1.4901161193847656e-08,
+      "dimensions_m": [
+        0.060212790966033936,
+        0.3439127057790756,
+        0.05588787375313142
+      ],
+      "max_origin_anchor_error_m": 2.7939677238464355e-08,
+      "max_orientation_error_radians": 0,
+      "max_scale_error": 8.429369702178807e-08,
+      "root_distance_from_zero_m": 0.0,
+      "triangles": 420,
+      "triangle_count_matches": true,
+      "expected_missing": [],
+      "unexpected": [],
+      "transform_mismatches": [],
+      "no_camera_lights": true
+    },
+    "SM_Firewood_02": {
+      "pass": true,
+      "object_count": 4,
+      "hierarchy_matches": true,
+      "dimension_error_m": 2.4450603319792208e-08,
+      "dimensions_m": [
+        0.0727778896689415,
+        0.39379237592220306,
+        0.03830784396607001
+      ],
+      "max_origin_anchor_error_m": 3.166496753692627e-08,
+      "max_orientation_error_radians": 0,
+      "max_scale_error": 8.429369702178807e-08,
+      "root_distance_from_zero_m": 0.0,
+      "triangles": 420,
+      "triangle_count_matches": true,
+      "expected_missing": [],
+      "unexpected": [],
+      "transform_mismatches": [],
+      "no_camera_lights": true
+    },
+    "SM_Firewood_03": {
+      "pass": true,
+      "object_count": 4,
+      "hierarchy_matches": true,
+      "dimension_error_m": 1.4901161193847656e-08,
+      "dimensions_m": [
+        0.068267110735178,
+        0.4339127093553543,
+        0.05780294654332785
+      ],
+      "max_origin_anchor_error_m": 3.5390257835388184e-08,
+      "max_orientation_error_radians": 0,
+      "max_scale_error": 8.429369702178807e-08,
+      "root_distance_from_zero_m": 0.0,
+      "triangles": 420,
+      "triangle_count_matches": true,
+      "expected_missing": [],
+      "unexpected": [],
+      "transform_mismatches": [],
+      "no_camera_lights": true
+    },
+    "SM_Firewood_04": {
+      "pass": true,
+      "object_count": 4,
+      "hierarchy_matches": true,
+      "dimension_error_m": 4.7763276000978294e-08,
+      "dimensions_m": [
+        0.07745175063610077,
+        0.3256857842206955,
+        0.07263701848180304
+      ],
+      "max_origin_anchor_error_m": 2.60770320892334e-08,
+      "max_orientation_error_radians": 0,
+      "max_scale_error": 8.429369702178807e-08,
+      "root_distance_from_zero_m": 0.0,
+      "triangles": 420,
+      "triangle_count_matches": true,
+      "expected_missing": [],
+      "unexpected": [],
+      "transform_mismatches": [],
+      "no_camera_lights": true
+    },
+    "SM_Firewood_05": {
+      "pass": true,
+      "object_count": 4,
+      "hierarchy_matches": true,
+      "dimension_error_m": 1.4901161193847656e-08,
+      "dimensions_m": [
+        0.0679444670677185,
+        0.3739127069711685,
+        0.05253476646885247
+      ],
+      "max_origin_anchor_error_m": 2.9802322387695312e-08,
+      "max_orientation_error_radians": 0,
+      "max_scale_error": 8.429369702178807e-08,
+      "root_distance_from_zero_m": 0.0,
+      "triangles": 420,
+      "triangle_count_matches": true,
+      "expected_missing": [],
+      "unexpected": [],
+      "transform_mismatches": [],
+      "no_camera_lights": true
+    },
+    "SM_RicePaddle": {
+      "pass": true,
+      "object_count": 3,
+      "hierarchy_matches": true,
+      "dimension_error_m": 8.728415323844274e-09,
+      "dimensions_m": [
+        0.06800000369548798,
+        0.25200000405311584,
+        0.012000008832723452
+      ],
+      "max_origin_anchor_error_m": 1.7229467630386353e-08,
+      "max_orientation_error_radians": 0,
+      "max_scale_error": 0,
+      "root_distance_from_zero_m": 0.0,
+      "triangles": 348,
+      "triangle_count_matches": true,
+      "expected_missing": [],
+      "unexpected": [],
+      "transform_mismatches": [],
+      "no_camera_lights": true
+    },
+    "SM_RiceWashingPot": {
+      "pass": true,
+      "object_count": 10,
+      "hierarchy_matches": true,
+      "dimension_error_m": 4.813649923107732e-08,
+      "dimensions_m": [
+        0.5920000076293945,
+        0.46800000965595245,
+        0.2747199647723022
+      ],
+      "max_origin_anchor_error_m": 5.3726900748371916e-08,
+      "max_orientation_error_radians": 0,
+      "max_scale_error": 0,
+      "root_distance_from_zero_m": 0.0,
+      "triangles": 9742,
+      "triangle_count_matches": true,
+      "expected_missing": [],
+      "unexpected": [],
+      "transform_mismatches": [],
+      "no_camera_lights": true
+    },
+    "SM_WoodStove": {
+      "pass": true,
+      "object_count": 12,
+      "hierarchy_matches": true,
+      "dimension_error_m": 6.451659118056341e-08,
+      "dimensions_m": [
+        0.9604548811912537,
+        0.8424389362335205,
+        0.4850000788217059
+      ],
+      "max_origin_anchor_error_m": 7.872327373804883e-08,
+      "max_orientation_error_radians": 0,
+      "max_scale_error": 8.429369702178807e-08,
+      "root_distance_from_zero_m": 0.0,
+      "triangles": 8686,
+      "triangle_count_matches": true,
+      "expected_missing": [],
+      "unexpected": [],
+      "transform_mismatches": [],
+      "no_camera_lights": true
+    }
+  },
+  "mesh_audit": {
+    "SM_BambooTray/Tray_Rim": {
+      "vertices": 1216,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.0006282290263457067,
+      "uv_layers": 1
+    },
+    "SM_BambooTray/Tray_Weave": {
+      "vertices": 720,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.0005341581542196685,
+      "uv_layers": 1
+    },
+    "SM_BlowTube/BlowTube_Mesh": {
+      "vertices": 896,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.00016269899914418993,
+      "uv_layers": 1
+    },
+    "SM_CookingPot/CookedRice": {
+      "vertices": 1704,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.002572071970391672,
+      "uv_layers": 1
+    },
+    "SM_CookingPot/Handle_Left": {
+      "vertices": 588,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 7.223594476541154e-05,
+      "uv_layers": 1
+    },
+    "SM_CookingPot/Handle_Right": {
+      "vertices": 588,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 7.223594340201915e-05,
+      "uv_layers": 1
+    },
+    "SM_CookingPot/Lid_Knob": {
+      "vertices": 224,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 5.969430126721359e-05,
+      "uv_layers": 1
+    },
+    "SM_CookingPot/Lid_Mesh": {
+      "vertices": 1008,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.004733644364300654,
+      "uv_layers": 1
+    },
+    "SM_CookingPot/Pot_Body": {
+      "vertices": 2304,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.004647267013420397,
+      "uv_layers": 1
+    },
+    "SM_Firewood_01/Firewood_Mesh": {
+      "vertices": 212,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.0006990700988763919,
+      "uv_layers": 1
+    },
+    "SM_Firewood_02/Firewood_Mesh": {
+      "vertices": 212,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.0007275274398955557,
+      "uv_layers": 1
+    },
+    "SM_Firewood_03/Firewood_Mesh": {
+      "vertices": 212,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.0010254096457949207,
+      "uv_layers": 1
+    },
+    "SM_Firewood_04/Firewood_Mesh": {
+      "vertices": 212,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.0010885424163185658,
+      "uv_layers": 1
+    },
+    "SM_Firewood_05/Firewood_Mesh": {
+      "vertices": 212,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.0008931230685866761,
+      "uv_layers": 1
+    },
+    "SM_RicePaddle/Paddle_Mesh": {
+      "vertices": 176,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 5.6524639689350816e-05,
+      "uv_layers": 1
+    },
+    "SM_RiceWashingPot/Handle_Left": {
+      "vertices": 588,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 7.223594236574195e-05,
+      "uv_layers": 1
+    },
+    "SM_RiceWashingPot/Handle_Right": {
+      "vertices": 588,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 7.223594236574187e-05,
+      "uv_layers": 1
+    },
+    "SM_RiceWashingPot/Pot_Body": {
+      "vertices": 2304,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.003220643254058424,
+      "uv_layers": 1
+    },
+    "SM_RiceWashingPot/Rice_Grains": {
+      "vertices": 1704,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.002076878013391047,
+      "uv_layers": 1
+    },
+    "SM_RiceWashingPot/Water_Surface": {
+      "vertices": 192,
+      "boundary_edges": 96,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.0,
+      "uv_layers": 1
+    },
+    "SM_WoodStove/Ash_Bed": {
+      "vertices": 684,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.006752466376301084,
+      "uv_layers": 1
+    },
+    "SM_WoodStove/Ember_Bed": {
+      "vertices": 108,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.00023207515734485426,
+      "uv_layers": 1
+    },
+    "SM_WoodStove/Stove_Body": {
+      "vertices": 2605,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.12332610235585598,
+      "uv_layers": 1
+    },
+    "SM_WoodStove/Stove_Top": {
+      "vertices": 1056,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "inconsistent_normals": 0,
+      "degenerate_faces": 0,
+      "duplicate_faces": 0,
+      "signed_volume_m3": 0.03489696211456861,
+      "uv_layers": 1
+    }
+  },
+  "texture_links": {
+    "M_AgedBamboo_BaseColor": {
+      "path": "//Textures/M_AgedBamboo_BaseColor.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_AgedBamboo_Metallic": {
+      "path": "//Textures/M_AgedBamboo_Metallic.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_AgedBamboo_Normal": {
+      "path": "//Textures/M_AgedBamboo_Normal.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_AgedBamboo_Roughness": {
+      "path": "//Textures/M_AgedBamboo_Roughness.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_Aluminum_Soot_BaseColor": {
+      "path": "//Textures/M_Aluminum_Soot_BaseColor.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Soot_Metallic": {
+      "path": "//Textures/M_Aluminum_Soot_Metallic.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Soot_Normal": {
+      "path": "//Textures/M_Aluminum_Soot_Normal.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Soot_Roughness": {
+      "path": "//Textures/M_Aluminum_Soot_Roughness.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Worn_BaseColor": {
+      "path": "//Textures/M_Aluminum_Worn_BaseColor.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Worn_Metallic": {
+      "path": "//Textures/M_Aluminum_Worn_Metallic.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Worn_Normal": {
+      "path": "//Textures/M_Aluminum_Worn_Normal.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_Aluminum_Worn_Roughness": {
+      "path": "//Textures/M_Aluminum_Worn_Roughness.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_Ash_BaseColor": {
+      "path": "//Textures/M_Ash_BaseColor.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ash_Metallic": {
+      "path": "//Textures/M_Ash_Metallic.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ash_Normal": {
+      "path": "//Textures/M_Ash_Normal.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ash_Roughness": {
+      "path": "//Textures/M_Ash_Roughness.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooInside_BaseColor": {
+      "path": "//Textures/M_BambooInside_BaseColor.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooInside_Metallic": {
+      "path": "//Textures/M_BambooInside_Metallic.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooInside_Normal": {
+      "path": "//Textures/M_BambooInside_Normal.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooInside_Roughness": {
+      "path": "//Textures/M_BambooInside_Roughness.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooWeave_BaseColor": {
+      "path": "//Textures/M_BambooWeave_BaseColor.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooWeave_Metallic": {
+      "path": "//Textures/M_BambooWeave_Metallic.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooWeave_Normal": {
+      "path": "//Textures/M_BambooWeave_Normal.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_BambooWeave_Roughness": {
+      "path": "//Textures/M_BambooWeave_Roughness.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_Charcoal_BaseColor": {
+      "path": "//Textures/M_Charcoal_BaseColor.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_Charcoal_Metallic": {
+      "path": "//Textures/M_Charcoal_Metallic.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_Charcoal_Normal": {
+      "path": "//Textures/M_Charcoal_Normal.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_Charcoal_Roughness": {
+      "path": "//Textures/M_Charcoal_Roughness.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_Clay_Plaster_BaseColor": {
+      "path": "//Textures/M_Clay_Plaster_BaseColor.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_Clay_Plaster_Metallic": {
+      "path": "//Textures/M_Clay_Plaster_Metallic.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_Clay_Plaster_Normal": {
+      "path": "//Textures/M_Clay_Plaster_Normal.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_Clay_Plaster_Roughness": {
+      "path": "//Textures/M_Clay_Plaster_Roughness.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_CookedRice_BaseColor": {
+      "path": "//Textures/M_CookedRice_BaseColor.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_CookedRice_Metallic": {
+      "path": "//Textures/M_CookedRice_Metallic.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_CookedRice_Normal": {
+      "path": "//Textures/M_CookedRice_Normal.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_CookedRice_Roughness": {
+      "path": "//Textures/M_CookedRice_Roughness.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_DarkWood_BaseColor": {
+      "path": "//Textures/M_DarkWood_BaseColor.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_DarkWood_Metallic": {
+      "path": "//Textures/M_DarkWood_Metallic.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_DarkWood_Normal": {
+      "path": "//Textures/M_DarkWood_Normal.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_DarkWood_Roughness": {
+      "path": "//Textures/M_DarkWood_Roughness.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryBark_BaseColor": {
+      "path": "//Textures/M_DryBark_BaseColor.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryBark_Metallic": {
+      "path": "//Textures/M_DryBark_Metallic.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryBark_Normal": {
+      "path": "//Textures/M_DryBark_Normal.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryBark_Roughness": {
+      "path": "//Textures/M_DryBark_Roughness.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryWood_BaseColor": {
+      "path": "//Textures/M_DryWood_BaseColor.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryWood_Metallic": {
+      "path": "//Textures/M_DryWood_Metallic.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryWood_Normal": {
+      "path": "//Textures/M_DryWood_Normal.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_DryWood_Roughness": {
+      "path": "//Textures/M_DryWood_Roughness.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ember_BaseColor": {
+      "path": "//Textures/M_Ember_BaseColor.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ember_Metallic": {
+      "path": "//Textures/M_Ember_Metallic.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ember_Normal": {
+      "path": "//Textures/M_Ember_Normal.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_Ember_Roughness": {
+      "path": "//Textures/M_Ember_Roughness.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_FiredBrick_BaseColor": {
+      "path": "//Textures/M_FiredBrick_BaseColor.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_FiredBrick_Metallic": {
+      "path": "//Textures/M_FiredBrick_Metallic.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_FiredBrick_Normal": {
+      "path": "//Textures/M_FiredBrick_Normal.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_FiredBrick_Roughness": {
+      "path": "//Textures/M_FiredBrick_Roughness.png",
+      "exists": true,
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "M_RawRice_BaseColor": {
+      "path": "//Textures/M_RawRice_BaseColor.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_RawRice_Metallic": {
+      "path": "//Textures/M_RawRice_Metallic.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_RawRice_Normal": {
+      "path": "//Textures/M_RawRice_Normal.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_RawRice_Roughness": {
+      "path": "//Textures/M_RawRice_Roughness.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_WoodEnd_BaseColor": {
+      "path": "//Textures/M_WoodEnd_BaseColor.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_WoodEnd_Metallic": {
+      "path": "//Textures/M_WoodEnd_Metallic.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_WoodEnd_Normal": {
+      "path": "//Textures/M_WoodEnd_Normal.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "M_WoodEnd_Roughness": {
+      "path": "//Textures/M_WoodEnd_Roughness.png",
+      "exists": true,
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  },
+  "failures": [],
+  "pass": true
+}

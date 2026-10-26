@@ -1,0 +1,74 @@
+{
+  "Tray_Rim": {
+    "welded_vertices": 89
+  },
+  "Tray_Weave": {
+    "welded_vertices": 10
+  },
+  "BlowTube_Mesh": {
+    "welded_vertices": 49
+  },
+  "CookedRice": {
+    "welded_vertices": 6
+  },
+  "Handle_Left.001": {
+    "welded_vertices": 0
+  },
+  "Handle_Right.001": {
+    "welded_vertices": 0
+  },
+  "Lid_Knob": {
+    "welded_vertices": 8
+  },
+  "Lid_Mesh": {
+    "welded_vertices": 14
+  },
+  "Pot_Body.001": {
+    "welded_vertices": 24
+  },
+  "Firewood_Mesh": {
+    "welded_vertices": 0
+  },
+  "Firewood_Mesh.001": {
+    "welded_vertices": 0
+  },
+  "Firewood_Mesh.002": {
+    "welded_vertices": 0
+  },
+  "Firewood_Mesh.003": {
+    "welded_vertices": 0
+  },
+  "Firewood_Mesh.004": {
+    "welded_vertices": 0
+  },
+  "Paddle_Mesh": {
+    "welded_vertices": 0
+  },
+  "Handle_Left": {
+    "welded_vertices": 0
+  },
+  "Handle_Right": {
+    "welded_vertices": 0
+  },
+  "Pot_Body": {
+    "welded_vertices": 24
+  },
+  "Rice_Grains": {
+    "welded_vertices": 6
+  },
+  "Water_Surface": {
+    "welded_vertices": 2
+  },
+  "Ash_Bed": {
+    "welded_vertices": 6
+  },
+  "Ember_Bed": {
+    "welded_vertices": 0
+  },
+  "Stove_Body": {
+    "welded_vertices": 6
+  },
+  "Stove_Top": {
+    "welded_vertices": 105
+  }
+}

@@ -1,0 +1,30 @@
+PASS — 27 assertions
+PASS Preview starts at radio, preserving original chapter order
+PASS All three local audio clips are bound
+PASS Looking at the radio finds its real E interaction
+PASS Radio owns player input
+PASS Noise cannot complete the radio chore
+PASS Cancelling releases input
+PASS Cancellation restores camera pose and FOV
+PASS Physical dial is clickable in its close view
+PASS A stable station completes tuning and releases the camera
+PASS Radio reward and checkpoint are granted exactly once
+PASS Repeated completion cannot duplicate rewards
+PASS Radio keeps playing spatial music after leaving the dial
+PASS Mother calls from the kitchen after the music beat
+PASS Pause suspends the kitchen voice
+PASS The wood bundle has a clear reachable pose with a real E pickup interaction
+PASS Picking up real wood does not prematurely complete the chore
+PASS Wood cannot be delivered from the bedroom
+PASS Returning the bundle leaves the task retryable
+PASS Bundle can be picked up again after returning it
+PASS Stove destination has a clear, physically reachable standing pose
+PASS The shared E targeting finds the actual wood destination
+PASS A wall blocks placement instead of accepting wood through scenery
+PASS Placing wood changes the world and continues to fetching water
+PASS Delivery saves exactly one chore reward
+PASS Repeated delivery does not grant another reward
+PASS Checkpoint reconstruction restores music and delivered wood
+PASS Restart resets music, carried props and pending kitchen call
+
+All checks passed.
