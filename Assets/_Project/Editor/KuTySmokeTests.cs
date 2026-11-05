@@ -54,6 +54,7 @@ public class KuTyStoryRunner : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        QuestManager.SkipScene3 = false;
         previousRunInBackground = Application.runInBackground;
         Application.runInBackground = true;
         started = Time.realtimeSinceStartup;

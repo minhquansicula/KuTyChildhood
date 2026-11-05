@@ -193,7 +193,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         workAudio.volume = .12f; if (workAudio.clip) workAudio.Play();
         if (chore == HouseholdChore.WashRice)
         {
-            instructions = "Giữ chuột trái, rê vòng trên mặt nước để vo gạo. Khi nước đục, kéo quai nồi xuống để chắt.\nESC  Đứng dậy · Tiếp tục được khi quay lại";
+            instructions = "Giữ phím F (hoặc rê chuột tròn) để vo gạo. Khi nước đục, bấm Space / Enter (hoặc kéo quai nồi) để chắt.\nESC  Đứng dậy · Tiếp tục được khi quay lại";
             Speak(needsDrain ? "wash_drain" : "wash_start", true);
         }
         else if (chore == HouseholdChore.LightFire)
@@ -264,38 +264,90 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     {
         if (needsDrain)
         {
-            if (Input.GetMouseButtonDown(0) && Over(drainHit)) { dragging = true; pointerDown = Input.mousePosition; }
+            // Phím tắt chắt nước nhanh: Space, Enter, hoặc F
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
+                Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.F))
+            {
+                Drain(1f);
+                return;
+            }
+
+            // Kéo chuột chắt nước: bấm vào quai nồi hoặc kéo chuột xuống
+            if (Input.GetMouseButtonDown(0))
+            {
+                dragging = true;
+                pointerDown = Input.mousePosition;
+            }
             if (dragging && Input.GetMouseButton(0))
-                Drain(Mathf.Clamp01((pointerDown.y - Input.mousePosition.y) / (Screen.height * .18f)));
+            {
+                float dragY = (pointerDown.y - Input.mousePosition.y) / (Screen.height * .14f);
+                if (dragY > 0f) Drain(Mathf.Clamp01(dragY));
+            }
             if (Input.GetMouseButtonUp(0) && needsDrain)
-            { dragging = false; drainAmount = 0f; ricePot.localRotation = potHome; if (importedKitchen) water.rotation = waterWorldHome; }
+            {
+                dragging = false;
+                drainAmount = 0f;
+                if (ricePot) ricePot.localRotation = potHome;
+                if (importedKitchen && water) water.rotation = waterWorldHome;
+            }
             return;
         }
-        if (Over(waterHit) && Input.GetMouseButton(0))
+
+        // Hỗ trợ giữ phím F để tự động vo gạo đều đặn
+        if (Input.GetKey(KeyCode.F))
+        {
+            rinsing = true;
+            washTurns += Time.deltaTime * 0.95f;
+            float spoonAngle = Time.time * 7f;
+            float spoonRadius = washRadius * 0.6f;
+            if (spoon && water)
+                spoon.position = water.position + new Vector3(Mathf.Cos(spoonAngle) * spoonRadius, 0.012f, Mathf.Sin(spoonAngle) * spoonRadius);
+            InteractionVfx.Rate(splashes, 8f);
+            if (Mathf.Abs(washTurns) >= 1.25f)
+            {
+                needsDrain = true;
+                rinsing = false;
+                InteractionVfx.Rate(splashes, 0f);
+                Speak("wash_drain", true);
+            }
+            return;
+        }
+
+        // Rê chuột xoay quanh mặt nước
+        if (Input.GetMouseButton(0))
         {
             var plane = new Plane(Vector3.up, water.position);
             var ray = view.ScreenPointToRay(Input.mousePosition);
-            if (plane.Raycast(ray, out float distance)) WashAt(ray.GetPoint(distance));
+            if (plane.Raycast(ray, out float distance))
+                WashAt(ray.GetPoint(distance));
         }
-        else { rinsing = false; InteractionVfx.Rate(splashes, 0f); }
+        else
+        {
+            rinsing = false;
+            InteractionVfx.Rate(splashes, 0f);
+        }
     }
 
     void WashAt(Vector3 point)
     {
         Vector3 offset = point - water.position;
         float radius = new Vector2(offset.x, offset.z).magnitude;
-        if (radius < .025f || radius > washRadius) { rinsing = false; return; }
+        if (radius < .01f || radius > washRadius * 1.5f) { rinsing = false; return; }
         float angle = Mathf.Atan2(offset.z, offset.x) * Mathf.Rad2Deg;
         if (rinsing)
         {
-            washTurns = Scene2CircularGesture.Accumulate(washTurns, lastWashAngle, angle);
+            float delta = Mathf.DeltaAngle(lastWashAngle, angle);
+            if (Mathf.Abs(delta) <= 120f)
+                washTurns += Mathf.Abs(delta) / 360f; // Cộng dồn chuyển động cả khi xoa qua lại
         }
-        lastWashAngle = angle; rinsing = true;
-        spoon.position = point + Vector3.up * .012f;
+        lastWashAngle = angle;
+        rinsing = true;
+        if (spoon) spoon.position = point + Vector3.up * .012f;
         InteractionVfx.Rate(splashes, 8f);
         if (Mathf.Abs(washTurns) >= 1.25f)
         {
-            needsDrain = true; rinsing = false;
+            needsDrain = true;
+            rinsing = false;
             InteractionVfx.Rate(splashes, 0f);
             Speak("wash_drain", true);
         }
@@ -436,18 +488,37 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         SilenceMother();
         IsWorking = dragging = rinsing = false; breath = 0f;
         if (draggedLog >= 0 && !placed[draggedLog])
-        { kindling[draggedLog].localPosition = logHomes[draggedLog]; kindling[draggedLog].localRotation = logRotations[draggedLog]; }
+        {
+            if (draggedLog < kindling.Length && kindling[draggedLog])
+            {
+                kindling[draggedLog].localPosition = logHomes[draggedLog];
+                kindling[draggedLog].localRotation = logRotations[draggedLog];
+            }
+        }
         draggedLog = -1;
-        ricePot.localRotation = potHome; water.localScale = waterScale; drainAmount = 0f;
-        if (importedKitchen) water.rotation = waterWorldHome;
-        spoon.localPosition = spoonHome; lid.localPosition = lidHome;
-        blowTube.localRotation = blowHome;
-        view.transform.localPosition = cameraHome; view.transform.localRotation = cameraRotation;
-        view.fieldOfView = cameraFov; view.nearClipPlane = cameraNear;
+        if (ricePot) ricePot.localRotation = potHome;
+        if (water)
+        {
+            water.localScale = waterScale;
+            if (importedKitchen) water.rotation = waterWorldHome;
+        }
+        drainAmount = 0f;
+        if (spoon) spoon.localPosition = spoonHome;
+        if (lid) lid.localPosition = lidHome;
+        if (blowTube) blowTube.localRotation = blowHome;
+        if (view)
+        {
+            view.transform.localPosition = cameraHome;
+            view.transform.localRotation = cameraRotation;
+            view.fieldOfView = cameraFov;
+            view.nearClipPlane = cameraNear;
+        }
         GameManager.Instance?.ReleaseInput(this);
         HUDController.Instance?.SetCrosshairVisible(crosshair);
-        workAudio.Stop(); InteractionVfx.Rate(splashes, 0f); drainStream.Stop();
-        controlText.text = "";
+        if (workAudio) workAudio.Stop();
+        InteractionVfx.Rate(splashes, 0f);
+        if (drainStream) drainStream.Stop();
+        if (controlText) controlText.text = "";
     }
 
     void RestoreWorld()
@@ -541,13 +612,13 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
 
     void UpdateControls()
     {
-        string status = task == HouseholdChore.WashRice ? (needsDrain ? "Nước đã đục · Kéo quai nồi xuống để chắt" : "Lượt vo " + (rinseRound + 1) + "/2 · Rê nhẹ theo vòng tròn") :
+        string status = task == HouseholdChore.WashRice ? (needsDrain ? "Nước đã đục · Bấm Space / Enter (hoặc kéo quai nồi) để chắt" : "Lượt vo " + (rinseRound + 1) + "/2 · Giữ phím F hoặc rê chuột theo vòng tròn") :
             task == HouseholdChore.LightFire ? kindlingCount < 3 ? "Đã đặt " + kindlingCount + "/3 thanh củi" : dragging && breath > 1.1f ? "Thổi lâu quá · Thả chuột, nghỉ một nhịp" : "Giữ ống thổi 0,2–1 giây rồi thả · Than đang hồng" :
             cooked >= 12f ? "Cơm đã cạn · Kéo núm vung lên để kiểm tra" : heat > .66f ? "Lửa to · Rút bớt củi" : heat < .42f ? "Lửa yếu · Đẩy củi vào" : "Cơm đang sôi lăn tăn · " + Mathf.FloorToInt(cooked / 12f * 100f) + "%";
         controlText.text = "<color=#EDC781>" + status + "</color>\n" + instructions;
         if (idleSeconds >= 7f)
             controlText.text += "\nGỢI Ý: " + (task == HouseholdChore.WashRice
-                ? needsDrain ? "Giữ quai nồi và kéo xuống gần hết hành trình." : "Rê quanh tâm mặt nước, không lắc qua lại. Có thể xoay cả hai chiều."
+                ? needsDrain ? "Bấm Space / Enter để chắt nước nhanh, hoặc kéo quai nồi xuống." : "Giữ phím F để tự động vo gạo, hoặc rê chuột tròn trên mặt nước."
                 : task == HouseholdChore.LightFire
                     ? kindlingCount < 3 ? "Kéo từng thanh củi tới miệng bếp rồi thả." : "Giữ ống thổi ngắn rồi thả, đừng giữ liên tục."
                     : cooked >= 12f ? "Giữ núm vung và kéo lên." : heat > .66f ? "Kéo thanh củi sang trái để hạ lửa." : "Kéo thanh củi sang phải để tăng lửa.");

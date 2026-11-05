@@ -27,6 +27,10 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private MemoryCollectionManager memories;
     [SerializeField] private InventoryManager inventory;
     [SerializeField] private QuestStep currentStep = QuestStep.WashDishes;
+    [Header("Scene Flow Configuration")]
+    [Tooltip("Khi bat, sau khi hoan thanh Scene 2 (doc thu cua me), game se chuyen thang sang man ket thuc (Act_Ending) thay vi tai Scene 3.")]
+    [SerializeField] private bool skipScene3 = true;
+    public static bool SkipScene3 { get; set; } = true;
     public QuestStep CurrentStep => currentStep;
     public ItemData Candy => candy;
     public ItemData MarbleJar => marbleJar;
@@ -44,6 +48,7 @@ public class QuestManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+        SkipScene3 = skipScene3;
         
         // The outdoor scene owns the shop, marble table, journal and final door.
         // It also starts in a playable state when opened directly for testing.
@@ -114,7 +119,8 @@ public class QuestManager : MonoBehaviour
     public bool CanWashDishes => currentStep == QuestStep.WashDishes && HouseholdChoreFlow.Instance == null;
     public bool CanFinishHouseholdChores => currentStep == QuestStep.WashDishes && memories != null &&
         CurrencyManager.Instance != null &&
-        Application.CanStreamedLevelBeLoaded(SceneNames.Act3_OutSide);
+        (skipScene3 ? Application.CanStreamedLevelBeLoaded(SceneNames.Act_Ending)
+                    : Application.CanStreamedLevelBeLoaded(SceneNames.Act3_OutSide));
     public bool CompleteHouseholdChores()
     {
         if (!CanFinishHouseholdChores || HouseholdChoreFlow.Instance == null ||
@@ -123,8 +129,16 @@ public class QuestManager : MonoBehaviour
         // The household sequence is the only source of the shopping allowance.
         // Advance guards this grant against duplicate completion calls.
         CurrencyManager.Instance.AddMoney(2000);
-        Advance(QuestStep.WashDishes, QuestStep.BuyCandyAndMarbles);
-        Scene2Checkpoint.SaveOutside(this);
+        if (skipScene3)
+        {
+            Advance(QuestStep.WashDishes, QuestStep.Ending);
+            Scene2Checkpoint.MarkFinished();
+        }
+        else
+        {
+            Advance(QuestStep.WashDishes, QuestStep.BuyCandyAndMarbles);
+            Scene2Checkpoint.SaveOutside(this);
+        }
         if (SceneManager.GetActiveScene().name == SceneNames.Act2_Home)
         {
             IsLeavingHome = true;
@@ -148,12 +162,14 @@ public class QuestManager : MonoBehaviour
         if (!IsLeavingHome || outsideTransitionRequested) return;
         outsideTransitionRequested = true;
         if (outsideFallback != null) StopCoroutine(outsideFallback);
+
+        string nextScene = skipScene3 ? SceneNames.Act_Ending : SceneNames.Act3_OutSide;
         if (SceneLoader.Instance != null)
-            SceneLoader.Instance.LoadSceneWithColor(SceneNames.Act3_OutSide, Color.white, 1.2f);
+            SceneLoader.Instance.LoadSceneWithColor(nextScene, Color.white, 1.8f);
         else
         {
-            Debug.LogWarning("SceneLoader is missing; continuing to the outdoor scene without a fade.", this);
-            SceneManager.LoadScene(SceneNames.Act3_OutSide);
+            Debug.LogWarning($"SceneLoader is missing; continuing to {nextScene} without a fade.", this);
+            SceneManager.LoadScene(nextScene);
         }
     }
     public void RefreshHouseholdObjective()
