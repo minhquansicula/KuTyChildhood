@@ -1,0 +1,95 @@
+{
+  "height_m": 1.5765690839616582,
+  "mesh_count": 6,
+  "armatures": 1,
+  "bones": 53,
+  "sockets": [
+    "Socket_Hand_L",
+    "Socket_Hand_R",
+    "Socket_LookAt",
+    "Socket_Voice"
+  ],
+  "clips": [
+    {
+      "name": "Mother_Idle_Standing",
+      "frame_range": [
+        2.0,
+        152.0
+      ],
+      "bones": 53
+    },
+    {
+      "name": "Mother_SitDown",
+      "frame_range": [
+        2.0,
+        80.0
+      ],
+      "bones": 53
+    },
+    {
+      "name": "Mother_Idle_Seated",
+      "frame_range": [
+        2.0,
+        152.0
+      ],
+      "bones": 53
+    },
+    {
+      "name": "Mother_PrepVegetables",
+      "frame_range": [
+        2.0,
+        218.0
+      ],
+      "bones": 53
+    },
+    {
+      "name": "Mother_StandUp",
+      "frame_range": [
+        2.0,
+        80.0
+      ],
+      "bones": 53
+    },
+    {
+      "name": "Mother_CallChild",
+      "frame_range": [
+        2.0,
+        98.0
+      ],
+      "bones": 53
+    },
+    {
+      "name": "Mother_PointToStove",
+      "frame_range": [
+        2.0,
+        86.0
+      ],
+      "bones": 53
+    },
+    {
+      "name": "Mother_NodApprove",
+      "frame_range": [
+        2.0,
+        62.0
+      ],
+      "bones": 53
+    },
+    {
+      "name": "Mother_Walk",
+      "frame_range": [
+        2.0,
+        38.0
+      ],
+      "bones": 53
+    },
+    {
+      "name": "Mother_CheckPot",
+      "frame_range": [
+        2.0,
+        110.0
+      ],
+      "bones": 53
+    }
+  ],
+  "errors": []
+}

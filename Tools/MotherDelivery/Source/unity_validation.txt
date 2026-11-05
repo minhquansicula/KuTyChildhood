@@ -1,0 +1,5 @@
+Meshes=6
+Clips=10
+Avatar=True
+Triangles=24085
+SitDownHipDrop=0.39

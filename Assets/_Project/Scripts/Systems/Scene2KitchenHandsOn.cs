@@ -53,6 +53,53 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     MaterialPropertyBlock waterColor, stoveColor;
 
     public bool IsWorking { get; private set; }
+    public bool MotherSpeaking => talkRemaining > 0f || resumeMother || (motherVoice && motherVoice.isPlaying);
+    public void SilenceMother()
+    {
+        if (motherVoice) motherVoice.Stop();
+        talkRemaining = 0f;
+        if (motherText) motherText.text = "";
+        resumeMother = false;
+    }
+    private float idleSeconds, progressSample;
+    private GameManager pauseOwner;
+    private bool resumeMother, resumeWork;
+
+    private float GestureProgress => task == HouseholdChore.WashRice
+        ? rinseRound * 3f + Mathf.Abs(washTurns) + drainAmount
+        : task == HouseholdChore.LightFire ? kindlingCount * 2f + ember : cooked + lidLift;
+
+    private void PauseAudio(bool paused)
+    {
+        if (paused)
+        {
+            resumeMother = motherVoice && motherVoice.isPlaying;
+            resumeWork = workAudio && workAudio.isPlaying;
+            if (resumeMother) motherVoice.Pause();
+            if (resumeWork) workAudio.Pause();
+            ReleasePointer();
+        }
+        else
+        {
+            if (resumeMother && motherVoice) motherVoice.UnPause();
+            if (resumeWork && workAudio && IsWorking) workAudio.UnPause();
+            resumeMother = resumeWork = false;
+        }
+    }
+
+    private void ReleasePointer()
+    {
+        dragging = rinsing = false;
+        breath = 0f;
+        if (draggedLog >= 0 && !placed[draggedLog])
+        { kindling[draggedLog].localPosition = logHomes[draggedLog]; kindling[draggedLog].localRotation = logRotations[draggedLog]; }
+        draggedLog = -1;
+    }
+
+    private void OnDestroy()
+    {
+        if (pauseOwner) pauseOwner.OnPauseChanged -= PauseAudio;
+    }
     public HouseholdChore CurrentTask => task;
     public int RinseRound => rinseRound;
     public int KindlingCount => kindlingCount;
@@ -65,6 +112,12 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     {
         flow = GetComponent<HouseholdChoreFlow>();
         view = Camera.main;
+        if (!HasBindings)
+        {
+            Debug.LogWarning("Scene 2 physical kitchen bindings are incomplete; using household mini-games instead.", this);
+            enabled = false;
+            return;
+        }
         waterColor = new MaterialPropertyBlock(); stoveColor = new MaterialPropertyBlock();
         // HouseholdChoreFlow adds solids to visible meshes in Awake. These props
         // are manipulated in a close view and retain only their authored triggers.
@@ -89,6 +142,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         splashes.Play(); embers.Play(); steam.Play();
         BuildCaptions();
         RestoreWorld();
+        pauseOwner = GameManager.Instance;
+        if (pauseOwner) pauseOwner.OnPauseChanged += PauseAudio;
     }
 
     AudioSource kitchenAudio(string title, bool loop)
@@ -102,7 +157,13 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         return audio;
     }
 
-    public bool Handles(HouseholdChore chore) => isActiveAndEnabled && worldRoot &&
+    private bool HasBindings => worldRoot && washRoot && fireRoot && cookRoot && washView && fireView && cookView &&
+        ricePot && water && spoon && drainHandle && hearth && blowTube && fuelLog && lid && waterRenderer && fireGlow &&
+        waterHit && drainHit && hearthHit && blowHit && fuelHit && lidHit &&
+        kindling != null && kindling.Length == 3 && kindling[0] && kindling[1] && kindling[2] &&
+        kindlingHits != null && kindlingHits.Length == 3 && kindlingHits[0] && kindlingHits[1] && kindlingHits[2];
+
+    public bool Handles(HouseholdChore chore) => isActiveAndEnabled && HasBindings &&
         (chore == HouseholdChore.WashRice || chore == HouseholdChore.LightFire || chore == HouseholdChore.CookRice);
 
     public string PromptFor(HouseholdChore chore) => flow != null && flow.IsCurrent(chore) && !IsWorking
@@ -114,6 +175,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         if (!Handles(chore) || flow == null || !flow.IsCurrent(chore) || IsWorking || !view ||
             GameManager.Instance?.InputBlocked == true) return;
         task = chore;
+        idleSeconds = 0f;
+        progressSample = GestureProgress;
         IsWorking = true;
         dragging = rinsing = false; draggedLog = -1; moveTime = 0f;
         cameraHome = view.transform.localPosition; cameraRotation = view.transform.localRotation;
@@ -167,18 +230,29 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         if (IsWorking)
         {
             if (Input.GetKeyDown(KeyCode.Escape)) { End(); return; }
+            if (!Application.isFocused)
+            {
+                // Losing mouse focus must not leave a grabbed log or a held breath stuck.
+                ReleasePointer();
+            }
             Transform pose = task == HouseholdChore.WashRice ? washView : task == HouseholdChore.LightFire ? fireView : cookView;
             moveTime += Time.deltaTime;
             float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(moveTime / .4f));
             view.transform.SetPositionAndRotation(Vector3.Lerp(cameraFrom, pose.position, t), Quaternion.Slerp(rotationFrom, pose.rotation, t));
             view.fieldOfView = Mathf.Lerp(cameraFov, 48f, t);
-            if (t >= 1f)
+            if (t >= 1f && Application.isFocused)
             {
                 if (task == HouseholdChore.WashRice) TickWashing();
                 else if (task == HouseholdChore.LightFire) TickFire();
                 else TickCooking();
             }
             UpdateControls();
+            if (Mathf.Abs(GestureProgress - progressSample) > .025f)
+            {
+                idleSeconds = 0f;
+                progressSample = GestureProgress;
+            }
+            else idleSeconds += Time.deltaTime;
         }
         UpdateEffects();
     }
@@ -214,13 +288,12 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         float angle = Mathf.Atan2(offset.z, offset.x) * Mathf.Rad2Deg;
         if (rinsing)
         {
-            float delta = Mathf.Abs(Mathf.DeltaAngle(lastWashAngle, angle));
-            if (delta <= 55f) washTurns += delta / 360f;
+            washTurns = Scene2CircularGesture.Accumulate(washTurns, lastWashAngle, angle);
         }
         lastWashAngle = angle; rinsing = true;
         spoon.position = point + Vector3.up * .012f;
         InteractionVfx.Rate(splashes, 8f);
-        if (washTurns >= 1.25f)
+        if (Mathf.Abs(washTurns) >= 1.25f)
         {
             needsDrain = true; rinsing = false;
             InteractionVfx.Rate(splashes, 0f);
@@ -360,6 +433,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     public void End()
     {
         if (!IsWorking) return;
+        SilenceMother();
         IsWorking = dragging = rinsing = false; breath = 0f;
         if (draggedLog >= 0 && !placed[draggedLog])
         { kindling[draggedLog].localPosition = logHomes[draggedLog]; kindling[draggedLog].localRotation = logRotations[draggedLog]; }
@@ -378,8 +452,9 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
 
     void RestoreWorld()
     {
-        fireLit = flow.ActiveIndex > 6; finishedRice = flow.ActiveIndex > 7;
-        rinseRound = flow.ActiveIndex > 5 ? 2 : 0;
+        fireLit = flow.IsCompleted(HouseholdChore.LightFire);
+        finishedRice = flow.IsCompleted(HouseholdChore.CookRice);
+        rinseRound = flow.IsCompleted(HouseholdChore.WashRice) ? 2 : 0;
         washTurns = drainAmount = ember = cooked = lidLift = 0f;
         needsDrain = rinsing = false;
         heat = .8f; fuel = .85f; kindlingCount = fireLit ? 3 : 0;
@@ -399,8 +474,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
 
     void RefreshVisibility()
     {
-        washRoot.gameObject.SetActive(flow.ActiveIndex == 5);
-        fireRoot.gameObject.SetActive(importedKitchen || flow.ActiveIndex >= 6);
+        washRoot.gameObject.SetActive(flow.CurrentChore == HouseholdChore.WashRice);
+        fireRoot.gameObject.SetActive(importedKitchen || flow.IsCompleted(HouseholdChore.WashRice));
         // The replacement stove remains part of the room before its chore is unlocked.
         cookRoot.gameObject.SetActive(true);
     }
@@ -414,7 +489,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
 
     void UpdateEffects()
     {
-        float cloud = Mathf.Clamp01(washTurns / 1.25f);
+        float cloud = Mathf.Clamp01(Mathf.Abs(washTurns) / 1.25f);
         waterColor.SetColor("_BaseColor", Color.Lerp(new Color(.6f, .72f, .69f, .34f), new Color(.87f, .84f, .73f, .85f), cloud));
         waterRenderer.SetPropertyBlock(waterColor);
         fireGlow.intensity = fireLit ? .6f + Mathf.PerlinNoise(Time.time * 3f, 2f) * .18f : ember * .45f;
@@ -446,6 +521,10 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
 
     void Speak(string id, bool immediate = false)
     {
+        if (GameManager.Instance?.IsPaused == true || DialogueUI.Instance?.IsShowing == true ||
+            flow.Voice?.Voice?.IsPlaying == true) return;
+        var radio = GetComponent<Scene2RadioKitchenSequence>();
+        if (radio && radio.MotherSpeaking) return;
         if (!motherLines || (!immediate && (talkCooldown > 0f || id == lastMotherId))) return;
         foreach (var line in motherLines.Lines)
         {
@@ -466,6 +545,12 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
             task == HouseholdChore.LightFire ? kindlingCount < 3 ? "Đã đặt " + kindlingCount + "/3 thanh củi" : dragging && breath > 1.1f ? "Thổi lâu quá · Thả chuột, nghỉ một nhịp" : "Giữ ống thổi 0,2–1 giây rồi thả · Than đang hồng" :
             cooked >= 12f ? "Cơm đã cạn · Kéo núm vung lên để kiểm tra" : heat > .66f ? "Lửa to · Rút bớt củi" : heat < .42f ? "Lửa yếu · Đẩy củi vào" : "Cơm đang sôi lăn tăn · " + Mathf.FloorToInt(cooked / 12f * 100f) + "%";
         controlText.text = "<color=#EDC781>" + status + "</color>\n" + instructions;
+        if (idleSeconds >= 7f)
+            controlText.text += "\nGỢI Ý: " + (task == HouseholdChore.WashRice
+                ? needsDrain ? "Giữ quai nồi và kéo xuống gần hết hành trình." : "Rê quanh tâm mặt nước, không lắc qua lại. Có thể xoay cả hai chiều."
+                : task == HouseholdChore.LightFire
+                    ? kindlingCount < 3 ? "Kéo từng thanh củi tới miệng bếp rồi thả." : "Giữ ống thổi ngắn rồi thả, đừng giữ liên tục."
+                    : cooked >= 12f ? "Giữ núm vung và kéo lên." : heat > .66f ? "Kéo thanh củi sang trái để hạ lửa." : "Kéo thanh củi sang phải để tăng lửa.");
     }
 
     void BuildCaptions()
@@ -495,7 +580,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         text.transform.SetParent(panel.transform, false);
         text.rectTransform.anchorMin = Vector2.zero; text.rectTransform.anchorMax = Vector2.one;
         text.rectTransform.offsetMin = new Vector2(24, 12); text.rectTransform.offsetMax = new Vector2(-24, -12);
-        text.font = GameUiTheme.Current.font; text.fontSize = fontSize; text.alignment = TextAlignmentOptions.Center;
+        if (GameUiTheme.Current) text.font = GameUiTheme.Current.font;
+        text.fontSize = fontSize; text.alignment = TextAlignmentOptions.Center;
         text.color = new Color(.98f, .95f, .86f); text.raycastTarget = false;
         return text;
     }
@@ -504,6 +590,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     {
         End();
         if (motherVoice) motherVoice.Stop(); if (workAudio) workAudio.Stop();
+        resumeMother = resumeWork = false;
         if (captions) captions.alpha = 0f;
         if (fireStoveRenderer) fireStoveRenderer.SetPropertyBlock(null);
         GameManager.Instance?.ReleaseInput(this);

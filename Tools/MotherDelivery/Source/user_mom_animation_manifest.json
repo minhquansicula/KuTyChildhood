@@ -1,0 +1,29 @@
+[
+  {
+    "action": "MomUser_Idle",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 121,
+    "duration_seconds": 4,
+    "loop": true,
+    "in_place": true
+  },
+  {
+    "action": "MomUser_Walk_InPlace",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 37,
+    "duration_seconds": 1.2,
+    "loop": true,
+    "in_place": true
+  },
+  {
+    "action": "MomUser_Nod",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 73,
+    "duration_seconds": 2.4,
+    "loop": false,
+    "in_place": true
+  }
+]

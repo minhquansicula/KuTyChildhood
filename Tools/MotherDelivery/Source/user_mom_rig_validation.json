@@ -1,0 +1,40 @@
+{
+  "source": "C:/Users/LENOVO/Downloads/mom.fbx",
+  "rig": "Mom_User_Deform",
+  "bones": [
+    "Root",
+    "Hips",
+    "Spine",
+    "Chest",
+    "UpperChest",
+    "Neck",
+    "Head",
+    "Shoulder.L",
+    "UpperArm.L",
+    "LowerArm.L",
+    "Hand.L",
+    "UpperLeg.L",
+    "LowerLeg.L",
+    "Foot.L",
+    "Toes.L",
+    "Shoulder.R",
+    "UpperArm.R",
+    "LowerArm.R",
+    "Hand.R",
+    "UpperLeg.R",
+    "LowerLeg.R",
+    "Foot.R",
+    "Toes.R"
+  ],
+  "weight_method": "Blender automatic bone heat; normalized, pruned to 4 influences",
+  "unweighted_vertices": [],
+  "max_influences": 4,
+  "errors": [],
+  "original_mesh_uv_transform_hash": "c7ef9bcbe2334fab13f0922a2ea15798b78680b9a53287b23671ddd6e096e0bc",
+  "mesh_uv_transform_unchanged": true,
+  "backup_collection": "BACKUP_UserMom_BeforeRig",
+  "limitations": [
+    "Initial body rig; no independently animated finger or facial controls yet.",
+    "Automatic weights require visual deformation validation before game delivery."
+  ]
+}

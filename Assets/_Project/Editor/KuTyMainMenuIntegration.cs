@@ -10,6 +10,40 @@ using UnityEngine.UI;
 public static class KuTyMainMenuIntegration
 {
     public const string PrefabPath = "Assets/_Project/UI/MainMenu_Canvas.prefab";
+    public const string ButtonArtworkPath = "Assets/_Project/UI/button.png";
+
+    [MenuItem("KuTy/Main menu/Use illustrated wooden buttons")]
+    public static void UseIllustratedButtons()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode)
+            throw new InvalidOperationException("Stop Play Mode before updating the menu prefab.");
+        var root = PrefabUtility.LoadPrefabContents(PrefabPath);
+        try
+        {
+            ApplyButtonArtwork(root);
+            PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
+        }
+        finally { PrefabUtility.UnloadPrefabContents(root); }
+        Debug.Log("[MainMenu] Applied UI/button.png to all four main buttons; logo, layout and events preserved.");
+    }
+
+    private static void ApplyButtonArtwork(GameObject root)
+    {
+        var artwork = AssetDatabase.LoadAssetAtPath<Sprite>(ButtonArtworkPath);
+        if (!artwork) throw new InvalidOperationException("Illustrated wooden button sprite missing.");
+        foreach (string name in new[] { "Btn_NewGame", "Btn_LoadGame", "Btn_Settings", "Btn_Quit" })
+        {
+            var target = root.transform.Find("ButtonGroup/" + name);
+            if (!target) throw new InvalidOperationException("Main menu button missing: " + name);
+            var image = target.GetComponent<Image>();
+            var button = target.GetComponent<Button>();
+            image.sprite = artwork;
+            image.type = Image.Type.Simple;
+            image.color = Color.white;
+            button.transition = Selectable.Transition.ColorTint;
+            button.spriteState = new SpriteState();
+        }
+    }
 
     [MenuItem("KuTy/Main menu/Integrate checkpoint buttons")]
     public static void Integrate()
@@ -46,6 +80,7 @@ public static class KuTyMainMenuIntegration
                 label.font = font;
                 label.fontSharedMaterial = font.material;
             }
+            ApplyButtonArtwork(root);
             PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
         }
         finally { PrefabUtility.UnloadPrefabContents(root); }

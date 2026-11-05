@@ -1,0 +1,7 @@
+{
+  "status": "not_fixed",
+  "experimental_correctives_enabled": false,
+  "active_action": "MomUser_Idle",
+  "original_household_file_retained": true,
+  "next_step": "Revisit rig and skin weights; local garment separation/retopology may be required and needs user approval."
+}

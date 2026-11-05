@@ -42,12 +42,16 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
     bool dragging, savedCrosshair;
     bool radioOn;
     Coroutine callRoutine;
+    GameManager pauseOwner;
+    bool resumeStation, resumeNoise, resumeMother;
+    float motherRemaining;
     int lastProgress = -1;
     readonly RaycastHit[] placementHits = new RaycastHit[32];
 
     public bool IsTuning { get; private set; }
     public bool CarryingWood { get; private set; }
     public bool RadioOn => radioOn;
+    public bool MotherSpeaking => motherRemaining > 0f || resumeMother || (motherAudio && motherAudio.isPlaying);
     public float Frequency => frequency;
     public float Signal => Mathf.Clamp01(1f - Mathf.Abs(frequency - Station) / .24f);
     public Transform GuidanceTarget => CarryingWood ? woodRest : null;
@@ -56,9 +60,15 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
     {
         flow = GetComponent<HouseholdChoreFlow>();
         view = Camera.main;
+        if (!radioRig || !tuningKnob || !knobCollider || !needle || !closeView || !woodBundle || !woodPickup || !woodRest)
+        {
+            Debug.LogWarning("Scene 2 radio/wood bindings are incomplete; using household mini-games instead.", this);
+            enabled = false;
+            return;
+        }
         // The legacy flow adds solid colliders to all imported visible meshes in Awake.
         // Carried props and the radio's controls must remain non-solid after that pass.
-        foreach (var collider in radioRig.parent.GetComponentsInChildren<Collider>(true))
+        foreach (var collider in (radioRig.parent ? radioRig.parent : radioRig).GetComponentsInChildren<Collider>(true))
             if (collider != knobCollider && collider != pickupCollider) collider.enabled = false;
         stationAudio = MakeSource(radioRig, stationClip, true, 1.2f, 13f);
         stationAudio.gameObject.AddComponent<AudioLowPassFilter>().cutoffFrequency = 4200f;
@@ -68,6 +78,40 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
         MakeCaption();
         // A loaded checkpoint reconstructs the visible world without replaying mother's call.
         RestoreWorld();
+        BindPause();
+    }
+
+    void BindPause()
+    {
+        if (pauseOwner) pauseOwner.OnPauseChanged -= PauseAudio;
+        pauseOwner = GameManager.Instance;
+        if (pauseOwner) pauseOwner.OnPauseChanged += PauseAudio;
+    }
+
+    void OnEnable()
+    {
+        if (stationAudio) { BindPause(); RestoreWorld(); }
+    }
+
+    void PauseAudio(bool paused)
+    {
+        if (paused)
+        {
+            resumeStation = stationAudio && stationAudio.isPlaying;
+            resumeNoise = noiseAudio && noiseAudio.isPlaying;
+            resumeMother = motherAudio && motherAudio.isPlaying;
+            if (resumeStation) stationAudio.Pause();
+            if (resumeNoise) noiseAudio.Pause();
+            if (resumeMother) motherAudio.Pause();
+            dragging = false;
+        }
+        else
+        {
+            if (resumeStation && stationAudio) stationAudio.UnPause();
+            if (resumeNoise && noiseAudio && IsTuning) noiseAudio.UnPause();
+            if (resumeMother && motherAudio) motherAudio.UnPause();
+            resumeStation = resumeNoise = resumeMother = false;
+        }
     }
 
     AudioSource MakeSource(Transform at, AudioClip clip, bool loop, float near, float far)
@@ -88,7 +132,7 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
     }
 
     public bool Handles(HouseholdChore chore) => isActiveAndEnabled &&
-        ((chore == HouseholdChore.TuneRadio && radioRig && tuningKnob && knobCollider && closeView) ||
+        ((chore == HouseholdChore.TuneRadio && radioRig && tuningKnob && knobCollider && needle && closeView) ||
          (chore == HouseholdChore.CarryWood && woodBundle && woodRest && woodPickup));
 
     public string PromptFor(HouseholdChore chore)
@@ -134,6 +178,7 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
         // Restarting the chapter must also reset its world props and any pending call.
         if (lastProgress >= 2 && flow.ActiveIndex < 2) ResetWorld();
         lastProgress = flow.ActiveIndex;
+        motherRemaining = Mathf.Max(0f, motherRemaining - Time.deltaTime);
         if (captionTime > 0f)
         {
             captionTime -= Time.deltaTime;
@@ -147,7 +192,9 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
         }
         if (!IsTuning && stationAudio != null)
             stationAudio.volume = Mathf.MoveTowards(stationAudio.volume,
-                radioOn ? (motherAudio.isPlaying ? .055f : .17f) : 0f, Time.deltaTime * .3f);
+                radioOn ? (MotherSpeaking || flow.Voice?.Voice?.IsPlaying == true ||
+                    GetComponent<Scene2KitchenHandsOn>()?.MotherSpeaking == true ||
+                    GetComponent<Scene2MotherCompanion>()?.IsConversing == true ? .055f : .17f) : 0f, Time.deltaTime * .3f);
     }
 
     void TickTuning()
@@ -159,6 +206,7 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
             Quaternion.Slerp(startViewRotation, closeView.rotation, blend));
         view.fieldOfView = Mathf.Lerp(savedFov, 48f, blend);
         if (blend < 1f) return;
+        if (!Application.isFocused) { dragging = false; return; }
 
         bool overKnob = knobCollider.Raycast(view.ScreenPointToRay(Input.mousePosition), out _, 3f);
         Vector3 center = view.WorldToScreenPoint(tuningKnob.position);
@@ -220,9 +268,9 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
             view.fieldOfView = savedFov;
             view.nearClipPlane = savedNear;
         }
-        noiseAudio?.Stop();
-        if (!radioOn) stationAudio?.Stop();
-        captionGroup.alpha = 0f;
+        if (noiseAudio) noiseAudio.Stop();
+        if (!radioOn && stationAudio) stationAudio.Stop();
+        if (captionGroup) captionGroup.alpha = 0f;
         GameManager.Instance?.ReleaseInput(this);
         HUDController.Instance?.SetCrosshairVisible(savedCrosshair);
     }
@@ -231,11 +279,15 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
     {
         yield return new WaitForSeconds(3.2f);
         // Wait for other voiced chores/modals instead of talking over them.
-        while ((flow.Voice.CurrentId != null && flow.Voice.Voice.IsPlaying) || GameManager.Instance?.InputBlocked == true)
+        while (flow.Voice?.Voice?.IsPlaying == true || GameManager.Instance?.InputBlocked == true ||
+            DialogueUI.Instance?.IsShowing == true || GetComponent<Scene2KitchenHandsOn>()?.MotherSpeaking == true)
             yield return null;
+        // Do not replay a stale call if the player already delivered the wood.
+        if (!flow.IsCurrent(HouseholdChore.CarryWood)) { callRoutine = null; yield break; }
         motherAudio.volume = .85f;
-        motherAudio.Play();
-        Say("<color=#EDC781>Mẹ · từ phía bếp</color>\n" + motherText, motherClip ? motherClip.length + .5f : 6f);
+        if (motherClip) motherAudio.Play();
+        motherRemaining = motherClip ? motherClip.length + .5f : 6f;
+        Say("<color=#EDC781>Mẹ · từ phía bếp</color>\n" + motherText, motherRemaining);
         yield return new WaitForSeconds(motherClip ? motherClip.length + .8f : 6f);
         if (flow.IsCurrent(HouseholdChore.CarryWood))
             Say("Mang giúp mẹ bó củi trong giỏ vào cạnh bếp nhé.\nĐến giỏ củi và nhấn E để nhấc lên.", 7f);
@@ -295,13 +347,13 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
     void RestoreWorld()
     {
         if (flow == null) return;
-        radioOn = flow.ActiveIndex >= 2;
+        radioOn = flow.IsCompleted(HouseholdChore.TuneRadio);
         frequency = radioOn ? Station : .12f;
         UpdateRadioVisuals();
         if (radioOn && !stationAudio.isPlaying) stationAudio.Play();
         if (!radioOn) stationAudio.Stop();
         CarryingWood = false;
-        woodBundle.SetParent(flow.ActiveIndex >= 3 ? woodRest : woodPickup, false);
+        woodBundle.SetParent(flow.IsCompleted(HouseholdChore.CarryWood) ? woodRest : woodPickup, false);
         woodBundle.localPosition = Vector3.zero;
         woodBundle.localRotation = Quaternion.identity;
         lastProgress = flow.ActiveIndex;
@@ -313,6 +365,7 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
         if (callRoutine != null) StopCoroutine(callRoutine);
         callRoutine = null;
         motherAudio.Stop();
+        motherRemaining = 0f;
         captionGroup.alpha = 0f;
         RestoreWorld();
     }
@@ -361,10 +414,17 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
     void OnDisable()
     {
         EndTuning();
+        if (pauseOwner) pauseOwner.OnPauseChanged -= PauseAudio;
+        resumeStation = resumeNoise = resumeMother = false;
+        motherRemaining = 0f;
         if (callRoutine != null) StopCoroutine(callRoutine);
-        stationAudio?.Stop(); noiseAudio?.Stop(); motherAudio?.Stop();
+        // Unity objects can already be destroyed when a sibling world rig unloads.
+        // ?. only checks CLR null and would still call Stop on a destroyed source.
+        if (stationAudio) stationAudio.Stop();
+        if (noiseAudio) noiseAudio.Stop();
+        if (motherAudio) motherAudio.Stop();
         if (captionGroup) captionGroup.alpha = 0f;
-        if (CarryingWood && woodBundle && radioRig) ReturnWood();
+        if (CarryingWood && woodBundle && woodPickup) ReturnWood();
         GameManager.Instance?.ReleaseInput(this);
     }
 }

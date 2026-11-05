@@ -1,0 +1,18 @@
+{
+  "stage": "Household animation review; no FBX export",
+  "original_action_hashes_unchanged": {
+    "MomUser_Idle": true,
+    "MomUser_Nod": true,
+    "MomUser_Walk_InPlace": true
+  },
+  "geometry_uv_transform_unchanged": true,
+  "invalid_weights": 0,
+  "bones": 23,
+  "mesh_triangles": 50002,
+  "errors": [],
+  "limitations": [
+    "Single hand bones; no separately animated fingers or lip-sync.",
+    "No chair included or automatic furniture alignment.",
+    "Deformation checks use sampled frames; garment collision is not certified across every frame."
+  ]
+}

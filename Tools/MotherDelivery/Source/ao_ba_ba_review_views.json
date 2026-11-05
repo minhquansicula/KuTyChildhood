@@ -1,0 +1,27 @@
+{
+  "before": [
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\Before_Front_Solid.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\Before_Front_Material.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\Before_ThreeQuarter_Material.png"
+  ],
+  "after": [
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\After_Front_Solid.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\After_Back_Solid.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\After_Left_Solid.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\After_Right_Solid.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\After_ThreeQuarter_Solid.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\After_Front_Material.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\After_Back_Material.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\After_Left_Material.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\After_Right_Material.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\After_ThreeQuarter_Material.png"
+  ],
+  "details": [
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\Detail_NeckFace.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\Detail_Bun.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\Detail_Wrist.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\AoBaBaReview\\Detail_Trousers.png"
+  ],
+  "lighting": "Neutral white area lights; gray world; AgX; exposure -0.35",
+  "capture": "Generated Blender solid and material-lit inspection renders; not claimed as viewport screenshots."
+}

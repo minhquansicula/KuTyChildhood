@@ -107,6 +107,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
 
     private void HandleChoreCompleted(HouseholdChore chore, int pieces)
     {
+        CacheTargets();
         ResetGuidance();
         Refresh();
     }
@@ -141,7 +142,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         string location = carrying ? "Bếp · cạnh bếp củi" : household && chores != null ? chores.CurrentLocation : string.Empty;
         string action = carrying ? "Mang bó củi vào bếp phụ mẹ" : household && chores != null ? "Phụ mẹ: " + chores.CurrentTitle : quests.ObjectiveText;
         string chapter = SceneManager.GetActiveScene().name == SceneNames.Act3_OutSide
-            ? "CHƯƠNG 02 · SÂN NHÀ" : "CHƯƠNG 02 · NHÀ MÌNH";
+            ? "CHƯƠNG 02 · SÂN NHÀ" : household && chores != null ? chores.CurrentChapter : "CHƯƠNG 02 · NHÀ MÌNH";
         objectiveText.text = "<size=19><color=#F0C26E>" + chapter + "</color></size>\n" +
             "<size=22><color=#C1CABC>" + status + "</color></size>\n\n" +
             "<size=28><b><color=#F7F0D8>" + action + "</color></b></size>\n" +
@@ -161,8 +162,11 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         {
             int active = chores != null ? chores.ActiveIndex : 0;
             text.Append("<size=28><b>VIỆC NHÀ CÙNG MẸ</b></size>\n");
-            text.Append("<color=#F4C66A>Mảnh ký ức: ").Append(chores != null ? chores.Pieces : 0)
-                .Append('/').Append(HouseholdChoreFlow.TotalPieces).Append("</color>\n\n");
+            text.Append("<color=#F4C66A>Hành trình chính: ").Append(Mathf.Min(active, HouseholdChoreFlow.ChoreCount))
+                .Append('/').Append(HouseholdChoreFlow.ChoreCount).Append(" việc</color>\n");
+            text.Append("<size=20>Mảnh ký ức: ").Append(chores != null ? chores.RequiredPieces : 0)
+                .Append('/').Append(HouseholdChoreFlow.ChoreCount * HouseholdChoreFlow.PiecesPerChore)
+                .Append(" · Thêm: +").Append(chores != null ? chores.OptionalPieces : 0).Append("</size>\n\n");
             for (int i = 0; i < HouseholdChoreFlow.ChoreCount; i++)
             {
                 string title = HouseholdChoreFlow.Titles[(int)HouseholdChoreFlow.Order[i]];
@@ -170,6 +174,11 @@ public sealed class Scene2QuestHUD : MonoBehaviour
                 else if (i == active) text.Append("<color=#FFE19B><b>›  ").Append(title).Append("</b></color>\n");
                 else text.Append("<color=#B9C0C2>○  ").Append(title).Append("</color>\n");
             }
+            text.Append("\n<size=20><color=#F4C66A>LÀM THÊM NẾU CON THÍCH · +5 mảnh/việc</color>\n");
+            foreach (var optional in new[] { HouseholdChore.SortTools, HouseholdChore.GrindCorn })
+                text.Append(chores != null && chores.IsCompleted(optional) ? "<color=#9ADD91>✓  " : "<color=#B9C0C2>○  ")
+                    .Append(HouseholdChoreFlow.Titles[(int)optional]).Append("</color>\n");
+            text.Append("</size>");
         }
         else
         {
@@ -182,7 +191,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
             AppendStage(text, QuestStep.UnlockFrontDoor, "Mở cửa bị xích");
         }
         text.Append(household
-            ? "\n<size=19><color=#F4C66A>TAB  Đóng bảng  ·  P  Làm lại từ đầu</color></size>"
+            ? "\n<size=18><color=#C1CABC>TAB  Đóng bảng · H  Gợi ý\nTự lưu sau mỗi việc. Việc làm thêm không bắt buộc.</color></size>"
             : "\n<size=19><color=#C1CABC>TAB  Đóng bảng\nTiến độ được lưu sau mỗi bước.</color></size>");
         return text.ToString();
     }
@@ -220,7 +229,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
             return;
         }
         hintText.text = quests.CurrentStep == QuestStep.WashDishes && chores != null
-            ? "Đến " + chores.CurrentLocation + ", tìm " + chores.CurrentTitle + " rồi nhấn E."
+            ? chores.CurrentGuidance
             : ResolveTarget() != null
                 ? quests.ObjectiveText + " Hãy tìm vật có lời nhắc [E] khi lại gần."
                 : "Hãy đi tiếp theo chỉ dẫn trong bảng nhiệm vụ.";
@@ -231,12 +240,16 @@ public sealed class Scene2QuestHUD : MonoBehaviour
 
     private void CacheTargets()
     {
+        choreTargets.Clear();
+        targetColliders.Clear();
         foreach (HouseholdChoreInteractable task in FindObjectsOfType<HouseholdChoreInteractable>(true))
-            if (task.enabled && !choreTargets.ContainsKey(task.Chore))
+            if (task.enabled && task.gameObject.scene == gameObject.scene)
             {
-                choreTargets.Add(task.Chore, task.transform);
-                CacheCollider(task.transform);
+                choreTargets.TryGetValue(task.Chore, out Transform previous);
+                if (previous == null || (!previous.gameObject.activeInHierarchy && task.gameObject.activeInHierarchy) ||
+                    IsPhysicalTarget(task)) choreTargets[task.Chore] = task.transform;
             }
+        foreach (var target in choreTargets.Values) CacheCollider(target);
         shopTarget = FindObjectOfType<ShopInteractable>(true)?.transform;
         marbleTarget = FindObjectOfType<MarbleInteractable>(true)?.transform;
         journalTarget = FindObjectOfType<JournalInteractable>(true)?.transform;
@@ -252,7 +265,23 @@ public sealed class Scene2QuestHUD : MonoBehaviour
     private void CacheCollider(Transform target)
     {
         if (target != null && !targetColliders.ContainsKey(target))
-            targetColliders.Add(target, target.GetComponent<Collider>());
+        {
+            Collider best = target.GetComponent<Collider>();
+            foreach (var candidate in target.GetComponentsInChildren<Collider>())
+                if (candidate.enabled && (best == null || !best.enabled)) best = candidate;
+            targetColliders.Add(target, best);
+        }
+    }
+
+    private bool IsPhysicalTarget(HouseholdChoreInteractable task)
+    {
+        if (!chores) return false;
+        var kitchen = chores.GetComponent<Scene2KitchenHandsOn>();
+        if (kitchen && kitchen.Handles(task.Chore) && task.transform.IsChildOf(kitchen.worldRoot)) return true;
+        var radio = chores.GetComponent<Scene2RadioKitchenSequence>();
+        return radio && radio.Handles(task.Chore) &&
+            (task.Chore == HouseholdChore.CarryWood ? task.transform.IsChildOf(radio.woodBundle) :
+                task.transform == radio.radioRig || radio.radioRig.IsChildOf(task.transform));
     }
 
     private Transform ResolveTarget()
@@ -280,6 +309,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
 
     public void RefreshWorldObjective()
     {
+        CacheTargets();
         ResetGuidance();
         Refresh();
     }
@@ -294,7 +324,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
 
         // Imported FBX pivots can be far from the actual prop; point to its interaction volume instead.
         targetColliders.TryGetValue(target, out Collider interactionCollider);
-        Vector3 worldPoint = interactionCollider != null
+        Vector3 worldPoint = interactionCollider != null && interactionCollider.enabled && interactionCollider.gameObject.activeInHierarchy
             ? interactionCollider.bounds.center : target.position + Vector3.up * .65f;
         Vector3 screen = playerCamera.WorldToScreenPoint(worldPoint);
         if (screen.z < 0f)
@@ -322,6 +352,8 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920, 1080);
         scaler.matchWidthOrHeight = .5f;
+        // Expand keeps the complete household board readable on 4:3 and narrow displays.
+        if (chores != null) scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
         rootGroup = root.GetComponent<CanvasGroup>();
         rootGroup.interactable = rootGroup.blocksRaycasts = false;
         var safe = GameUiPresentation.SafeRoot(root.transform, "QuestSafeArea");
@@ -332,7 +364,8 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         objectiveText = Label("ObjectiveText", card.transform, new Vector2(24, 24), new Vector2(-24, -24), 24);
 
         board = Panel("MissionBoard", safe, new Vector2(0, 1),
-            new Vector2(0, -140), new Vector2(480, 650));
+            chores != null ? new Vector2(0, -32) : new Vector2(0, -140),
+            chores != null ? new Vector2(580, 880) : new Vector2(480, 650));
         boardText = Label("MissionList", board.transform, new Vector2(26, 24), new Vector2(-26, -24), 23);
         board.SetActive(false);
 

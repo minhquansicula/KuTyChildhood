@@ -1,0 +1,12 @@
+{
+  "images": [
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\UserMomAnimation\\DeformationRepair\\Before_MomUser_Idle_Seated_Front.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\UserMomAnimation\\DeformationRepair\\Before_MomUser_Idle_Seated_Side.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\UserMomAnimation\\DeformationRepair\\Before_MomUser_CallChild_Front.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\UserMomAnimation\\DeformationRepair\\After_MomUser_Idle_Seated_Front.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\UserMomAnimation\\DeformationRepair\\After_MomUser_Idle_Seated_Side.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\UserMomAnimation\\DeformationRepair\\After_MomUser_CallChild_Front.png"
+  ],
+  "method": "Non-applied local Corrective Smooth after Armature; no source coordinates, UVs, texture or action changes.",
+  "unity_limitation": "Blender deformation modifier must be baked to exportable correctives; this alone is not a Unity skinning fix."
+}

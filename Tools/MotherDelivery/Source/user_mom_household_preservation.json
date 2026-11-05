@@ -1,0 +1,16 @@
+{
+  "preserved_actions": {
+    "MomUser_Idle": true,
+    "MomUser_Nod": true,
+    "MomUser_Walk_InPlace": true
+  },
+  "mesh_uv_transform_unchanged": true,
+  "new_actions": [
+    "MomUser_SitDown",
+    "MomUser_Idle_Seated",
+    "MomUser_StandUp",
+    "MomUser_CallChild"
+  ],
+  "finger_controls": "Not added; existing open hand deforms with hand bone.",
+  "export_performed": false
+}

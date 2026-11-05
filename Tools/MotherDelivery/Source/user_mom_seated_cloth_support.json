@@ -1,0 +1,11 @@
+{
+  "corrective": "MomUser_Sit_ClothSupport",
+  "shirt_support_vertices": 449,
+  "upper_trouser_support_vertices": 642,
+  "affected_vertices": 1978,
+  "maximum_pose_offset_m": 0.034993912819956924,
+  "seated_value": 1.0,
+  "standing_value": 0.0,
+  "neutral_basis_edited": false,
+  "export_requirement": "Bake the shape driver to blendshape keyframes if exporting to Unity later."
+}

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: GameUiTheme
   m_EditorClassIdentifier: 
   menuFrame: {fileID: 21300000, guid: 40fb6123823b71246a0c215be3a93e92, type: 3}
+  woodenButton: {fileID: 21300000, guid: 7bdc3360da7abba49ba229ab6d99ca57, type: 3}
+  pauseLogo: {fileID: 21300000, guid: 22bd5c6243c652c46b446cb565b61efc, type: 3}
   font: {fileID: 11400000, guid: c69d949105ff74f4290a8d49aae621e8, type: 2}
   text: {r: 0.23, g: 0.12, b: 0.055, a: 1}
   muted: {r: 0.4, g: 0.26, b: 0.12, a: 1}

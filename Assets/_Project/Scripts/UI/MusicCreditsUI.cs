@@ -7,6 +7,7 @@ public sealed class MusicCreditsUI : MonoBehaviour
 {
     private GameObject panel;
     private TMP_FontAsset font;
+    private Button launchButton;
 
     private void Start()
     {
@@ -17,6 +18,7 @@ public sealed class MusicCreditsUI : MonoBehaviour
         var existing = canvas.GetComponentInChildren<TMP_Text>(true);
         font = existing != null ? existing.font : TMP_Settings.defaultFontAsset;
         var launch = Button(canvas.transform, "MusicCreditsButton", "Nhạc / Ghi công", new Vector2(240, 44));
+        launchButton = launch;
         var launchRect = (RectTransform)launch.transform;
         launchRect.anchorMin = launchRect.anchorMax = Vector2.zero;
         launchRect.pivot = Vector2.zero;
@@ -46,7 +48,7 @@ public sealed class MusicCreditsUI : MonoBehaviour
         var back = Button(panel.transform, "CloseMusicCredits", "Quay lại", new Vector2(320, 76));
         ((RectTransform)back.transform).anchoredPosition = new Vector2(0, -440);
         GameUiPresentation.Button(back);
-        back.onClick.AddListener(() => panel.SetActive(false));
+        back.onClick.AddListener(ClosePanel);
         launch.onClick.AddListener(() => { panel.SetActive(true); panel.transform.SetAsLastSibling(); back.Select(); });
         MenuButtonSfx.Attach(launch);
         MenuButtonSfx.Attach(back);
@@ -55,7 +57,13 @@ public sealed class MusicCreditsUI : MonoBehaviour
 
     private void Update()
     {
-        if (panel != null && panel.activeSelf && Input.GetKeyDown(KeyCode.Escape)) panel.SetActive(false);
+        if (panel != null && panel.activeSelf && Input.GetKeyDown(KeyCode.Escape)) ClosePanel();
+    }
+
+    private void ClosePanel()
+    {
+        panel.SetActive(false);
+        if (launchButton) launchButton.Select();
     }
 
     private TextMeshProUGUI Label(Transform parent, string name, Vector2 size)

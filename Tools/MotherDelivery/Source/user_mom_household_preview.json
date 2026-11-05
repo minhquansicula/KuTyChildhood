@@ -1,0 +1,29 @@
+{
+  "action": "PREVIEW_MomUser_HouseholdSequence",
+  "frames": 397,
+  "fps": 30,
+  "segments": [
+    {
+      "source": "MomUser_SitDown",
+      "timeline_start": 1,
+      "timeline_end": 85
+    },
+    {
+      "source": "MomUser_Idle_Seated",
+      "timeline_start": 86,
+      "timeline_end": 205
+    },
+    {
+      "source": "MomUser_StandUp",
+      "timeline_start": 206,
+      "timeline_end": 289
+    },
+    {
+      "source": "MomUser_CallChild",
+      "timeline_start": 290,
+      "timeline_end": 397
+    }
+  ],
+  "production_action_count": 7,
+  "export_performed": false
+}

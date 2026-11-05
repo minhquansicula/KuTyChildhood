@@ -1,0 +1,50 @@
+{
+  "errors": [],
+  "meshes": [
+    {
+      "mesh": "Mother_SkinMesh",
+      "vertices": 6616,
+      "triangles": 12965,
+      "materials": 1
+    },
+    {
+      "mesh": "Mother_TrousersMesh",
+      "vertices": 1429,
+      "triangles": 2735,
+      "materials": 1
+    },
+    {
+      "mesh": "Mother_EyesMesh",
+      "vertices": 523,
+      "triangles": 982,
+      "materials": 1
+    },
+    {
+      "mesh": "Mother_SandalsMesh",
+      "vertices": 508,
+      "triangles": 992,
+      "materials": 1
+    },
+    {
+      "mesh": "Mother_HairMesh",
+      "vertices": 1334,
+      "triangles": 2345,
+      "materials": 1
+    },
+    {
+      "mesh": "Mother_BlouseMesh",
+      "vertices": 2157,
+      "triangles": 4124,
+      "materials": 2
+    }
+  ],
+  "triangles": 24143,
+  "bones": 53,
+  "clips": 10,
+  "loop_matrix_errors": {
+    "Mother_Idle_Standing": 4.408806490458633e-18,
+    "Mother_Idle_Seated": 3.6735818922419006e-18,
+    "Mother_PrepVegetables": 0.0,
+    "Mother_Walk": 8.817401222680453e-18
+  }
+}

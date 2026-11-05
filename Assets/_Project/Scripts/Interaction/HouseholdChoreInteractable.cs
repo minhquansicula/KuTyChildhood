@@ -92,6 +92,8 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
         }
 
         running = true;
+        kitchen?.SilenceMother();
+        flow.Voice.Stop();
         GameManager.Instance?.AcquireInput(this);
         try
         {

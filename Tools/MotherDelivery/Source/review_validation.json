@@ -1,0 +1,51 @@
+{
+  "stage": "artist_review_not_game_delivery",
+  "meshes": [
+    {
+      "name": "Mother_SkinMesh",
+      "vertices": 9811,
+      "triangles": 19468,
+      "bad_weights": 0
+    },
+    {
+      "name": "Mother_TrousersMesh",
+      "vertices": 1429,
+      "triangles": 2735,
+      "bad_weights": 0
+    },
+    {
+      "name": "Mother_EyesMesh",
+      "vertices": 523,
+      "triangles": 982,
+      "bad_weights": 0
+    },
+    {
+      "name": "Mother_SandalsMesh",
+      "vertices": 852,
+      "triangles": 1680,
+      "bad_weights": 0
+    },
+    {
+      "name": "Mother_HairMesh",
+      "vertices": 1615,
+      "triangles": 3088,
+      "bad_weights": 0
+    },
+    {
+      "name": "Mother_BlouseMesh",
+      "vertices": 3184,
+      "triangles": 6101,
+      "bad_weights": 0
+    }
+  ],
+  "wrist_joint_error_m": {
+    "L": 1.6118070224511577e-07,
+    "R": 7.450580596923828e-08
+  },
+  "facial_keys": {
+    "Basis": 1.0,
+    "WarmSmile": 0.800000011920929,
+    "Concern": 0.0
+  },
+  "errors": []
+}

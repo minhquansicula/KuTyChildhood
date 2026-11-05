@@ -1,0 +1,61 @@
+{
+  "source": "C:\\Users\\LENOVO\\Downloads\\mom.fbx",
+  "scene": "USER_Mom_FBX_Review",
+  "objects": [
+    {
+      "name": "Mesh_0",
+      "type": "MESH",
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "triangles": 50002,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "materials": [
+        "Material"
+      ],
+      "armature_modifiers": []
+    }
+  ],
+  "images": [
+    {
+      "name": "texture_pbr_20250901.png",
+      "path": "C:\\Users\\LENOVO\\Downloads\\output.fbm\\texture_pbr_20250901.png",
+      "packed": true,
+      "exists": false
+    },
+    {
+      "name": "texture_pbr_20250901_metallic.png",
+      "path": "C:\\Users\\LENOVO\\Downloads\\output.fbm\\texture_pbr_20250901_metallic.png",
+      "packed": true,
+      "exists": false
+    },
+    {
+      "name": "texture_pbr_20250901_roughness.png",
+      "path": "C:\\Users\\LENOVO\\Downloads\\output.fbm\\texture_pbr_20250901_roughness.png",
+      "packed": true,
+      "exists": false
+    },
+    {
+      "name": "texture_pbr_20250901_normal.png",
+      "path": "C:\\Users\\LENOVO\\Downloads\\output.fbm\\texture_pbr_20250901_normal.png",
+      "packed": true,
+      "exists": false
+    }
+  ],
+  "bounds_min": [
+    -0.35911500453948975,
+    -0.0928020030260086,
+    -9.57494616926624e-09
+  ],
+  "bounds_max": [
+    0.3509500026702881,
+    0.12682409584522247,
+    1.1498219966888428
+  ],
+  "triangles_total": 50002,
+  "missing_images": []
+}

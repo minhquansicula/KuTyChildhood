@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public sealed class GameUiTheme : ScriptableObject
 {
     public Sprite menuFrame;
+    public Sprite woodenButton;
+    public Sprite pauseLogo;
     public TMP_FontAsset font;
     public Color text = new Color(.23f, .12f, .055f);
     public Color muted = new Color(.40f, .26f, .12f);

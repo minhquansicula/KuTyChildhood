@@ -1,5 +1,7 @@
 # Scene 2 — Một ngày mẹ còn gọi
 
+> **Hiện trạng 05/11/2026:** luồng chạy theo `HouseholdChoreFlow.Order` có **12 việc bắt buộc (120 mảnh)** và **2 việc tùy chọn (+5 mảnh/việc)**: xếp dụng cụ, xay ngô. Không cần làm việc tùy chọn để kết thúc. Radio, mang củi và ba thao tác vo gạo/nhóm lửa/nấu cơm đã dùng tương tác 3D khi rig được gắn đầy đủ. Phím P ngoài mini-game không còn xóa tiến độ; trong mini-game 2D, P chỉ làm lại việc đang mở. Xem [bản triển khai hiện tại](scene2-completion-implementation.md). Các mục 14 việc/140 mảnh và thao tác cũ bên dưới được giữ làm lịch sử thiết kế, không phải nguồn xác định luồng chạy hiện tại.
+
 ## Kịch bản và phạm vi
 
 Một buổi sáng trong ký ức, mẹ gọi con dậy phụ việc. Mỗi đồ vật gợi lại một việc nhỏ đã từng làm cùng gia đình. Người chơi đi qua phòng ngủ, phòng kho, gian nhà chính `TraditionalHouseInterior` và gian bếp; cuối ngày tìm được lá thư mẹ cất lại.

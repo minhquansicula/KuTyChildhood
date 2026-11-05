@@ -103,6 +103,9 @@ office-view.png
 *.blend2
 *.blend@
 
+# Mother delivery Blender working sources stay local; exported FBX assets remain tracked.
+/Tools/MotherDelivery/**/*.blend
+
 # Raw downloads/drafts & Agent workspace tools
 dumb/
 .agents/

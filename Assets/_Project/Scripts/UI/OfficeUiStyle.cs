@@ -83,22 +83,30 @@ public static class OfficeUiStyle
         overlayRect.anchorMin = Vector2.zero; overlayRect.anchorMax = Vector2.one;
         overlayRect.offsetMin = overlayRect.offsetMax = Vector2.zero;
 
-        var card = Panel("OfficePauseCard", panel.transform, new Vector2(590f, 570f), Vector2.zero, Color.white);
-        card.sprite = theme.PanelFrame; card.pixelsPerUnitMultiplier = 5f;
-        Panel("Accent", card.transform, new Vector2(64f, 3f), new Vector2(0, 235f), theme.accent);
-        Label("Chapter", card.transform, font, "CHÌA KHÓA KÝ ỨC", 17f, new Vector2(480, 32), new Vector2(0, 194), theme.accent).characterSpacing = 3f;
-        Label("PauseTitle", card.transform, font, "Nghỉ một chút", 46f, new Vector2(500, 72), new Vector2(0, 124), theme.text);
+        // Use the illustrated main menu artwork, not a stretched golden button as a panel.
+        var card = Panel("OfficePauseCard", panel.transform, new Vector2(720f, 790f), Vector2.zero,
+            new Color(.055f, .075f, .055f, .88f));
+        if (theme.pauseLogo)
+        {
+            var logo = Panel("PauseLogo", card.transform, new Vector2(570f, 190f), new Vector2(0, 252f), Color.white);
+            logo.sprite = theme.pauseLogo;
+            logo.type = Image.Type.Simple;
+            logo.preserveAspect = true;
+        }
+        else
+            Label("Chapter", card.transform, font, "KU TÝ", 56f, new Vector2(570, 190), new Vector2(0, 252), GameUiPresentation.Gold);
+        Label("PauseTitle", card.transform, font, "Nghỉ một chút", 42f, new Vector2(580, 66), new Vector2(0, 112), GameUiPresentation.Paper);
         var description = Label("PauseDescription", card.transform, font, "Hít thở chậm lại.\nTiếp tục khi bạn sẵn sàng.", 23f,
-            new Vector2(480, 78), new Vector2(0, 43), theme.muted);
+            new Vector2(580, 78), new Vector2(0, 40), GameUiPresentation.Muted);
         description.lineSpacing = 8f;
-        StyleButton(resume, card.transform, font, "Tiếp tục", new Vector2(0, -61), true);
+        StyleButton(resume, card.transform, font, "Tiếp tục", new Vector2(0, -75));
         if (!menu)
         {
             var image = Panel("OfficePauseMenu", card.transform, new Vector2(450, 66), new Vector2(0, -159), Ink);
             menu = image.gameObject.AddComponent<Button>();
         }
-        StyleButton(menu, card.transform, font, "Về menu chính", new Vector2(0, -159), false);
-        Label("PauseFooter", card.transform, font, "ESC  /  Tiếp tục", 18f, new Vector2(450, 30), new Vector2(0, -235), theme.muted);
+        StyleButton(menu, card.transform, font, "Về menu chính", new Vector2(0, -205));
+        Label("PauseFooter", card.transform, font, "ESC  /  Tiếp tục", 18f, new Vector2(540, 30), new Vector2(0, -326), GameUiPresentation.Muted);
         FitPauseCard(panel);
         return menu;
     }
@@ -110,20 +118,27 @@ public static class OfficeUiStyle
         var canvas = panel.GetComponent<Canvas>();
         if (card == null || canvas == null) return;
         var available = ((RectTransform)canvas.rootCanvas.transform).rect.size - Vector2.one * 64f;
-        float scale = Mathf.Min(1f, available.x / 590f, available.y / 570f);
+        var size = ((RectTransform)card).sizeDelta;
+        float scale = Mathf.Max(.01f, Mathf.Min(1f, available.x / size.x, available.y / size.y));
         card.localScale = Vector3.one * scale;
     }
 
-    private static void StyleButton(Button button, Transform parent, TMP_FontAsset font, string caption, Vector2 position, bool primary)
+    private static void StyleButton(Button button, Transform parent, TMP_FontAsset font, string caption, Vector2 position)
     {
         button.transform.SetParent(parent, false);
         button.gameObject.SetActive(true);
-        Rect((RectTransform)button.transform, Vector2.one * .5f, new Vector2(450f, 86f), position);
+        Rect((RectTransform)button.transform, Vector2.one * .5f, new Vector2(590f, 192f), position);
         foreach (Transform old in button.transform) old.gameObject.SetActive(false);
         var image = button.GetComponent<Image>();
         if (image == null) image = button.gameObject.AddComponent<Image>();
         button.targetGraphic = image;
-        Label("Caption", button.transform, font, caption, 25f, new Vector2(360, 54), Vector2.zero, Paper);
+        var label = Label("Caption", button.transform, font, caption, 29f, new Vector2(420, 60), new Vector2(0, -3), Paper);
+        label.enableAutoSizing = true;
+        label.fontSizeMin = 23f;
+        label.fontSizeMax = 29f;
         GameUiTheme.Current.StyleButton(button);
+        if (GameUiTheme.Current.woodenButton) image.sprite = GameUiTheme.Current.woodenButton;
+        // Ignore transparent padding in the artwork when clicking between the two signs.
+        image.raycastPadding = new Vector4(18f, 42f, 18f, 42f);
     }
 }

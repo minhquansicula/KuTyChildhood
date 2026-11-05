@@ -1,0 +1,13 @@
+{
+  "key": "Repair_SeatedFrontPanel",
+  "vertices": 1756,
+  "max_pose_offset_m": 0.05480228239683549,
+  "seated_value": 1.0,
+  "standing_value": 0.0,
+  "images": [
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\UserMomAnimation\\DeformationRepair\\PanelSupport_Seated_Front.png",
+    "E:\\FPT\\FALL26\\PRU213\\KuTy\\Tools\\MotherDelivery\\Preview\\UserMomAnimation\\DeformationRepair\\PanelSupport_Seated_Side.png"
+  ],
+  "source_basis_edited": false,
+  "unity_requirement": "Bake driver to blendshape animation before any later FBX delivery."
+}

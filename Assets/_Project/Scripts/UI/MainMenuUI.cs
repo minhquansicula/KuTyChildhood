@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// MainMenuUI — Giao diện Main Menu.
@@ -60,7 +61,12 @@ public class MainMenuUI : MonoBehaviour
         yield return null;
         foreach (var button in GetComponentsInChildren<Button>(true))
         {
+            // The four main buttons use their authored wooden artwork, not the shared panel frame.
+            var image = button.GetComponent<Image>();
+            var authoredArtwork = image != null ? image.sprite : null;
+            bool mainButton = button.transform.parent != null && button.transform.parent.name == "ButtonGroup";
             GameUiTheme.Current.StyleButton(button);
+            if (mainButton && image != null && authoredArtwork != null) image.sprite = authoredArtwork;
             foreach (var label in button.GetComponentsInChildren<TMP_Text>(true))
             {
                 label.enableAutoSizing = true;
@@ -69,6 +75,15 @@ public class MainMenuUI : MonoBehaviour
                 label.raycastTarget = false;
             }
             MenuButtonSfx.Attach(button);
+        }
+        if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null)
+        {
+            if (continueButton != null && continueButton.interactable) continueButton.Select();
+            else
+            {
+                foreach (var button in GetComponentsInChildren<Button>(true))
+                    if (button.name == "Btn_NewGame") { button.Select(); break; }
+            }
         }
     }
 

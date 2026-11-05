@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Mother_Idle_Standing",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 151,
+    "duration_seconds": 5,
+    "loop": true,
+    "in_place": true,
+    "sample_step": 1
+  },
+  {
+    "name": "Mother_SitDown",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 79,
+    "duration_seconds": 2.6,
+    "loop": false,
+    "in_place": true,
+    "sample_step": 1
+  },
+  {
+    "name": "Mother_Idle_Seated",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 151,
+    "duration_seconds": 5,
+    "loop": true,
+    "in_place": true,
+    "sample_step": 1
+  },
+  {
+    "name": "Mother_PrepVegetables",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 217,
+    "duration_seconds": 7.2,
+    "loop": true,
+    "in_place": true,
+    "sample_step": 1
+  },
+  {
+    "name": "Mother_StandUp",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 79,
+    "duration_seconds": 2.6,
+    "loop": false,
+    "in_place": true,
+    "sample_step": 1
+  },
+  {
+    "name": "Mother_CallChild",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 97,
+    "duration_seconds": 3.2,
+    "loop": false,
+    "in_place": true,
+    "sample_step": 1
+  },
+  {
+    "name": "Mother_PointToStove",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 85,
+    "duration_seconds": 2.8,
+    "loop": false,
+    "in_place": true,
+    "sample_step": 1
+  },
+  {
+    "name": "Mother_NodApprove",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 61,
+    "duration_seconds": 2,
+    "loop": false,
+    "in_place": true,
+    "sample_step": 1
+  },
+  {
+    "name": "Mother_Walk",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 37,
+    "duration_seconds": 1.2,
+    "loop": true,
+    "in_place": true,
+    "sample_step": 1
+  },
+  {
+    "name": "Mother_CheckPot",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 109,
+    "duration_seconds": 3.6,
+    "loop": false,
+    "in_place": true,
+    "sample_step": 1
+  }
+]

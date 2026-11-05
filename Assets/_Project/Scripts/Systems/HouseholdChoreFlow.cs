@@ -72,6 +72,13 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     private int pieces;
 
     public int Pieces => pieces;
+    public int RequiredPieces => ActiveIndex * PiecesPerChore;
+    public int OptionalPieces => pieces - RequiredPieces;
+    public HouseholdChore? CurrentChore => ActiveIndex < Order.Length ? Order[ActiveIndex] : (HouseholdChore?)null;
+    public bool IsCompleted(HouseholdChore chore) => (int)chore >= 0 && (int)chore < completed.Length && completed[(int)chore];
+    public string CurrentChapter => ActiveIndex < 2 ? "GÓC PHÒNG TUỔI THƠ" :
+        ActiveIndex < 3 ? "TIẾNG MẸ GỌI" : ActiveIndex < 8 ? "BẾP NHÀ MÌNH" :
+        ActiveIndex < 11 ? "BỮA CƠM GIA ĐÌNH" : "LỜI NHẮN CỦA MẸ";
     private int OptionalBits => (completed[(int)HouseholdChore.SortTools] ? 1 : 0) |
         (completed[(int)HouseholdChore.GrindCorn] ? 2 : 0);
     public static bool IsOptional(HouseholdChore chore) =>
@@ -110,6 +117,8 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         ui = new HouseholdChoreUI(transform);
         ui.SetChecklistVisible(false);
         if (GetComponent<Scene2QuestHUD>() == null) gameObject.AddComponent<Scene2QuestHUD>();
+        if (GetComponent<Scene2MotherCompanion>() == null) gameObject.AddComponent<Scene2MotherCompanion>();
+        if (GetComponent<Scene2ChoreGuidance>() == null) gameObject.AddComponent<Scene2ChoreGuidance>();
     }
 
     private static void EnsureDiningTableTarget()
@@ -235,12 +244,8 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     private void Update()
     {
         ui?.Tick();
-        if (!checklistVisible || QuestManager.Instance == null ||
-            QuestManager.Instance.CurrentStep != QuestStep.WashDishes ||
-            (GameManager.Instance != null && GameManager.Instance.InputBlocked) ||
-            PauseUI.LastResumeFrame == Time.frameCount || !Input.GetKeyDown(KeyCode.P)) return;
-
-        ResetHomeChores();
+        // P only restarts the currently open mini-game. Never erase the chapter
+        // checkpoint from a gameplay shortcut (New Game owns that decision).
     }
 
     private void ResetHomeChores()
@@ -267,7 +272,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         QuestManager.Instance?.RefreshHouseholdObjective();
     }
 
-    public bool IsCurrent(HouseholdChore chore) => checklistVisible &&
+    public bool IsCurrent(HouseholdChore chore) => (int)chore >= 0 && (int)chore < completed.Length && checklistVisible &&
         (QuestManager.Instance == null || QuestManager.Instance.CurrentStep == QuestStep.WashDishes) &&
         (IsOptional(chore) ? !completed[(int)chore] :
             ActiveIndex < ChoreCount && Order[ActiveIndex] == chore);
@@ -294,10 +299,10 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         if (presentMemory)
         {
             ui.Notify(finishedRequired
-                ? pieces + "/" + TotalPieces + " mảnh ký ức — Nhà mình vẫn có một chỗ chờ con."
+                ? "Đã xong việc nhà · " + pieces + " mảnh ký ức — Nhà mình vẫn có một chỗ chờ con."
                 : "+" + (optional ? OptionalPiecesPerChore : PiecesPerChore) + " mảnh ký ức — " + Memories[index],
                 Mathf.Max(7f, voiceSeconds));
-            ui.PlayMemoryReward(finishedRequired);
+            ui.PlayMemoryReward(finishedRequired, optional ? OptionalPiecesPerChore : PiecesPerChore);
             AudioManager.Instance?.PlaySFX(SfxId.MemoryCollected);
         }
         OnChoreCompleted?.Invoke(chore, pieces);
@@ -308,6 +313,16 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
 
     private void BindRiceWashingTarget()
     {
+        var handsOn = GetComponent<Scene2KitchenHandsOn>();
+        if (handsOn != null && handsOn.Handles(HouseholdChore.WashRice))
+        {
+            // Keep only the physical kitchen's target. Legacy triggers otherwise
+            // offer the same action at an unrelated position in the room.
+            foreach (var candidate in FindObjectsOfType<HouseholdChoreInteractable>(true))
+                if (candidate.Chore == HouseholdChore.WashRice &&
+                    !candidate.transform.IsChildOf(handsOn.worldRoot)) candidate.enabled = false;
+            return;
+        }
         if (riceWashingPot == null || riceWashingPotBaseCollider == null) return;
 
         // Imported FBX renderers have no colliders. Give their visible meshes precise
@@ -340,6 +355,8 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
 
     private void RefreshRiceWashingPot()
     {
+        var handsOn = GetComponent<Scene2KitchenHandsOn>();
+        if (handsOn != null && handsOn.Handles(HouseholdChore.WashRice)) return;
         bool show = completed[(int)HouseholdChore.MeasureRice] && !completed[(int)HouseholdChore.WashRice];
         if (riceWashingPot != null) riceWashingPot.gameObject.SetActive(show);
         if (riceWashingPotBaseCollider != null)
@@ -357,6 +374,32 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         for (int i = 0; i < ChoreCount; i++) { names[i] = Titles[(int)Order[i]]; done[i] = completed[(int)Order[i]]; }
         ui.SetChecklist(names, done, ActiveIndex, pieces, TotalPieces, CurrentLocation);
     }
+
+    public string CurrentGuidance
+    {
+        get
+        {
+            var sequence = GetComponent<Scene2RadioKitchenSequence>();
+            if (sequence && sequence.CarryingWood)
+                return "Mang bó củi tới cạnh bếp, nhìn vào chỗ đặt rồi nhấn E. Q để trả củi về giỏ.";
+            switch (CurrentChore)
+            {
+                case HouseholdChore.ArrangeKeepsakes: return "Đến rương trong phòng ngủ, nhấn E. Xếp áo, khăn và kỷ vật, rồi kéo nắp rương xuống.";
+                case HouseholdChore.TuneRadio: return "Đến radio trong phòng ngủ, nhấn E. Xoay núm chậm hoặc lăn chuột đến khi nghe rõ tiếng nhạc.";
+                case HouseholdChore.CarryWood: return "Tìm giỏ củi ở gian kho, nhấn E để nhấc bó củi rồi mang vào cạnh bếp.";
+                case HouseholdChore.FetchWater: return "Đến lu nước ở bếp, nhấn E. Giữ gáo trong lu cho đầy rồi chuyển sang thau.";
+                case HouseholdChore.MeasureRice: return "Đến lu gạo ở bếp, nhấn E. Múc và đổ gạo vào rá theo vạch hướng dẫn.";
+                case HouseholdChore.WashRice: return "Đến nồi vo gạo, nhấn E. Rê chuột vòng quanh mặt nước, rồi chắt nước khi đã đục.";
+                case HouseholdChore.LightFire: return "Đến bếp củi, nhấn E. Đặt đủ ba thanh củi rồi thổi từng nhịp ngắn để nhóm lửa.";
+                case HouseholdChore.CookRice: return "Đến nồi cơm, nhấn E. Điều chỉnh củi để cơm sôi nhẹ; nhấc vung khi cơm đã cạn.";
+                case HouseholdChore.SetTable: return "Đến bàn ăn ở nhà chính, nhấn E. Đặt bát, đũa và nồi cơm vào đúng chỗ.";
+                case HouseholdChore.WashDishes: return "Đến chỗ rửa chén, nhấn E. Chà sạch, tráng nước rồi đặt chén lên giá.";
+                case HouseholdChore.PutAwayDishes: return "Đến tủ chén ở bếp, nhấn E. Đưa chén, đĩa và đũa vào đúng ngăn.";
+                case HouseholdChore.ReadLetter: return "Tìm lá thư trên bàn ở nhà chính, nhấn E. Mở thư và đọc thong thả; xong rồi mới tiếp tục.";
+                default: return "Xong việc rồi, con nghỉ tay đi nhé.";
+            }
+        }
+    }
 }
 
 /// <summary>Runtime UI so the chore flow works without adding a new prefab or editing the HUD.</summary>
@@ -371,6 +414,7 @@ public sealed class HouseholdChoreUI
     private readonly GameObject notificationCard;
     private readonly TextMeshProUGUI titleText;
     private readonly TextMeshProUGUI hintText;
+    private readonly TextMeshProUGUI conversationText;
     private readonly TextMeshProUGUI feedbackText;
     private readonly TextMeshProUGUI progressText;
     private readonly TextMeshProUGUI progressPercent;
@@ -465,13 +509,16 @@ public sealed class HouseholdChoreUI
         titleText.characterSpacing = 1.1f;
         hintText = Label("Instructions", gamePanel.transform, new Vector2(0, 245), new Vector2(980, 56), 24, TextAlignmentOptions.Center);
         hintText.color = new Color(.25f, .24f, .19f);
+        conversationText = Label("MotherConversation", gamePanel.transform, new Vector2(0, 130),
+            new Vector2(920, 160), 29, TextAlignmentOptions.Center);
+        conversationText.color = new Color(.23f, .16f, .09f);
+        conversationText.gameObject.SetActive(false);
         feedbackText = Label("Feedback", gamePanel.transform, new Vector2(0, -244), new Vector2(1000, 37), 23, TextAlignmentOptions.Center);
         feedbackText.color = new Color(.18f, .36f, .29f);
         progressText = Label("Progress", gamePanel.transform, new Vector2(0, -278), new Vector2(1000, 28), 20, TextAlignmentOptions.Center);
         progressText.color = new Color(.25f, .24f, .19f);
         cancelText = Label("CancelHint", gamePanel.transform, new Vector2(0, -349), new Vector2(1000, 31), 21, TextAlignmentOptions.Center);
         cancelText.color = new Color(.82f, .76f, .62f);
-        cancelText.text = "P  LÀM LẠI     ·     ESC  TẠM DỪNG";
         cancelText.text = "THAO TÁC TRỰC TIẾP BẰNG CHUỘT";
         cancelText.rectTransform.sizeDelta = new Vector2(500, 31);
         cancelText.fontSize = 17f;
@@ -510,14 +557,16 @@ public sealed class HouseholdChoreUI
         choices.transform.SetParent(gamePanel.transform, false);
         var choicesRect = choices.GetComponent<RectTransform>();
         choicesRect.anchorMin = choicesRect.anchorMax = new Vector2(.5f, .5f);
-        choicesRect.sizeDelta = new Vector2(570, 75);
-        choicesRect.anchoredPosition = new Vector2(0, 25);
+        choicesRect.sizeDelta = new Vector2(800, 270);
+        choicesRect.anchoredPosition = new Vector2(0, -120);
         for (int i = 0; i < choiceButtons.Length; i++)
         {
-            var buttonObject = Box("Choice" + i, choices.transform, new Vector2((i - 1) * 190, 0), new Vector2(178, 70),
+            var buttonObject = Box("Choice" + i, choices.transform, new Vector2(0, (1 - i) * 90), new Vector2(760, 72),
                 new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Color(.38f, .25f, .15f));
             choiceButtons[i] = buttonObject.AddComponent<Button>();
-            choiceTexts[i] = Label("Text", buttonObject.transform, Vector2.zero, new Vector2(168, 66), 22, TextAlignmentOptions.Center);
+            choiceTexts[i] = Label("Text", buttonObject.transform, Vector2.zero, new Vector2(720, 60), 25, TextAlignmentOptions.Center);
+            choiceTexts[i].color = GameUiPresentation.Paper;
+            MenuButtonSfx.Attach(choiceButtons[i]);
         }
         actionBoard = new HouseholdActionBoard(gamePanel.transform);
         gamePanel.SetActive(false);
@@ -577,10 +626,10 @@ public sealed class HouseholdChoreUI
         }
     }
 
-    public void PlayMemoryReward(bool finalLetter)
+    public void PlayMemoryReward(bool finalLetter, int awardedPieces = HouseholdChoreFlow.PiecesPerChore)
     {
         ApplyHudFont();
-        rewardText.text = finalLetter ? "MẸ VẪN CHỜ CON" : "+10 MẢNH KÝ ỨC";
+        rewardText.text = finalLetter ? "MẸ VẪN CHỜ CON" : "+" + awardedPieces + " MẢNH KÝ ỨC";
         rewardRemaining = 1.4f;
         if (finalLetter) glowRemaining = 2f;
     }
@@ -592,6 +641,9 @@ public sealed class HouseholdChoreUI
         restartAction = onRestart;
         leaveButton.interactable = cancelAction != null;
         restartButton.interactable = restartAction != null;
+        restartButton.gameObject.SetActive(restartAction != null);
+        leaveButton.GetComponentInChildren<TMP_Text>().text = "RỜI VIỆC  [ESC]";
+        cancelText.text = "THAO TÁC TRỰC TIẾP BẰNG CHUỘT";
         modalBackdrop.SetActive(true);
         gamePanel.SetActive(true);
         notificationText.text = string.Empty;
@@ -606,11 +658,25 @@ public sealed class HouseholdChoreUI
         meter.SetActive(showMeter);
         measureZone.SetActive(false);
         choices.SetActive(false);
+        conversationText.gameObject.SetActive(false);
+        hintText.gameObject.SetActive(true);
+        progressBar.SetActive(true);
+        progressText.gameObject.SetActive(true);
+        progressPercent.gameObject.SetActive(true);
         SetProgress(0, "");
     }
 
     public void ShowChoices(string[] labels, Action<int> onSelected)
     {
+        conversationText.text = hintText.text;
+        conversationText.gameObject.SetActive(true);
+        hintText.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
+        progressBar.SetActive(false);
+        progressText.gameObject.SetActive(false);
+        progressPercent.gameObject.SetActive(false);
+        cancelText.text = "CHỌN CÂU TRẢ LỜI · PHÍM 1 / 2 / 3";
+        leaveButton.GetComponentInChildren<TMP_Text>().text = "TẠM BIỆT  [ESC]";
         choices.SetActive(true);
         for (int i = 0; i < choiceButtons.Length; i++)
         {
@@ -662,9 +728,10 @@ public sealed class HouseholdChoreUI
 
     private void ApplyHudFont()
     {
-        TMP_FontAsset font = HUDController.Instance != null ? HUDController.Instance.ObjectiveFont : null;
+        TMP_FontAsset font = GameUiTheme.Current ? GameUiTheme.Current.font : null;
+        if (!font && HUDController.Instance != null) font = HUDController.Instance.ObjectiveFont;
         if (font == null) return;
-        titleText.font = hintText.font = feedbackText.font = progressText.font = cancelText.font = progressPercent.font = font;
+        titleText.font = hintText.font = conversationText.font = feedbackText.font = progressText.font = cancelText.font = progressPercent.font = font;
         timingZoneText.font = measureZoneText.font = font;
         rewardText.font = font;
         for (int i = 0; i < choiceTexts.Length; i++) choiceTexts[i].font = font;

@@ -1,0 +1,65 @@
+[
+  {
+    "action": "MomUser_Idle",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 121,
+    "duration_seconds": 4,
+    "loop": true,
+    "in_place": true
+  },
+  {
+    "action": "MomUser_Walk_InPlace",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 37,
+    "duration_seconds": 1.2,
+    "loop": true,
+    "in_place": true
+  },
+  {
+    "action": "MomUser_Nod",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 73,
+    "duration_seconds": 2.4,
+    "loop": false,
+    "in_place": true
+  },
+  {
+    "action": "MomUser_SitDown",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 85,
+    "duration_seconds": 2.8,
+    "loop": false,
+    "in_place": true
+  },
+  {
+    "action": "MomUser_Idle_Seated",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 121,
+    "duration_seconds": 4,
+    "loop": true,
+    "in_place": true
+  },
+  {
+    "action": "MomUser_StandUp",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 85,
+    "duration_seconds": 2.8,
+    "loop": false,
+    "in_place": true
+  },
+  {
+    "action": "MomUser_CallChild",
+    "fps": 30,
+    "frame_start": 1,
+    "frame_end": 109,
+    "duration_seconds": 3.6,
+    "loop": false,
+    "in_place": true
+  }
+]

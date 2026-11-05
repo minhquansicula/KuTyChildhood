@@ -120,6 +120,15 @@ public sealed class KuTyMainMenuCheckRunner : MonoBehaviour
         Binding(Button(menu, "Btn_NewGame"), menu, nameof(MainMenuUI.OnPlayButtonClicked));
         Binding(Button(menu, "Btn_LoadGame"), menu, nameof(MainMenuUI.OnContinueButtonClicked));
         Binding(Button(menu, "Btn_Quit"), menu, nameof(MainMenuUI.OnQuitButtonClicked));
+        var title = menu.transform.Find("Game_title_image");
+        Check(title != null && title.gameObject.activeInHierarchy, "The original KuTy logo is hidden");
+        Check(menu.transform.Find("MenuComposition") == null, "The discarded flat menu is still present");
+        foreach (string name in new[] { "Btn_NewGame", "Btn_LoadGame", "Btn_Settings", "Btn_Quit" })
+        {
+            var control = Button(menu, name);
+            Check(control.GetComponent<Image>().sprite == AssetDatabase.LoadAssetAtPath<Sprite>(KuTyMainMenuIntegration.ButtonArtworkPath),
+                "The original illustrated button artwork is missing: " + name);
+        }
         foreach (var caption in menu.GetComponentsInChildren<TMP_Text>(true))
             Check(caption.font != null && caption.font.HasCharacters(caption.text, out uint[] missing, true, true),
                 "Menu font cannot display caption: " + caption.text);

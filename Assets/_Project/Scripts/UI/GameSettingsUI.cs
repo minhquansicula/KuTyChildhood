@@ -76,8 +76,19 @@ public sealed class GameSettingsUI : MonoBehaviour
         RefreshValues();
     }
 
-    private void OnEnable() { RefreshValues(); }
-    private void OnDisable() { PlayerPrefs.Save(); }
+    private void OnEnable()
+    {
+        RefreshValues();
+        if (volume) volume.Select();
+    }
+    private void OnDisable()
+    {
+        PlayerPrefs.Save();
+        var menu = GetComponentInParent<MainMenuUI>();
+        if (!menu) return;
+        foreach (var button in menu.GetComponentsInChildren<Button>(true))
+            if (button.name == "Btn_Settings" && button.isActiveAndEnabled) { button.Select(); break; }
+    }
     private void Update() { if (Input.GetKeyDown(KeyCode.Escape)) gameObject.SetActive(false); }
     private void RefreshValues()
     {
