@@ -179,7 +179,7 @@ public sealed class OfficeSceneController : MonoBehaviour
         if (kind == OfficeInteractionKind.Chair)
         {
             if (!IsSeated) return "[E] Ngồi vào ghế";
-            return Phase == OfficePhase.Rest ? "[E] Gục xuống nghỉ một chút" : string.Empty;
+            return Phase == OfficePhase.Rest ? "[E] Tan làm" : string.Empty;
         }
         if (!IsSeated) return string.Empty;
 
@@ -188,7 +188,7 @@ public sealed class OfficeSceneController : MonoBehaviour
             case OfficePhase.ReturnToDesk: return "[E] Mở báo cáo Excel";
             case OfficePhase.ExcelAuditing: return "[E] Tiếp tục báo cáo Excel";
             case OfficePhase.AfterWork: return "[E] Kiểm tra trạng thái báo cáo";
-            case OfficePhase.Rest: return "[E] Gục xuống nghỉ một chút";
+            case OfficePhase.Rest: return "[E] Tan làm";
             default: return string.Empty;
         }
     }
@@ -225,7 +225,7 @@ public sealed class OfficeSceneController : MonoBehaviour
             case OfficePhase.AfterWork:
                 ShowSubtitle("TÝ", "Bản Excel đã gửi rồi. Hôm nay mình dừng ở đây thôi...", 4f);
                 break;
-            case OfficePhase.Rest: BeginExhaustion(); break;
+            case OfficePhase.Rest: BeginDeparture(); break;
         }
     }
 
@@ -264,7 +264,7 @@ public sealed class OfficeSceneController : MonoBehaviour
                 {
                     WaterBreakCompleted = true;
                     SetPhase(OfficePhase.Rest);
-                    ShowSubtitle("TÝ", "Sao vẫn choáng thế này... về ghế ngồi một lát đã.", 4f);
+                    ShowSubtitle("TÝ", "Mình quay lại bàn lấy đồ rồi về thôi.", 4f);
                 }
                 else ShowSubtitle("TÝ", "Một ngụm nước. Mình phải tỉnh táo thêm chút nữa.", 3f);
                 break;
@@ -390,34 +390,20 @@ public sealed class OfficeSceneController : MonoBehaviour
         }
     }
 
-    private void BeginExhaustion()
+    private void BeginDeparture()
     {
         if (Phase == OfficePhase.Leaving || !IsSeated) return;
         SetPhase(OfficePhase.Leaving);
-        GameManager.Instance?.AcquireInput(this);
+        GameManager.Instance?.AcquireInput(this, showCursor: false);
         SceneLoader.Instance?.PrepareSleepTransition(SceneNames.Act2_Home);
-        atmosphere?.PlaySigh();
         SetBuiltInObjectiveVisible(false);
         SetControlsHintVisible(false);
         HUDController.Instance?.SetCrosshairVisible(false);
-        float speechSeconds = ShowSubtitle("TÝ", "Mệt quá... chỉ nghỉ một chút thôi...", 3f);
-        int token = gameplayVoice != null ? gameplayVoice.PlaybackToken : -1;
         sleepDialogueProtected = true;
-        bool VoiceActive() => gameplayVoice != null && gameplayVoice.PlaybackToken == token &&
-            (gameplayVoice.IsPlaying || gameplayVoice.IsPaused);
-        if (exhaustionSequence != null && exhaustionSequence.Play(LoadMemoryWorld, speechSeconds, VoiceActive)) return;
-        StartCoroutine(FallbackLeaveOffice(speechSeconds, VoiceActive));
+        StartCoroutine(OfficeDepartureVideo.Play(atmosphere, LoadMemoryWorld));
     }
 
     private bool sleepDialogueProtected;
-
-    private IEnumerator FallbackLeaveOffice(float speechSeconds, Func<bool> voiceActive)
-    {
-        yield return new WaitForSeconds(speechSeconds);
-        while (voiceActive()) yield return null;
-        yield return new WaitForSeconds(.45f);
-        LoadMemoryWorld();
-    }
 
     private void LoadMemoryWorld()
     {
@@ -446,7 +432,7 @@ public sealed class OfficeSceneController : MonoBehaviour
             case OfficePhase.WaterBreak: ObjectiveText = "Đến bình nước uống một chút."; break;
             case OfficePhase.AfterWork: ObjectiveText = "Báo cáo đã hoàn tất."; break;
             case OfficePhase.Rest:
-                ObjectiveText = IsSeated ? "Nghỉ một chút." : "Quay lại ghế và nghỉ một chút.";
+                ObjectiveText = IsSeated ? "Tan làm." : "Quay lại bàn để tan làm.";
                 nearChair = false;
                 break;
             default: ObjectiveText = "..."; break;
@@ -465,7 +451,7 @@ public sealed class OfficeSceneController : MonoBehaviour
 
     private void RefreshObjective()
     {
-        if (Phase == OfficePhase.Rest) ObjectiveText = IsSeated ? "Nhìn máy tính, nhấn E để nghỉ một chút." : "Quay lại ghế và nghỉ một chút.";
+        if (Phase == OfficePhase.Rest) ObjectiveText = IsSeated ? "Nhấn E để tan làm." : "Quay lại bàn để tan làm.";
         ObjectiveChanged?.Invoke();
         if (objectiveText == null) return;
         CanvasGroup group = objectiveText.GetComponentInParent<CanvasGroup>();

@@ -140,3 +140,16 @@ dumb/
 
 # Local recovery archives from verified project cleanup (not game assets).
 /Tools/CleanupRecovery/
+
+# Cutscene authoring sources, imported models and review renders stay local.
+# The approved runtime video is tracked under Assets/_Project/Resources/Cutscenes/.
+/Tools/Cutscene/
+/Tools/CutsceneReferences/
+
+# Superseded cutscene exports are retained locally for comparison.
+/Assets/_Project/Resources/Cutscenes/OfficeToHome.mp4
+/Assets/_Project/Resources/Cutscenes/OfficeToHome.mp4.meta
+/Assets/_Project/Resources/Cutscenes/OfficeToHome_RoadRefined.mp4
+/Assets/_Project/Resources/Cutscenes/OfficeToHome_RoadRefined.mp4.meta
+/Assets/_Project/Resources/Cutscenes/OfficeToHome_VietnamNight.mp4
+/Assets/_Project/Resources/Cutscenes/OfficeToHome_VietnamNight.mp4.meta

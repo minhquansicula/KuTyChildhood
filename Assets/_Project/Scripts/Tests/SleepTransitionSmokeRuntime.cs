@@ -50,44 +50,42 @@ public sealed class SleepTransitionSmokeRuntime : MonoBehaviour
         FindObjectOfType<OfficeIntroHUD>()?.SetOpeningFade(0f);
         var office = FindObjectOfType<OfficeSceneController>();
         if (office != null) office.StopAllCoroutines();
-        var collapse = FindObjectOfType<OfficeExhaustionSequence>();
-        if (!Check(collapse != null, "Open an office scene before running this test")) yield break;
-
-        float started = Time.realtimeSinceStartup;
-        if (!Check(office != null, "Office controller exists for real dialogue path")) yield break;
+        if (!Check(office != null, "Open an office scene before running this test")) yield break;
         typeof(OfficeSceneController).GetMethod("SetSeated", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(office, new object[] { false });
         office.SitDown(true);
-        typeof(OfficeSceneController).GetMethod("BeginExhaustion", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(office, null);
-        float expectedSpeech = office.CurrentSubtitleSeconds;
-        Check(expectedSpeech >= 2.35f, "Voice duration includes the complete rest line");
-        Check(loader.IsLoading, "Real exhaustion path starts preload");
+        office.MakeRestAvailableForTests();
+        float started = Time.realtimeSinceStartup;
+        office.HandleInteraction(OfficeInteractionKind.Chair);
+        Check(loader.IsLoading, "Departure starts preloading the home scene");
         Check(!loader.PrepareSleepTransition(SceneNames.Act2_Home), "Duplicate preload is rejected");
         Check(GameManager.Instance == null || GameManager.Instance.InputBlocked, "Input blocked during preload");
-        var voice = office.GameplayVoicePlayer;
-        if (!Check(voice != null && voice.IsPlaying, "Actual rest voice is playing")) yield break;
-        int voiceToken = voice.PlaybackToken;
-        office.ShowGuidanceHint("This hint must not interrupt the final line");
-        Check(voice.PlaybackToken == voiceToken, "Guidance cannot replace the final voice line");
         yield return new WaitForSeconds(.35f);
-        Capture("01-final-line.png");
-        yield return new WaitForSecondsRealtime(.1f);
         GameManager.Instance.SetPaused(true);
-        float pausedAt = voice.Source.time;
-        yield return new WaitForSecondsRealtime(.4f);
-        Check(voice.IsPaused && Mathf.Abs(voice.Source.time - pausedAt) < .05f, "Pause freezes voice playback");
+        yield return new WaitForSecondsRealtime(2f);
         Check(office != null && loader.IsLoading, "Pause cannot activate destination early");
         GameManager.Instance.SetPaused(false);
-        bool officeAliveDuringVoice = true;
-        while (voice != null && voice.IsPlaying)
+        float timeout = Time.realtimeSinceStartup + 40f;
+        var cutscene = GameObject.Find("Office Departure Cutscene");
+        if (!Check(cutscene != null, "Departure creates a fade overlay")) yield break;
+        var fade = cutscene.transform.Find("Fade").GetComponent<UnityEngine.UI.Image>();
+        while (fade != null && fade.color.a <= .1f && Time.realtimeSinceStartup < timeout)
+            yield return null;
+        if (!Check(fade != null && fade.color.a < .95f && cutscene.GetComponent<UnityEngine.Video.VideoPlayer>() == null,
+            "Office fades visibly before video preparation")) yield break;
+        UnityEngine.Video.VideoPlayer player = null;
+        while (cutscene != null && player == null && Time.realtimeSinceStartup < timeout)
         {
-            officeAliveDuringVoice &= office != null;
+            player = cutscene.GetComponent<UnityEngine.Video.VideoPlayer>();
             yield return null;
         }
-        Check(officeAliveDuringVoice, "Office remains alive while voice plays");
-        float timeout = Time.realtimeSinceStartup + 30f;
+        if (!Check(player != null, "Departure finds the packaged video")) yield break;
+        while (player != null && player.frame < 0 && Time.realtimeSinceStartup < timeout)
+            yield return null;
+        if (!Check(player != null && player.frame >= 0 && office != null, "Departure plays before activating Act 2"))
+            yield break;
+        Capture("01-departure-video.png");
         while (loader.IsLoading && Time.realtimeSinceStartup < timeout) yield return null;
-        if (!Check(!loader.IsLoading && Time.realtimeSinceStartup - started >= expectedSpeech + .4f,
-            "Load completes only after full dialogue and paused time")) yield break;
+        if (!Check(!loader.IsLoading, "Load completes after the departure video")) yield break;
         if (!Check(SceneManager.GetActiveScene().name == SceneNames.Act2_Home, "Destination is Act2 Home")) yield break;
         var bed = FindObjectOfType<BedWakeUpController>();
         if (!Check(bed != null, "Destination bed controller exists")) yield break;

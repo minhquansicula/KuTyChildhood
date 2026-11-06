@@ -40,6 +40,7 @@ public class BedWakeUpController : MonoBehaviour
     private Image visionBlack;
     private SleepEyelidOverlay eyelids;
     private Light wakeBounce;
+    private FirstPersonFocusTransition wakingFocus;
     private bool canWakeUp = false;
     public bool CanPauseWhileWaiting => canWakeUp &&
         (ShopUI.Instance == null || !ShopUI.Instance.IsOpen) &&
@@ -113,29 +114,30 @@ public class BedWakeUpController : MonoBehaviour
             {
                 if (GameManager.Instance == null || !GameManager.Instance.IsPaused)
                     elapsed += Time.deltaTime;
-                // Dat's short opening/blink and steady head motion drive the
-                // existing eyelid overlay after the sleep handoff uncovers this scene.
                 float seconds = elapsed * (2.25f / eyeOpeningDuration);
-                float open = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - .12f) / .72f));
-                float blinkIn = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - 1.08f) / .08f));
-                float blinkOut = 1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - 1.18f) / .14f));
-                SetVision(Mathf.Clamp01(1f - open + blinkIn * blinkOut * .88f), 0f);
+                float open = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - .18f) / 1.05f));
+                SetVision(1f - open, 0f);
+                float clarity = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - .55f) / 1.35f));
+                wakingFocus?.Set(.65f * (1f - clarity), -.18f * (1f - clarity));
 
                 // One small, settling head movement reads as waking up without mechanical wobble.
-                float settle = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - .45f) / 1.45f));
-                float pitch = Mathf.Lerp(sleepingPitch, awakePitch, settle);
-                float roll = Mathf.Lerp(1.4f, 0f, settle);
+                float settle = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - 1.2f) / 1.05f));
+                float pitch = Mathf.Lerp(sleepingPitch, Mathf.MoveTowards(sleepingPitch, awakePitch, 6f), settle);
+                float roll = Mathf.Lerp(.65f, 0f, settle);
                 playerController.SetPitch(pitch);
                 playerCamera.localRotation = Quaternion.Euler(pitch, 0f, roll);
                 playerCamera.localPosition = standingCameraPosition + lyingCameraOffset +
-                    new Vector3(0f, .025f * settle, 0f);
+                    new Vector3(0f, .012f * settle, 0f);
                 yield return null;
             }
-            playerController.SetPitch(awakePitch);
-            playerCamera.localRotation = Quaternion.Euler(awakePitch, 0f, 0f);
-            playerCamera.localPosition = standingCameraPosition + lyingCameraOffset + new Vector3(0f, .025f, 0f);
+            float restingPitch = Mathf.MoveTowards(sleepingPitch, awakePitch, 6f);
+            playerController.SetPitch(restingPitch);
+            playerCamera.localRotation = Quaternion.Euler(restingPitch, 0f, 0f);
+            playerCamera.localPosition = standingCameraPosition + lyingCameraOffset + new Vector3(0f, .012f, 0f);
             if (viewCamera != null) viewCamera.fieldOfView = normalFieldOfView;
             SetVision(0f, 0f);
+            wakingFocus?.Dispose();
+            wakingFocus = null;
             yield return new WaitForSeconds(.15f);
         }
         else
@@ -269,10 +271,11 @@ public class BedWakeUpController : MonoBehaviour
         Vector3 fromPosition = playerCamera.localPosition;
         Quaternion fromRotation = playerCamera.localRotation;
         float elapsed = 0f;
-        while (elapsed < risingDuration)
+        float duration = Mathf.Max(1.05f, risingDuration);
+        while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / risingDuration));
+            float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
             if (wakeBounce != null) wakeBounce.intensity = wakeBounceIntensity * (1f - t);
             playerCamera.localPosition = Vector3.Lerp(fromPosition, standingCameraPosition, t);
             playerCamera.localRotation = Quaternion.Slerp(fromRotation, Quaternion.Euler(ExitCameraPitch, 0f, 0f), t);
@@ -282,10 +285,10 @@ public class BedWakeUpController : MonoBehaviour
         FinishGettingOutOfBed();
         SetVision(1f, 0f);
         float fade = 0f;
-        while (fade < .10f)
+        while (fade < .18f)
         {
             fade += Time.deltaTime;
-            SetVision(1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(fade / .10f)), 0f);
+            SetVision(1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(fade / .18f)), 0f);
             yield return null;
         }
         ClearVisionOverlay();
@@ -354,18 +357,7 @@ public class BedWakeUpController : MonoBehaviour
         visionBlack = CreateVisionImage("ClosedEyes", Color.black);
         visionBlack.color = Color.clear;
         eyelids = SleepEyelidOverlay.Create(visionCanvas.transform);
-        if (playerCamera != null && wakeBounceIntensity > 0f)
-        {
-            var bounce = new GameObject("WakeWindowBounce", typeof(Light));
-            bounce.transform.SetParent(playerCamera, false);
-            bounce.transform.localPosition = new Vector3(-.25f, .1f, -.25f);
-            wakeBounce = bounce.GetComponent<Light>();
-            wakeBounce.type = LightType.Point;
-            wakeBounce.color = new Color(1f, .86f, .68f);
-            wakeBounce.intensity = wakeBounceIntensity;
-            wakeBounce.range = 7f;
-            wakeBounce.shadows = LightShadows.None;
-        }
+        wakingFocus = new FirstPersonFocusTransition("Waking Focus", viewCamera);
         SetVision(1f, 0f);
     }
 
@@ -392,6 +384,8 @@ public class BedWakeUpController : MonoBehaviour
 
     private void ClearVisionOverlay()
     {
+        wakingFocus?.Dispose();
+        wakingFocus = null;
         if (visionCanvas != null) Destroy(visionCanvas);
         if (wakeBounce != null) Destroy(wakeBounce.gameObject);
         wakeBounce = null;
@@ -399,5 +393,10 @@ public class BedWakeUpController : MonoBehaviour
         visionBlack = null;
         eyelids = null;
         visionHaze = null;
+    }
+
+    private void OnDestroy()
+    {
+        ClearVisionOverlay();
     }
 }

@@ -28,7 +28,7 @@ public class SceneLoader : MonoBehaviour
         IsSleepTransitionCovered = true;
         activateSleepScene = false;
         GameManager.Instance?.SetPaused(false);
-        GameManager.Instance?.AcquireInput(this);
+        GameManager.Instance?.AcquireInput(this, showCursor: false);
         try
         {
             var operation = SceneManager.LoadSceneAsync(sceneName);
@@ -42,6 +42,8 @@ public class SceneLoader : MonoBehaviour
             yield return operation;
             // Give destination Start() a frame to position the camera and create closed eyelids.
             yield return null;
+            // The home ambient track starts on scene activation, before the first view of the room.
+            yield return new WaitForSecondsRealtime(.45f);
         }
         finally
         {
