@@ -81,3 +81,13 @@ Dựng lại bằng `python Tools/Cutscene/StoryAudio/build_story_preview.py`. K
 ### Chỉnh nhịp giọng mẹ
 
 Giọng mẹ dùng `atempo=1.7` để tăng tốc và giữ cao độ, còn 1,063 giây. Chuyển sang mốc 18,587–19,650 giây, gần cuối video 20 giây. Luồng hiện tại có 0,45 giây che chuyển Scene2 và khoảng 0,18 giây trước khi mí mắt bắt đầu mở; khoảng từ hết file giọng đến mở mắt dự kiến 0,98 giây cộng thời gian kích hoạt scene. Không đổi mã chuyển scene hoặc độ dài video. Tiếng chim dời theo về cuối clip. Đã giải mã toàn bộ video mới và kiểm tra vùng có giọng trong bản AAC; chưa đo thực tế trong Play Mode.
+
+## Scene cutscene độc lập
+
+Cutscene giữa hai act nằm ở `Assets/_Project/Scenes/Act1_CutScene_Act2.unity`, đã bật trong Build Settings ngay sau Act1. Có thể mở scene này rồi Play để xem trực tiếp video và tự chuyển sang Act2.
+
+Luồng chơi: **E · Tan làm → giữ góc bàn 1,25 giây → mờ 1,35 giây ở Act1 → Act1_CutScene_Act2 phát video hiện tại → Act2 mở mắt, chờ E xuống giường**. Không thêm hiệu ứng fade ở đầu/cuối video. Giữ nguyên video, chữ, giọng mẹ 1,7× và nhịp mở mắt. Scene cutscene tải trước Act2 trong lúc phát; cơ chế che màn đen 0,45 giây của Act2 giữ nguyên. `Act1CutsceneAct2Controller` có ô Clip trong Inspector để quản lý bản video.
+
+`OfficeDepartureVideo` tách thành `FadeOffice` và `PlayClip`; `SceneLoader` chỉ bật nhạc quê và chờ 0,45 giây khi đích là Act2, không áp dụng nhịp đó cho scene trung gian. Game state của scene cutscene vẫn thuộc Act1, tránh bật nhạc menu. GameBootstrap cung cấp các manager khi Play scene riêng. Nếu video thiếu/lỗi, vẫn chuyển qua Act2 theo màn đen.
+
+Kiểm tra: Unity biên dịch không lỗi; Play Mode xác nhận Act1 fade trước khi chuyển, video phát ở scene mới sau khi unload văn phòng, input bị khóa và Act2 được tải. Lượt smoke test tự động bị dừng trước kết quả cuối nên chưa ghi nhận PASS toàn bộ. Checkpoint đã được scope kiểm thử khôi phục. Không thay đổi dữ liệu video hoặc mã BedWakeUpController.

@@ -37,13 +37,14 @@ public class SceneLoader : MonoBehaviour
             while (!activateSleepScene) yield return null;
             fadeImage.color = Color.black;
             fadeImage.raycastTarget = true;
-            AudioManager.Instance?.BeginHomeTransition();
+            bool enteringHome = sceneName == SceneNames.Act2_Home;
+            if (enteringHome) AudioManager.Instance?.BeginHomeTransition();
             operation.allowSceneActivation = true;
             yield return operation;
             // Give destination Start() a frame to position the camera and create closed eyelids.
             yield return null;
             // The home ambient track starts on scene activation, before the first view of the room.
-            yield return new WaitForSecondsRealtime(.45f);
+            if (enteringHome) yield return new WaitForSecondsRealtime(.45f);
         }
         finally
         {

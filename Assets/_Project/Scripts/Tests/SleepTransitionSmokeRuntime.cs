@@ -56,7 +56,7 @@ public sealed class SleepTransitionSmokeRuntime : MonoBehaviour
         office.MakeRestAvailableForTests();
         float started = Time.realtimeSinceStartup;
         office.HandleInteraction(OfficeInteractionKind.Chair);
-        Check(loader.IsLoading, "Departure starts preloading the home scene");
+        Check(loader.IsLoading, "Departure starts preloading the cutscene scene");
         Check(!loader.PrepareSleepTransition(SceneNames.Act2_Home), "Duplicate preload is rejected");
         Check(GameManager.Instance == null || GameManager.Instance.InputBlocked, "Input blocked during preload");
         yield return new WaitForSeconds(.35f);
@@ -72,18 +72,25 @@ public sealed class SleepTransitionSmokeRuntime : MonoBehaviour
             yield return null;
         if (!Check(fade != null && fade.color.a < .95f && cutscene.GetComponent<UnityEngine.Video.VideoPlayer>() == null,
             "Office fades visibly before video preparation")) yield break;
+        while (SceneManager.GetActiveScene().name != SceneNames.Act1_CutScene_Act2 && Time.realtimeSinceStartup < timeout)
+            yield return null;
+        if (!Check(SceneManager.GetActiveScene().name == SceneNames.Act1_CutScene_Act2,
+            "Office activates the dedicated cutscene scene")) yield break;
         UnityEngine.Video.VideoPlayer player = null;
-        while (cutscene != null && player == null && Time.realtimeSinceStartup < timeout)
+        while (player == null && Time.realtimeSinceStartup < timeout)
         {
-            player = cutscene.GetComponent<UnityEngine.Video.VideoPlayer>();
+            player = FindObjectOfType<UnityEngine.Video.VideoPlayer>();
             yield return null;
         }
-        if (!Check(player != null, "Departure finds the packaged video")) yield break;
+        if (!Check(player != null, "Cutscene scene finds the packaged video")) yield break;
         while (player != null && player.frame < 0 && Time.realtimeSinceStartup < timeout)
             yield return null;
-        if (!Check(player != null && player.frame >= 0 && office != null, "Departure plays before activating Act 2"))
-            yield break;
+        if (!Check(player != null && player.frame >= 0 && office == null,
+            "Video plays in its own scene after office unloads")) yield break;
+        Check(GameManager.Instance.InputBlocked, "Cutscene retains input lock");
         Capture("01-departure-video.png");
+        while (SceneManager.GetActiveScene().name != SceneNames.Act2_Home && Time.realtimeSinceStartup < timeout)
+            yield return null;
         while (loader.IsLoading && Time.realtimeSinceStartup < timeout) yield return null;
         if (!Check(!loader.IsLoading, "Load completes after the departure video")) yield break;
         if (!Check(SceneManager.GetActiveScene().name == SceneNames.Act2_Home, "Destination is Act2 Home")) yield break;
@@ -107,14 +114,21 @@ public sealed class SleepTransitionSmokeRuntime : MonoBehaviour
         Check(GameManager.Instance == null || !GameManager.Instance.InputBlocked, "Getting out of bed releases input");
         Check(GameObject.Find("WakeVision") == null, "Eye overlay is cleaned up");
 
-        // A normal load (without the special handoff) must also reveal the bed correctly.
-        loader.LoadScene(SceneNames.Act2_Home, .05f);
-        timeout = Time.realtimeSinceStartup + 30f;
+        // Entering the cutscene directly must autoplay and reach the same wake-up flow.
+        loader.LoadScene(SceneNames.Act1_CutScene_Act2, 0f);
+        timeout = Time.realtimeSinceStartup + 40f;
+        while (SceneManager.GetActiveScene().name != SceneNames.Act1_CutScene_Act2 && Time.realtimeSinceStartup < timeout)
+            yield return null;
+        if (!Check(SceneManager.GetActiveScene().name == SceneNames.Act1_CutScene_Act2,
+            "Direct cutscene load succeeds")) yield break;
+        while (SceneManager.GetActiveScene().name != SceneNames.Act2_Home && Time.realtimeSinceStartup < timeout)
+            yield return null;
         while (loader.IsLoading && Time.realtimeSinceStartup < timeout) yield return null;
         bed = FindObjectOfType<BedWakeUpController>();
-        if (!Check(bed != null, "Direct home load creates bed controller")) yield break;
+        if (!Check(bed != null, "Direct cutscene test reaches home")) yield break;
         while (!bed.CanPauseWhileWaiting && Time.realtimeSinceStartup < timeout) yield return null;
-        Check(bed.CanPauseWhileWaiting && !loader.IsSleepTransitionCovered, "Direct home load finishes opening eyes");
+        Check(bed.CanPauseWhileWaiting && !loader.IsSleepTransitionCovered,
+            "Direct cutscene test finishes opening eyes");
         Debug.Log(failed ? "[SleepTransitionSmoke] FAILED" : "[SleepTransitionSmoke] PASS");
         EditorApplication.isPlaying = false;
     }

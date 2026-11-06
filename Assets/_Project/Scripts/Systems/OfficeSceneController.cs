@@ -395,24 +395,24 @@ public sealed class OfficeSceneController : MonoBehaviour
         if (Phase == OfficePhase.Leaving || !IsSeated) return;
         SetPhase(OfficePhase.Leaving);
         GameManager.Instance?.AcquireInput(this, showCursor: false);
-        SceneLoader.Instance?.PrepareSleepTransition(SceneNames.Act2_Home);
+        SceneLoader.Instance?.PrepareSleepTransition(SceneNames.Act1_CutScene_Act2);
         SetBuiltInObjectiveVisible(false);
         SetControlsHintVisible(false);
         HUDController.Instance?.SetCrosshairVisible(false);
         sleepDialogueProtected = true;
-        StartCoroutine(OfficeDepartureVideo.Play(atmosphere, LoadMemoryWorld));
+        StartCoroutine(OfficeDepartureVideo.FadeOffice(atmosphere, LoadDepartureCutscene));
     }
 
     private bool sleepDialogueProtected;
 
-    private void LoadMemoryWorld()
+    private void LoadDepartureCutscene()
     {
         if (memoryTransitionRequested) return;
         memoryTransitionRequested = true;
         if (SceneLoader.Instance != null)
         {
             if (SceneLoader.Instance.IsSleepTransitionCovered) SceneLoader.Instance.CompleteSleepTransition();
-            else SceneLoader.Instance.LoadSceneWithColor(SceneNames.Act2_Home, Color.black, .2f);
+            else SceneLoader.Instance.LoadSceneWithColor(SceneNames.Act1_CutScene_Act2, Color.black, .2f);
         }
         GameManager.Instance?.ReleaseInput(this);
     }
