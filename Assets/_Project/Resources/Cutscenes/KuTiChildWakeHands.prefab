@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1797107239925888250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1863711163546843854}
+  - component: {fileID: 6274372630967666134}
+  m_Layer: 0
+  m_Name: KuTiChildWakeHands
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1863711163546843854
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797107239925888250}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2265988780326633108}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6274372630967666134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797107239925888250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b860260fb04246b46a50c6c9d8ab0a09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modelRoot: {fileID: 1457398705456145454}
+  motion: {fileID: -623603649343465320, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+--- !u!1001 &1799418636165634431
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1863711163546843854}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.00000004371139
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7761490520566963029, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7761490520566963029, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7761490520566963029, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7761490520566963029, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c62227dcfc0af474d81f238f1a885447, type: 2}
+    - target: {fileID: -7761490520566963029, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 325011b20f0ba634c8d4bbc5632dc054, type: 2}
+    - target: {fileID: 919132149155446097, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_Name
+      value: KuTiChildHands_Rigged
+      objectReference: {fileID: 0}
+    - target: {fileID: 2223639932434330405, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+--- !u!1 &1457398705456145454 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+  m_PrefabInstance: {fileID: 1799418636165634431}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2265988780326633108 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1b75b5fa717e9e04b8e3073d62e98e1a, type: 3}
+  m_PrefabInstance: {fileID: 1799418636165634431}
+  m_PrefabAsset: {fileID: 0}

@@ -91,3 +91,15 @@ Luồng chơi: **E · Tan làm → giữ góc bàn 1,25 giây → mờ 1,35 giâ
 `OfficeDepartureVideo` tách thành `FadeOffice` và `PlayClip`; `SceneLoader` chỉ bật nhạc quê và chờ 0,45 giây khi đích là Act2, không áp dụng nhịp đó cho scene trung gian. Game state của scene cutscene vẫn thuộc Act1, tránh bật nhạc menu. GameBootstrap cung cấp các manager khi Play scene riêng. Nếu video thiếu/lỗi, vẫn chuyển qua Act2 theo màn đen.
 
 Kiểm tra: Unity biên dịch không lỗi; Play Mode xác nhận Act1 fade trước khi chuyển, video phát ở scene mới sau khi unload văn phòng, input bị khóa và Act2 được tải. Lượt smoke test tự động bị dừng trước kết quả cuối nên chưa ghi nhận PASS toàn bộ. Checkpoint đã được scope kiểm thử khôi phục. Không thay đổi dữ liệu video hoặc mã BedWakeUpController.
+
+## Tỉnh dậy trong Scene2: một tay dụi mắt
+
+Phiên bản đang dùng: mở hình từ đen một lần (0,18–0,85 giây), giảm mờ nhẹ tới 1,6 giây; một tay đi từ góc dưới phải, lòng bàn tay áp sát và che gần kín camera ở 1,9–2,7 giây trong hai nhịp dụi, sau đó rời mặt và hạ xuống. Không còn giơ cả hai bàn tay hoặc dùng lớp mí đen oval/chớp đen lặp lại. Sau khoảng sáu giây hiện E xuống giường. Giữ nguyên giọng mẹ và luồng Act1 → Act1_CutScene_Act2 → Act2.
+
+Runtime gồm prefab `Resources/Cutscenes/KuTiChildWakeHands`, FBX `Art/Characters/KuTiChildHands/KuTiChildHands_Rigged.fbx` và clip `WakeSingleHandEyeRub`. Model runtime chỉ có một cánh tay, 12.634 đỉnh; nguồn hai tay `tay_kuti.fbx` của người dùng chưa có rig. Đã gắn xương và làm animation bằng Blender. Chất liệu da/áo riêng dùng shader URP `KuTy/FirstPersonSkin` với fill dịu, không dùng mảng bóng bake trong texture nguồn.
+
+`ChildWakeHands` sample animation theo đồng hồ tỉnh dậy, dừng khi pause. Camera tạm giảm near clip xuống 0,008 m để không cắt bàn tay áp sát, khôi phục sau khi hạ tay. Dọn tay khi xuống giường, bắt đầu lại hoặc unload scene. Giới hạn gập cổ tay 30 độ; kiểm tra Blender cho khớp nối khít và khoảng 95% lưới ray camera bị bàn tay che ở nhịp dụi.
+
+Nguồn chỉnh sửa cục bộ trong `Tools/Cutscene/ChildHands/` đã gitignore: `Hands_Imported.blend`, `Hands_Normalized.blend`, `ChildHands_Rigged.blend`, texture gốc, audit và script dựng/kiểm tra. Dựng lại FBX bằng `build_child_hands.py`, sau đó chạy menu **Tools → KuTy → Cutscene → Setup Child Wake Hands** để cập nhật prefab. Giữ clip duyệt cuối `Tools/Cutscene/Scene2_ChildWake_HandCover_Preview.mp4`; các frame, ảnh debug, log và bản thử cũ đã dọn.
+
+Kiểm tra: Unity biên dịch thành công; **Tools → KuTy → Tests → Child Wake Hands Smoke** PASS cho rig, hướng camera, input lock, prompt, dọn tay và xuống giường. Test có sao lưu/khôi phục checkpoint; frame xuất lại vào thư mục Tools đã gitignore. `export_preview.py` ghép frame thành MP4 xem thử. Chưa kiểm tra player build riêng cho thay đổi tay.
