@@ -212,6 +212,11 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     void Update()
     {
         if (!flow || GameManager.Instance?.IsPaused == true || PauseUI.LastResumeFrame == Time.frameCount) return;
+        if (!captions || !motherText || !controlText)
+        {
+            if (captions) Destroy(captions.gameObject);
+            BuildCaptions();
+        }
         if (lastIndex != flow.ActiveIndex)
         {
             if (flow.ActiveIndex < lastIndex) { End(); RestoreWorld(); }
@@ -224,7 +229,6 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
             talkRemaining -= Time.deltaTime;
             if (talkRemaining <= 0f) motherText.text = "";
         }
-        if (captions == null || motherText == null || controlText == null) BuildCaptions();
         if (captions) captions.alpha = IsWorking || talkRemaining > 0f ? 1f : 0f;
         if (motherText && motherText.transform.parent) motherText.transform.parent.gameObject.SetActive(talkRemaining > 0f);
         if (controlText && controlText.transform.parent) controlText.transform.parent.gameObject.SetActive(IsWorking);
@@ -273,8 +277,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
                 return;
             }
 
-            // Kéo chuột chắt nước: bấm vào quai nồi hoặc kéo chuột xuống
-            if (Input.GetMouseButtonDown(0))
+            // Mouse manipulation stays attached to the actual handle; keys are the explicit fallback.
+            if (Input.GetMouseButtonDown(0) && Over(drainHit))
             {
                 dragging = true;
                 pointerDown = Input.mousePosition;
@@ -297,8 +301,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         // Hỗ trợ giữ phím F để tự động vo gạo đều đặn
         if (Input.GetKey(KeyCode.F))
         {
-            rinsing = true;
-            washTurns += Time.deltaTime * 0.95f;
+            rinsing = false; // Reset the mouse-angle baseline when returning from keyboard assistance.
+            washTurns += (washTurns < 0f ? -1f : 1f) * Time.deltaTime * 0.95f;
             float spoonAngle = Time.time * 7f;
             float spoonRadius = washRadius * 0.6f;
             if (spoon && water)
@@ -315,7 +319,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         }
 
         // Rê chuột xoay quanh mặt nước
-        if (Input.GetMouseButton(0))
+        if (Over(waterHit) && Input.GetMouseButton(0))
         {
             var plane = new Plane(Vector3.up, water.position);
             var ray = view.ScreenPointToRay(Input.mousePosition);
@@ -333,13 +337,12 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     {
         Vector3 offset = point - water.position;
         float radius = new Vector2(offset.x, offset.z).magnitude;
-        if (radius < .01f || radius > washRadius * 1.5f) { rinsing = false; return; }
+        if (radius < .025f || radius > washRadius) { rinsing = false; return; }
         float angle = Mathf.Atan2(offset.z, offset.x) * Mathf.Rad2Deg;
         if (rinsing)
         {
-            float delta = Mathf.DeltaAngle(lastWashAngle, angle);
-            if (Mathf.Abs(delta) <= 120f)
-                washTurns += Mathf.Abs(delta) / 360f; // Cộng dồn chuyển động cả khi xoa qua lại
+            // Preserve real circles; repeated back-and-forth shakes do not earn full turns.
+            washTurns = Scene2CircularGesture.Accumulate(washTurns, lastWashAngle, angle);
         }
         lastWashAngle = angle;
         rinsing = true;
@@ -416,6 +419,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
             Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.F))
         {
+            dragging = false;
+            breath = 0f;
             Blow(0.6f);
             return;
         }
@@ -433,8 +438,9 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
             return;
         }
 
-        // Click giữ chuột trên ống thổi hoặc bất kỳ đâu trên màn hình
-        if (Input.GetMouseButtonDown(0)) { dragging = true; breath = 0f; }
+        // Mouse gestures still start on the visible blowing tube.
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.F)) breath = 0f;
+        if (Input.GetMouseButtonDown(0) && Over(blowHit)) { dragging = true; breath = 0f; }
         if (dragging && Input.GetMouseButton(0)) breath += Time.deltaTime;
         if (dragging && Input.GetMouseButtonUp(0)) { dragging = false; Blow(breath); breath = 0f; }
         blowTube.localRotation = blowHome * Quaternion.Euler(0f, 0f, dragging ? Mathf.Sin(Time.time * 5f) * 2f : 0f);
@@ -452,7 +458,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     void Blow(float seconds)
     {
         if (!IsWorking || task != HouseholdChore.LightFire || kindlingCount < 3) return;
-        if (seconds < .12f) { Speak("fire_short"); return; }
+        if (seconds < .2f) { Speak("fire_short"); return; }
+        if (seconds > 1.1f) { ember = Mathf.Max(0f, ember - .15f); Speak("fire_gentle"); return; }
         // Người chơi giữ chuột hoặc bấm phím: tăng dần than hồng
         ember = Mathf.Clamp01(ember + 0.38f);
         if (embers) embers.Emit(14);
@@ -464,7 +471,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         }
         else
         {
-            Speak(seconds > 1.2f ? "fire_gentle" : "fire_blow", true);
+            Speak("fire_blow", true);
         }
     }
 
@@ -485,7 +492,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
                 else if (heat > 0.60f) AdjustFuel(-Time.deltaTime * 0.5f);
             }
 
-            if (Input.GetMouseButtonDown(0)) { dragging = true; pointerDown = Input.mousePosition; }
+            if (Input.GetMouseButtonDown(0) && Over(fuelHit)) { dragging = true; pointerDown = Input.mousePosition; }
             if (dragging && Input.GetMouseButton(0))
             {
                 AdjustFuel((Input.mousePosition.x - pointerDown.x) / (Screen.width * .3f));
@@ -504,7 +511,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
                 return;
             }
 
-            if (Input.GetMouseButtonDown(0)) { dragging = true; pointerDown = Input.mousePosition; }
+            if (Input.GetMouseButtonDown(0) && Over(lidHit)) { dragging = true; pointerDown = Input.mousePosition; }
             if (dragging && Input.GetMouseButton(0)) LiftLid(Mathf.Clamp01((Input.mousePosition.y - pointerDown.y) / (Screen.height * .12f)));
             if (Input.GetMouseButtonUp(0) && IsWorking) { dragging = false; lid.localPosition = lidHome; }
         }

@@ -29,8 +29,9 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private QuestStep currentStep = QuestStep.WashDishes;
     [Header("Scene Flow Configuration")]
     [Tooltip("Khi bat, sau khi hoan thanh Scene 2 (doc thu cua me), game se chuyen thang sang man ket thuc (Act_Ending) thay vi tai Scene 3.")]
-    [SerializeField] private bool skipScene3 = true;
-    public static bool SkipScene3 { get; set; } = true;
+    [SerializeField] private bool skipScene3 = false;
+    public bool SkipScene3 => skipScene3;
+    public string HouseholdDestination => skipScene3 ? SceneNames.Act_Ending : SceneNames.Act3_OutSide;
     public QuestStep CurrentStep => currentStep;
     public ItemData Candy => candy;
     public ItemData MarbleJar => marbleJar;
@@ -48,7 +49,6 @@ public class QuestManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
-        SkipScene3 = skipScene3;
         
         // The outdoor scene owns the shop, marble table, journal and final door.
         // It also starts in a playable state when opened directly for testing.
@@ -119,8 +119,7 @@ public class QuestManager : MonoBehaviour
     public bool CanWashDishes => currentStep == QuestStep.WashDishes && HouseholdChoreFlow.Instance == null;
     public bool CanFinishHouseholdChores => currentStep == QuestStep.WashDishes && memories != null &&
         CurrencyManager.Instance != null &&
-        (skipScene3 ? Application.CanStreamedLevelBeLoaded(SceneNames.Act_Ending)
-                    : Application.CanStreamedLevelBeLoaded(SceneNames.Act3_OutSide));
+        Application.CanStreamedLevelBeLoaded(HouseholdDestination);
     public bool CompleteHouseholdChores()
     {
         if (!CanFinishHouseholdChores || HouseholdChoreFlow.Instance == null ||
@@ -163,7 +162,7 @@ public class QuestManager : MonoBehaviour
         outsideTransitionRequested = true;
         if (outsideFallback != null) StopCoroutine(outsideFallback);
 
-        string nextScene = skipScene3 ? SceneNames.Act_Ending : SceneNames.Act3_OutSide;
+        string nextScene = HouseholdDestination;
         if (SceneLoader.Instance != null)
             SceneLoader.Instance.LoadSceneWithColor(nextScene, Color.white, 1.8f);
         else

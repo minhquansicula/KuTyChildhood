@@ -33,7 +33,7 @@ public static class Scene2Checkpoint
             return (saved >= 3 ? 1 : 0) | (saved >= 4 ? 2 : 0);
         }
     }
-    public static bool HasOutsideProgress => !QuestManager.SkipScene3 && Stage == Outside &&
+    public static bool HasOutsideProgress => Stage == Outside &&
         PlayerPrefs.GetInt(Prefix + "Step", -1) >= (int)QuestStep.BuyCandyAndMarbles &&
         PlayerPrefs.GetInt(Prefix + "Step", -1) <= (int)QuestStep.UnlockFrontDoor;
     public static bool HasCheckpoint => HomeChores > 0 || HomeOptional != 0 || HasOutsideProgress;
@@ -58,7 +58,7 @@ public static class Scene2Checkpoint
 
     public static void SaveOutside(QuestManager quests)
     {
-        if (QuestManager.SkipScene3 || quests == null || quests.CurrentStep < QuestStep.BuyCandyAndMarbles ||
+        if (quests == null || quests.CurrentStep < QuestStep.BuyCandyAndMarbles ||
             quests.CurrentStep > QuestStep.UnlockFrontDoor) return;
         int memoryBits = 0;
         var memories = MemoryCollectionManager.Instance;

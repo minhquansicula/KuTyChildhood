@@ -61,19 +61,21 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
 
         // Kiểm tra tầm nhìn: không bị tường hay chướng ngại vật chắn giữa player và nồi
         int count = Physics.RaycastNonAlloc(view.transform.position, towardPot.normalized,
-            focusHits, towardPot.magnitude, ~0, QueryTriggerInteraction.Ignore);
+            focusHits, towardPot.magnitude + .35f, ~0, QueryTriggerInteraction.Ignore);
+        // No hit (or a truncated query) is not evidence that the pot is visible.
+        if (count == 0 || count == focusHits.Length) return false;
+        float nearestPot = float.PositiveInfinity;
+        float nearestObstacle = float.PositiveInfinity;
         for (int i = 0; i < count; i++)
         {
             var hit = focusHits[i];
             if (hit.collider == null || hit.collider.GetComponentInParent<FirstPersonController>() != null) continue;
-            // Nếu có vật cản cứng nằm chắn phía trước nồi
-            if (hit.distance < towardPot.magnitude - 0.25f && !hit.collider.transform.IsChildOf(pot) &&
-                hit.collider.GetComponentInParent<HouseholdChoreInteractable>() != this)
-            {
-                return false;
-            }
+            if (hit.collider.transform.IsChildOf(pot) ||
+                hit.collider.GetComponentInParent<HouseholdChoreInteractable>() == this)
+                nearestPot = Mathf.Min(nearestPot, hit.distance);
+            else nearestObstacle = Mathf.Min(nearestObstacle, hit.distance);
         }
-        return true;
+        return nearestPot < nearestObstacle;
     }
 
     protected override void OnInteract()
