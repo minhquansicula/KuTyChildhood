@@ -62,3 +62,22 @@ Bản Blender mới ở [OfficeToHome_VietnamNight_Varied.blend](../Tools/Cutsce
 [Clip duyệt bảy giây](../Tools/Cutscene/VietnamNight_Varied_Preview.mp4) xuất 720p, 24 fps bằng Eevee với âm thanh xe, nằm riêng và chưa được đưa vào video Unity. [Script dựng phố](../Tools/Cutscene/StreetReferences/build_vietnam_street.py) và [script xuất clip](../Tools/Cutscene/StreetReferences/export_varied_preview.py) giữ lại để chỉnh tiếp. Các mẫu mặt tiền vẫn được tái sử dụng dọc phố.
 
 Sau khi người dùng duyệt, đoạn phố này đã được ghép vào bảy giây đầu của [cutscene Unity mới](../Assets/_Project/Resources/Cutscenes/OfficeToHome_VietnamNight.mp4). Luồng **E · Tan làm** ưu tiên video mới. Clip đầy đủ dài 20 giây, 720p, 24 fps, giữ phần căn hộ và âm thanh từ bản trước. Đã kiểm tra giải mã video và biên dịch C#, chưa xác nhận lại trong Play Mode.
+
+## Cập nhật lời suy nghĩ ngày 07/11/2026
+
+Video đang dùng trong Unity vẫn là `Assets/_Project/Resources/Cutscenes/OfficeToHome_Final.mp4`, nay dài 20 giây, 720p / 24 fps. Không đổi metadata/import settings hiện có. Bản trước được giữ cục bộ tại `Tools/Cutscene/StoryAudio/OfficeToHome_BeforeThoughts.mp4`.
+
+- 1,50–4,50 giây: chữ nhỏ nghiêng bên dưới, “Lại hết một ngày…”.
+- 11,25–15,20 giây: sau khi tựa gối, “Giá mà sáng mai… được nghe mẹ gọi dậy như hồi đó.”. Giữ thêm chuyển động thở để đọc đủ câu.
+- 15,20–16,00 giây: tối dần; giữ một nhịp im lặng. Tiếng chim nhỏ bắt đầu ở 17,20 giây.
+- Đã ghép bản giọng mẹ người dùng cung cấp (`c81000fb5b0bdefe0422c2eecb4c407e.mp3`, dài 1,805 giây) từ mốc 16,60 giây. Tiếng chim vào phía sau ở 17,20 giây. Giữ clip dài 20 giây trước khi chuyển Scene2.
+
+Đã bỏ toàn bộ âm thanh xe, chìa khóa và vải tổng hợp từ video cũ. Tiếng chim lấy từ bản thu [Morning Bird của SieuAmThanh](https://freesound.org/people/SieuAmThanh/sounds/765711/), giấy phép CC0 1.0, đoạn nguồn 38–44 giây; lọc nhẹ và phát nhỏ. Chưa đánh giá chủ quan bằng nghe trong game.
+
+Dựng lại bằng `python Tools/Cutscene/StoryAudio/build_story_preview.py`. Khi có đúng bản thu mẹ, thêm `--mother <đường dẫn WAV/MP3>`; xem lại nhịp trước khi thay video runtime. Các nguồn và script dựng nằm trong thư mục Tools đã gitignore. Video đã giải mã toàn bộ không báo lỗi; đã kiểm tra ảnh ở hai mốc chữ. Chưa xác nhận trong Unity Play Mode. Những mục dựng nháp phía trên là lịch sử, không dùng lại soundtrack tổng hợp.
+
+`mix_exact_voice.py` ghép PCM theo vị trí mẫu để bảo đảm im lặng trước 16,60 giây, sau đó mux vào hình; chạy bước này sau script dựng preview có giọng.
+
+### Chỉnh nhịp giọng mẹ
+
+Giọng mẹ dùng `atempo=1.7` để tăng tốc và giữ cao độ, còn 1,063 giây. Chuyển sang mốc 18,587–19,650 giây, gần cuối video 20 giây. Luồng hiện tại có 0,45 giây che chuyển Scene2 và khoảng 0,18 giây trước khi mí mắt bắt đầu mở; khoảng từ hết file giọng đến mở mắt dự kiến 0,98 giây cộng thời gian kích hoạt scene. Không đổi mã chuyển scene hoặc độ dài video. Tiếng chim dời theo về cuối clip. Đã giải mã toàn bộ video mới và kiểm tra vùng có giọng trong bản AAC; chưa đo thực tế trong Play Mode.
