@@ -123,6 +123,17 @@ public sealed class Scene2CompletionCheckRunner : MonoBehaviour
         yield return null;
         var flow = HouseholdChoreFlow.Instance;
         Check(flow != null && QuestManager.Instance != null, "Home story systems exist");
+        var quests = QuestManager.Instance;
+        Check(!quests.SkipScene3 && quests.HouseholdDestination == SceneNames.Act3_OutSide,
+            "Full outdoor chapter remains the default route");
+        var routeField = typeof(QuestManager).GetField("skipScene3", Private);
+        routeField.SetValue(quests, true);
+        try
+        {
+            Check(quests.HouseholdDestination == SceneNames.Act_Ending && quests.CanFinishHouseholdChores,
+                "Optional skip route validates the ending scene");
+        }
+        finally { routeField.SetValue(quests, false); }
         var bed = FindObjectOfType<BedWakeUpController>();
         Check(bed != null, "Wake-up controller exists");
         Call(bed, "GetOutOfBed");

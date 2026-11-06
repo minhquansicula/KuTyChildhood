@@ -50,26 +50,32 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
         Transform pot = effectAnchor != null ? effectAnchor : transform;
         Vector3 offset = pot.position - playerPosition;
         distance = new Vector2(offset.x, offset.z).magnitude;
-        if (distance > 2.7f || Mathf.Abs(offset.y) > 2.2f) return false;
+        // Chỉ cho phép tương tác khi người chơi đã tiến lại gần nồi (trong vòng 1.85m)
+        if (distance > 1.85f || Mathf.Abs(offset.y) > 1.8f) return false;
         Camera view = Camera.main;
         if (view == null) return false;
-        Vector3 towardPot = pot.position + Vector3.up * .38f - view.transform.position;
+        Vector3 towardPot = pot.position + Vector3.up * .12f - view.transform.position;
+        // Yêu cầu camera hướng về phía nồi vo gạo (không kích hoạt khi nhìn sang hướng khác)
         if (towardPot.sqrMagnitude <= .01f ||
-            Vector3.Dot(view.transform.forward, towardPot.normalized) < .55f) return false;
-        // Assist aiming, but never use the pot through a wall or another prop.
+            Vector3.Dot(view.transform.forward, towardPot.normalized) < .68f) return false;
+
+        // Kiểm tra tầm nhìn: không bị tường hay chướng ngại vật chắn giữa player và nồi
         int count = Physics.RaycastNonAlloc(view.transform.position, towardPot.normalized,
-            focusHits, towardPot.magnitude + .5f, ~0, QueryTriggerInteraction.Ignore);
-        Collider nearest = null;
-        float nearestDistance = float.PositiveInfinity;
+            focusHits, towardPot.magnitude + .35f, ~0, QueryTriggerInteraction.Ignore);
+        // No hit (or a truncated query) is not evidence that the pot is visible.
+        if (count == 0 || count == focusHits.Length) return false;
+        float nearestPot = float.PositiveInfinity;
+        float nearestObstacle = float.PositiveInfinity;
         for (int i = 0; i < count; i++)
         {
             var hit = focusHits[i];
-            if (hit.collider == null || hit.collider.GetComponentInParent<FirstPersonController>() != null ||
-                hit.distance >= nearestDistance) continue;
-            nearest = hit.collider;
-            nearestDistance = hit.distance;
+            if (hit.collider == null || hit.collider.GetComponentInParent<FirstPersonController>() != null) continue;
+            if (hit.collider.transform.IsChildOf(pot) ||
+                hit.collider.GetComponentInParent<HouseholdChoreInteractable>() == this)
+                nearestPot = Mathf.Min(nearestPot, hit.distance);
+            else nearestObstacle = Mathf.Min(nearestObstacle, hit.distance);
         }
-        return nearest != null && nearest.GetComponentInParent<HouseholdChoreInteractable>() == this;
+        return nearestPot < nearestObstacle;
     }
 
     protected override void OnInteract()
