@@ -35,7 +35,7 @@ public sealed class SleepEyelidOverlay : MaskableGraphic
         // An asymmetric elliptical aperture, rather than two straight sliding panels.
         const int segments = 64;
         float openness = 1f - closure;
-        float feather = r.height * .025f * Mathf.Sin(closure * Mathf.PI);
+        float feather = r.height * .10f * Mathf.Sin(closure * Mathf.PI);
         for (int i = 0; i < segments; i++)
         {
             float u0 = i / (float)segments;
