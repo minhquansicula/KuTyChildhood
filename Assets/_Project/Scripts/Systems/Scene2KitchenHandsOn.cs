@@ -198,12 +198,12 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         }
         else if (chore == HouseholdChore.LightFire)
         {
-            instructions = "Kéo từng thanh củi trên nia vào miệng bếp. Sau đó giữ rồi thả chuột trên ống thổi, mỗi nhịp ngắn.\nESC  Đứng dậy · Tiếp tục được khi quay lại";
+            instructions = "Bấm F hoặc kéo củi vào miệng bếp. Sau đó bấm / giữ phím F hoặc Space (hoặc click giữ ống thổi) để nhóm lửa.\nESC  Đứng dậy · Tiếp tục được khi quay lại";
             Speak(kindlingCount < 3 ? "fire_start" : "fire_blow", true);
         }
         else
         {
-            instructions = "Giữ thanh củi, kéo sang trái để rút bớt / sang phải để đẩy vào. Nghe tiếng sôi và nhìn hơi nước.\nKhi cơm cạn, nhấc núm vung lên kiểm tra · ESC  Đứng dậy";
+            instructions = "Dùng phím A / D (hoặc kéo củi) để chỉnh lửa. Giữ phím F để tự giữ lửa đều.\nKhi cơm cạn, bấm Space / Enter (hoặc kéo núm vung lên) · ESC  Đứng dậy";
             Speak("cook_start", true);
         }
         UpdateControls();
@@ -224,9 +224,10 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
             talkRemaining -= Time.deltaTime;
             if (talkRemaining <= 0f) motherText.text = "";
         }
-        captions.alpha = IsWorking || talkRemaining > 0f ? 1f : 0f;
-        motherText.transform.parent.gameObject.SetActive(talkRemaining > 0f);
-        controlText.transform.parent.gameObject.SetActive(IsWorking);
+        if (captions == null || motherText == null || controlText == null) BuildCaptions();
+        if (captions) captions.alpha = IsWorking || talkRemaining > 0f ? 1f : 0f;
+        if (motherText && motherText.transform.parent) motherText.transform.parent.gameObject.SetActive(talkRemaining > 0f);
+        if (controlText && controlText.transform.parent) controlText.transform.parent.gameObject.SetActive(IsWorking);
         if (IsWorking)
         {
             if (Input.GetKeyDown(KeyCode.Escape)) { End(); return; }
@@ -378,6 +379,20 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     {
         if (kindlingCount < 3)
         {
+            // Phím tắt đặt củi: Bấm F hoặc Space để tự động đặt thanh củi tiếp theo vào bếp
+            if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (!placed[i])
+                    {
+                        PlaceKindling(i);
+                        break;
+                    }
+                }
+                return;
+            }
+
             if (Input.GetMouseButtonDown(0))
                 for (int i = 0; i < 3; i++) if (!placed[i] && Over(kindlingHits[i])) { draggedLog = i; break; }
             if (draggedLog >= 0)
@@ -395,7 +410,31 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
             }
             return;
         }
-        if (Input.GetMouseButtonDown(0) && Over(blowHit)) { dragging = true; breath = 0f; }
+
+        // Đã đặt đủ 3 thanh củi: Thổi than
+        // Phím tắt bấm một nhịp: Space, Enter, hoặc F
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
+            Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.F))
+        {
+            Blow(0.6f);
+            return;
+        }
+
+        // Giữ phím Space hoặc F để tự động thổi đều đặn nhịp nhàng
+        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.F))
+        {
+            breath += Time.deltaTime;
+            blowTube.localRotation = blowHome * Quaternion.Euler(0f, 0f, Mathf.Sin(Time.time * 8f) * 3f);
+            if (breath >= 0.55f)
+            {
+                breath = 0f;
+                Blow(0.55f);
+            }
+            return;
+        }
+
+        // Click giữ chuột trên ống thổi hoặc bất kỳ đâu trên màn hình
+        if (Input.GetMouseButtonDown(0)) { dragging = true; breath = 0f; }
         if (dragging && Input.GetMouseButton(0)) breath += Time.deltaTime;
         if (dragging && Input.GetMouseButtonUp(0)) { dragging = false; Blow(breath); breath = 0f; }
         blowTube.localRotation = blowHome * Quaternion.Euler(0f, 0f, dragging ? Mathf.Sin(Time.time * 5f) * 2f : 0f);
@@ -413,17 +452,40 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     void Blow(float seconds)
     {
         if (!IsWorking || task != HouseholdChore.LightFire || kindlingCount < 3) return;
-        if (seconds < .2f) { Speak("fire_short"); return; }
-        if (seconds > 1.1f) { ember = Mathf.Max(0f, ember - .15f); Speak("fire_gentle"); return; }
-        ember = Mathf.Clamp01(ember + .34f); embers.Emit(8);
-        if (ember >= 1f) { fireLit = true; Finish("fire_done"); }
+        if (seconds < .12f) { Speak("fire_short"); return; }
+        // Người chơi giữ chuột hoặc bấm phím: tăng dần than hồng
+        ember = Mathf.Clamp01(ember + 0.38f);
+        if (embers) embers.Emit(14);
+        AudioManager.Instance?.PlaySFX(SfxId.TaskProgress);
+        if (ember >= 1f)
+        {
+            fireLit = true;
+            Finish("fire_done");
+        }
+        else
+        {
+            Speak(seconds > 1.2f ? "fire_gentle" : "fire_blow", true);
+        }
     }
 
     void TickCooking()
     {
         if (cooked < 12f)
         {
-            if (Input.GetMouseButtonDown(0) && Over(fuelHit)) { dragging = true; pointerDown = Input.mousePosition; }
+            // Phím A/D hoặc mũi tên trái/phải để rút/đẩy củi chỉnh lửa
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                AdjustFuel(-Time.deltaTime * 0.45f);
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                AdjustFuel(Time.deltaTime * 0.45f);
+
+            // Giữ phím F để tự động duy trì mức lửa lý tưởng
+            if (Input.GetKey(KeyCode.F))
+            {
+                if (heat < 0.48f) AdjustFuel(Time.deltaTime * 0.5f);
+                else if (heat > 0.60f) AdjustFuel(-Time.deltaTime * 0.5f);
+            }
+
+            if (Input.GetMouseButtonDown(0)) { dragging = true; pointerDown = Input.mousePosition; }
             if (dragging && Input.GetMouseButton(0))
             {
                 AdjustFuel((Input.mousePosition.x - pointerDown.x) / (Screen.width * .3f));
@@ -434,7 +496,15 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         }
         else
         {
-            if (Input.GetMouseButtonDown(0) && Over(lidHit)) { dragging = true; pointerDown = Input.mousePosition; }
+            // Cơm đã cạn: bấm Space / Enter / F hoặc kéo núm vung lên
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
+                Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.F))
+            {
+                LiftLid(1f);
+                return;
+            }
+
+            if (Input.GetMouseButtonDown(0)) { dragging = true; pointerDown = Input.mousePosition; }
             if (dragging && Input.GetMouseButton(0)) LiftLid(Mathf.Clamp01((Input.mousePosition.y - pointerDown.y) / (Screen.height * .12f)));
             if (Input.GetMouseButtonUp(0) && IsWorking) { dragging = false; lid.localPosition = lidHome; }
         }
@@ -560,10 +630,16 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
 
     void UpdateEffects()
     {
-        float cloud = Mathf.Clamp01(Mathf.Abs(washTurns) / 1.25f);
-        waterColor.SetColor("_BaseColor", Color.Lerp(new Color(.6f, .72f, .69f, .34f), new Color(.87f, .84f, .73f, .85f), cloud));
-        waterRenderer.SetPropertyBlock(waterColor);
-        fireGlow.intensity = fireLit ? .6f + Mathf.PerlinNoise(Time.time * 3f, 2f) * .18f : ember * .45f;
+        if (waterColor == null) waterColor = new MaterialPropertyBlock();
+        if (stoveColor == null) stoveColor = new MaterialPropertyBlock();
+
+        if (waterRenderer)
+        {
+            float cloud = Mathf.Clamp01(Mathf.Abs(washTurns) / 1.25f);
+            waterColor.SetColor("_BaseColor", Color.Lerp(new Color(.6f, .72f, .69f, .34f), new Color(.87f, .84f, .73f, .85f), cloud));
+            waterRenderer.SetPropertyBlock(waterColor);
+        }
+        if (fireGlow) fireGlow.intensity = fireLit ? .6f + Mathf.PerlinNoise(Time.time * 3f, 2f) * .18f : ember * .45f;
         if (cookGlow) cookGlow.intensity = fireLit ? .2f + heat * .35f : 0f;
         if (fireStoveRenderer)
         {
@@ -571,18 +647,24 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
             stoveColor.SetColor("_EmissionColor", fireLit ? Color.white : Color.black);
             fireStoveRenderer.SetPropertyBlock(stoveColor);
         }
-        foreach (var renderer in emberRenderers)
+        if (emberRenderers != null)
         {
-            if (!renderer) continue;
-            stoveColor.Clear();
-            stoveColor.SetColor("_EmissionColor", new Color(1f, .09f, .006f) * (fireLit ? .9f + heat : ember * .8f));
-            renderer.SetPropertyBlock(stoveColor);
+            foreach (var renderer in emberRenderers)
+            {
+                if (!renderer) continue;
+                stoveColor.Clear();
+                stoveColor.SetColor("_EmissionColor", new Color(1f, .09f, .006f) * (fireLit ? .9f + heat : ember * .8f));
+                renderer.SetPropertyBlock(stoveColor);
+            }
         }
-        InteractionVfx.Rate(embers, fireLit ? 5f : ember * 4f);
-        InteractionVfx.Rate(steam, finishedRice ? 1.3f : IsWorking && task == HouseholdChore.CookRice ? heat * 8f : 0f);
-        if (IsWorking && task == HouseholdChore.CookRice && cooked < 12f)
-            lid.localPosition = lidHome + lidUp * (heat > .66f ? Mathf.Abs(Mathf.Sin(Time.time * 25f)) * .008f : 0f);
-        else if (finishedRice) lid.localPosition = lidHome + lidSide * .57f + lidUp * .22f;
+        if (embers) InteractionVfx.Rate(embers, fireLit ? 5f : ember * 4f);
+        if (steam) InteractionVfx.Rate(steam, finishedRice ? 1.3f : IsWorking && task == HouseholdChore.CookRice ? heat * 8f : 0f);
+        if (lid)
+        {
+            if (IsWorking && task == HouseholdChore.CookRice && cooked < 12f)
+                lid.localPosition = lidHome + lidUp * (heat > .66f ? Mathf.Abs(Mathf.Sin(Time.time * 25f)) * .008f : 0f);
+            else if (finishedRice) lid.localPosition = lidHome + lidSide * .57f + lidUp * .22f;
+        }
         if (workAudio && IsWorking)
         {
             workAudio.volume = task == HouseholdChore.CookRice ? Mathf.Lerp(.06f, .24f, heat) : task == HouseholdChore.LightFire ? .08f + ember * .15f : rinsing ? .2f : .055f;
@@ -613,15 +695,15 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     void UpdateControls()
     {
         string status = task == HouseholdChore.WashRice ? (needsDrain ? "Nước đã đục · Bấm Space / Enter (hoặc kéo quai nồi) để chắt" : "Lượt vo " + (rinseRound + 1) + "/2 · Giữ phím F hoặc rê chuột theo vòng tròn") :
-            task == HouseholdChore.LightFire ? kindlingCount < 3 ? "Đã đặt " + kindlingCount + "/3 thanh củi" : dragging && breath > 1.1f ? "Thổi lâu quá · Thả chuột, nghỉ một nhịp" : "Giữ ống thổi 0,2–1 giây rồi thả · Than đang hồng" :
-            cooked >= 12f ? "Cơm đã cạn · Kéo núm vung lên để kiểm tra" : heat > .66f ? "Lửa to · Rút bớt củi" : heat < .42f ? "Lửa yếu · Đẩy củi vào" : "Cơm đang sôi lăn tăn · " + Mathf.FloorToInt(cooked / 12f * 100f) + "%";
+            task == HouseholdChore.LightFire ? kindlingCount < 3 ? "Đã đặt " + kindlingCount + "/3 thanh củi · Bấm F hoặc kéo củi vào miệng bếp" : "Bấm / Giữ phím F hoặc Space để thổi than (" + Mathf.FloorToInt(ember * 100f) + "%)" :
+            cooked >= 12f ? "Cơm đã cạn · Bấm Space / Enter (hoặc kéo núm vung) để mở" : heat > .66f ? "Lửa to · Bấm A hoặc kéo củi sang trái" : heat < .42f ? "Lửa yếu · Bấm D hoặc kéo củi sang phải" : "Cơm đang sôi lăn tăn (" + Mathf.FloorToInt(cooked / 12f * 100f) + "%) · Giữ F để giữ lửa";
         controlText.text = "<color=#EDC781>" + status + "</color>\n" + instructions;
         if (idleSeconds >= 7f)
             controlText.text += "\nGỢI Ý: " + (task == HouseholdChore.WashRice
                 ? needsDrain ? "Bấm Space / Enter để chắt nước nhanh, hoặc kéo quai nồi xuống." : "Giữ phím F để tự động vo gạo, hoặc rê chuột tròn trên mặt nước."
                 : task == HouseholdChore.LightFire
-                    ? kindlingCount < 3 ? "Kéo từng thanh củi tới miệng bếp rồi thả." : "Giữ ống thổi ngắn rồi thả, đừng giữ liên tục."
-                    : cooked >= 12f ? "Giữ núm vung và kéo lên." : heat > .66f ? "Kéo thanh củi sang trái để hạ lửa." : "Kéo thanh củi sang phải để tăng lửa.");
+                    ? kindlingCount < 3 ? "Bấm phím F để đặt củi nhanh, hoặc kéo từng thanh củi vào miệng bếp." : "Bấm hoặc giữ phím F / Space để thổi bùng than hồng."
+                    : cooked >= 12f ? "Bấm Space / Enter hoặc kéo núm vung lên." : "Bấm A / D để chỉnh lửa, hoặc giữ phím F để tự động giữ lửa ổn định.");
     }
 
     void BuildCaptions()
