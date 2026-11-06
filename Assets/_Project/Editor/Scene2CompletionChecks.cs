@@ -140,6 +140,62 @@ public sealed class Scene2CompletionCheckRunner : MonoBehaviour
         yield return new WaitForSeconds(1.3f);
         Check(flow.ChecklistVisible && !GameManager.Instance.InputBlocked, "Getting out of bed starts chores and releases input");
         flow.Voice.Stop();
+        var motherDemo = FindObjectOfType<Scene2MotherDemo>();
+        if (motherDemo)
+        {
+            var companion = flow.GetComponent<Scene2MotherCompanion>();
+            Check(companion && companion.Actor == motherDemo.transform, "Exported mother replaces the runtime placeholder");
+            Check(GameObject.Find("Mother_Placeholder_ReplaceWithModel") == null, "No duplicate placeholder mother");
+            Check(motherDemo.GetComponentsInChildren<SkinnedMeshRenderer>().Length == 6, "All six exported mother meshes are present");
+            Check(motherDemo.Animator && motherDemo.Animator.avatar.isValid && !motherDemo.Animator.applyRootMotion,
+                "Mother demo has a valid in-place Generic rig");
+            var body = motherDemo.GetComponent<CapsuleCollider>();
+            Check(body && body.isTrigger && body.height > 1.4f && body.height < 1.8f,
+                "Mother has a correctly scaled, non-blocking interaction capsule");
+            Check(companion.CanTalk, "Mother can be spoken to after waking up");
+            var kitchenVoice = Field<AudioSource>(flow.GetComponent<Scene2KitchenHandsOn>(), "motherVoice");
+            Check(Vector3.Distance(kitchenVoice.transform.position,
+                flow.GetComponent<Scene2RadioKitchenSequence>().kitchenSpot.position) < .01f,
+                "Kitchen and radio voice positions match the visible mother");
+            Scene2MotherDemoSetup.CaptureReference(motherDemo);
+            Vector3 motherHome = motherDemo.transform.position;
+            motherDemo.Greet();
+            yield return new WaitForSeconds(.25f);
+            Check(motherDemo.IsCalling && motherDemo.Animator.GetCurrentAnimatorStateInfo(0).IsName("Mother_CallChild"),
+                "Mother plays the supplied calling animation");
+            GameManager.Instance.SetPaused(true);
+            float animationTime = motherDemo.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            yield return new WaitForSecondsRealtime(.2f);
+            Check(Mathf.Abs(motherDemo.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime - animationTime) < .01f,
+                "Pause freezes mother animation");
+            GameManager.Instance.SetPaused(false);
+            yield return new WaitForSeconds(3.5f);
+            Check(!motherDemo.IsCalling && Vector3.Distance(motherHome, motherDemo.transform.position) < .001f,
+                "Mother returns to idle without moving off her standing point");
+            var testPlayer = FindObjectOfType<FirstPersonController>();
+            testPlayer.enabled = false;
+            var interaction = testPlayer.GetComponent<PlayerInteraction>();
+            Check(ApproachMother(testPlayer, Camera.main, motherDemo), "Mother can be targeted by the real E interaction from a clear approach");
+            var wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            wall.name = "Temporary mother occlusion check";
+            wall.transform.position = Vector3.Lerp(Camera.main.transform.position, body.bounds.center, .45f);
+            wall.transform.localScale = Vector3.one * .45f;
+            Physics.SyncTransforms();
+            Call(interaction, "HandleRaycast");
+            Check(!(interaction.CurrentTarget is Scene2MotherInteractable), "A wall blocks mother interaction");
+            Destroy(wall);
+            yield return null;
+            Call(interaction, "HandleRaycast");
+            Check(interaction.CurrentTarget is Scene2MotherInteractable, "Mother becomes targetable again after the obstacle is removed");
+            interaction.CurrentTarget.Interact();
+            Check(companion.IsConversing && GameManager.Instance.InputBlocked, "Talking to mother owns modal input");
+            Call(companion, "Select", 0);
+            Check(Field<TextMeshProUGUI>(flow.UI, "conversationText").text == flow.CurrentGuidance,
+                "Mother gives the correct current chore hint");
+            companion.EndConversation();
+            Check(!GameManager.Instance.InputBlocked && flow.ActiveIndex == 0 && flow.Pieces == 0,
+                "Ending mother conversation releases input without changing story progress");
+        }
         Check(HouseholdChoreFlow.Order.Length == HouseholdChoreFlow.ChoreCount && HouseholdChoreFlow.Order.Distinct().Count() == 12,
             "Twelve unique required chores");
         Check(!flow.IsCurrent((HouseholdChore)(-1)) && !flow.IsCompleted((HouseholdChore)100), "Invalid task IDs are safely rejected");
@@ -340,6 +396,30 @@ public sealed class Scene2CompletionCheckRunner : MonoBehaviour
             bool blocked = Physics.OverlapCapsule(center + Vector3.up * half, center - Vector3.up * half,
                 body.radius * .95f, ~0, QueryTriggerInteraction.Ignore).Any(c => !c.transform.IsChildOf(player.transform));
             if (!blocked && radio.CanPlaceWood()) return true;
+        }
+        return false;
+    }
+    private bool ApproachMother(FirstPersonController player, Camera camera, Scene2MotherDemo mother)
+    {
+        float floor = player.transform.position.y;
+        var body = player.GetComponent<CharacterController>();
+        var target = mother.GetComponent<CapsuleCollider>();
+        var interaction = player.GetComponent<PlayerInteraction>();
+        foreach (float radius in new[] { 1.3f, 1.6f, 1.9f })
+        for (int direction = 0; direction < 16; direction++)
+        {
+            Vector3 feet = mother.transform.position + Quaternion.Euler(0, direction * 22.5f, 0) * mother.transform.forward * radius;
+            feet.y = floor;
+            player.TeleportTo(feet, Quaternion.identity);
+            camera.transform.LookAt(target.bounds.center);
+            Physics.SyncTransforms();
+            Vector3 center = body.transform.TransformPoint(body.center);
+            float half = Mathf.Max(0, body.height * .5f - body.radius);
+            bool blocked = Physics.OverlapCapsule(center + Vector3.up * half, center - Vector3.up * half,
+                body.radius * .95f, ~0, QueryTriggerInteraction.Ignore).Any(c => !c.transform.IsChildOf(player.transform));
+            if (blocked) continue;
+            Call(interaction, "HandleRaycast");
+            if (interaction.CurrentTarget is Scene2MotherInteractable) return true;
         }
         return false;
     }

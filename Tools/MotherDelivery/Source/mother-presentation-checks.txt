@@ -1,0 +1,29 @@
+PASS
+PASS Isolated scene has no initialized household flow
+PASS Verified Generic rig, no root motion
+PASS Standing mother begins in Idle
+PASS Call event subscribed exactly once
+PASS Chore event subscribed exactly once
+PASS Existing E-conversation preconditions accept the authored actor
+PASS Conversation presents a reply and owns input
+PASS Conversation uses TalkIdle, never the call gesture
+PASS Mother stops talking while player reads choices
+PASS Choosing another reply resumes TalkIdle
+PASS Pause freezes the mother's animation
+PASS Resume restores the original Animator speed
+PASS Closing conversation restores Idle and input
+PASS Authored radio call event plays CallChild
+PASS CallChild moves the imported MomUser hand
+PASS Repeated call does not restart the gesture
+PASS CallChild finishes once and returns to Idle
+PASS Nearby chore-completed event plays Nod
+PASS Repeated approval does not restart Nod
+PASS Nod returns to Idle
+PASS Letter does not trigger a distracting approval gesture
+PASS Distant chore completion does not queue a stale Nod
+PASS Occluded mother does not react through a wall
+PASS Disable unsubscribes call and chore events
+PASS Re-enable binds each event once
+PASS Presentation never moves or rescales the mother
+PASS Animation/events never complete chores, grant pieces or write checkpoints
+MomUser standing interaction checks passed in isolation; no home scene edits or saves.

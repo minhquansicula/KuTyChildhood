@@ -76,6 +76,10 @@ public sealed class OfficeIntroController : MonoBehaviour
         previousCursor = Cursor.lockState; previousCursorVisible = Cursor.visible;
         ownedAudio = GetComponentsInChildren<AudioSource>();
         ambience = ambience ?? new AudioSource[0];
+        KuTyAudioMix.Route(voice, KuTyAudioBus.Voice);
+        KuTyAudioMix.Route(deskSlam, KuTyAudioBus.SFX);
+        KuTyAudioMix.Route(chairSound, KuTyAudioBus.SFX);
+        foreach (var ambient in ambience) KuTyAudioMix.Route(ambient, KuTyAudioBus.Ambience);
         ambientVolumes = new float[ambience.Length];
         for (int i=0;i<ambience.Length;i++) if (ambience[i])
         { ambientVolumes[i]=ambience[i].volume; if (ambience[i].clip) ambience[i].Play(); }

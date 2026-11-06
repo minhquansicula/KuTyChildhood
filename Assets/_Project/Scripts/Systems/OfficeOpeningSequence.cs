@@ -257,6 +257,9 @@ public sealed class OfficeOpeningSequence : MonoBehaviour
 
     private void PrepareDialogueSources()
     {
+        KuTyAudioMix.Route(bossVoice, KuTyAudioBus.Voice);
+        KuTyAudioMix.Route(playerVoice, KuTyAudioBus.Voice);
+        KuTyAudioMix.Route(deskSlamSource, KuTyAudioBus.SFX);
         ConfigureOneShot(bossVoice, true);
         ConfigureOneShot(deskSlamSource, true);
         ConfigureOneShot(playerVoice, false);
@@ -273,6 +276,7 @@ public sealed class OfficeOpeningSequence : MonoBehaviour
     private static void PrepareLoop(AudioSource source, AudioClip clip)
     {
         if (source == null) return;
+        KuTyAudioMix.Route(source, KuTyAudioBus.Ambience);
         source.Stop();
         if (clip != null) source.clip = clip;
         source.playOnAwake = false;

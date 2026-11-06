@@ -105,6 +105,8 @@ office-view.png
 
 # Mother delivery Blender working sources stay local; exported FBX assets remain tracked.
 /Tools/MotherDelivery/**/*.blend
+/Tools/MotherDelivery/Preview/
+/Tools/MotherDelivery/Source/*.json
 
 # Raw downloads/drafts & Agent workspace tools
 dumb/
@@ -137,6 +139,9 @@ dumb/
 # OpenTracks permits game BGM use, not redistribution of loose source audio.
 /Assets/_Project/Audio/Music/CountrysideSummer_YoshinoriTanaka.mp3
 /Assets/_Project/Audio/Music/CountrysideSummer_YoshinoriTanaka.mp3.meta
+# Pixabay audio is used inside the game, not redistributed as a loose download.
+/Assets/_Project/Audio/Music/VietnamBambooFlute_VPRODMUSIC.mp3
+/Assets/_Project/Audio/Music/VietnamBambooFlute_VPRODMUSIC.mp3.meta
 
 # Local recovery archives from verified project cleanup (not game assets).
 /Tools/CleanupRecovery/

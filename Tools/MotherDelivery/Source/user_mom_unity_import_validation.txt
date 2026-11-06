@@ -1,0 +1,10 @@
+Model=Assets/_Project/Characters/MomUserDemo/SK_MomUser.fbx
+Prefab=Assets/_Project/Characters/MomUserDemo/MomUser.prefab
+GenericAvatar=True
+Meshes=2
+Triangles=50662
+Height=1.149822
+CallChildHandDisplacement=0.2788446
+Clips=Mother_Idle_Standing:5s@30, Mother_CallChild:3.4s@30, Mother_TalkIdle:5s@30, Mother_NodApprove:1.8s@30
+SourceCopied=FBX only; textures extracted from embedded FBX; no .blend.
+Excluded=Walk,seated,preview.

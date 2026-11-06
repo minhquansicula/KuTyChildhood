@@ -14,6 +14,7 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
     public Transform needle;
     public Transform closeView;
     public Transform kitchenSpot;
+    public event System.Action OnMotherCalled;
     public Transform woodBundle;
     public Transform woodPickup;
     public Collider pickupCollider;
@@ -75,6 +76,7 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
         noiseAudio = MakeSource(radioRig, staticClip, true, 1.2f, 8f);
         motherAudio = MakeSource(kitchenSpot, motherClip, false, 5f, 28f);
         motherAudio.spatialBlend = .8f;
+        KuTyAudioMix.Route(motherAudio, KuTyAudioBus.Voice);
         MakeCaption();
         // A loaded checkpoint reconstructs the visible world without replaying mother's call.
         RestoreWorld();
@@ -128,6 +130,7 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
         source.minDistance = near;
         source.maxDistance = far;
         source.volume = 0f;
+        KuTyAudioMix.Route(source, KuTyAudioBus.SFX);
         return source;
     }
 
@@ -285,6 +288,7 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
         // Do not replay a stale call if the player already delivered the wood.
         if (!flow.IsCurrent(HouseholdChore.CarryWood)) { callRoutine = null; yield break; }
         motherAudio.volume = .85f;
+        OnMotherCalled?.Invoke();
         if (motherClip) motherAudio.Play();
         motherRemaining = motherClip ? motherClip.length + .5f : 6f;
         Say("<color=#EDC781>Mẹ · từ phía bếp</color>\n" + motherText, motherRemaining);

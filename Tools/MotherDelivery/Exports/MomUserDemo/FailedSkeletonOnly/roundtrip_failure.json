@@ -1,0 +1,227 @@
+{
+  "model": {
+    "objects": [
+      [
+        "Mom_User_Gameplay_PantsFeet.001",
+        "MESH"
+      ],
+      [
+        "Mom_User_Gameplay_Rig.001",
+        "ARMATURE"
+      ],
+      [
+        "Mom_User_Gameplay_Root.001",
+        "EMPTY"
+      ],
+      [
+        "Mom_User_Gameplay_ShirtBody.001",
+        "MESH"
+      ]
+    ],
+    "bones": 28,
+    "neutral_dimensions_m": [
+      0.7100648283958435,
+      0.2196260243654251,
+      1.1498218789655112
+    ],
+    "mesh_vertex_counts": {
+      "Mom_User_Gameplay_ShirtBody": 15570,
+      "Mom_User_Gameplay_PantsFeet": 9876
+    },
+    "material_slots": {
+      "Mom_User_Gameplay_ShirtBody": [
+        "Material.001"
+      ],
+      "Mom_User_Gameplay_PantsFeet": [
+        "Material.001",
+        "Mom_User_HiddenWaistband.001"
+      ]
+    },
+    "images": [
+      "texture_pbr_20250901.png",
+      "texture_pbr_20250901.png.001",
+      "texture_pbr_20250901.png.002",
+      "texture_pbr_20250901_metallic.png",
+      "texture_pbr_20250901_metallic.png.001",
+      "texture_pbr_20250901_metallic.png.002",
+      "texture_pbr_20250901_normal.png",
+      "texture_pbr_20250901_normal.png.001",
+      "texture_pbr_20250901_normal.png.002",
+      "texture_pbr_20250901_roughness.png",
+      "texture_pbr_20250901_roughness.png.001",
+      "texture_pbr_20250901_roughness.png.002"
+    ]
+  },
+  "clips": [
+    {
+      "file": "MomUser_Idle_Gameplay.fbx",
+      "action_after_import": "Mom_User_Gameplay_Rig.002|MomUser_Idle_Gameplay",
+      "frame_range": [
+        2.0,
+        152.0
+      ],
+      "fps": 30,
+      "passed": false,
+      "samples": [
+        {
+          "source_frame": 1,
+          "import_frame": 2,
+          "mesh_max_error_m": 0.15869954225037594,
+          "bone_head_max_error_m": 0.10500957645488619
+        },
+        {
+          "source_frame": 39,
+          "import_frame": 40,
+          "mesh_max_error_m": 0.15861992704511083,
+          "bone_head_max_error_m": 0.10504595854034034
+        },
+        {
+          "source_frame": 76,
+          "import_frame": 77,
+          "mesh_max_error_m": 0.15863961889335815,
+          "bone_head_max_error_m": 0.10505584378418915
+        },
+        {
+          "source_frame": 113,
+          "import_frame": 114,
+          "mesh_max_error_m": 0.15886572817932637,
+          "bone_head_max_error_m": 0.1050528329572751
+        },
+        {
+          "source_frame": 151,
+          "import_frame": 152,
+          "mesh_max_error_m": 0.15869954225037594,
+          "bone_head_max_error_m": 0.10500957645488619
+        }
+      ]
+    },
+    {
+      "file": "MomUser_CallChild_Gameplay.fbx",
+      "action_after_import": "Mom_User_Gameplay_Rig.003|MomUser_CallChild_Gameplay",
+      "frame_range": [
+        2.0,
+        104.0
+      ],
+      "fps": 30,
+      "passed": false,
+      "samples": [
+        {
+          "source_frame": 1,
+          "import_frame": 2,
+          "mesh_max_error_m": 0.15869954225037594,
+          "bone_head_max_error_m": 0.10500957645488619
+        },
+        {
+          "source_frame": 27,
+          "import_frame": 28,
+          "mesh_max_error_m": 0.15805282921992816,
+          "bone_head_max_error_m": 0.1049101055896306
+        },
+        {
+          "source_frame": 52,
+          "import_frame": 53,
+          "mesh_max_error_m": 0.15792042667919065,
+          "bone_head_max_error_m": 0.10485098999151157
+        },
+        {
+          "source_frame": 77,
+          "import_frame": 78,
+          "mesh_max_error_m": 0.15848372562801566,
+          "bone_head_max_error_m": 0.10495123012481121
+        },
+        {
+          "source_frame": 103,
+          "import_frame": 104,
+          "mesh_max_error_m": 0.15869956176687544,
+          "bone_head_max_error_m": 0.1050096160879093
+        }
+      ]
+    },
+    {
+      "file": "MomUser_TalkIdle_Gameplay.fbx",
+      "action_after_import": "Mom_User_Gameplay_Rig.004|MomUser_TalkIdle_Gameplay",
+      "frame_range": [
+        2.0,
+        152.0
+      ],
+      "fps": 30,
+      "passed": false,
+      "samples": [
+        {
+          "source_frame": 1,
+          "import_frame": 2,
+          "mesh_max_error_m": 0.15869954225037594,
+          "bone_head_max_error_m": 0.10500957645488619
+        },
+        {
+          "source_frame": 39,
+          "import_frame": 40,
+          "mesh_max_error_m": 0.1583070488280658,
+          "bone_head_max_error_m": 0.1050695310436555
+        },
+        {
+          "source_frame": 76,
+          "import_frame": 77,
+          "mesh_max_error_m": 0.15863961889335815,
+          "bone_head_max_error_m": 0.10505584378418915
+        },
+        {
+          "source_frame": 113,
+          "import_frame": 114,
+          "mesh_max_error_m": 0.1587302507155939,
+          "bone_head_max_error_m": 0.10511090913201365
+        },
+        {
+          "source_frame": 151,
+          "import_frame": 152,
+          "mesh_max_error_m": 0.15869954225037594,
+          "bone_head_max_error_m": 0.10500957645488619
+        }
+      ]
+    },
+    {
+      "file": "MomUser_Nod_Gameplay.fbx",
+      "action_after_import": "Mom_User_Gameplay_Rig.005|MomUser_Nod_Gameplay",
+      "frame_range": [
+        2.0,
+        56.0
+      ],
+      "fps": 30,
+      "passed": false,
+      "samples": [
+        {
+          "source_frame": 1,
+          "import_frame": 2,
+          "mesh_max_error_m": 0.15869954225037594,
+          "bone_head_max_error_m": 0.10500957645488619
+        },
+        {
+          "source_frame": 15,
+          "import_frame": 16,
+          "mesh_max_error_m": 0.15861562690758083,
+          "bone_head_max_error_m": 0.10504784141010451
+        },
+        {
+          "source_frame": 28,
+          "import_frame": 29,
+          "mesh_max_error_m": 0.15863961889335815,
+          "bone_head_max_error_m": 0.10505584378418915
+        },
+        {
+          "source_frame": 41,
+          "import_frame": 42,
+          "mesh_max_error_m": 0.15886731828055498,
+          "bone_head_max_error_m": 0.1050538796089515
+        },
+        {
+          "source_frame": 55,
+          "import_frame": 56,
+          "mesh_max_error_m": 0.15869954225037594,
+          "bone_head_max_error_m": 0.10500957645488619
+        }
+      ]
+    }
+  ],
+  "passed": false,
+  "scene_saved": false
+}

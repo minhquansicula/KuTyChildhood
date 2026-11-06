@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmMainMenu: {fileID: 8300000, guid: 164352a858b4328409f129a433eaa3be, type: 3}
   bgmAct1: {fileID: 0}
-  bgmAct2: {fileID: 8300000, guid: 7017039a0d3a13d4aab13b6a3e8642d4, type: 3}
+  bgmAct2: {fileID: 8300000, guid: f539af730b43b8a45924c50719c2dd4d, type: 3}
   bgmAct3: {fileID: 8300000, guid: b150672e1af46984f897fdb0835d5564, type: 3}
   bgmVillage: {fileID: 8300000, guid: 7017039a0d3a13d4aab13b6a3e8642d4, type: 3}
   bgmLetter: {fileID: 8300000, guid: b150672e1af46984f897fdb0835d5564, type: 3}
