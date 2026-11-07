@@ -17,6 +17,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     public Light fireGlow, cookGlow;
     public DialogueSequence motherLines;
     public AudioClip waterClip, fireClip, simmerClip;
+    public Transform motherVoiceAnchor;
     [Header("Imported asset articulation")]
     public bool importedKitchen;
     public Transform[] kindlingSlots = new Transform[0];
@@ -130,7 +131,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         lidUp = lid.parent.InverseTransformDirection(Vector3.up);
         lidSide = lid.parent.InverseTransformDirection(cookView.right);
         motherVoice = kitchenAudio("Mother at the stove", false);
-        motherVoice.transform.position = hearth.position + Vector3.up;
+        motherVoice.transform.position = motherVoiceAnchor ? motherVoiceAnchor.position : hearth.position + Vector3.up;
         workAudio = kitchenAudio("Kitchen work", true);
         splashes = InteractionVfx.Create(washRoot, "Rice washing drops", InteractionVfxKind.Droplet);
         splashes.transform.position = water.position;
@@ -154,6 +155,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         audio.playOnAwake = false; audio.loop = loop; audio.spatialBlend = .7f;
         audio.dopplerLevel = 0f; audio.minDistance = 2f; audio.maxDistance = 12f;
         audio.volume = .55f;
+        KuTyAudioMix.Route(audio, loop ? KuTyAudioBus.SFX : KuTyAudioBus.Voice);
         return audio;
     }
 

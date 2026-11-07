@@ -123,6 +123,8 @@ public sealed partial class HouseholdActionBoard
             tuneClip.SetData(tune, 0);
             radioNoise = root.gameObject.AddComponent<AudioSource>();
             radioTune = root.gameObject.AddComponent<AudioSource>();
+            KuTyAudioMix.Route(radioNoise, KuTyAudioBus.SFX);
+            KuTyAudioMix.Route(radioTune, KuTyAudioBus.SFX);
             radioNoise.clip = noiseClip;
             radioTune.clip = tuneClip;
             radioNoise.loop = radioTune.loop = true;

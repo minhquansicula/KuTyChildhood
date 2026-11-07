@@ -8,7 +8,8 @@ public static class KuTyMusicSetup
 {
     private const string Folder = "Assets/_Project/Audio/Music/";
     private static readonly string[] Names = {
-        "Childhood_ScottBuckley.mp3", "CountrysideSummer_YoshinoriTanaka.mp3", "Reverie_ScottBuckley.mp3"
+        "Childhood_ScottBuckley.mp3", "CountrysideSummer_YoshinoriTanaka.mp3", "Reverie_ScottBuckley.mp3",
+        "VietnamBambooFlute_VPRODMUSIC.mp3"
     };
 
     [MenuItem("KuTy/Audio/Install selected soundtrack")]
@@ -41,7 +42,7 @@ public static class KuTyMusicSetup
         if (library == null) throw new InvalidOperationException("SoundLibrary missing.");
         Undo.RecordObject(library, "Install selected soundtrack");
         library.bgmMainMenu = clips[0];
-        library.bgmAct2 = clips[1];
+        library.bgmAct2 = clips[3];
         library.bgmVillage = clips[1];
         library.bgmLetter = clips[2];
         library.bgmAct3 = clips[2];
@@ -55,7 +56,8 @@ public static class KuTyMusicSetup
     {
         var library = AssetDatabase.LoadAssetAtPath<SoundLibrary>("Assets/_Project/Generated/SoundLibrary.asset");
         if (library == null || !library.bgmMainMenu || !library.bgmVillage || !library.bgmLetter ||
-            library.bgmAct2 != library.bgmVillage || library.bgmAct3 != library.bgmLetter)
+            !library.bgmAct2 || library.bgmAct2 == library.bgmVillage || library.bgmAct3 != library.bgmLetter ||
+            library.bgmAct2 != AssetDatabase.LoadAssetAtPath<AudioClip>(Folder + Names[3]))
             throw new InvalidOperationException("Soundtrack routing is incomplete.");
         var report = new System.Text.StringBuilder("Selected soundtrack validation\n");
         foreach (string name in Names)

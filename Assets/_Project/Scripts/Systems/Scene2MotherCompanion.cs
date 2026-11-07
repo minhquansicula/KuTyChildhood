@@ -4,7 +4,7 @@ using UnityEngine;
 /// Assign an authored actor to replace the runtime greybox. No unverified walking paths.</summary>
 public sealed class Scene2MotherCompanion : MonoBehaviour
 {
-    [Header("Replace the greybox with the mother model later")]
+    [Header("Authored mother actor (MomUser in Scene 2)")]
     [SerializeField] private Transform actor;
     [SerializeField] private Transform head;
     [SerializeField] private Animator animator;
@@ -18,8 +18,11 @@ public sealed class Scene2MotherCompanion : MonoBehaviour
     private int openedFrame;
     private int conversationIndex;
     private float nextConversation;
+    private float replyRemaining;
 
     public bool IsConversing => conversing;
+    // Caption presentation window, not a claim that an unrecorded line has audio.
+    public bool IsPresentingReply => conversing && replyRemaining > 0f;
     public Transform Actor => actor;
     public bool CanTalk => isActiveAndEnabled && actor && flow && flow.ChecklistVisible &&
         flow.ActiveIndex < HouseholdChoreFlow.Order.Length &&
@@ -92,6 +95,7 @@ public sealed class Scene2MotherCompanion : MonoBehaviour
         openedFrame = Time.frameCount;
         GameManager.Instance?.AcquireInput(this);
         flow.UI.ShowGame("Nói chuyện với mẹ", "Mẹ đây, con muốn hỏi gì?", false, EndConversation);
+        PresentReply("Mẹ đây, con muốn hỏi gì?");
         flow.UI.ShowChoices(new[] { "Con làm gì tiếp?", "Nói chuyện với mẹ", "Con làm tiếp nhé" }, Select);
     }
 
@@ -112,6 +116,7 @@ public sealed class Scene2MotherCompanion : MonoBehaviour
         }
         else reply = "Ừ, con phụ mẹ một tay nhé. " + HintForCurrentChore();
         flow.UI.ShowGame("Mẹ", reply, false, EndConversation);
+        PresentReply(reply);
         flow.UI.ShowChoices(new[] { "Hỏi việc tiếp theo", "Nói thêm với mẹ", "Con làm tiếp nhé" }, i =>
         {
             if (i == 2) EndConversation(); else Select(i);
@@ -124,10 +129,17 @@ public sealed class Scene2MotherCompanion : MonoBehaviour
         return flow.CurrentGuidance;
     }
 
+    private void PresentReply(string text)
+    {
+        // Stop talking while the player considers choices instead of looping forever.
+        replyRemaining = Mathf.Clamp((text?.Length ?? 0) / 12f, 1.8f, 9f);
+    }
+
     private void Update()
     {
         if (!conversing || GameManager.Instance?.IsPaused == true ||
             PauseUI.LastResumeFrame == Time.frameCount || Time.frameCount == openedFrame) return;
+        replyRemaining = Mathf.Max(0f, replyRemaining - Time.deltaTime);
         if (Input.GetKeyDown(KeyCode.Escape)) { EndConversation(); return; }
         if (Input.GetKeyDown(KeyCode.Alpha1)) Select(0);
         else if (Input.GetKeyDown(KeyCode.Alpha2)) Select(1);
@@ -159,6 +171,7 @@ public sealed class Scene2MotherCompanion : MonoBehaviour
     {
         if (!conversing) return;
         conversing = false;
+        replyRemaining = 0f;
         flow?.UI?.HideGame();
         GameManager.Instance?.ReleaseInput(this);
         nextConversation = Time.time + .4f;

@@ -1,9 +1,23 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(AudioSource))]
 public sealed class DialogueVoicePlayer : MonoBehaviour
 {
+    private static readonly HashSet<DialogueVoicePlayer> playing = new HashSet<DialogueVoicePlayer>();
+    public static bool AnyVoicePlaying
+    {
+        get
+        {
+            foreach (var player in playing)
+                if (player && player.isActiveAndEnabled && !player.muted && player.IsPlaying) return true;
+            return false;
+        }
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetPlaybackRegistry() => playing.Clear();
     [SerializeField] private AudioSource source;
     [SerializeField, Range(0f, 1f)] private float volume = .85f;
     [SerializeField] private bool muted;
@@ -34,7 +48,7 @@ public sealed class DialogueVoicePlayer : MonoBehaviour
         source.Stop();
         source.clip = clip;
         ApplySettings();
-        if (clip != null) source.Play();
+        if (clip != null) { playing.Add(this); source.Play(); }
         return PlaybackToken;
     }
 
@@ -54,6 +68,7 @@ public sealed class DialogueVoicePlayer : MonoBehaviour
 
     public void Stop()
     {
+        playing.Remove(this);
         PlaybackToken++;
         IsPaused = false;
         if (source == null) return;
@@ -96,6 +111,7 @@ public sealed class DialogueVoicePlayer : MonoBehaviour
         source.pitch = 1f;
         source.volume = volume;
         source.mute = muted;
+        KuTyAudioMix.Route(source, KuTyAudioBus.Voice);
     }
 
     private void OnDisable()

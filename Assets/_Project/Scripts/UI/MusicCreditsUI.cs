@@ -42,8 +42,10 @@ public sealed class MusicCreditsUI : MonoBehaviour
             "Childhood — Scott Buckley\nMenu chính\n\n" +
             "Reverie — Scott Buckley\nThư mẹ và đoạn kết\n\n" +
             "Released under CC BY 4.0\nwww.scottbuckley.com.au\ncreativecommons.org/licenses/by/4.0/\n\n" +
-            "Countryside Summer (Inaka no Natsuyasumi)\nYoshinori Tanaka — Nhà và đường làng\n" +
+            "Countryside Summer (Inaka no Natsuyasumi)\nYoshinori Tanaka — Đường làng\n" +
             "OpenTracks / DOVA-SYNDROME\nopentracks.com/bgm/detail/19313\n\n" +
+            "Vietnam Bamboo Flute — VPRODMUSIC_Asia_BGM\nTrong nhà — Pixabay Content License\n" +
+            "pixabay.com/music/world-vietnam-bamboo-flute-143601/\n\n" +
             "Nhạc được chuyển mã và chuyển âm lượng khi phát trong game.";
         var back = Button(panel.transform, "CloseMusicCredits", "Quay lại", new Vector2(320, 76));
         ((RectTransform)back.transform).anchoredPosition = new Vector2(0, -440);

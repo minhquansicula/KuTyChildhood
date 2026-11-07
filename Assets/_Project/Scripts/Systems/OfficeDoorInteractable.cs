@@ -11,7 +11,7 @@ public sealed class OfficeDoorInteractable : MonoBehaviour
     public event Action Opened;
     Quaternion closed;
     float angle;
-    public void Initialize() { closed = transform.localRotation; angle = 0; State = DoorState.Closed; }
+    public void Initialize() { closed = transform.localRotation; angle = 0; State = DoorState.Closed; KuTyAudioMix.Route(sound, KuTyAudioBus.SFX); }
 
     // Sample the entire remaining sweep, inflated for the player's capsule.
     // Test against the player rather than moving a solid door through them.

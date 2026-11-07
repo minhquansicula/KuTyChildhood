@@ -58,6 +58,12 @@ public class OfficeAtmosphere : MonoBehaviour
 
     private void Start()
     {
+        KuTyAudioMix.Route(streetSource, KuTyAudioBus.Ambience);
+        KuTyAudioMix.Route(fluorescentSource, KuTyAudioBus.Ambience);
+        KuTyAudioMix.Route(keyboardSource, KuTyAudioBus.SFX);
+        KuTyAudioMix.Route(propSource, KuTyAudioBus.SFX);
+        KuTyAudioMix.Route(memorySource, KuTyAudioBus.SFX);
+        KuTyAudioMix.Route(bossSource, KuTyAudioBus.Voice);
         ConfigureLoop(streetSource, streetTraffic != null ? streetTraffic : GenerateTraffic(), deferAmbienceToOpening ? 0f : 0.68f, 0.82f, 5f, 26f);
         ConfigureLoop(fluorescentSource, fluorescentHum != null ? fluorescentHum : GenerateHum(), deferAmbienceToOpening ? 0f : 0.24f, 0.62f, 3f, 14f);
         ConfigureOneShotSource(keyboardSource, 0.34f, 0.8f, 2f, 8f);

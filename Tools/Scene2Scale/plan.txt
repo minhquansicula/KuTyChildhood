@@ -1,0 +1,7 @@
+Scene 2 furniture scale plan (metres)
+Original scene dirty=False
+tripo_part_3: height 1.4089 -> 0.76; uniform multiplier 0.53942; floor -0.1521 -> 0.02; supported=[]
+Refrigerator: height 2.3855 -> 1.70; uniform multiplier 0.71264; floor 0.0200 -> 0.02; supported=[]
+DishCabinetVisual: height 2.2354 -> 1.80; uniform multiplier 0.80524; floor -0.0750 -> 0.02; supported=[]
+BambooTable: height 0.8923 -> 0.76; uniform multiplier 0.85175; floor 0.0200 -> 0.02; supported=[CornPeanuts]
+Mother, player, house structure, kitchen tasks/cameras, source prefabs and quest data are excluded.

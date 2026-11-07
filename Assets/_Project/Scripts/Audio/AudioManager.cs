@@ -37,6 +37,18 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private float sfxVolume = 0.7f;
     [SerializeField] private float fadeDuration = 1.5f;
     [SerializeField, Range(1, 12)] private int sfxPoolSize = 6;
+    [Header("Quiet home soundtrack")]
+    [SerializeField, Range(0f, 1f)] private float homeMusicGain = .55f;
+    [SerializeField, Min(.1f)] private float musicDuckSeconds = .35f;
+    [SerializeField, Min(.1f)] private float musicReleaseSeconds = 1.8f;
+    [SerializeField, Min(.1f)] private float radioMusicFocusDistance = 4f;
+    private float musicEnvelope = 1f;
+    private float musicFocusGain = 1f;
+    private HouseholdChoreFlow musicFocusFlow;
+    private Scene2MotherCompanion musicMother;
+    private Scene2RadioKitchenSequence musicRadio;
+    private Scene2KitchenHandsOn musicKitchen;
+    private Camera musicFocusCamera;
     private Coroutine musicRoutine;
     private AudioClip transitioningTo;
     private bool letterMusicActive;
@@ -87,10 +99,14 @@ public class AudioManager : MonoBehaviour
         }
 
         InitializeSfxSources();
+        KuTyAudioMix.Route(bgmSource, KuTyAudioBus.Music);
+        KuTyAudioMix.Route(ambientSource, KuTyAudioBus.Ambience);
     }
 
     private void Start()
     {
+        KuTyAudioMix.ApplyPreferences();
+        GameUiPreferences.AudioChanged += KuTyAudioMix.ApplyPreferences;
         // Subscribe vào GameState change để tự động đổi nhạc
         if (GameManager.Instance != null)
         {
@@ -104,6 +120,7 @@ public class AudioManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (Instance == this) GameUiPreferences.AudioChanged -= KuTyAudioMix.ApplyPreferences;
         bool wasInstance = Instance == this;
         if (GameManager.Instance != null)
         {
@@ -165,11 +182,54 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
+        // Listener pause freezes the song; never restart its tail while paused.
+        if (AudioListener.pause) return;
         // These are complete songs, not authored seamless loops. Fade the tail before restarting.
         if (musicRoutine == null && bgmSource != null && bgmSource.isPlaying &&
             bgmSource.clip != null && bgmSource.clip.length > fadeDuration * 2f &&
             bgmSource.clip.length - bgmSource.time <= fadeDuration * .5f)
             musicRoutine = StartCoroutine(CrossFadeBGM(bgmSource.clip));
+    }
+
+    private void LateUpdate()
+    {
+        if (bgmSource == null || AudioListener.pause) return;
+        bool homeTrack = soundLibrary != null && bgmSource.clip != null && bgmSource.clip == soundLibrary.bgmAct2;
+        float target = homeTrack ? homeMusicGain : 1f;
+        bool voicePlaying = DialogueVoicePlayer.AnyVoicePlaying;
+        if (!homeTrack && voicePlaying) target *= MusicFocusMultiplier(true, false);
+        if (homeTrack && GameManager.Instance != null &&
+            GameManager.Instance.CurrentState == GameState.Act2_MemoryWorld_Home)
+        {
+            // Bind once per flow, including flows created after scene activation.
+            var flow = HouseholdChoreFlow.Instance;
+            if (musicFocusFlow != flow)
+            {
+                musicFocusFlow = flow;
+                musicMother = flow ? flow.GetComponent<Scene2MotherCompanion>() : null;
+                musicRadio = flow ? flow.GetComponent<Scene2RadioKitchenSequence>() : null;
+                musicKitchen = flow ? flow.GetComponent<Scene2KitchenHandsOn>() : null;
+                musicFocusCamera = flow ? Camera.main : null;
+            }
+            bool speaking = voicePlaying || (musicMother && musicMother.IsConversing) ||
+                (musicRadio && musicRadio.MotherSpeaking) || (musicKitchen && musicKitchen.MotherSpeaking) ||
+                flow?.Voice?.Voice?.IsPlaying == true || DialogueUI.Instance?.IsShowing == true;
+            bool nearRadio = musicRadio && musicRadio.radioRig && musicFocusCamera &&
+                (musicFocusCamera.transform.position - musicRadio.radioRig.position).sqrMagnitude <
+                radioMusicFocusDistance * radioMusicFocusDistance;
+            bool radio = musicRadio && musicRadio.isActiveAndEnabled &&
+                (musicRadio.IsTuning || (musicRadio.RadioOn && nearRadio));
+            target *= MusicFocusMultiplier(speaking, radio);
+        }
+        float seconds = target < musicFocusGain ? musicDuckSeconds : musicReleaseSeconds;
+        musicFocusGain = Mathf.MoveTowards(musicFocusGain, target, Time.unscaledDeltaTime / Mathf.Max(.1f, seconds));
+        bgmSource.volume = Mathf.Clamp01(bgmVolume * musicEnvelope * musicFocusGain);
+    }
+
+    private static float MusicFocusMultiplier(bool speaking, bool radio)
+    {
+        // Strongest focus wins; overlapping dialogue and radio do not compound ducking.
+        return radio ? .25f : speaking ? .45f : 1f;
     }
 
     /// <summary>Play sound effect (1 lần).</summary>
@@ -229,7 +289,9 @@ public class AudioManager : MonoBehaviour
     /// <summary>Play ambient sound.</summary>
     public void PlayAmbient(AudioClip clip)
     {
-        if (ambientSource == null || clip == null) return;
+        if (ambientSource == null) return;
+        if (clip == null) { StopAmbient(); return; }
+        if (ambientSource.clip == clip && ambientSource.isPlaying) return;
         ambientSource.clip = clip;
         ambientSource.Play();
     }
@@ -315,6 +377,7 @@ public class AudioManager : MonoBehaviour
     {
         if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();
         ConfigurePooledSource(sfxSource, false);
+        KuTyAudioMix.Route(sfxSource, KuTyAudioBus.SFX);
         sfxPool.Clear();
         sfxPool.Add(sfxSource);
         for (int i = 1; i < Mathf.Max(1, sfxPoolSize); i++)
@@ -328,6 +391,7 @@ public class AudioManager : MonoBehaviour
         }
         if (uiSource == null) uiSource = gameObject.AddComponent<AudioSource>();
         ConfigurePooledSource(uiSource, true);
+        KuTyAudioMix.Route(uiSource, KuTyAudioBus.SFX);
     }
 
     private static void ConfigurePooledSource(AudioSource source, bool ignorePause)
@@ -431,17 +495,19 @@ public class AudioManager : MonoBehaviour
         if (bgmSource.isPlaying)
         {
             float elapsed = 0f;
-            float startVol = bgmSource.volume;
+            float startVol = musicEnvelope;
 
             while (elapsed < fadeDuration * 0.5f)
             {
+                if (AudioListener.pause) { yield return null; continue; }
                 elapsed += Time.unscaledDeltaTime;
-                bgmSource.volume = Mathf.Lerp(startVol, 0f, elapsed / (fadeDuration * 0.5f));
+                musicEnvelope = Mathf.SmoothStep(startVol, 0f, elapsed / Mathf.Max(.01f, fadeDuration * 0.5f));
                 yield return null;
             }
         }
 
         // Switch clip
+        musicEnvelope = 0f;
         bgmSource.volume = 0f;
         bgmSource.clip = newClip;
         bgmSource.Play();
@@ -450,29 +516,32 @@ public class AudioManager : MonoBehaviour
         float elapsed2 = 0f;
         while (elapsed2 < fadeDuration * 0.5f)
         {
+            if (AudioListener.pause) { yield return null; continue; }
             elapsed2 += Time.unscaledDeltaTime;
-            bgmSource.volume = Mathf.Lerp(0f, bgmVolume, elapsed2 / (fadeDuration * 0.5f));
+            musicEnvelope = Mathf.SmoothStep(0f, 1f, elapsed2 / Mathf.Max(.01f, fadeDuration * 0.5f));
             yield return null;
         }
 
-        bgmSource.volume = bgmVolume;
+        musicEnvelope = 1f;
+        transitioningTo = null;
         musicRoutine = null;
     }
 
     private System.Collections.IEnumerator FadeOutBGM()
     {
         float elapsed = 0f;
-        float startVol = bgmSource.volume;
+        float startVol = musicEnvelope;
 
         while (elapsed < fadeDuration)
         {
+            if (AudioListener.pause) { yield return null; continue; }
             elapsed += Time.unscaledDeltaTime;
-            bgmSource.volume = Mathf.Lerp(startVol, 0f, elapsed / fadeDuration);
+            musicEnvelope = Mathf.SmoothStep(startVol, 0f, elapsed / Mathf.Max(.01f, fadeDuration));
             yield return null;
         }
 
         bgmSource.Stop();
-        bgmSource.volume = bgmVolume;
+        musicEnvelope = 0f;
         musicRoutine = null;
     }
 }

@@ -1,12 +1,33 @@
 PASS
 PASS Bootstrap creates AudioManager in an empty scene
+PASS Category mixer is available in Resources
+PASS BGM routes to Music independently of source fades
+PASS Gameplay SFX route to SFX
+PASS UI audio follows effects volume
+PASS Environment routes to Ambience
+PASS User gain maps silence/unity to -80/0 dB
+PASS Music can be independently silenced
+PASS Music gain applies and persists separately
+PASS SFX can be independently silenced
+PASS SFX gain applies and persists separately
+PASS Voice can be independently silenced
+PASS Voice gain applies and persists separately
+PASS Ambience can be independently silenced
+PASS Ambience gain applies and persists separately
 PASS Menu plays Childhood in 2D
 PASS Office stops menu music when no office BGM is assigned
-PASS Home plays countryside guitar
-PASS Opening letter plays Reverie
+PASS Home plays Vietnamese bamboo flute
+PASS Home music settles at a quiet 0.22 gain without changing SFX
+PASS Mother conversation requests gentle music ducking
+PASS Radio requests stronger music ducking
+PASS Overlapping focus does not multiply attenuation
+PASS Opening letter plays Reverie at its own mix level
+PASS Narration routes to Voice, not Music or SFX
+PASS Actual voice playback ducks letter music
+PASS Stopping voice smoothly restores letter music
 PASS Completing and closing letter restores home music
 PASS Cancelling letter restores home music
-PASS Village uses countryside track
+PASS Village keeps its existing countryside track
 PASS Pause freezes music playback
 PASS Resume continues music
 PASS Track tail fades and restarts
@@ -15,6 +36,7 @@ PASS Every menu button, including hidden panels, has exactly one SFX binding
 PASS Pointer entry plays one hover cue
 PASS Rapid repeated hover is rate limited
 PASS Settings click plays confirm audio
+PASS Settings expose master, four audio categories and sensitivity
 PASS Back click plays audio and preserves panel action
 PASS Disabled button is silent and does not run its action
 PASS Repeated binding does not duplicate the component
