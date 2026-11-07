@@ -42,6 +42,11 @@ public sealed class ChildWakeHandsSmoke : MonoBehaviour
         if (!Check(bed != null && hands != null, "Bed creates rigged child hands")) yield break;
         var renderer = hands.GetComponentInChildren<SkinnedMeshRenderer>();
         if (!Check(renderer != null && renderer.bones.Length >= 20, "Imported hands have a skinned skeleton")) yield break;
+        if (!Check(renderer.sharedMesh.uv2.Length == renderer.sharedMesh.vertexCount,
+            "Palm detail coordinates import with the mesh")) yield break;
+        var colors = renderer.sharedMesh.colors;
+        if (!Check(colors.Length == renderer.sharedMesh.vertexCount && System.Array.Exists(colors, c => c.r > .4f),
+            "Anatomical skin colour masks import with the mesh")) yield break;
         if (!Check(GameManager.Instance.InputBlocked, "Input remains locked during waking")) yield break;
         var camera = hands.GetComponentInParent<Camera>();
         string folder = "Tools/Cutscene/ChildHands";

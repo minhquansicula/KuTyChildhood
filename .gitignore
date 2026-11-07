@@ -143,6 +143,7 @@ dumb/
 
 # Cutscene authoring sources, imported models and review renders stay local.
 # The approved runtime video is tracked under Assets/_Project/Resources/Cutscenes/.
+# Keep ChildHands/WalkingHands rigs and Blender scripts here for future grasp animations.
 /Tools/Cutscene/
 /Tools/CutsceneReferences/
 

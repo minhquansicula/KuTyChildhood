@@ -132,13 +132,20 @@ public class BedWakeUpController : MonoBehaviour
                 SetVision(1f - SmoothRange(.18f, .85f, seconds), 0f);
                 // A single gentle reveal; no repeated blackout or artificial eyelid mask.
                 float blur = .22f * (1f - SmoothRange(.35f, 1.6f, seconds));
+                float rubEnvelope = SmoothRange(1.85f, 2.02f, seconds) *
+                    (1f - SmoothRange(2.58f, 2.92f, seconds));
+                float rubPhase = (seconds - 1.90f) * Mathf.PI * 5f;
+                float rubSway = Mathf.Sin(rubPhase) * rubEnvelope;
+                // Pressure from the rubbing hand briefly disturbs focus and the head on the pillow.
+                blur = Mathf.Max(blur, rubEnvelope * (.86f + .10f * Mathf.Abs(Mathf.Sin(rubPhase))));
                 wakingFocus?.Set(blur, 0f);
                 float settle = SmoothRange(3.6f, 5.5f, seconds);
                 float pitch = Mathf.Lerp(sleepingPitch, Mathf.MoveTowards(sleepingPitch, awakePitch, 6f), settle);
                 playerController.SetPitch(pitch);
-                playerCamera.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+                playerCamera.localRotation = Quaternion.Euler(pitch + .45f * rubSway,
+                    .30f * rubSway, .65f * rubSway);
                 playerCamera.localPosition = standingCameraPosition + lyingCameraOffset +
-                    new Vector3(0f, .008f * settle, 0f);
+                    new Vector3(.0015f * rubSway, .008f * settle + .001f * rubSway, 0f);
                 yield return null;
             }
             ClearChildHands();

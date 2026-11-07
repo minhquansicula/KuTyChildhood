@@ -25,8 +25,16 @@ public static class KuTyChildWakeHandsSetup
             AssetDatabase.CreateAsset(material, Folder + "/ChildHands.mat");
         }
         material.shader = Shader.Find("KuTy/FirstPersonSkin");
-        material.SetColor("_BaseColor", new Color(.72f, .53f, .39f, 1f));
-        material.SetFloat("_Fill", .38f);
+        material.SetColor("_BaseColor", new Color(.70f, .52f, .46f, 1f));
+        material.SetFloat("_Fill", .30f);
+        material.SetColor("_PalmColor", new Color(.78f, .57f, .53f, 1f));
+        material.SetFloat("_SkinDetail", 1f);
+        var textureImporter = (TextureImporter)AssetImporter.GetAtPath(Folder + "/ChildSkinDetail.png");
+        textureImporter.maxTextureSize = 2048;
+        textureImporter.mipmapEnabled = true;
+        textureImporter.textureCompression = TextureImporterCompression.CompressedHQ;
+        textureImporter.SaveAndReimport();
+        material.SetTexture("_SkinMap", AssetDatabase.LoadAssetAtPath<Texture2D>(Folder + "/ChildSkinDetail.png"));
         EditorUtility.SetDirty(material);
         var shirt = AssetDatabase.LoadAssetAtPath<Material>(Folder + "/ChildShirt.mat");
         if (shirt == null)
@@ -36,7 +44,8 @@ public static class KuTyChildWakeHandsSetup
         }
         shirt.shader = Shader.Find("KuTy/FirstPersonSkin");
         shirt.SetColor("_BaseColor", new Color(.81f, .77f, .65f, 1f));
-        shirt.SetFloat("_Fill", .38f);
+        shirt.SetFloat("_Fill", .30f);
+        shirt.SetFloat("_SkinDetail", 0f);
         EditorUtility.SetDirty(shirt);
         var model = AssetDatabase.LoadAssetAtPath<GameObject>(Folder + "/KuTiChildHands_Rigged.fbx");
         var clip = AssetDatabase.LoadAllAssetsAtPath(Folder + "/KuTiChildHands_Rigged.fbx")
