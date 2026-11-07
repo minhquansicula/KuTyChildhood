@@ -155,3 +155,13 @@ Tăng tốc riêng phần rút/hạ tay sau 2.70 giây lên 1.4x; giữ nguyên 
 Tăng tiếp chuyển động sau mốc 3 giây thêm 1.5x so với bản trước; mốc trước 3 giây không đổi, giữ tổng cửa sổ wake-up hiện tại. ChildWakeHandsSmoke PASS. Preview: Tools/Cutscene/Scene2_Wake_FastTail_Preview.mp4.
 
 Thêm cảm giác dụi mắt ở 1.85–2.92 giây: camera nghiêng/đảo nhẹ tối đa khoảng 0.65 độ, dịch chuyển 1.5 mm, focus mờ theo nhịp tay và rõ lại khi rời mắt. Không thêm lớp mí mắt đen. Nhịp hạ tay nhanh đã duyệt giữ nguyên. Biên dịch và ChildWakeHandsSmoke PASS. Preview: Tools/Cutscene/Scene2_Wake_RubCameraFocus_Preview.mp4. Chưa commit/push.
+
+### Nhấc tay phải khi tương tác E
+
+Khi có vật tương tác hợp lệ, E đưa riêng tay phải lên trong 0.46 giây, tay trái giữ khuất. Sau 0.20 giây mới gọi Interact để tay kịp hiện trước khi mở hộp thoại/minigame. Trong nhịp chờ, E lặp bị chặn; component tắt, input bị khóa hoặc target mất hiệu lực sẽ hủy tương tác đang chờ. Scene không có bộ tay vẫn tương tác ngay.
+
+Cẳng tay hướng lên từ điểm gần góc dưới-phải đã duyệt (viewport khoảng .907,.062); lòng bàn tay hướng camera, góc roll 35 độ và giới hạn gập cổ tay 35 độ. Ngón dùng đúng góc nghỉ lấy từ bindposes FBX, khép nhẹ tối đa 3 độ; không xoay về Quaternion.identity gây kéo méo. Các thay đổi này chỉ áp dụng pose tương tác, giữ nhịp đi bộ và cảnh tỉnh dậy.
+
+Mesh Blender được sửa vùng trọng số bàn tay/cẳng tay theo chiều sâu để không kéo gốc ngón cái theo cẳng tay; bỏ bước ép phẳng lòng bàn tay. Vùng nối cổ tay và phần dưới cẳng tay được làm đầy bằng chuyển tiếp mềm theo đánh dấu cuối của người dùng, không đổi chiều dài hoặc topology. Nguồn dựng lại trong Tools/Cutscene/WalkingHands/ và Tools/Cutscene/ChildHands/ được gitignore, giữ cục bộ để làm động tác cầm nắm tiếp theo. FBX runtime và metadata được commit đầy đủ.
+
+WalkingHandsSmoke PASS cho tương tác đúng một lần, chặn E lặp/khóa input, tay phải hiện trước hộp thoại, ẩn tay khi modal mở, thu tay khi kết thúc; đi/dừng, va tường, pause, 16:9/21:9 và near clip vẫn đạt. Bài test dùng captureFramerate 30 cho đoạn reach ngắn và khôi phục khi xong. Preview cuối: Tools/Cutscene/RightHand_WristJoinFuller_Preview.mp4.

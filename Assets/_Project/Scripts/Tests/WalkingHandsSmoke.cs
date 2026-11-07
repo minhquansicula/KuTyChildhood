@@ -11,6 +11,7 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
 {
     private const string Pending = "KuTy.WalkingHandsSmoke.Pending";
     private bool oldBackground;
+    private int oldCaptureRate;
     private FirstPersonController player;
     private ChildWalkingHands hands;
     private Camera view;
@@ -38,6 +39,7 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
     private IEnumerator Start()
     {
         oldBackground = Application.runInBackground;
+        oldCaptureRate = Time.captureFramerate;
         Application.runInBackground = true;
         yield return null;
         player = FindObjectOfType<FirstPersonController>();
@@ -99,6 +101,58 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
         float stoppedPhase = hands.StridePhase;
         yield return new WaitForSeconds(.2f);
         if (!Check(Mathf.Abs(hands.StridePhase - stoppedPhase) < .0001f, "No stride animation without travel")) yield break;
+        var interaction = player.GetComponent<PlayerInteraction>();
+        var targetField = typeof(PlayerInteraction).GetField("currentTarget", BindingFlags.Instance | BindingFlags.NonPublic);
+        var target = new ReachTarget();
+        targetField.SetValue(interaction, null);
+        if (!Check(!interaction.TryInteract() && !hands.IsReaching, "No target means no reach")) yield break;
+        interaction.IsInteractionLocked = true;
+        targetField.SetValue(interaction, target);
+        if (!Check(!interaction.TryInteract() && !hands.IsReaching, "Locked interaction cannot start a reach")) yield break;
+        interaction.IsInteractionLocked = false;
+        Time.captureFramerate = 30; // Deterministic frames while recording the short reach.
+        if (!Check(interaction.TryInteract() && hands.IsReaching && target.count == 0,
+            "E starts the reach before dispatching the target")) yield break;
+        if (!Check(!interaction.TryInteract(), "Repeated E cannot queue duplicate interactions")) yield break;
+        float reachStart = Time.time;
+        bool checkedReach = false;
+        int reachShot = 0;
+        string reachFolder = "Tools/Cutscene/InteractionHands/Frames";
+        Directory.CreateDirectory(reachFolder);
+        var reachTimes = new List<string>();
+        while (Time.time - reachStart < 1.2f)
+        {
+            yield return new WaitForEndOfFrame();
+            float t = Time.time - reachStart;
+            if (!checkedReach && t > .14f && t < .25f)
+            {
+                if (!Check(ValidateFraming(.42f) && rightVisible > 0 && leftVisible == 0,
+                    "Only right hand rises during interaction")) yield break;
+                checkedReach = true;
+            }
+            ScreenCapture.CaptureScreenshot(Path.Combine(reachFolder, "frame-" + reachShot.ToString("D4") + ".png"));
+            reachTimes.Add(t.ToString("F6", System.Globalization.CultureInfo.InvariantCulture));
+            reachShot++;
+        }
+        File.WriteAllLines(Path.Combine(reachFolder, "times.txt"), reachTimes);
+        if (!Check(checkedReach && !hands.IsReaching && !hands.IsVisible, "Reach returns below frame without leaving a hand stuck")) yield break;
+        if (!Check(target.count == 1, "Delayed interaction calls target exactly once")) yield break;
+        var modal = new ReachTarget();
+        bool visibleBeforeModal = false;
+        modal.onInteract = () =>
+        {
+            visibleBeforeModal = hands.IsVisible;
+            GameManager.Instance.AcquireInput(this);
+        };
+        targetField.SetValue(interaction, modal);
+        interaction.TryInteract();
+        yield return new WaitForSeconds(.12f);
+        if (!Check(modal.count == 0 && hands.IsVisible, "Hand is visible before dialogue opens")) yield break;
+        yield return new WaitForSeconds(.20f);
+        if (!Check(modal.count == 1 && visibleBeforeModal && !hands.IsVisible,
+            "Dialogue opens after reaching and then hides the hand")) yield break;
+        GameManager.Instance.ReleaseInput(this);
+        Time.captureFramerate = oldCaptureRate;
         var floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
         floor.name = "Walking Hands Test Floor";
         floor.transform.position = new Vector3(0f, 999.95f, 0f);
@@ -152,7 +206,15 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
         EditorApplication.isPlaying = false;
     }
 
-    private bool ValidateFraming()
+    private sealed class ReachTarget : IInteractable
+    {
+        public int count;
+        public System.Action onInteract;
+        public string GetPromptText() => "Reach test";
+        public void Interact() { count++; onInteract?.Invoke(); }
+    }
+
+    private bool ValidateFraming(float allowedHeight = .18f)
     {
         var renderer = hands.GetComponentInChildren<SkinnedMeshRenderer>();
         var mesh = new Mesh();
@@ -167,7 +229,7 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
             visible++;
             if (point.x < .5f) leftVisible++; else rightVisible++;
             highest = Mathf.Max(highest, point.y);
-            if (point.y > .18f || (point.x > .32f && point.x < .68f)) outsideCorners++;
+            if (point.y > allowedHeight || (point.x > .32f && point.x < .68f)) outsideCorners++;
         }
         Destroy(mesh);
         Debug.Log($"[WalkingHandsSmoke] Framing: {visible} visible vertices; highest={highest:F3}; outside corners={outsideCorners}");
@@ -182,6 +244,10 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
         return false;
     }
 
-    private void OnDestroy() => Application.runInBackground = oldBackground;
+    private void OnDestroy()
+    {
+        Application.runInBackground = oldBackground;
+        Time.captureFramerate = oldCaptureRate;
+    }
 }
 #endif

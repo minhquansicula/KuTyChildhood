@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,6 +31,9 @@ public class PlayerInteraction : MonoBehaviour
     private IInteractable currentTarget = null;
     private string currentPromptText = "";
     private Camera mainCamera;
+    private ChildWalkingHands hands;
+    private Coroutine pendingInteraction;
+    private bool interactionPending;
     private readonly RaycastHit[] raycastHits = new RaycastHit[32];
     private readonly List<IProximityInteractable> proximityTargets = new List<IProximityInteractable>();
 
@@ -39,6 +43,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool IsInteractionLocked { get; set; } = false;
     public IInteractable CurrentTarget => currentTarget;
     public event Action<IInteractable> FocusChanged;
+    public event Action<IInteractable> InteractionStarted;
 
     // ========== LIFECYCLE ==========
     private void Start()
@@ -58,7 +63,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
-        if (IsInteractionLocked || (GameManager.Instance != null && GameManager.Instance.InputBlocked))
+        if (interactionPending || IsInteractionLocked || (GameManager.Instance != null && GameManager.Instance.InputBlocked))
         {
             // Ẩn prompt khi bị lock
             ClearTarget();
@@ -166,12 +171,40 @@ public class PlayerInteraction : MonoBehaviour
     // ========== INPUT ==========
     private void HandleInteractInput()
     {
-        if (currentTarget != null && Input.GetKeyDown(interactKey))
+        if (Input.GetKeyDown(interactKey)) TryInteract();
+    }
+
+    public bool TryInteract()
+    {
+        if (interactionPending || IsInteractionLocked || (GameManager.Instance != null && GameManager.Instance.InputBlocked)) return false;
+        if (currentTarget != null)
         {
             Debug.Log($"[PlayerInteraction] Interacting with: {currentTarget.GetPromptText()}");
-            currentTarget.Interact();
+            var target = currentTarget;
+            InteractionStarted?.Invoke(target);
             ClearTarget();
+            if (hands == null) hands = GetComponentInChildren<ChildWalkingHands>(true);
+            if (hands != null && hands.IsReaching)
+            {
+                interactionPending = true;
+                pendingInteraction = StartCoroutine(CompleteAfterReach(target));
+            }
+            else target.Interact();
+            return true;
         }
+        return false;
+    }
+
+    private IEnumerator CompleteAfterReach(IInteractable target)
+    {
+        // Let the raised hand render before dialogue/minigames acquire input and hide it.
+        yield return new WaitForSeconds(.20f);
+        interactionPending = false;
+        pendingInteraction = null;
+        if (IsInteractionLocked || (GameManager.Instance != null && GameManager.Instance.InputBlocked)) yield break;
+        if (target is UnityEngine.Object unityTarget && unityTarget == null) yield break;
+        if (target is Behaviour behaviour && !behaviour.isActiveAndEnabled) yield break;
+        if (!string.IsNullOrEmpty(target.GetPromptText())) target.Interact();
     }
 
     private void SetTarget(IInteractable target, string prompt)
@@ -192,7 +225,13 @@ public class PlayerInteraction : MonoBehaviour
         FocusChanged?.Invoke(null);
     }
 
-    private void OnDisable() => ClearTarget();
+    private void OnDisable()
+    {
+        if (pendingInteraction != null) StopCoroutine(pendingInteraction);
+        pendingInteraction = null;
+        interactionPending = false;
+        ClearTarget();
+    }
 
     // ========== PUBLIC METHODS ==========
 
