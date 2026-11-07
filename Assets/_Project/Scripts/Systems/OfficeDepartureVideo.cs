@@ -10,7 +10,7 @@ internal static class OfficeDepartureVideo
     private const float DeskHoldSeconds = 1.25f;
     private const float FadeSeconds = 1.35f;
 
-    internal static IEnumerator Play(OfficeAtmosphere atmosphere, Action onFinished)
+    internal static IEnumerator FadeOffice(OfficeAtmosphere atmosphere, Action onFinished)
     {
         var root = new GameObject("Office Departure Cutscene", typeof(RectTransform), typeof(Canvas));
         var canvas = root.GetComponent<Canvas>();
@@ -19,7 +19,6 @@ internal static class OfficeDepartureVideo
 
         var backdrop = AddOverlay<Image>("Fade", root.transform);
         backdrop.color = Color.clear;
-        RenderTexture target = null;
         var camera = Camera.main;
         var focus = new FirstPersonFocusTransition("Departure Focus", camera);
         try
@@ -39,10 +38,29 @@ internal static class OfficeDepartureVideo
             atmosphere?.SetMuffle(1f);
             atmosphere?.StopOfficeAmbience();
             AudioManager.Instance?.StopBGM();
-            // Present the black frame before asking the video decoder to prepare.
+            // Present black before the loader activates the dedicated cutscene scene.
             yield return null;
 
-            var clip = Resources.Load<VideoClip>("Cutscenes/OfficeToHome_Final");
+            onFinished();
+            yield return null;
+        }
+        finally
+        {
+            focus.Dispose();
+            Object.Destroy(root);
+        }
+    }
+
+    internal static IEnumerator PlayClip(VideoClip clip, Action onFinished)
+    {
+        var root = new GameObject("Office Departure Cutscene", typeof(RectTransform), typeof(Canvas));
+        var canvas = root.GetComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.sortingOrder = 998;
+        AddOverlay<Image>("Fade", root.transform).color = Color.black;
+        RenderTexture target = null;
+        try
+        {
             VideoPlayer player = null;
             bool failed = false;
             bool ended = false;
@@ -123,7 +141,6 @@ internal static class OfficeDepartureVideo
         }
         finally
         {
-            focus.Dispose();
             if (target != null) Object.Destroy(target);
             Object.Destroy(root);
         }

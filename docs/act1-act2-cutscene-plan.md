@@ -81,3 +81,77 @@ Dựng lại bằng `python Tools/Cutscene/StoryAudio/build_story_preview.py`. K
 ### Chỉnh nhịp giọng mẹ
 
 Giọng mẹ dùng `atempo=1.7` để tăng tốc và giữ cao độ, còn 1,063 giây. Chuyển sang mốc 18,587–19,650 giây, gần cuối video 20 giây. Luồng hiện tại có 0,45 giây che chuyển Scene2 và khoảng 0,18 giây trước khi mí mắt bắt đầu mở; khoảng từ hết file giọng đến mở mắt dự kiến 0,98 giây cộng thời gian kích hoạt scene. Không đổi mã chuyển scene hoặc độ dài video. Tiếng chim dời theo về cuối clip. Đã giải mã toàn bộ video mới và kiểm tra vùng có giọng trong bản AAC; chưa đo thực tế trong Play Mode.
+
+## Scene cutscene độc lập
+
+Cutscene giữa hai act nằm ở `Assets/_Project/Scenes/Act1_CutScene_Act2.unity`, đã bật trong Build Settings ngay sau Act1. Có thể mở scene này rồi Play để xem trực tiếp video và tự chuyển sang Act2.
+
+Luồng chơi: **E · Tan làm → giữ góc bàn 1,25 giây → mờ 1,35 giây ở Act1 → Act1_CutScene_Act2 phát video hiện tại → Act2 mở mắt, chờ E xuống giường**. Không thêm hiệu ứng fade ở đầu/cuối video. Giữ nguyên video, chữ, giọng mẹ 1,7× và nhịp mở mắt. Scene cutscene tải trước Act2 trong lúc phát; cơ chế che màn đen 0,45 giây của Act2 giữ nguyên. `Act1CutsceneAct2Controller` có ô Clip trong Inspector để quản lý bản video.
+
+`OfficeDepartureVideo` tách thành `FadeOffice` và `PlayClip`; `SceneLoader` chỉ bật nhạc quê và chờ 0,45 giây khi đích là Act2, không áp dụng nhịp đó cho scene trung gian. Game state của scene cutscene vẫn thuộc Act1, tránh bật nhạc menu. GameBootstrap cung cấp các manager khi Play scene riêng. Nếu video thiếu/lỗi, vẫn chuyển qua Act2 theo màn đen.
+
+Kiểm tra: Unity biên dịch không lỗi; Play Mode xác nhận Act1 fade trước khi chuyển, video phát ở scene mới sau khi unload văn phòng, input bị khóa và Act2 được tải. Lượt smoke test tự động bị dừng trước kết quả cuối nên chưa ghi nhận PASS toàn bộ. Checkpoint đã được scope kiểm thử khôi phục. Không thay đổi dữ liệu video hoặc mã BedWakeUpController.
+
+## Tỉnh dậy trong Scene2: một tay dụi mắt
+
+Phiên bản đang dùng: mở hình từ đen một lần (0,18–0,85 giây), giảm mờ nhẹ tới 1,6 giây; một tay đi từ góc dưới phải, lòng bàn tay áp sát và che gần kín camera ở 1,9–2,7 giây trong hai nhịp dụi, sau đó rời mặt và hạ xuống. Không còn giơ cả hai bàn tay hoặc dùng lớp mí đen oval/chớp đen lặp lại. Sau khoảng sáu giây hiện E xuống giường. Giữ nguyên giọng mẹ và luồng Act1 → Act1_CutScene_Act2 → Act2.
+
+Runtime gồm prefab `Resources/Cutscenes/KuTiChildWakeHands`, FBX `Art/Characters/KuTiChildHands/KuTiChildHands_Rigged.fbx` và clip `WakeSingleHandEyeRub`. Model runtime chỉ có một cánh tay, 12.634 đỉnh; nguồn hai tay `tay_kuti.fbx` của người dùng chưa có rig. Đã gắn xương và làm animation bằng Blender. Chất liệu da/áo riêng dùng shader URP `KuTy/FirstPersonSkin` với fill dịu, không dùng mảng bóng bake trong texture nguồn.
+
+`ChildWakeHands` sample animation theo đồng hồ tỉnh dậy, dừng khi pause. Camera tạm giảm near clip xuống 0,008 m để không cắt bàn tay áp sát, khôi phục sau khi hạ tay. Dọn tay khi xuống giường, bắt đầu lại hoặc unload scene. Giới hạn gập cổ tay 30 độ; kiểm tra Blender cho khớp nối khít và khoảng 95% lưới ray camera bị bàn tay che ở nhịp dụi.
+
+Nguồn chỉnh sửa cục bộ trong `Tools/Cutscene/ChildHands/` đã gitignore: `Hands_Imported.blend`, `Hands_Normalized.blend`, `ChildHands_Rigged.blend`, texture gốc, audit và script dựng/kiểm tra. Dựng lại FBX bằng `build_child_hands.py`, sau đó chạy menu **Tools → KuTy → Cutscene → Setup Child Wake Hands** để cập nhật prefab. Giữ clip duyệt cuối `Tools/Cutscene/Scene2_ChildWake_HandCover_Preview.mp4`; các frame, ảnh debug, log và bản thử cũ đã dọn.
+
+Kiểm tra: Unity biên dịch thành công; **Tools → KuTy → Tests → Child Wake Hands Smoke** PASS cho rig, hướng camera, input lock, prompt, dọn tay và xuống giường. Test có sao lưu/khôi phục checkpoint; frame xuất lại vào thư mục Tools đã gitignore. `export_preview.py` ghép frame thành MP4 xem thử. Chưa kiểm tra player build riêng cho thay đổi tay.
+
+## Tay đi bộ hé ở mép màn hình
+
+`ChildWalkingHands` tự gắn prefab `Resources/Cutscenes/KuTiWalkingHands` vào camera trong Act2/Act3. Dùng FBX riêng `Art/Characters/KuTiChildHands/KuTiWalkingHands.fbx` với chu kỳ hai tay so le, giữ nguyên model/animation dụi mắt. Tay chỉ xuất hiện sát hai góc dưới khi di chuyển; dừng thì hạ ra khỏi khung hình. Nhịp dựa trên quãng đường ngang thực tế, không dựa riêng vào phím WASD, và bỏ qua teleport. Khóa input, nằm giường, ngồi, pause hoặc bê củi sẽ ẩn tay đi bộ.
+
+Điều chỉnh từng nhánh xương theo FOV/aspect để giữ hai tay sát góc mà không kéo giãn hình học hoặc thay near clip của camera. Nguồn Blender/script ở `Tools/Cutscene/WalkingHands/` được gitignore. Dựng lại bằng `build_walk_hands.py`, rồi chạy **Tools → KuTy → Player → Setup Walking Hands**. Kiểm tra bằng **Tools → KuTy → Tests → Walking Hands Smoke** (có bảo vệ checkpoint). Bản preview chỉ là đầu ra test cục bộ, không đưa vào game.
+
+Kết quả WalkingHandsSmoke: PASS trong Unity Play Mode cho đi/dừng, không chạy stride khi không có quãng đường, va tường, input lock, pause, 16:9 và 21:9; mức lộ cao nhất đo được khoảng 5,8–6,6% chiều cao ảnh và chỉ ở hai góc dưới. Near clip không đổi; checkpoint được khôi phục. Clip quay từ Game View: Tools/Cutscene/WalkingHands_Preview.mp4. Chưa commit/push phần tay đi bộ.
+
+## Hoàn thiện ngoại hình da tay
+
+Làm mềm mesh trong Blender với topology và số đỉnh giữ nguyên; giảm gò ngón cái theo mặt phẳng lòng bàn tay và tính lại normals mượt. Cả tay dụi mắt và tay đi bộ dùng chung bước `Tools/Cutscene/ChildHands/skin_finish.py`, không đổi các mốc chuyển động/camera.
+
+Shader `KuTy/FirstPersonSkin` dùng vertex paint cho vùng lòng bàn tay/đầu ngón và vùng nếp gấp, sắc da giảm cam và thêm hồng nhẹ; lớp nhám nhỏ có lọc theo kích thước pixel để tránh nhiễu khi tay xa. Texture người dùng cung cấp được giữ ở `ChildSkinDetail.png`; chỉ lấy chi tiết cục bộ so với mip mờ để hạn chế các mảng bóng bake lớn. Import texture giới hạn 2048, mipmaps và nén chất lượng cao. Áo tắt skin detail. Độ nổi highlight nhỏ, ánh sáng chuyển mềm hơn; không thêm SSAO vào tay sát camera.
+
+Nguồn chỉnh sửa vẫn ở Tools đã gitignore; asset runtime/material/shader nằm trong Art để game chạy trên máy khác. Preview mới: `Tools/Cutscene/Scene2_ChildWake_SkinRefined_Preview.mp4`.
+
+Thêm UV phụ theo lòng bàn tay để nếp da di chuyển cùng mesh, nét mảnh và độ tương phản thấp. ChildWakeHandsSmoke xác nhận UV phụ/vertex paint được import và toàn bộ wake-up PASS; WalkingHandsSmoke PASS với framing vẫn khoảng 6% ở góc, dừng/va tường/pause/input lock hoạt động. Shader không có lỗi. Chưa commit/push phần ngoại hình tay.
+
+### Sửa nhịp so le của tay đi bộ
+
+Bỏ việc canh lại cổ tay theo độ sâu hiện tại ở từng frame vì nó triệt chuyển động tiến/lùi. Canh khung theo pose trung tính, reset offset root rồi giữ nguyên delta chuyển động từ clip; bỏ lớp sin lắc phụ ở runtime. Hai tay trong clip lệch nhau nửa chu kỳ, đi theo một đồng hồ quãng đường chung (mặc định 3 m/chu kỳ gồm hai nửa bước), nhịp chậm hơn bản trước. Biên độ tới/lùi khoảng 2,2 cm và lên/xuống 1,8 cm trong không gian nguồn, tay vẫn hé ở góc dưới.
+
+WalkingHandsSmoke thêm kiểm tra pose ở 1/4 và 3/4 chu kỳ: vị trí dọc và độ sâu tay phải tăng khi tay trái giảm, sau đó đổi lại; PASS. Các kiểm tra framing, dừng, va tường, pause và input lock vẫn PASS. Mức lộ đo được dưới khoảng 8% chiều cao, không vào giữa ảnh. Preview mới: `Tools/Cutscene/WalkingHands_Alternating_Preview.mp4`. Giữ nguyên cảnh dụi mắt và chất liệu da; chưa commit/push.
+
+Kiểm tra bổ sung: cả pose 1/4 và 3/4 chu kỳ đều có mesh tay thực sự nhìn thấy trong góc màn hình; PASS. Mức lộ tối đa khoảng 8% chiều cao ảnh.
+
+### Tư thế đi bộ theo ảnh tham chiếu góc nhìn thứ nhất
+
+Dựng lại clip trong Blender: cổ tay nghiêng xuống, xoay cạnh ngón cái, khép ngón và thêm độ trễ nhỏ ở cổ tay; hai tay lệch nửa chu kỳ theo quãng đường di chuyển. Framing mới cho thấy một đoạn cẳng tay từ mép ngoài, giữ giữa màn hình thoáng. Không đổi chuyển động dụi mắt. Tham khảo tư thế từ ảnh người dùng và dữ liệu chuyển động BML Walker (https://www.biomotionlab.ca/Demos/bmlwalker/); clip được dựng thủ công, không nhập motion capture.
+
+WalkingHandsSmoke PASS: so le, hiện/ẩn theo di chuyển, dừng khi va tường, input lock/pause, 16:9 và 21:9. Mesh chỉ nằm ở hai góc ngoài (25% mỗi bên), cao nhất khoảng 16,4% màn hình. Ngưỡng test đổi từ 14% lên 18% để phù hợp yêu cầu thấy cẳng tay thay vì chỉ đầu ngón. Preview: Tools/Cutscene/WalkingHands_ThumbSide_Preview.mp4. Chưa commit/push.
+
+### Điều chỉnh ngón và vị trí theo đánh dấu của người dùng
+
+Tăng tiết diện ngón tay 20% ở phần ngón, chuyển mượt về gốc ngón, giữ chiều dài và topology. Chỉ áp dụng mesh đi bộ. Dời cổ tay vào trong màn hình (hệ số ngang .80 thay vì 1.00), hạ nhẹ pose phía trước. Dùng pha bước để hạ tay phía sau xuống khỏi khung hình, chuyển tiếp mượt: tay phải hiện khi trái khuất và đổi bên ở nửa chu kỳ tiếp theo.
+
+WalkingHandsSmoke PASS, có kiểm tra số đỉnh thực sự nhìn thấy ở từng bên tại hai nửa bước; tay đối diện có 0 đỉnh trong viewport. Kiểm tra framing cho cả hai tay tại 16:9/21:9, cao nhất khoảng 14,2%; dừng, va tường, input lock, pause và near clip đều đạt. Preview: Tools/Cutscene/WalkingHands_Fuller_Alternating_Preview.mp4. Chưa commit/push.
+
+Hạ thêm framing tay đi bộ (hệ số dọc 1.25) theo phản hồi lộ cẳng tay quá dài. Mức lộ giảm từ khoảng 14.2% còn 8.8% chiều cao ảnh, giữ vị trí ngang và nhịp luân phiên. WalkingHandsSmoke PASS. Preview: Tools/Cutscene/WalkingHands_LessForearm_Preview.mp4. Chưa commit/push.
+
+Điều chỉnh riêng wake-up: xoay lòng tay 25 độ quanh trục dọc bàn tay trong khoảng 2.70–3.45 giây sau dụi mắt, nội suy mượt khi hạ xuống. Không thay đường đi cổ tay hoặc clip đi bộ đã duyệt. Blender kiểm tra khớp nối và giới hạn gập cổ tay đạt; ChildWakeHandsSmoke PASS trong Unity. Preview: Tools/Cutscene/Scene2_Wake_PalmTilt25_Preview.mp4. Chưa commit/push.
+
+Sửa chiều xoay theo phản hồi: roll -25 độ (đảo chiều bản +25), giữ thời điểm 2.70–3.45 giây. ChildWakeHandsSmoke PASS. Preview: Tools/Cutscene/Scene2_Wake_PalmTiltReverse_Preview.mp4.
+
+Tăng thêm 10 độ theo yêu cầu: roll -35 độ, cùng chiều bản -25 đã duyệt, nhịp hạ tay giữ nguyên. ChildWakeHandsSmoke PASS. Preview: Tools/Cutscene/Scene2_Wake_PalmTilt35_Preview.mp4.
+
+Tăng tốc riêng phần rút/hạ tay sau 2.70 giây lên 1.4x; giữ nguyên đưa tay lên và dụi mắt, góc xoay -35 độ. Không đổi tổng thời gian wake-up. ChildWakeHandsSmoke PASS. Preview: Tools/Cutscene/Scene2_Wake_FasterLowering_Preview.mp4.
+
+Tăng tiếp chuyển động sau mốc 3 giây thêm 1.5x so với bản trước; mốc trước 3 giây không đổi, giữ tổng cửa sổ wake-up hiện tại. ChildWakeHandsSmoke PASS. Preview: Tools/Cutscene/Scene2_Wake_FastTail_Preview.mp4.
+
+Thêm cảm giác dụi mắt ở 1.85–2.92 giây: camera nghiêng/đảo nhẹ tối đa khoảng 0.65 độ, dịch chuyển 1.5 mm, focus mờ theo nhịp tay và rõ lại khi rời mắt. Không thêm lớp mí mắt đen. Nhịp hạ tay nhanh đã duyệt giữ nguyên. Biên dịch và ChildWakeHandsSmoke PASS. Preview: Tools/Cutscene/Scene2_Wake_RubCameraFocus_Preview.mp4. Chưa commit/push.

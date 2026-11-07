@@ -20,7 +20,7 @@ public class BedWakeUpController : MonoBehaviour
 
     [Header("Wake-up cinematic")]
     [UnityEngine.Serialization.FormerlySerializedAs("wakingDuration")]
-    [SerializeField, Min(0.5f)] private float eyeOpeningDuration = 2.25f;
+    [SerializeField, Min(0.5f)] private float eyeOpeningDuration = 6f;
     [SerializeField, Range(-85f, -10f)] private float sleepingPitch = -52f;
     [SerializeField, Range(-85f, -10f)] private float awakePitch = -26f;
     [SerializeField, Range(0f, 2f)] private float wakeBounceIntensity = 1.6f;
@@ -38,9 +38,11 @@ public class BedWakeUpController : MonoBehaviour
     private GameObject visionCanvas;
     private Image visionHaze;
     private Image visionBlack;
-    private SleepEyelidOverlay eyelids;
     private Light wakeBounce;
     private FirstPersonFocusTransition wakingFocus;
+    private ChildWakeHands childHands;
+    private float originalNearClip;
+    private bool handsChangedNearClip;
     private bool canWakeUp = false;
     public bool CanPauseWhileWaiting => canWakeUp &&
         (ShopUI.Instance == null || !ShopUI.Instance.IsOpen) &&
@@ -56,6 +58,7 @@ public class BedWakeUpController : MonoBehaviour
 
     public void GetOnBed(bool isInitial)
     {
+        ClearChildHands();
         canWakeUp = false;
         HUDController.Instance?.SetCrosshairVisible(false);
         SetPromptVisible(false);
@@ -97,7 +100,16 @@ public class BedWakeUpController : MonoBehaviour
         // Start wait sequence
         StopAllCoroutines();
         if (isInitial && playerCamera != null)
+        {
             CreateVisionOverlay();
+            childHands = ChildWakeHands.Create(playerCamera);
+            if (childHands != null && viewCamera != null)
+            {
+                originalNearClip = viewCamera.nearClipPlane;
+                viewCamera.nearClipPlane = Mathf.Min(originalNearClip, .008f);
+                handsChangedNearClip = true;
+            }
+        }
         else
             ClearVisionOverlay();
         StartCoroutine(WakeUpSequence(isInitial));
@@ -110,26 +122,33 @@ public class BedWakeUpController : MonoBehaviour
             while (SceneLoader.Instance != null && SceneLoader.Instance.IsSleepTransitionCovered)
                 yield return null;
             float elapsed = 0f;
-            while (elapsed < eyeOpeningDuration)
+            float duration = childHands != null ? Mathf.Max(6f, eyeOpeningDuration) : eyeOpeningDuration;
+            while (elapsed < duration)
             {
                 if (GameManager.Instance == null || !GameManager.Instance.IsPaused)
                     elapsed += Time.deltaTime;
-                float seconds = elapsed * (2.25f / eyeOpeningDuration);
-                float open = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - .18f) / 1.05f));
-                SetVision(1f - open, 0f);
-                float clarity = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - .55f) / 1.35f));
-                wakingFocus?.Set(.65f * (1f - clarity), -.18f * (1f - clarity));
-
-                // One small, settling head movement reads as waking up without mechanical wobble.
-                float settle = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((seconds - 1.2f) / 1.05f));
+                float seconds = elapsed * (6f / duration);
+                childHands?.Evaluate(seconds);
+                SetVision(1f - SmoothRange(.18f, .85f, seconds), 0f);
+                // A single gentle reveal; no repeated blackout or artificial eyelid mask.
+                float blur = .22f * (1f - SmoothRange(.35f, 1.6f, seconds));
+                float rubEnvelope = SmoothRange(1.85f, 2.02f, seconds) *
+                    (1f - SmoothRange(2.58f, 2.92f, seconds));
+                float rubPhase = (seconds - 1.90f) * Mathf.PI * 5f;
+                float rubSway = Mathf.Sin(rubPhase) * rubEnvelope;
+                // Pressure from the rubbing hand briefly disturbs focus and the head on the pillow.
+                blur = Mathf.Max(blur, rubEnvelope * (.86f + .10f * Mathf.Abs(Mathf.Sin(rubPhase))));
+                wakingFocus?.Set(blur, 0f);
+                float settle = SmoothRange(3.6f, 5.5f, seconds);
                 float pitch = Mathf.Lerp(sleepingPitch, Mathf.MoveTowards(sleepingPitch, awakePitch, 6f), settle);
-                float roll = Mathf.Lerp(.65f, 0f, settle);
                 playerController.SetPitch(pitch);
-                playerCamera.localRotation = Quaternion.Euler(pitch, 0f, roll);
+                playerCamera.localRotation = Quaternion.Euler(pitch + .45f * rubSway,
+                    .30f * rubSway, .65f * rubSway);
                 playerCamera.localPosition = standingCameraPosition + lyingCameraOffset +
-                    new Vector3(0f, .012f * settle, 0f);
+                    new Vector3(.0015f * rubSway, .008f * settle + .001f * rubSway, 0f);
                 yield return null;
             }
+            ClearChildHands();
             float restingPitch = Mathf.MoveTowards(sleepingPitch, awakePitch, 6f);
             playerController.SetPitch(restingPitch);
             playerCamera.localRotation = Quaternion.Euler(restingPitch, 0f, 0f);
@@ -153,6 +172,21 @@ public class BedWakeUpController : MonoBehaviour
         }
 
         canWakeUp = true;
+    }
+
+    private static float SmoothRange(float start, float end, float t)
+        => Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(start, end, t));
+
+    private void ClearChildHands()
+    {
+        if (childHands != null)
+        {
+            childHands.gameObject.SetActive(false);
+            Destroy(childHands.gameObject);
+            childHands = null;
+        }
+        if (handsChangedNearClip && viewCamera != null) viewCamera.nearClipPlane = originalNearClip;
+        handsChangedNearClip = false;
     }
 
     private void Update()
@@ -246,6 +280,7 @@ public class BedWakeUpController : MonoBehaviour
 
     private void GetOutOfBed()
     {
+        ClearChildHands();
         StopAllCoroutines();
         canWakeUp = false;
         
@@ -356,7 +391,6 @@ public class BedWakeUpController : MonoBehaviour
         visionHaze = CreateVisionImage("SleepHaze", new Color(1f, .82f, .62f, 0f));
         visionBlack = CreateVisionImage("ClosedEyes", Color.black);
         visionBlack.color = Color.clear;
-        eyelids = SleepEyelidOverlay.Create(visionCanvas.transform);
         wakingFocus = new FirstPersonFocusTransition("Waking Focus", viewCamera);
         SetVision(1f, 0f);
     }
@@ -377,8 +411,7 @@ public class BedWakeUpController : MonoBehaviour
 
     private void SetVision(float black, float haze)
     {
-        if (eyelids != null) eyelids.SetClosure(black);
-        else if (visionBlack != null) visionBlack.color = new Color(0f, 0f, 0f, Mathf.Clamp01(black));
+        if (visionBlack != null) visionBlack.color = new Color(0f, 0f, 0f, Mathf.Clamp01(black));
         if (visionHaze != null) visionHaze.color = new Color(1f, .82f, .62f, Mathf.Clamp01(haze));
     }
 
@@ -391,12 +424,12 @@ public class BedWakeUpController : MonoBehaviour
         wakeBounce = null;
         visionCanvas = null;
         visionBlack = null;
-        eyelids = null;
         visionHaze = null;
     }
 
     private void OnDestroy()
     {
+        ClearChildHands();
         ClearVisionOverlay();
     }
 }
