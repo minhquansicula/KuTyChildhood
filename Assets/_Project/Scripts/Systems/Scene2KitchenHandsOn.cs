@@ -26,6 +26,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     public Transform fuelAxis, drainAnchor, steamAnchor;
     public Vector3 potTiltAxis = Vector3.forward;
     public float potTiltDegrees = -22f, washRadius = .18f;
+    [Header("Accessibility (F1 toggles while working)")]
+    [SerializeField] private bool keyboardAssistance;
 
     HouseholdChoreFlow flow;
     Camera view;
@@ -65,6 +67,14 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     private float idleSeconds, progressSample;
     private GameManager pauseOwner;
     private bool resumeMother, resumeWork;
+    private float workSaveSeconds;
+    [System.Serializable]
+    private sealed class SavedWork
+    {
+        public int kitchenVersion = 1, chore, round, woodMask;
+        public bool draining;
+        public float turns, ember, cooked, fuel, heat;
+    }
 
     private float GestureProgress => task == HouseholdChore.WashRice
         ? rinseRound * 3f + Mathf.Abs(washTurns) + drainAmount
@@ -237,6 +247,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         if (IsWorking)
         {
             if (Input.GetKeyDown(KeyCode.Escape)) { End(); return; }
+            if (Input.GetKeyDown(KeyCode.F1)) { keyboardAssistance = !keyboardAssistance; ReleasePointer(); }
             if (!Application.isFocused)
             {
                 // Losing mouse focus must not leave a grabbed log or a held breath stuck.
@@ -254,6 +265,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
                 else TickCooking();
             }
             UpdateControls();
+            workSaveSeconds += Time.unscaledDeltaTime;
+            if (workSaveSeconds >= 1f) { SaveWork(); workSaveSeconds = 0; }
             if (Mathf.Abs(GestureProgress - progressSample) > .025f)
             {
                 idleSeconds = 0f;
@@ -272,8 +285,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         if (needsDrain)
         {
             // Phím tắt chắt nước nhanh: Space, Enter, hoặc F
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
-                Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.F))
+            if (keyboardAssistance && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
+                Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.F)))
             {
                 Drain(1f);
                 return;
@@ -301,7 +314,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         }
 
         // Hỗ trợ giữ phím F để tự động vo gạo đều đặn
-        if (Input.GetKey(KeyCode.F))
+        if (keyboardAssistance && Input.GetKey(KeyCode.F))
         {
             rinsing = false; // Reset the mouse-angle baseline when returning from keyboard assistance.
             washTurns += (washTurns < 0f ? -1f : 1f) * Time.deltaTime * 0.95f;
@@ -385,7 +398,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         if (kindlingCount < 3)
         {
             // Phím tắt đặt củi: Bấm F hoặc Space để tự động đặt thanh củi tiếp theo vào bếp
-            if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            if (keyboardAssistance && (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -418,8 +431,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
 
         // Đã đặt đủ 3 thanh củi: Thổi than
         // Phím tắt bấm một nhịp: Space, Enter, hoặc F
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
-            Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.F))
+        if (keyboardAssistance && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
+            Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.F)))
         {
             dragging = false;
             breath = 0f;
@@ -428,7 +441,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         }
 
         // Giữ phím Space hoặc F để tự động thổi đều đặn nhịp nhàng
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.F))
+        if (keyboardAssistance && (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.F)))
         {
             breath += Time.deltaTime;
             blowTube.localRotation = blowHome * Quaternion.Euler(0f, 0f, Mathf.Sin(Time.time * 8f) * 3f);
@@ -482,13 +495,13 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         if (cooked < 12f)
         {
             // Phím A/D hoặc mũi tên trái/phải để rút/đẩy củi chỉnh lửa
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            if (keyboardAssistance && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)))
                 AdjustFuel(-Time.deltaTime * 0.45f);
-            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            if (keyboardAssistance && (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)))
                 AdjustFuel(Time.deltaTime * 0.45f);
 
             // Giữ phím F để tự động duy trì mức lửa lý tưởng
-            if (Input.GetKey(KeyCode.F))
+            if (keyboardAssistance && Input.GetKey(KeyCode.F))
             {
                 if (heat < 0.48f) AdjustFuel(Time.deltaTime * 0.5f);
                 else if (heat > 0.60f) AdjustFuel(-Time.deltaTime * 0.5f);
@@ -506,8 +519,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         else
         {
             // Cơm đã cạn: bấm Space / Enter / F hoặc kéo núm vung lên
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
-                Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.F))
+            if (keyboardAssistance && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
+                Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.F)))
             {
                 LiftLid(1f);
                 return;
@@ -564,6 +577,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     public void End()
     {
         if (!IsWorking) return;
+        SaveWork();
         SilenceMother();
         IsWorking = dragging = rinsing = false; breath = 0f;
         if (draggedLog >= 0 && !placed[draggedLog])
@@ -619,8 +633,46 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         if (importedKitchen) water.rotation = waterWorldHome;
         blowTube.localRotation = blowHome;
         motherVoice.Stop(); talkRemaining = talkCooldown = 0f; motherText.text = "";
+        RestoreWork();
         RefreshVisibility(); lastIndex = flow.ActiveIndex;
     }
+
+    private void SaveWork()
+    {
+        if (!flow || flow.CurrentChore != task) return;
+        var saved = new SavedWork { chore = (int)task, round = rinseRound, draining = needsDrain,
+            turns = washTurns, ember = ember, cooked = cooked, fuel = fuel, heat = heat };
+        for (int i = 0; i < 3; i++) if (placed[i]) saved.woodMask |= 1 << i;
+        Scene2Checkpoint.SaveWork(task, JsonUtility.ToJson(saved));
+    }
+
+    private void RestoreWork()
+    {
+        var current = flow.CurrentChore;
+        if (!current.HasValue || !Handles(current.Value)) return;
+        string json = Scene2Checkpoint.LoadWork(current.Value);
+        if (string.IsNullOrEmpty(json)) return;
+        try
+        {
+            var saved = JsonUtility.FromJson<SavedWork>(json);
+            if (saved == null || saved.kitchenVersion != 1 || saved.chore != (int)current.Value) return;
+            rinseRound = Mathf.Clamp(saved.round, 0, 1); needsDrain = saved.draining;
+            washTurns = Finite(saved.turns, -2f, 2f);
+            ember = Finite(saved.ember, 0, 1); cooked = Finite(saved.cooked, 0, 12);
+            fuel = Finite(saved.fuel, 0, 1); heat = Finite(saved.heat, 0, 1);
+            kindlingCount = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                placed[i] = (saved.woodMask & (1 << i)) != 0;
+                if (placed[i]) { kindlingCount++; SetPlacedWood(i); }
+            }
+            AdjustFuel(0);
+        }
+        catch (System.ArgumentException) { /* Ignore invalid partial work, not the chapter checkpoint. */ }
+    }
+
+    private static float Finite(float value, float min, float max) =>
+        float.IsNaN(value) || float.IsInfinity(value) ? min : Mathf.Clamp(value, min, max);
 
     void RefreshVisibility()
     {
@@ -707,6 +759,14 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
             task == HouseholdChore.LightFire ? kindlingCount < 3 ? "Đã đặt " + kindlingCount + "/3 thanh củi · Bấm F hoặc kéo củi vào miệng bếp" : "Bấm / Giữ phím F hoặc Space để thổi than (" + Mathf.FloorToInt(ember * 100f) + "%)" :
             cooked >= 12f ? "Cơm đã cạn · Bấm Space / Enter (hoặc kéo núm vung) để mở" : heat > .66f ? "Lửa to · Bấm A hoặc kéo củi sang trái" : heat < .42f ? "Lửa yếu · Bấm D hoặc kéo củi sang phải" : "Cơm đang sôi lăn tăn (" + Mathf.FloorToInt(cooked / 12f * 100f) + "%) · Giữ F để giữ lửa";
         controlText.text = "<color=#EDC781>" + status + "</color>\n" + instructions;
+        if (!keyboardAssistance)
+        {
+            status = task == HouseholdChore.WashRice ? (needsDrain ? "Nắm quai nồi, kéo xuống để chắt nước đục." : "Giữ chuột trái và vo theo vòng tròn trên mặt nước.") :
+                task == HouseholdChore.LightFire ? (kindlingCount < 3 ? "Kéo từng thanh củi vào miệng bếp (" + kindlingCount + "/3)." : "Giữ ống thổi rồi thả sau một hơi ngắn; nghỉ giữa các hơi.") :
+                cooked >= 12 ? "Cơm đã cạn. Nắm núm vung và kéo lên kiểm tra." : heat > .66f ? "Lửa to: kéo củi ra để hạ nhiệt." : heat < .42f ? "Lửa yếu: đẩy củi vào thêm." : "Lửa vừa, cơm đang chín…";
+            controlText.text = "<color=#EDC781>" + status + "</color>\nESC  Rời hoạt động · F1  Bật hỗ trợ bàn phím";
+            return;
+        }
         if (idleSeconds >= 7f)
             controlText.text += "\nGỢI Ý: " + (task == HouseholdChore.WashRice
                 ? needsDrain ? "Bấm Space / Enter để chắt nước nhanh, hoặc kéo quai nồi xuống." : "Giữ phím F để tự động vo gạo, hoặc rê chuột tròn trên mặt nước."

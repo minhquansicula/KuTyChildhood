@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ebc87b562a4c524e9d0551137b512a2, type: 3}
+  m_Name: WaterRiceAssets
+  m_EditorClassIdentifier: 
+  ladle: {fileID: 179409645240377723, guid: c0c948ae239368a42812e583c5168004, type: 3}
+  cup: {fileID: 115595622459947163, guid: d3d48be3d7c558d42aea859a1d934e39, type: 3}
+  bucket: {fileID: 3041898293401170776, guid: 001148d440a7a86489abd9cc833c130c, type: 3}
+  basket: {fileID: 8269828947434465194, guid: 6d2518af58389a2418fc8c46d0f951d2, type: 3}
+  ladleWater: {fileID: 2380657887718139718, guid: aca5af925a083c7498aa90515b12a2e9, type: 3}
+  cupRice: {fileID: 8173899153752322086, guid: 55f7eb66788b1ce4ba27191dd2f3a5ca, type: 3}
+  bucketWater: {fileID: 5457499314726708873, guid: 755c3928db4dac64a8227059d667c4b7, type: 3}
+  basketRice: {fileID: 1086970606286047904, guid: 5c23cd5c7b5eb0144b0ce15cee3d4abc, type: 3}
+  receiver: {fileID: 734519945630755764, guid: f14a8fc644f234349a21292027c42b9f, type: 3}
+  waterMaterial: {fileID: 2100000, guid: 824fb72bf1076a543b95529a2a931dd5, type: 2}
+  riceMaterial: {fileID: 2100000, guid: e25b9ef09d591a1438a829813ed7c3e1, type: 2}
+  receiverFloor: {x: 0, y: 0.015, z: 0}
+  receiverRadius: 0.20124
+  receiverHeight: 0.17856802
