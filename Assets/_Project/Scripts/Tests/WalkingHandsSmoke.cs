@@ -54,12 +54,13 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         player.enabled = false; // Drive the real controller without competing physical keyboard input.
         view = player.PlayerCamera.GetComponent<Camera>();
+        view.aspect = 16f / 9f;
         float nearClip = view.nearClipPlane;
         Vector4 first = hands.SampleStrideForTests(.25f);
-        if (!Check(ValidateFraming(.15f), "Right hand rises clearly into the frame at full reach")) yield break;
+        if (!Check(ValidateFraming(.09f), "Right hand rises clearly into the frame at full reach")) yield break;
         if (!Check(rightVisible > 0 && leftVisible == 0, "Right hand appears while left hand is below frame")) yield break;
         Vector4 opposite = hands.SampleStrideForTests(.75f);
-        if (!Check(ValidateFraming(.15f), "Left hand rises clearly into the frame at full reach")) yield break;
+        if (!Check(ValidateFraming(.09f), "Left hand rises clearly into the frame at full reach")) yield break;
         if (!Check(leftVisible > 0 && rightVisible == 0, "Left hand appears while right hand is below frame")) yield break;
         Debug.Log("[WalkingHandsSmoke] Quarter stride=" + first + "; opposite stride=" + opposite);
         if (!Check(first.x > opposite.x + .01f && first.y > opposite.y + .02f &&
@@ -105,7 +106,10 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
         var targetField = typeof(PlayerInteraction).GetField("currentTarget", BindingFlags.Instance | BindingFlags.NonPublic);
         var target = new ReachTarget();
         targetField.SetValue(interaction, null);
-        if (!Check(!interaction.TryInteract() && !hands.IsReaching, "No target means no reach")) yield break;
+        if (!Check(interaction.TryInteract() && hands.IsReaching, "E raises the hand without an interaction target in Scene2")) yield break;
+        if (!Check(!interaction.TryInteract(), "Repeated empty E does not restart the hand motion")) yield break;
+        yield return new WaitForSeconds(.65f);
+        if (!Check(!hands.IsReaching && !hands.IsVisible, "Empty E returns the hand below frame")) yield break;
         interaction.IsInteractionLocked = true;
         targetField.SetValue(interaction, target);
         if (!Check(!interaction.TryInteract() && !hands.IsReaching, "Locked interaction cannot start a reach")) yield break;
@@ -171,9 +175,9 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
             }
             // Both arms intentionally leave view at the exchange between steps.
             hands.SampleStrideForTests(.25f);
-            if (!Check(ValidateFraming(.15f), "Framing remains clear at aspect " + aspect)) yield break;
+            if (!Check(ValidateFraming(.09f), "Framing remains clear at aspect " + aspect)) yield break;
             hands.SampleStrideForTests(.75f);
-            if (!Check(ValidateFraming(.15f), "Opposite hand framing at aspect " + aspect)) yield break;
+            if (!Check(ValidateFraming(.09f), "Opposite hand framing at aspect " + aspect)) yield break;
         }
         view.ResetAspect();
         var wall = GameObject.CreatePrimitive(PrimitiveType.Cube);

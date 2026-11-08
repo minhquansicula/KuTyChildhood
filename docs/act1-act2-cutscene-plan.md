@@ -165,3 +165,8 @@ Cẳng tay hướng lên từ điểm gần góc dưới-phải đã duyệt (vi
 Mesh Blender được sửa vùng trọng số bàn tay/cẳng tay theo chiều sâu để không kéo gốc ngón cái theo cẳng tay; bỏ bước ép phẳng lòng bàn tay. Vùng nối cổ tay và phần dưới cẳng tay được làm đầy bằng chuyển tiếp mềm theo đánh dấu cuối của người dùng, không đổi chiều dài hoặc topology. Nguồn dựng lại trong Tools/Cutscene/WalkingHands/ và Tools/Cutscene/ChildHands/ được gitignore, giữ cục bộ để làm động tác cầm nắm tiếp theo. FBX runtime và metadata được commit đầy đủ.
 
 WalkingHandsSmoke PASS cho tương tác đúng một lần, chặn E lặp/khóa input, tay phải hiện trước hộp thoại, ẩn tay khi modal mở, thu tay khi kết thúc; đi/dừng, va tường, pause, 16:9/21:9 và near clip vẫn đạt. Bài test dùng captureFramerate 30 cho đoạn reach ngắn và khôi phục khi xong. Preview cuối: Tools/Cutscene/RightHand_WristJoinFuller_Preview.mp4.
+
+Scene2: E khi không có target vẫn phát động tác tay phải qua TryReach, không gọi Interact hoặc mở UI. Bấm liên tiếp không restart khi tay chưa hạ; input khóa/pause/carrying wood giữ chặn. Có target thì giữ tương tác trễ 0.20 giây như cũ. WalkingHandsSmoke PASS, bao gồm E trống và tay tự hạ, các tương tác đồ vật/modal và đi bộ. Chưa commit/push thay đổi này.
+
+
+Hạ framing cánh tay đi bộ ở Scene 2: giảm độ nhấc (từ 0.30 xuống 0.17), tăng biên dưới cơ bản (1.27) và giữ cánh tay sát mép góc (.815 - .025 * reach). Tinh chỉnh lại animation Blender (nới lỏng ngón 1.48, tăng nhịp nhấc cổ tay 0.014) và xuất lại FBX. Giúp bàn tay nhỏ nhắn của Ku Tý lộ vừa vặn trên màn hình, không bị giấu quá sâu nhưng cũng không lộ cẳng tay dài.

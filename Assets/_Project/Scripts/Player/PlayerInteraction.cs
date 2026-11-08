@@ -192,6 +192,11 @@ public class PlayerInteraction : MonoBehaviour
             else target.Interact();
             return true;
         }
+        if (gameObject.scene.name == SceneNames.Act2_Home)
+        {
+            if (hands == null) hands = GetComponentInChildren<ChildWalkingHands>(true);
+            return hands != null && hands.TryReach();
+        }
         return false;
     }
 

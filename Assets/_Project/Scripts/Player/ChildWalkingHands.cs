@@ -178,9 +178,9 @@ public sealed class ChildWalkingHands : MonoBehaviour
         float forwardStep = Mathf.Sin(phase * Mathf.PI * 2f) * side;
         float reveal = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(forwardStep));
         float reach = useHomeFraming ? reveal * amount : 0f;
-        float lowerEdgeOffset = 1.25f + .65f * (1f - reveal) + .55f * (1f - amount);
-        float x = side * (.80f - .05f * reach) * halfHeight * view.aspect + swing.x;
-        float y = (.30f * reach - lowerEdgeOffset) * halfHeight + swing.y;
+        float lowerEdgeOffset = (useHomeFraming ? 1.27f : 1.25f) + .65f * (1f - reveal) + .55f * (1f - amount);
+        float x = side * (useHomeFraming ? .815f - .025f * reach : .80f - .05f * reach) * halfHeight * view.aspect + swing.x;
+        float y = ((useHomeFraming ? .17f : 0f) * reach - lowerEdgeOffset) * halfHeight + swing.y;
         if (IsReaching)
         {
             float lift = ReachLift();
@@ -199,10 +199,15 @@ public sealed class ChildWalkingHands : MonoBehaviour
     }
 
     private void OnInteraction(IInteractable target)
+        => TryReach();
+
+    public bool TryReach()
     {
         if (IsReaching || player == null || player.IsMovementLocked || player.LockWalkingOnly ||
-            (chores != null && chores.CarryingWood)) return;
+            (GameManager.Instance != null && GameManager.Instance.InputBlocked) ||
+            (chores != null && chores.CarryingWood)) return false;
         reachTime = 0f;
+        return true;
     }
 
     private void OnDestroy()
