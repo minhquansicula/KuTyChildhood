@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54762951ca938e243b5f54aaa1041815, type: 3}
+  m_Name: EndingVoices
+  m_EditorClassIdentifier: 
+  lines:
+  - id: act2_ty_light_fire_001
+    speakerId: "T\xDD"
+    text: "B\u1EBFp b\u1EAFt l\u1EEDa, c\u1EA3 nh\xE0 b\u1EAFt \u0111\u1EA7u \u1EA5m."
+    spokenText: "B\u1EBFp b\u1EAFt l\u1EEDa, c\u1EA3 nh\xE0 b\u1EAFt \u0111\u1EA7u
+      \u1EA5m."
+    fallbackDuration: 2.4085262
+    postDelay: 0.2
+    voiceClip: {fileID: 8300000, guid: 23de2230154ccf24c963cb663d7617f0, type: 3}
+    slam: 0
+    silentBeat: 0
+  - id: act2_ty_cook_rice_001
+    speakerId: "T\xDD"
+    text: "M\xF9i c\u01A1m ch\xEDn khi\u1EBFn con bi\u1EBFt s\u1EAFp \u0111\u01B0\u1EE3c
+      g\u1ECDi v\u1EC1."
+    spokenText: "M\xF9i c\u01A1m ch\xEDn khi\u1EBFn con bi\u1EBFt s\u1EAFp \u0111\u01B0\u1EE3c
+      g\u1ECDi v\u1EC1."
+    fallbackDuration: 2.378186
+    postDelay: 0.2
+    voiceClip: {fileID: 8300000, guid: d56316fdc4d76ab44afba9328648f16c, type: 3}
+    slam: 0
+    silentBeat: 0
+  - id: act2_ty_set_table_001
+    speakerId: "T\xDD"
+    text: "M\xE2m c\u01A1m \u0111\u1EE7 ng\u01B0\u1EDDi l\xE0 b\u1EEFa ngon nh\u1EA5t."
+    spokenText: "M\xE2m c\u01A1m \u0111\u1EE7 ng\u01B0\u1EDDi l\xE0 b\u1EEFa ngon
+      nh\u1EA5t."
+    fallbackDuration: 1.9718367
+    postDelay: 0.2
+    voiceClip: {fileID: 8300000, guid: 6d3adb43bcbc8cb43962d0c0a7fe0f47, type: 3}
+    slam: 0
+    silentBeat: 0
+  - id: act2_ty_put_away_dishes_001
+    speakerId: "T\xDD"
+    text: "Ti\u1EBFng ch\xE9n kh\u1EBD ch\u1EA1m nhau, vi\u1EC7c nh\xE0 \u0111\xE3
+      xong."
+    spokenText: "Ti\u1EBFng ch\xE9n kh\u1EBD ch\u1EA1m nhau, vi\u1EC7c nh\xE0 \u0111\xE3
+      xong."
+    fallbackDuration: 2.7264853
+    postDelay: 0.2
+    voiceClip: {fileID: 8300000, guid: 27a19ecb20a3d8f4b84220631a842ea3, type: 3}
+    slam: 0
+    silentBeat: 0
+  - id: act2_mom_letter_001
+    speakerId: "M\u1EB8"
+    text: "Sau n\xE0y \u0111i \u0111\xE2u l\xE0m g\xEC, con c\u0169ng nh\u1EDB ph\u1EA3i
+      \u0103n c\u01A1m \u0111\xFAng b\u1EEFa nh\xE9. Nh\xE0 m\xECnh lu\xF4n c\xF3
+      m\u1ED9t ch\u1ED7 ch\u1EDD con."
+    spokenText: "Sau n\xE0y \u0111i \u0111\xE2u l\xE0m g\xEC, con c\u0169ng nh\u1EDB
+      ph\u1EA3i \u0103n c\u01A1m \u0111\xFAng b\u1EEFa nh\xE9. Nh\xE0 m\xECnh lu\xF4n
+      c\xF3 m\u1ED9t ch\u1ED7 ch\u1EDD con."
+    fallbackDuration: 5.5529704
+    postDelay: 0.2
+    voiceClip: {fileID: 8300000, guid: c732a07726a35364789c79c711379ea1, type: 3}
+    slam: 0
+    silentBeat: 0
+  - id: ending_ty_wake_001
+    speakerId: "QU\xC2N"
+    text: "Ngo\xE0i khung c\u1EEDa s\u1ED5, c\u01A1n m\u01B0a \u0111\xEAm \u0111\xE3
+      t\u1EA1nh... N\u1EAFng s\u1EDBm \u0111\xE3 l\xEAn r\u1ED3i."
+    spokenText: "Ngo\xE0i khung c\u1EEDa s\u1ED5, c\u01A1n m\u01B0a \u0111\xEAm \u0111\xE3
+      t\u1EA1nh... N\u1EAFng s\u1EDBm \u0111\xE3 l\xEAn r\u1ED3i."
+    fallbackDuration: 4.0284805
+    postDelay: 0.2
+    voiceClip: {fileID: 8300000, guid: 995b0e36e32f33c42a2329752e76ddbd, type: 3}
+    slam: 0
+    silentBeat: 0
+  - id: ending_ty_horizon_001
+    speakerId: "QU\xC2N"
+    text: "D\xF9 \u0111i \u0111\xE2u l\xE0m g\xEC... trong l\xF2ng v\u1EABn lu\xF4n
+      c\xF3 m\u1ED9t b\u1EBFp l\u1EEDa \u1EA5m \u0111\u1EC3 tr\u1EDF v\u1EC1."
+    spokenText: "D\xF9 \u0111i \u0111\xE2u l\xE0m g\xEC... trong l\xF2ng v\u1EABn
+      lu\xF4n c\xF3 m\u1ED9t b\u1EBFp l\u1EEDa \u1EA5m \u0111\u1EC3 tr\u1EDF v\u1EC1."
+    fallbackDuration: 3.9400907
+    postDelay: 0.2
+    voiceClip: {fileID: 8300000, guid: 571a39c00494def428d95370ad2aa1e2, type: 3}
+    slam: 0
+    silentBeat: 0

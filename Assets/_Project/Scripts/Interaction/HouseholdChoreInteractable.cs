@@ -51,32 +51,45 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
         Transform pot = effectAnchor != null ? effectAnchor : transform;
         Vector3 offset = pot.position - playerPosition;
         distance = new Vector2(offset.x, offset.z).magnitude;
-        // Chỉ cho phép tương tác khi người chơi đã tiến lại gần nồi (trong vòng 1.85m)
-        if (distance > 1.85f || Mathf.Abs(offset.y) > 1.8f) return false;
+        // Chỉ cho phép tương tác khi người chơi đứng gần nồi (trong khoảng 2.15m)
+        if (distance > 2.15f || Mathf.Abs(offset.y) > 2.2f) return false;
         Camera view = Camera.main;
         if (view == null) return false;
-        Vector3 towardPot = pot.position + Vector3.up * .12f - view.transform.position;
-        // Yêu cầu camera hướng về phía nồi vo gạo (không kích hoạt khi nhìn sang hướng khác)
-        if (towardPot.sqrMagnitude <= .01f ||
-            Vector3.Dot(view.transform.forward, towardPot.normalized) < .68f) return false;
+        Vector3 towardPot = pot.position + Vector3.up * .22f - view.transform.position;
+        if (towardPot.sqrMagnitude <= .01f) return false;
 
-        // Kiểm tra tầm nhìn: không bị tường hay chướng ngại vật chắn giữa player và nồi
+        // Vì nồi đặt sát mặt đất (y ~ 0.025) còn camera ở tầm mắt (y ~ 1.85),
+        // khi đứng sát nồi góc chúc xuống rất lớn. Kiểm tra hướng nhìn ngang (XZ)
+        // kết hợp góc nhìn dọc tự nhiên để đứng gần hay vừa tầm đều bấm E được.
+        Vector2 forwardXZ = new Vector2(view.transform.forward.x, view.transform.forward.z);
+        Vector2 toPotXZ = new Vector2(towardPot.x, towardPot.z);
+        if (forwardXZ.sqrMagnitude > .001f && toPotXZ.sqrMagnitude > .001f)
+        {
+            if (Vector2.Dot(forwardXZ.normalized, toPotXZ.normalized) < .72f) return false;
+        }
+        if (view.transform.forward.y > .15f ||
+            Vector3.Dot(view.transform.forward, towardPot.normalized) < .36f) return false;
+
+        // Kiểm tra tầm nhìn: không cho phép tương tác xuyên tường
         int count = Physics.RaycastNonAlloc(view.transform.position, towardPot.normalized,
-            focusHits, towardPot.magnitude + .35f, ~0, QueryTriggerInteraction.Ignore);
-        // No hit (or a truncated query) is not evidence that the pot is visible.
-        if (count == 0 || count == focusHits.Length) return false;
-        float nearestPot = float.PositiveInfinity;
-        float nearestObstacle = float.PositiveInfinity;
+            focusHits, towardPot.magnitude, ~0, QueryTriggerInteraction.Ignore);
         for (int i = 0; i < count; i++)
         {
             var hit = focusHits[i];
-            if (hit.collider == null || hit.collider.GetComponentInParent<FirstPersonController>() != null) continue;
+            if (hit.collider == null || hit.collider.isTrigger ||
+                hit.collider.GetComponentInParent<FirstPersonController>() != null) continue;
             if (hit.collider.transform.IsChildOf(pot) ||
-                hit.collider.GetComponentInParent<HouseholdChoreInteractable>() == this)
-                nearestPot = Mathf.Min(nearestPot, hit.distance);
-            else nearestObstacle = Mathf.Min(nearestObstacle, hit.distance);
+                hit.collider.GetComponentInParent<HouseholdChoreInteractable>() == this) continue;
+            // Bỏ qua collider nền bếp và bệ rửa nằm sát cạnh nồi
+            string hitName = hit.collider.name;
+            if (hitName == "gianbep2" || hitName == "DishwashingStationVisual" || hitName == "noivogao")
+                continue;
+            if (hit.distance < towardPot.magnitude - 0.35f)
+            {
+                return false;
+            }
         }
-        return nearestPot < nearestObstacle;
+        return true;
     }
 
     protected override void OnInteract()
