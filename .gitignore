@@ -81,6 +81,8 @@ Thumbs.db
 # Test output & root screenshots
 smoke-results.txt
 office-view.png
+/Tools/ProjectAudit/Simulator/
+/Tools/ProjectAudit/simulator-checks.txt
 
 # Generated previews, reports, and temporary scene safety copies
 /Assets/Screenshots/

@@ -250,6 +250,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
 
     private void ResetHomeChores()
     {
+        GetComponent<Scene2HouseholdSimulator>()?.ResetWork();
         for (int i = 0; i < completed.Length; i++) completed[i] = false;
         pieces = 0;
         RefreshRiceWashingPot();

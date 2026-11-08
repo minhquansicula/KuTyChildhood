@@ -304,6 +304,9 @@ public class BedWakeUpController : MonoBehaviour
     private IEnumerator RiseFromBed()
     {
         Vector3 fromPosition = playerCamera.localPosition;
+        // Sit up slightly, but never reach standing height while still over the mattress.
+        // Use world metres so the motion stays the same when the child is resized.
+        Vector3 seatedPosition = fromPosition + playerCamera.parent.InverseTransformVector(Vector3.up * .18f);
         Quaternion fromRotation = playerCamera.localRotation;
         float elapsed = 0f;
         float duration = Mathf.Max(1.05f, risingDuration);
@@ -312,7 +315,7 @@ public class BedWakeUpController : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
             if (wakeBounce != null) wakeBounce.intensity = wakeBounceIntensity * (1f - t);
-            playerCamera.localPosition = Vector3.Lerp(fromPosition, standingCameraPosition, t);
+            playerCamera.localPosition = Vector3.Lerp(fromPosition, seatedPosition, t);
             playerCamera.localRotation = Quaternion.Slerp(fromRotation, Quaternion.Euler(ExitCameraPitch, 0f, 0f), t);
             SetVision(Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((t - .78f) / .22f)), 0f);
             yield return null;

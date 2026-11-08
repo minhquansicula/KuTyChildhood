@@ -17,6 +17,7 @@ public sealed class ChildWalkingHands : MonoBehaviour
     private Vector3 previousPosition;
     private float amount;
     private float phase;
+    private bool useHomeFraming;
     private PlayerInteraction interaction;
     private Transform[] rightFingerBones;
     private Quaternion[] rightFingerRestRotations;
@@ -46,6 +47,7 @@ public sealed class ChildWalkingHands : MonoBehaviour
         if (prefab == null) return;
         var hands = Instantiate(prefab, player.PlayerCamera, false);
         hands.name = "Walking Hands";
+        hands.useHomeFraming = scene.name == SceneNames.Act2_Home;
         hands.player = player;
         hands.view = player.PlayerCamera.GetComponent<Camera>();
         hands.previousPosition = player.transform.position;
@@ -175,15 +177,18 @@ public sealed class ChildWalkingHands : MonoBehaviour
         float halfHeight = reference.z * Mathf.Tan(view.fieldOfView * .5f * Mathf.Deg2Rad);
         float forwardStep = Mathf.Sin(phase * Mathf.PI * 2f) * side;
         float reveal = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(forwardStep));
-        float x = side * .80f * halfHeight * view.aspect + swing.x;
-        float y = -(1.25f + .65f * (1f - reveal) + .55f * (1f - amount)) * halfHeight + swing.y;
+        float reach = useHomeFraming ? reveal * amount : 0f;
+        float lowerEdgeOffset = 1.25f + .65f * (1f - reveal) + .55f * (1f - amount);
+        float x = side * (.80f - .05f * reach) * halfHeight * view.aspect + swing.x;
+        float y = (.30f * reach - lowerEdgeOffset) * halfHeight + swing.y;
         if (IsReaching)
         {
             float lift = ReachLift();
             x = side * .84f * halfHeight * view.aspect;
             y = (side > 0f ? -1.85f + 1.00f * lift : -2.1f) * halfHeight;
         }
-        root.position += view.transform.right * (x - local.x) + view.transform.up * (y - local.y);
+        // Convert the correction from camera-local units, including the player's scale.
+        root.position += view.transform.TransformVector(new Vector3(x - local.x, y - local.y, 0f));
     }
 
     private float ReachLift()

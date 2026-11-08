@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b289a3a7d69b74a91e4584165642f5, type: 3}
+  m_Name: DishwashingAssets
+  m_EditorClassIdentifier: 
+  bowl: {fileID: 5437980396933932460, guid: ec23adbc69ba7cf49aceecc84bf0f7c4, type: 3}
+  plate: {fileID: 966478061381743489, guid: 449944e19baf94d46a85111f6650f976, type: 3}
+  basin: {fileID: 5463028104170803409, guid: 6388122b691ba5c4b96a054d693b464a, type: 3}
+  sponge: {fileID: 2830613111735654807, guid: a2e60977c27eb2e4e8b5875ba65e8466, type: 3}
+  soap: {fileID: 649760637302233494, guid: 43d1502fa07eb2848bdaf67172d2c781, type: 3}
+  rack: {fileID: 6859598365968929529, guid: 56dce290f29b7fd4e9181b24911febd4, type: 3}
+  stainPoints:
+  - {x: 0.014660637, y: 0.013728595, z: 0.020179588}
+  - {x: -0.0248066, y: 0.013727066, z: 0.0026048396}
+  - {x: 0.010144018, y: 0.01372822, z: -0.022787046}
+  - {x: 0.010580134, y: -0.0008000026, z: 0.014562302}
+  - {x: -0.017901393, y: -0.0008000003, z: 0.0018815126}
+  - {x: 0.0073212604, y: -0.000799997, z: -0.016443813}
+  stainNormals:
+  - {x: -0.04249273, y: 0.9974526, z: -0.05729474}
+  - {x: 0.070560485, y: 0.9974526, z: -0.010466554}
+  - {x: -0.030498575, y: 0.9974526, z: 0.064484}
+  - {x: 0, y: -1, z: -0.0000001192093}
+  - {x: 0, y: -1, z: -0.0000001192093}
+  - {x: 0, y: -1, z: -0.0000001192093}
+  bowlSize: {x: 0.14, y: 0.065000005, z: 0.14}

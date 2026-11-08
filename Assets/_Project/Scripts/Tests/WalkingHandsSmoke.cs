@@ -56,10 +56,10 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
         view = player.PlayerCamera.GetComponent<Camera>();
         float nearClip = view.nearClipPlane;
         Vector4 first = hands.SampleStrideForTests(.25f);
-        if (!Check(ValidateFraming(), "First half-stride has a visible corner hand")) yield break;
+        if (!Check(ValidateFraming(.15f), "Right hand rises clearly into the frame at full reach")) yield break;
         if (!Check(rightVisible > 0 && leftVisible == 0, "Right hand appears while left hand is below frame")) yield break;
         Vector4 opposite = hands.SampleStrideForTests(.75f);
-        if (!Check(ValidateFraming(), "Opposite half-stride has a visible corner hand")) yield break;
+        if (!Check(ValidateFraming(.15f), "Left hand rises clearly into the frame at full reach")) yield break;
         if (!Check(leftVisible > 0 && rightVisible == 0, "Left hand appears while right hand is below frame")) yield break;
         Debug.Log("[WalkingHandsSmoke] Quarter stride=" + first + "; opposite stride=" + opposite);
         if (!Check(first.x > opposite.x + .01f && first.y > opposite.y + .02f &&
@@ -126,7 +126,7 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
             float t = Time.time - reachStart;
             if (!checkedReach && t > .14f && t < .25f)
             {
-                if (!Check(ValidateFraming(.42f) && rightVisible > 0 && leftVisible == 0,
+                if (!Check(ValidateFraming(0f, .42f) && rightVisible > 0 && leftVisible == 0,
                     "Only right hand rises during interaction")) yield break;
                 checkedReach = true;
             }
@@ -171,9 +171,9 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
             }
             // Both arms intentionally leave view at the exchange between steps.
             hands.SampleStrideForTests(.25f);
-            if (!Check(ValidateFraming(), "Framing remains small at aspect " + aspect)) yield break;
+            if (!Check(ValidateFraming(.15f), "Framing remains clear at aspect " + aspect)) yield break;
             hands.SampleStrideForTests(.75f);
-            if (!Check(ValidateFraming(), "Opposite hand framing at aspect " + aspect)) yield break;
+            if (!Check(ValidateFraming(.15f), "Opposite hand framing at aspect " + aspect)) yield break;
         }
         view.ResetAspect();
         var wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -214,7 +214,7 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
         public void Interact() { count++; onInteract?.Invoke(); }
     }
 
-    private bool ValidateFraming(float allowedHeight = .18f)
+    private bool ValidateFraming(float minimumHeight = 0f, float maximumHeight = .30f)
     {
         var renderer = hands.GetComponentInChildren<SkinnedMeshRenderer>();
         var mesh = new Mesh();
@@ -229,11 +229,11 @@ public sealed class WalkingHandsSmoke : MonoBehaviour
             visible++;
             if (point.x < .5f) leftVisible++; else rightVisible++;
             highest = Mathf.Max(highest, point.y);
-            if (point.y > allowedHeight || (point.x > .32f && point.x < .68f)) outsideCorners++;
+            if (point.y > maximumHeight || (point.x > .32f && point.x < .68f)) outsideCorners++;
         }
         Destroy(mesh);
         Debug.Log($"[WalkingHandsSmoke] Framing: {visible} visible vertices; highest={highest:F3}; outside corners={outsideCorners}");
-        return visible > 0 && outsideCorners == 0;
+        return visible > 0 && highest >= minimumHeight && outsideCorners == 0;
     }
 
     private static bool Check(bool valid, string message)

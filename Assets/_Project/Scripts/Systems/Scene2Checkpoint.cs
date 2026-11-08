@@ -36,7 +36,8 @@ public static class Scene2Checkpoint
     public static bool HasOutsideProgress => Stage == Outside &&
         PlayerPrefs.GetInt(Prefix + "Step", -1) >= (int)QuestStep.BuyCandyAndMarbles &&
         PlayerPrefs.GetInt(Prefix + "Step", -1) <= (int)QuestStep.UnlockFrontDoor;
-    public static bool HasCheckpoint => HomeChores > 0 || HomeOptional != 0 || HasOutsideProgress;
+    public static bool HasCheckpoint => HomeChores > 0 || HomeOptional != 0 || HasOutsideProgress ||
+        Stage == Home && !string.IsNullOrEmpty(PlayerPrefs.GetString(Prefix + "Work", ""));
     public static string ResumeScene => HasOutsideProgress ? SceneNames.Act3_OutSide : SceneNames.Act2_Home;
     public static QuestStep OutsideStep => HasOutsideProgress
         ? (QuestStep)PlayerPrefs.GetInt(Prefix + "Step") : QuestStep.BuyCandyAndMarbles;
@@ -50,6 +51,7 @@ public static class Scene2Checkpoint
     public static void SaveHome(int completedChores, int optionalBits = 0)
     {
         if (completedChores < 0 || completedChores >= HouseholdChoreFlow.ChoreCount) return;
+        if (Stage != Home || PlayerPrefs.GetInt(Prefix + "Chores", -1) != completedChores) ClearWork();
         PlayerPrefs.SetInt(Prefix + "Stage", Home);
         PlayerPrefs.SetInt(Prefix + "Chores", completedChores);
         PlayerPrefs.SetInt(Prefix + "Optional", optionalBits & 3);
@@ -60,6 +62,7 @@ public static class Scene2Checkpoint
     {
         if (quests == null || quests.CurrentStep < QuestStep.BuyCandyAndMarbles ||
             quests.CurrentStep > QuestStep.UnlockFrontDoor) return;
+        ClearWork();
         int memoryBits = 0;
         var memories = MemoryCollectionManager.Instance;
         for (int i = 0; i < MemoryCollectionManager.TOTAL_MEMORIES; i++)
@@ -77,15 +80,40 @@ public static class Scene2Checkpoint
 
     public static void MarkFinished()
     {
+        ClearWork();
         PlayerPrefs.SetInt(Prefix + "Stage", Finished);
         Commit();
     }
 
     public static void Clear()
     {
+        ClearWork();
         foreach (string name in new[] { "Version", "Stage", "Chores", "Optional", "Step", "Money", "Candy", "Marbles", "Key", "Memories" })
             PlayerPrefs.DeleteKey(Prefix + name);
         PlayerPrefs.Save();
+    }
+
+    public static string LoadWork(HouseholdChore chore) => Stage == Home &&
+        PlayerPrefs.GetInt(Prefix + "WorkChore", -1) == (int)chore
+            ? PlayerPrefs.GetString(Prefix + "Work", "") : "";
+
+    public static void SaveWork(HouseholdChore chore, string json)
+    {
+        var flow = HouseholdChoreFlow.Instance;
+        if (!flow || flow.CurrentChore != chore || string.IsNullOrEmpty(json)) return;
+        PlayerPrefs.SetInt(Prefix + "Stage", Home);
+        PlayerPrefs.SetInt(Prefix + "Chores", flow.ActiveIndex);
+        PlayerPrefs.SetInt(Prefix + "Optional", (flow.IsCompleted(HouseholdChore.SortTools) ? 1 : 0) |
+            (flow.IsCompleted(HouseholdChore.GrindCorn) ? 2 : 0));
+        PlayerPrefs.SetInt(Prefix + "WorkChore", (int)chore);
+        PlayerPrefs.SetString(Prefix + "Work", json);
+        Commit();
+    }
+
+    private static void ClearWork()
+    {
+        PlayerPrefs.DeleteKey(Prefix + "WorkChore");
+        PlayerPrefs.DeleteKey(Prefix + "Work");
     }
 
     private static void Commit()

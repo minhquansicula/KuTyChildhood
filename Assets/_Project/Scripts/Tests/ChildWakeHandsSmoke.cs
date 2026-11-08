@@ -87,6 +87,16 @@ public sealed class ChildWakeHandsSmoke : MonoBehaviour
         typeof(BedWakeUpController).GetMethod("GetOutOfBed", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(bed, null);
         yield return new WaitForSeconds(1.5f);
         if (!Check(!GameManager.Instance.InputBlocked, "Getting out of bed releases input")) yield break;
+        var player = FindObjectOfType<FirstPersonController>();
+        var bedObject = GameObject.Find("BedBlock");
+        if (!Check(player != null && bedObject != null, "Player and bed remain available after exit")) yield break;
+        bool grounded = Physics.Raycast(player.transform.position + Vector3.up * .2f, Vector3.down,
+            out var floor, .5f, ~0, QueryTriggerInteraction.Ignore);
+        if (!Check(grounded && floor.normal.y > .8f &&
+            floor.point.y < bedObject.transform.position.y - .2f,
+            "Bed exit places the child on the floor, not on the mattress")) yield break;
+        if (!Check(Mathf.Abs(player.transform.position.y - floor.point.y) < .2f,
+            "Child feet remain at floor level after exit")) yield break;
         Debug.Log("[ChildWakeHandsSmoke] PASS");
         EditorApplication.isPlaying = false;
     }

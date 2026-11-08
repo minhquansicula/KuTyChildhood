@@ -10,6 +10,7 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
     private HouseholdChoreFlow flow;
     private HouseholdWorkFeedback feedback;
     private bool running;
+    private Scene2HouseholdSimulator simulator;
     private readonly RaycastHit[] focusHits = new RaycastHit[32];
 
     public HouseholdChore Chore => chore;
@@ -83,6 +84,14 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
         if (flow == null) flow = HouseholdChoreFlow.Instance;
         if (!isActiveAndEnabled || running || flow == null || flow.UI == null || !flow.IsCurrent(chore)) return;
 
+        simulator = flow.GetComponent<Scene2HouseholdSimulator>();
+        if (simulator != null && simulator.Handles(chore))
+        {
+            running = true;
+            if (!simulator.Begin(chore, Finish, EndInteraction)) running = false;
+            return;
+        }
+
         var kitchen = flow.GetComponent<Scene2KitchenHandsOn>();
         if (kitchen != null && kitchen.Handles(chore))
         {
@@ -120,6 +129,7 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
         if ((GameManager.Instance != null && GameManager.Instance.IsPaused) ||
             PauseUI.LastResumeFrame == Time.frameCount) return;
         if (Input.GetKeyDown(KeyCode.Escape)) { EndInteraction(); return; }
+        if (simulator != null && simulator.IsWorking) return;
         if (Input.GetKeyDown(KeyCode.P))
         {
             RestartInteraction();
@@ -189,6 +199,7 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
     {
         if (!running) return;
         running = false;
+        if (simulator != null && simulator.IsWorking) simulator.End();
         flow?.UI?.HideGame();
         feedback?.Dispose();
         feedback = null;

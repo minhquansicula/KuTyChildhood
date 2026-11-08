@@ -39,7 +39,10 @@ public sealed class Scene2KitchenSmoke : MonoBehaviour
     {
         yield return null;
         Call(FindObjectOfType<BedWakeUpController>(), "GetOutOfBed");
-        yield return new WaitForSeconds(1.2f);
+        // Wait for the actual exit lifecycle, not a frame-rate-dependent animation guess.
+        float exitDeadline = Time.realtimeSinceStartup + 6f;
+        while ((GameManager.Instance.InputBlocked || !HouseholdChoreFlow.Instance.ChecklistVisible) &&
+            Time.realtimeSinceStartup < exitDeadline) yield return null;
         var kitchen = FindObjectOfType<Scene2KitchenHandsOn>(); var flow = HouseholdChoreFlow.Instance;
         var player = FindObjectOfType<FirstPersonController>(); var camera = Camera.main;
         flow.Voice.Stop();
@@ -68,7 +71,8 @@ public sealed class Scene2KitchenSmoke : MonoBehaviour
         }
         kitchen.Begin(HouseholdChore.CookRice);
         Assert(!kitchen.IsWorking && !GameManager.Instance.InputBlocked, "Cooking cannot start before rice washing and lighting the fire");
-        Assert(FindReachableTarget(player, kitchen.ricePot.position + Vector3.up * .2f, HouseholdChore.WashRice),
+        // Imported FBX roots are not guaranteed to sit at the visible vessel/handle.
+        Assert(FindReachableTarget(player, kitchen.waterHit.bounds.center, HouseholdChore.WashRice),
             "The real rice pot can be targeted with E from a clear standing position");
         Vector3 home = camera.transform.localPosition; Quaternion rot = camera.transform.localRotation; float fov = camera.fieldOfView;
         player.GetComponent<PlayerInteraction>().CurrentTarget.Interact();
@@ -96,7 +100,7 @@ public sealed class Scene2KitchenSmoke : MonoBehaviour
         Assert(flow.ActiveIndex == 6 && flow.Pieces == 60 && Scene2Checkpoint.HomeChores == 6,
             "Two washes and drains save exactly one washing reward");
         Assert(!flow.Complete(HouseholdChore.WashRice), "Rice washing cannot award twice");
-        Assert(FindReachableTarget(player, kitchen.hearth.position + Vector3.up * .3f, HouseholdChore.LightFire),
+        Assert(FindReachableTarget(player, kitchen.hearthHit.bounds.center, HouseholdChore.LightFire),
             "The real fire stove has a clear E interaction");
         player.GetComponent<PlayerInteraction>().CurrentTarget.Interact(); yield return new WaitForSeconds(.5f);
         Assert(kitchen.kindlingHits.All(c => Clickable(camera, c)) && Clickable(camera, kitchen.blowHit) && Clickable(camera, kitchen.hearthHit),
@@ -117,7 +121,7 @@ public sealed class Scene2KitchenSmoke : MonoBehaviour
         Call(kitchen, "Blow", .5f);
         Assert(kitchen.FireLit && flow.ActiveIndex == 7 && flow.Pieces == 70 && !GameManager.Instance.InputBlocked,
             "Three controlled breaths light the stove, save its reward and release input");
-        Assert(FindReachableTarget(player, kitchen.lid.position - Vector3.up * .15f, HouseholdChore.CookRice),
+        Assert(FindReachableTarget(player, kitchen.lidHit.bounds.center, HouseholdChore.CookRice),
             "The real cooking stove can be targeted with E");
         player.GetComponent<PlayerInteraction>().CurrentTarget.Interact(); yield return new WaitForSeconds(.5f);
         Assert(Clickable(camera, kitchen.fuelHit) && Clickable(camera, kitchen.lidHit), "Firewood and lid knob are both reachable in the cooking view");
@@ -159,11 +163,15 @@ public sealed class Scene2KitchenSmoke : MonoBehaviour
         Finish(true, "All checks passed.");
     }
 
-    static bool Clickable(Camera camera, Collider collider)
+    bool Clickable(Camera camera, Collider collider)
     {
+        Physics.SyncTransforms();
         Vector3 point = camera.WorldToScreenPoint(collider.bounds.center);
-        return point.z > 0 && point.x > 0 && point.x < Screen.width && point.y > 0 && point.y < Screen.height &&
+        bool visible = point.z > 0 && point.x > 0 && point.x < Screen.width && point.y > 0 && point.y < Screen.height &&
             collider.Raycast(camera.ScreenPointToRay(point), out _, 4f);
+        if (!visible) report.AppendLine("Unclickable " + collider.name + " enabled=" + collider.enabled + " screen=" + point +
+            " size=" + Screen.width + "x" + Screen.height + " bounds=" + collider.bounds + " camera=" + camera.transform.position);
+        return visible;
     }
     static void Circle(Scene2KitchenHandsOn kitchen, float turns)
     {
@@ -187,11 +195,15 @@ public sealed class Scene2KitchenSmoke : MonoBehaviour
             Vector3 center = body.transform.TransformPoint(body.center); float half = Mathf.Max(0, body.height * .5f - body.radius);
             var obstacles = Physics.OverlapCapsule(center + Vector3.up * half, center - Vector3.up * half, body.radius * .95f,
                 ~0, QueryTriggerInteraction.Ignore).Where(c => !c.transform.IsChildOf(player.transform)).ToArray();
-            if (obstacles.Length > 0) continue;
+            if (obstacles.Length > 0)
+            {
+                if (i % 4 == 0) report.AppendLine(task + " blocked standing pose " + feet + ": " + string.Join(",", obstacles.Select(c => c.name)));
+                continue;
+            }
             Call(interaction, "HandleRaycast");
             if (interaction.CurrentTarget is HouseholdChoreInteractable t && t.Chore == task) return true;
-            if (task == HouseholdChore.CookRice && i % 4 == 0)
-                report.AppendLine("Cook focus " + feet + " target=" + interaction.CurrentTarget + " ray=" +
+            if (i % 4 == 0)
+                report.AppendLine(task + " focus " + feet + " camera=" + camera.transform.position + " target=" + interaction.CurrentTarget + " ray=" +
                     string.Join(",", Physics.RaycastAll(camera.transform.position, camera.transform.forward, 3f).OrderBy(h => h.distance)
                         .Select(h => h.collider.name + ":" + h.distance.ToString("F2"))));
         }
