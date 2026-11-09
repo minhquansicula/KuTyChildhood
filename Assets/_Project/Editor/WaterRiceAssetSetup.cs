@@ -78,6 +78,7 @@ public static class WaterRiceAssetSetup
             finally { UnityEngine.Object.DestroyImmediate(instance); }
         }
         EditorUtility.SetDirty(data); Undo.RecordObject(simulator, "Bind imported water/rice art"); simulator.ConfigureWaterRice(data);
+        HouseholdWaterLookSetup.Apply();
         EditorUtility.SetDirty(simulator); AssetDatabase.SaveAssets();
         EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene);
         Directory.CreateDirectory("Tools/ProjectAudit/Simulator"); File.WriteAllText("Tools/ProjectAudit/Simulator/waterrice-import.txt", report.ToString());

@@ -24,6 +24,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     public Collider[] retainedColliders = new Collider[0];
     public Renderer[] emberRenderers = new Renderer[0];
     public Transform fuelAxis, drainAnchor, steamAnchor;
+    [Tooltip("Supported resting pose for the opened lid. Never moves the pot or the kitchen layout.")]
+    public Transform lidRestPoint;
     public Vector3 potTiltAxis = Vector3.forward;
     public float potTiltDegrees = -22f, washRadius = .18f;
     [Header("Accessibility (F1 toggles while working)")]
@@ -43,7 +45,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     readonly Vector3[] logHomes = new Vector3[3];
     readonly Quaternion[] logRotations = new Quaternion[3];
     Vector3 spoonHome, fuelHome, lidHome, waterScale;
-    Vector3 lidUp, lidSide;
+    Quaternion lidHomeRotation;
     Quaternion potHome, waterWorldHome, blowHome;
     float washTurns, lastWashAngle, drainAmount, breath, ember, fuel = .85f, heat = .8f, cooked, lidLift;
     Vector2 pointerDown;
@@ -102,6 +104,10 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     {
         dragging = rinsing = false;
         breath = 0f;
+        if (IsWorking && task == HouseholdChore.CookRice && !finishedRice && lid)
+        {
+            lid.localPosition = lidHome; lid.localRotation = lidHomeRotation; lidLift = 0;
+        }
         if (draggedLog >= 0 && !placed[draggedLog])
         { kindling[draggedLog].localPosition = logHomes[draggedLog]; kindling[draggedLog].localRotation = logRotations[draggedLog]; }
         draggedLog = -1;
@@ -138,8 +144,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         spoonHome = spoon.localPosition; fuelHome = fuelLog.localPosition; lidHome = lid.localPosition;
         waterScale = water.localScale; potHome = ricePot.localRotation;
         waterWorldHome = water.rotation; blowHome = blowTube.localRotation;
-        lidUp = lid.parent.InverseTransformDirection(Vector3.up);
-        lidSide = lid.parent.InverseTransformDirection(cookView.right);
+        lidHomeRotation = lid.localRotation;
         motherVoice = kitchenAudio("Mother at the stove", false);
         motherVoice.transform.position = motherVoiceAnchor ? motherVoiceAnchor.position : hearth.position + Vector3.up;
         workAudio = kitchenAudio("Kitchen work", true);
@@ -175,7 +180,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         kindling != null && kindling.Length == 3 && kindling[0] && kindling[1] && kindling[2] &&
         kindlingHits != null && kindlingHits.Length == 3 && kindlingHits[0] && kindlingHits[1] && kindlingHits[2];
 
-    public bool Handles(HouseholdChore chore) => isActiveAndEnabled && HasBindings &&
+    public bool ProvidesRiceWashingTarget => isActiveAndEnabled && HasBindings;
+    public bool Handles(HouseholdChore chore) => isActiveAndEnabled && HasBindings && Scene2HouseholdActivityPolicy.IsMinigame(chore) &&
         (chore == HouseholdChore.WashRice || chore == HouseholdChore.LightFire || chore == HouseholdChore.CookRice);
 
     public string PromptFor(HouseholdChore chore) => flow != null && flow.IsCurrent(chore) && !IsWorking
@@ -223,6 +229,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
 
     void Update()
     {
+        if (motherVoice && motherVoiceAnchor) motherVoice.transform.position = motherVoiceAnchor.position;
         if (!flow || GameManager.Instance?.IsPaused == true || PauseUI.LastResumeFrame == Time.frameCount) return;
         if (!captions || !motherText || !controlText)
         {
@@ -560,7 +567,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     {
         if (!IsWorking || task != HouseholdChore.CookRice || cooked < 12f) return;
         lidLift = Mathf.Clamp01(amount);
-        lid.localPosition = lidHome + lidUp * (.22f * lidLift);
+        lid.position = lid.parent.TransformPoint(lidHome) + Vector3.up * (.22f * lidLift);
         if (lidLift >= .95f) { finishedRice = true; Finish("cook_done"); }
     }
 
@@ -597,7 +604,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         }
         drainAmount = 0f;
         if (spoon) spoon.localPosition = spoonHome;
-        if (lid) lid.localPosition = lidHome;
+        if (lid) { lid.localPosition = lidHome; lid.localRotation = lidHomeRotation; }
         if (blowTube) blowTube.localRotation = blowHome;
         if (view)
         {
@@ -629,7 +636,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
             kindling[i].localRotation = logRotations[i];
             if (fireLit) SetPlacedWood(i);
         }
-        AdjustFuel(0f); lid.localPosition = lidHome; water.localScale = waterScale; ricePot.localRotation = potHome;
+        AdjustFuel(0f); lid.localPosition = lidHome; lid.localRotation = lidHomeRotation; water.localScale = waterScale; ricePot.localRotation = potHome;
         if (importedKitchen) water.rotation = waterWorldHome;
         blowTube.localRotation = blowHome;
         motherVoice.Stop(); talkRemaining = talkCooldown = 0f; motherText.text = "";
@@ -680,6 +687,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         fireRoot.gameObject.SetActive(importedKitchen || flow.IsCompleted(HouseholdChore.WashRice));
         // The replacement stove remains part of the room before its chore is unlocked.
         cookRoot.gameObject.SetActive(true);
+        if (finishedRice) RestOpenedLid();
     }
 
     void SetPlacedWood(int index)
@@ -723,14 +731,20 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         if (lid)
         {
             if (IsWorking && task == HouseholdChore.CookRice && cooked < 12f)
-                lid.localPosition = lidHome + lidUp * (heat > .66f ? Mathf.Abs(Mathf.Sin(Time.time * 25f)) * .008f : 0f);
-            else if (finishedRice) lid.localPosition = lidHome + lidSide * .57f + lidUp * .22f;
+                lid.position = lid.parent.TransformPoint(lidHome) + Vector3.up * (heat > .66f ? Mathf.Abs(Mathf.Sin(Time.time * 25f)) * .008f : 0f);
+            else if (finishedRice) RestOpenedLid();
         }
         if (workAudio && IsWorking)
         {
             workAudio.volume = task == HouseholdChore.CookRice ? Mathf.Lerp(.06f, .24f, heat) : task == HouseholdChore.LightFire ? .08f + ember * .15f : rinsing ? .2f : .055f;
             workAudio.pitch = task == HouseholdChore.CookRice ? .75f + heat * .55f : 1f;
         }
+    }
+
+    private void RestOpenedLid()
+    {
+        if (lidRestPoint) lid.SetPositionAndRotation(lidRestPoint.position, lidRestPoint.rotation);
+        else { lid.localPosition = lidHome; lid.localRotation = lidHomeRotation; }
     }
 
     void Speak(string id, bool immediate = false)

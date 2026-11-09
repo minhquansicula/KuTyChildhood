@@ -315,7 +315,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     private void BindRiceWashingTarget()
     {
         var handsOn = GetComponent<Scene2KitchenHandsOn>();
-        if (handsOn != null && handsOn.Handles(HouseholdChore.WashRice))
+        if (handsOn != null && handsOn.ProvidesRiceWashingTarget)
         {
             // Keep only the physical kitchen's target. Legacy triggers otherwise
             // offer the same action at an unrelated position in the room.
@@ -357,7 +357,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     private void RefreshRiceWashingPot()
     {
         var handsOn = GetComponent<Scene2KitchenHandsOn>();
-        if (handsOn != null && handsOn.Handles(HouseholdChore.WashRice)) return;
+        if (handsOn != null && handsOn.ProvidesRiceWashingTarget) return;
         bool show = completed[(int)HouseholdChore.MeasureRice] && !completed[(int)HouseholdChore.WashRice];
         if (riceWashingPot != null) riceWashingPot.gameObject.SetActive(show);
         if (riceWashingPotBaseCollider != null)
@@ -380,6 +380,9 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     {
         get
         {
+            if (CurrentChore.HasValue && Scene2HouseholdActivityPolicy.IsSimple(CurrentChore.Value))
+                return "Đến " + CurrentLocation + ", nhấn E để mở thao tác đơn giản. " +
+                    (CurrentChore == HouseholdChore.ReadLetter ? "Đọc lời mẹ rồi chọn Đọc xong." : "Chọn Thực hiện để hoàn tất; Esc để quay lại mà không nhận thưởng.");
             var sequence = GetComponent<Scene2RadioKitchenSequence>();
             if (sequence && sequence.CarryingWood)
                 return "Mang bó củi tới cạnh bếp, nhìn vào chỗ đặt rồi nhấn E. Q để trả củi về giỏ.";
@@ -441,6 +444,10 @@ public sealed class HouseholdChoreUI
     private float rewardRemaining;
     private float glowRemaining;
     private float feedbackPulseRemaining;
+    private Action simpleConfirmAction;
+    private float simpleReadRemaining;
+    private int simpleOpenedFrame;
+    public bool SimpleActionVisible => simpleConfirmAction != null && gamePanel.activeSelf;
 
     public HouseholdChoreUI(Transform parent)
     {
@@ -600,6 +607,12 @@ public sealed class HouseholdChoreUI
     public void Tick()
     {
         actionBoard.Tick();
+        if (SimpleActionVisible && GameManager.Instance?.IsPaused != true)
+        {
+            simpleReadRemaining = Mathf.Max(0, simpleReadRemaining - Time.deltaTime);
+            choiceButtons[0].interactable = simpleReadRemaining <= 0;
+            feedbackText.text = simpleReadRemaining > 0 ? "Đọc thong thả… " + Mathf.CeilToInt(simpleReadRemaining) + " giây" : "ENTER / 1  Xác nhận    ·    ESC  Quay lại";
+        }
         notificationCard.SetActive(notificationUntil > Time.time &&
             (GameManager.Instance == null || !GameManager.Instance.InputBlocked));
         if (notificationUntil > 0f && Time.time >= notificationUntil)
@@ -637,6 +650,7 @@ public sealed class HouseholdChoreUI
 
     public void ShowGame(string title, string instructions, bool showMeter, Action onCancel = null, Action onRestart = null)
     {
+        simpleConfirmAction = null;
         actionBoard.Hide();
         cancelAction = onCancel;
         restartAction = onRestart;
@@ -684,9 +698,32 @@ public sealed class HouseholdChoreUI
             int selected = i;
             choiceTexts[i].text = i < labels.Length ? (i + 1) + " · " + labels[i] : "";
             choiceButtons[i].gameObject.SetActive(i < labels.Length);
+            choiceButtons[i].interactable = true;
             choiceButtons[i].onClick.RemoveAllListeners();
             choiceButtons[i].onClick.AddListener(() => onSelected(selected));
         }
+    }
+
+    public void ShowSimpleAction(HouseholdChore chore, Action confirm, Action cancel)
+    {
+        ShowGame(HouseholdChoreFlow.Titles[(int)chore], Scene2HouseholdActivityPolicy.Description(chore), false, cancel);
+        ShowChoices(new[] { Scene2HouseholdActivityPolicy.ConfirmLabel(chore) }, _ => ConfirmSimpleAction());
+        choiceTexts[0].text = Scene2HouseholdActivityPolicy.ConfirmLabel(chore);
+        leaveButton.GetComponentInChildren<TMP_Text>().text = "QUAY LẠI  [ESC]";
+        cancelText.text = "TƯƠNG TÁC ĐƠN GIẢN · KHÔNG CẦN KÉO THẢ / CANH NHỊP";
+        simpleOpenedFrame = Time.frameCount;
+        simpleReadRemaining = chore == HouseholdChore.ReadLetter ? 4f : 0f;
+        simpleConfirmAction = confirm;
+        choiceButtons[0].interactable = simpleReadRemaining <= 0;
+    }
+
+    public void ConfirmSimpleAction()
+    {
+        if (!SimpleActionVisible || simpleReadRemaining > 0 || Time.frameCount <= simpleOpenedFrame ||
+            GameManager.Instance?.IsPaused == true || PauseUI.LastResumeFrame == Time.frameCount) return;
+        Action confirm = simpleConfirmAction;
+        simpleConfirmAction = null;
+        confirm?.Invoke();
     }
 
     public void SetExpectedChoice(int expected)
@@ -721,6 +758,7 @@ public sealed class HouseholdChoreUI
     }
     public void HideGame()
     {
+        simpleConfirmAction = null;
         actionBoard.Hide();
         cancelAction = restartAction = null;
         gamePanel.SetActive(false);

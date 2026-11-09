@@ -11,6 +11,7 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
     private HouseholdWorkFeedback feedback;
     private bool running;
     private Scene2HouseholdSimulator simulator;
+    private bool simpleAction;
     private readonly RaycastHit[] focusHits = new RaycastHit[32];
 
     public HouseholdChore Chore => chore;
@@ -82,7 +83,18 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
     protected override void OnInteract()
     {
         if (flow == null) flow = HouseholdChoreFlow.Instance;
-        if (!isActiveAndEnabled || running || flow == null || flow.UI == null || !flow.IsCurrent(chore)) return;
+        if (!isActiveAndEnabled || running || flow == null || flow.UI == null || !flow.IsCurrent(chore) || GameManager.Instance?.InputBlocked == true) return;
+
+        if (Scene2HouseholdActivityPolicy.IsSimple(chore))
+        {
+            running = simpleAction = true;
+            flow.GetComponent<Scene2KitchenHandsOn>()?.SilenceMother();
+            flow.Voice.Stop();
+            GameManager.Instance?.AcquireInput(this);
+            try { flow.UI.ShowSimpleAction(chore, Finish, EndInteraction); }
+            catch (Exception error) { Debug.LogException(error, this); EndInteraction(); }
+            return;
+        }
 
         simulator = flow.GetComponent<Scene2HouseholdSimulator>();
         if (simulator != null && simulator.Handles(chore))
@@ -129,6 +141,12 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
         if ((GameManager.Instance != null && GameManager.Instance.IsPaused) ||
             PauseUI.LastResumeFrame == Time.frameCount) return;
         if (Input.GetKeyDown(KeyCode.Escape)) { EndInteraction(); return; }
+        if (simpleAction)
+        {
+            if (!flow || !flow.IsCurrent(chore)) { EndInteraction(); return; }
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Alpha1)) flow.UI?.ConfirmSimpleAction();
+            return;
+        }
         if (simulator != null && simulator.IsWorking) return;
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -199,6 +217,7 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
     {
         if (!running) return;
         running = false;
+        simpleAction = false;
         if (simulator != null && simulator.IsWorking) simulator.End();
         flow?.UI?.HideGame();
         feedback?.Dispose();

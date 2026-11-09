@@ -16,6 +16,7 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
         public Transform view;
         public Renderer existingFixture;
         public Transform idleDressing;
+        public HouseholdJarSource transferJar;
     }
     [SerializeField] private Station[] stations = new Station[0];
     [SerializeField] private DishwashingAssets dishwashingAssets;
@@ -55,7 +56,7 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
 
     public bool Handles(HouseholdChore chore)
     {
-        if (!isActiveAndEnabled) return false;
+        if (!isActiveAndEnabled || !Scene2HouseholdActivityPolicy.IsMinigame(chore)) return false;
         foreach (var item in stations) if (item != null && item.chore == chore && item.surface && item.view) return true;
         return false;
     }
@@ -106,15 +107,15 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) { End(); return; }
         if (!flow || !flow.IsCurrent(state.chore)) { End(); return; }
         cameraTime += Time.deltaTime;
-        if (importedDishes)
+        if (importedDishes || authoredDishes)
         {
             if (Application.isFocused && Input.GetKeyDown(KeyCode.F))
                 ToggleDishCloseView();
             // Carrying a bowl needs the whole station; scrubbing benefits from a close view.
             dishZoomBlend = Mathf.MoveTowards(dishZoomBlend, dishCloseView && held != 0 ? 1 : 0, Time.deltaTime * 4);
         }
-        session.MoveTo(importedDishes ? DishCameraDestination : importedTransfer ? dishCameraPosition : station.view.position,
-            importedDishes || importedTransfer ? dishCameraRotation : station.view.rotation, cameraTime / .4f);
+        session.MoveTo(authoredDishes ? AuthoredCameraDestination : importedDishes ? DishCameraDestination : importedTransfer ? dishCameraPosition : station.view.position,
+            authoredDishes || importedDishes || importedTransfer ? dishCameraRotation : station.view.rotation, cameraTime / .4f);
         idleTime += Time.deltaTime;
         messageTime = Mathf.Max(0, messageTime - Time.deltaTime);
         if (cameraTime >= .4f && Application.isFocused)
@@ -132,6 +133,7 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
     public void ProcessPointer(Vector2 screen, bool down, bool pressed, bool up, bool cancel, float scroll, float dt)
     {
         if (!IsWorking || !view || !world || dt <= 0 || manager && manager.IsPaused) return;
+        if (authoredDishes) { ProcessAuthoredDishPointer(screen, down, pressed, up, cancel, scroll, dt); return; }
         if (cancel) { ReleasePointer(); Tell("Đã đặt vật lại an toàn. Bạn có thể thử tiếp."); return; }
         Ray ray = view.ScreenPointToRay(screen);
         if (down) Physics.SyncTransforms();
@@ -170,6 +172,8 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
         }
         if (picked >= 0)
         {
+            if (importedTransfer && transferJarSurfaceQuery && transferJarSurfaceQuery.Raycast(ray, out var jarHit, nearest) && jarHit.distance < nearest - .004f)
+                return -1;
             if (importedDishes && fixtureSurfaceQuery && fixtureSurfaceQuery.Raycast(ray, out var exact, nearest) && exact.distance < nearest - .004f)
                 return -1;
             int count = Physics.RaycastNonAlloc(ray, occlusionHits, nearest, ~0, QueryTriggerInteraction.Ignore);
@@ -179,6 +183,7 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
                 var hit = occlusionHits[i];
                 if (!hit.collider || hit.collider.GetComponentInParent<FirstPersonController>() || hit.transform.IsChildOf(world)) continue;
                 if (importedDishes && fixtureSurfaceQuery && hit.collider == fixtureBox) continue;
+                if (importedTransfer && activeTransferJar && hit.collider.transform == activeTransferJar.original.transform) continue;
                 if (hit.distance < nearest - .015f) return -1;
             }
         }
@@ -300,8 +305,9 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
     private void ReleasePointer()
     {
         held = -1; pointerValid = false; tilt = 0;
-        if (moving) { moving.localPosition = movingHome; moving.localRotation = Quaternion.identity; }
+        if (moving) { moving.localPosition = movingHome; moving.localRotation = authoredDishes && state != null ? Quaternion.Euler(state.flipped ? 180 : 0, 0, 0) : Quaternion.identity; }
         if (tool) { tool.localPosition = toolHome; tool.localRotation = Quaternion.identity; }
+        if (authoredDishes && tool) tool.rotation = toolHomeRotation;
         for (int i = 0; i < pieces.Length; i++) if (pieces[i])
             pieces[i].localPosition = state != null && (state.placedMask & (1 << i)) != 0 ? slots[i] : homes[i];
         PlayWater(false);
@@ -335,6 +341,8 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
     public void ResetWork()
     {
         End();
+        RestoreDishSources();
+        RestoreTransferJars();
         work.Clear(); state = null;
         foreach (var item in stations) if (item != null && item.idleDressing) item.idleDressing.gameObject.SetActive(true);
         foreach (var go in finishedWorlds) if (go) Destroy(go);
@@ -345,9 +353,11 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
     {
         IsWorking = false;
         ReleasePointer();
+        if (authoredDishes) CloseAuthoredDishes(cancel);
         if (manager) manager.OnPauseChanged -= Pause;
         session?.Close(); session = null;
         if (captions) captions.alpha = 0;
+        if (cancel && importedTransfer) RestoreCurrentTransferJar();
         completed = cancelled = null;
         if (!cancel && world) finishedWorlds.Add(world.gameObject);
         else if (world) Destroy(world.gameObject);
@@ -359,13 +369,16 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
     {
         if (!IsWorking) return;
         ReleasePointer();
+        if (authoredDishes) StopAuthoredTap();
         if (loop) loop.Stop();
     }
-    private void OnApplicationFocus(bool focused) { if (!focused && IsWorking) { ReleasePointer(); Save(); } }
+    private void OnApplicationFocus(bool focused) { if (!focused && IsWorking) { ReleasePointer(); if (authoredDishes) StopAuthoredTap(); Save(); } }
     private void OnDisable() => End();
     private void OnDestroy()
     {
         End();
+        RestoreDishSources();
+        RestoreTransferJars();
         foreach (var asset in ownedAssets) if (asset) Destroy(asset);
         foreach (var go in finishedWorlds) if (go) Destroy(go);
         if (captions) Destroy(captions.gameObject);
@@ -415,6 +428,7 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
         switch (state.chore)
         {
             case HouseholdChore.WashDishes:
+                if (authoredDishes) { text = AuthoredDishCaption(); break; }
                 text = "Chén " + Mathf.Min(3, state.delivered + 1) + "/3 · " + (!state.wetted ? "Kéo chén vào thau để làm ướt" :
                     !state.soaped ? "Bấm bánh xà phòng" : !state.Scrubbed ? "Kéo miếng rửa qua các vết bẩn; cầm chén + lăn chuột để lật mặt" :
                     state.rinse < 1 ? "Kéo chén vào thau, giữ để tráng sạch bọt · " + Mathf.RoundToInt(state.rinse * 100) + "%" : "Kéo chén sạch lên giá rồi thả chuột");
@@ -429,7 +443,8 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
             case HouseholdChore.FetchWater:
             case HouseholdChore.MeasureRice:
                 text = (importedTransfer ?
-                    (state.chore == HouseholdChore.FetchWater ? "Giữ chuột trái cầm gáo dừa · Đưa lòng gáo vào thùng nước" : "Giữ chuột trái cầm ca nhôm · Đưa lòng ca vào thúng gạo") +
+                    (state.chore == HouseholdChore.FetchWater ? "Giữ chuột trái cầm gáo dừa · Đưa lòng gáo vào " + (activeTransferJar ? "lu nước" : "thùng nước") :
+                        "Giữ chuột trái cầm ca nhôm · Đưa lòng ca vào " + (activeTransferJar ? "lu gạo" : "thúng gạo")) +
                     " · Đưa mép đổ vào miệng nồi rồi lăn chuột\n" :
                     "Giữ chuột trái cầm gáo · Đưa vào thau bên trái để múc · Kéo sang nồi bên phải và lăn chuột để nghiêng đổ\n") +
                     (state.chore == HouseholdChore.FetchWater ? "Nước trong nồi: " + Mathf.RoundToInt(state.transferred * 100) + "%" :
@@ -446,5 +461,6 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
         hint.text = messageTime > 0 ? message : idleTime > 9 ? "Chạm đúng vật để thao tác; chuột phải trả vật về. Tiến độ được giữ khi rời đi." :
             "CHUỘT PHẢI  Đặt lại an toàn     ·     ESC  Rời hoạt động, giữ tiến độ";
         if (importedDishes) hint.text += "\nF  Cầm miếng rửa và nhìn gần / trở về toàn cảnh · Giữ chuột trái để chà";
+        if (authoredDishes) hint.text += "\nBẤM VÒI  Mở/khóa nước · F  Cầm miếng rửa + nhìn gần · LĂN CHUỘT KHI CẦM ĐỒ  Lật mặt";
     }
 }

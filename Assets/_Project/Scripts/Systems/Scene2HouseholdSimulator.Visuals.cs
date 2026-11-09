@@ -22,6 +22,8 @@ public sealed partial class Scene2HouseholdSimulator
             { if (finishedWorlds[i]) Destroy(finishedWorlds[i]); finishedWorlds.RemoveAt(i); }
         pickers.Clear();
         importedDishes = false;
+        authoredDishes = false;
+        dishLayout = GetComponent<Scene2DishwashingLayout>();
         importedTransfer = false;
         moving = tool = content = receiverContent = dishVisual = letterPaper = letterFlap = null;
         pourStream = null;
@@ -33,10 +35,10 @@ public sealed partial class Scene2HouseholdSimulator
         world.SetPositionAndRotation(station.surface.position, station.surface.rotation);
         world.localScale = Vector3.one;
         world.SetParent(transform, true);
-        if (station.idleDressing) station.idleDressing.gameObject.SetActive(false);
+        if (station.idleDressing && !(state.chore == HouseholdChore.WashDishes && dishLayout && dishLayout.IsReady)) station.idleDressing.gameObject.SetActive(false);
         // The dishwashing station shares the existing kitchen/floor. Never cover the
         // legacy stone washing area with a second procedural tabletop and four legs.
-        if (!station.existingFixture) BuildWorkstand();
+        if (!station.existingFixture && !station.transferJar) BuildWorkstand();
         if (state.chore == HouseholdChore.WashDishes) BuildDishes();
         else if (state.chore == HouseholdChore.FetchWater || state.chore == HouseholdChore.MeasureRice) BuildTransfer();
         else if (state.chore == HouseholdChore.ReadLetter) BuildLetter();
@@ -73,6 +75,7 @@ public sealed partial class Scene2HouseholdSimulator
 
     private void BuildDishes()
     {
+        if (dishLayout && dishLayout.IsReady) { BuildAuthoredDishes(); return; }
         if (dishwashingAssets && dishwashingAssets.IsReady) { BuildImportedDishes(); return; }
         rinseZone = new Vector3(-.37f, .03f, .10f);
         rackZone = new Vector3(.39f, .03f, .12f);
@@ -204,6 +207,7 @@ public sealed partial class Scene2HouseholdSimulator
         if (!world || state == null) return;
         if (state.chore == HouseholdChore.WashDishes)
         {
+            if (authoredDishes) { RefreshAuthoredDishes(); return; }
             for (int i = 0; i < 6; i++) if (stains[i])
             {
                 stains[i].gameObject.SetActive(i / 3 == (state.flipped ? 1 : 0) && state.stains[i] > .02f && !state.Complete);

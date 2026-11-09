@@ -27,6 +27,7 @@ public sealed class WaterRiceFill : MonoBehaviour
         mesh = new Mesh { name = "Profile-fitted contents (runtime)" }; mesh.MarkDynamic();
         gameObject.AddComponent<MeshFilter>().sharedMesh = mesh;
         visual = gameObject.AddComponent<MeshRenderer>(); visual.sharedMaterial = material;
+        if (material && material.shader.name == "KuTy/Household Water") gameObject.AddComponent<HouseholdWaterSurface>();
         var levels = new List<float>();
         foreach (var point in profile) if (point.x < maximumHeight) levels.Add(point.x);
         levels.Add(maximumHeight);

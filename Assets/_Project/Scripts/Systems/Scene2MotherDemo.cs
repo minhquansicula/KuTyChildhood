@@ -1,6 +1,6 @@
 using UnityEngine;
 
-/// <summary>MomUser standing presentation only. Never owns chores, rewards, saves or navigation.</summary>
+/// <summary>MomUser presentation; navigation remains separate from animation, rewards and saves.</summary>
 [DisallowMultipleComponent]
 public sealed class Scene2MotherDemo : MonoBehaviour
 {
@@ -12,6 +12,8 @@ public sealed class Scene2MotherDemo : MonoBehaviour
     private static readonly int Call = Animator.StringToHash("Base Layer.Mother_CallChild");
     private static readonly int Talk = Animator.StringToHash("Base Layer.Mother_TalkIdle");
     private static readonly int Nod = Animator.StringToHash("Base Layer.Mother_NodApprove");
+    private static readonly int Walk = Animator.StringToHash("Base Layer.Mother_Walk");
+    private Scene2MotherHomeMovement movement;
     private Scene2RadioKitchenSequence boundRadio;
     private HouseholdChoreFlow boundFlow;
     private Scene2KitchenHandsOn kitchen;
@@ -26,6 +28,7 @@ public sealed class Scene2MotherDemo : MonoBehaviour
     public bool IsCalling => state == Call;
     public bool IsNodding => state == Nod;
     public bool IsTalking => state == Talk;
+    public bool IsWalking => state == Walk;
 
     public void Configure(Animator modelAnimator, Scene2MotherCompanion mother, Scene2RadioKitchenSequence sequence)
     {
@@ -47,9 +50,17 @@ public sealed class Scene2MotherDemo : MonoBehaviour
             return;
         }
         animator.applyRootMotion = false;
+        movement = GetComponent<Scene2MotherHomeMovement>();
         ready = true;
         state = Idle;
         animator.Play(Idle, 0, 0f);
+        if (animator.HasState(0, Walk))
+        {
+            animator.Update(0);
+            var clearance = GetComponent<Scene2MotherFootClearance>();
+            if (!clearance) clearance = gameObject.AddComponent<Scene2MotherFootClearance>();
+            clearance.Configure(animator);
+        }
         Bind();
     }
 
@@ -105,7 +116,9 @@ public sealed class Scene2MotherDemo : MonoBehaviour
         if (!playerCamera || (playerCamera.transform.position - transform.position).sqrMagnitude > 36f) return;
         var hit = GetComponent<Collider>();
         Vector3 focus = hit ? hit.bounds.center : transform.position + Vector3.up;
-        if (Physics.Linecast(playerCamera.transform.position, focus, ~0, QueryTriggerInteraction.Ignore)) return;
+        Vector3 ray = focus - playerCamera.transform.position;
+        foreach (var obstruction in Physics.RaycastAll(playerCamera.transform.position, ray.normalized, ray.magnitude, ~0, QueryTriggerInteraction.Ignore))
+            if (!obstruction.transform.IsChildOf(transform) && !obstruction.transform.IsChildOf(playerCamera.transform.root)) return;
         RequestApproval();
     }
 
@@ -133,7 +146,7 @@ public sealed class Scene2MotherDemo : MonoBehaviour
             PlayOneShot(Nod, "Mother_NodApprove", 1.8f);
             return;
         }
-        ChangeState(Idle);
+        ChangeState(movement && movement.IsMoving && animator.HasState(0, Walk) ? Walk : Idle);
     }
 
     private void ChangeState(int next)
