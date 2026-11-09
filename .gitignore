@@ -51,6 +51,7 @@ sysinfo.txt
 *.apk
 *.aab
 *.unitypackage
+*.zip
 *.app
 *.exe
 
