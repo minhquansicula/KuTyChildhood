@@ -15,6 +15,9 @@ MonoBehaviour:
   menuFrame: {fileID: 21300000, guid: 40fb6123823b71246a0c215be3a93e92, type: 3}
   woodenButton: {fileID: 21300000, guid: 7bdc3360da7abba49ba229ab6d99ca57, type: 3}
   pauseLogo: {fileID: 21300000, guid: 22bd5c6243c652c46b446cb565b61efc, type: 3}
+  endingBackground: {fileID: 21300000, guid: 76054c792705dd143aaf1c39a382f873, type: 3}
+  endingTitleLogo: {fileID: 21300000, guid: 698301c42c5ac774fa6c2e38f9c73c47, type: 3}
+  goldBrushBanner: {fileID: 21300000, guid: ac1ce1f4d916e064f942ca3511e31fad, type: 3}
   font: {fileID: 11400000, guid: c69d949105ff74f4290a8d49aae621e8, type: 2}
   text: {r: 0.23, g: 0.12, b: 0.055, a: 1}
   muted: {r: 0.4, g: 0.26, b: 0.12, a: 1}

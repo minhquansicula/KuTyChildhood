@@ -84,11 +84,13 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         Scene2Checkpoint.Clear();
+        EndingSummary.BeginSession();
         Navigate(SceneNames.Act1);
     }
     public void ContinueGame()
     {
         if (!Scene2Checkpoint.HasCheckpoint) return;
+        EndingSummary.BeginSession();
         Navigate(Scene2Checkpoint.ResumeScene);
     }
     public void EnterMemoryWorld() => Navigate(SceneNames.Act2_Home);

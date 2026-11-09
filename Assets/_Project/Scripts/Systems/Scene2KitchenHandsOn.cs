@@ -140,6 +140,9 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         // are manipulated in a close view and retain only their authored triggers.
         foreach (var c in worldRoot.GetComponentsInChildren<Collider>(true))
             if (!c.isTrigger && System.Array.IndexOf(retainedColliders, c) < 0) c.enabled = false;
+        int interactableLayer = LayerMask.NameToLayer("Interactable");
+        if (interactableLayer >= 0 && waterHit != null)
+            waterHit.gameObject.layer = interactableLayer;
         for (int i = 0; i < 3; i++) { logHomes[i] = kindling[i].localPosition; logRotations[i] = kindling[i].localRotation; }
         spoonHome = spoon.localPosition; fuelHome = fuelLog.localPosition; lidHome = lid.localPosition;
         waterScale = water.localScale; potHome = ricePot.localRotation;

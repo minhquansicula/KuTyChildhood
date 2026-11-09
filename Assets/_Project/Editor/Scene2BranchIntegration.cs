@@ -208,9 +208,10 @@ public static class Scene2BranchIntegration
             camera.targetTexture = rt;
             var all = Transforms(scene);
             var room = all.Single(t => t.name == "BoBanGhe_TiepKhach");
-            var bounds = new Bounds(room.position, Vector3.zero);
+            var bounds = room.GetComponentsInChildren<Renderer>().First().bounds;
             foreach (var renderer in room.GetComponentsInChildren<Renderer>()) bounds.Encapsulate(renderer.bounds);
-            Render("living-room.png", bounds.center + new Vector3(-4.5f, 3.2f, 4.5f), bounds.center);
+            Render("living-room.png", bounds.center + new Vector3(2.5f, 1.2f, 2.5f), bounds.center);
+            Render("living-room-reverse.png", bounds.center + new Vector3(2.2f, 1.1f, -2.6f), bounds.center);
             var sink = all.Single(t => t.name == "New_WashStation");
             var sinkBounds = new Bounds(sink.position, Vector3.zero);
             foreach (var renderer in sink.GetComponentsInChildren<Renderer>()) sinkBounds.Encapsulate(renderer.bounds);

@@ -161,6 +161,8 @@ public class QuestManager : MonoBehaviour
         if (!IsLeavingHome || outsideTransitionRequested) return;
         outsideTransitionRequested = true;
         if (outsideFallback != null) StopCoroutine(outsideFallback);
+        // The ending shows personal results; Scene 2's flow is destroyed once the scene unloads.
+        EndingSummary.Capture(HouseholdChoreFlow.Instance);
 
         string nextScene = HouseholdDestination;
         if (SceneLoader.Instance != null)
