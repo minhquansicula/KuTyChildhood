@@ -1,0 +1,87 @@
+PASS 84 assertions
+PASS Home systems and incoming ending summary initialize cleanly
+PASS Full story remains default; merge does not silently skip Scene 3
+PASS Initial wake cinematic owns input without granting chore progress
+PASS Full wake cinematic reaches the get-out-of-bed prompt without unlocking movement early
+PASS Wake-up starts the chapter and releases controls
+PASS All 15 home narration entries retain audio and subtitles
+PASS Incoming ending voice resource imports successfully
+PASS Incoming Office-to-Home video imports with valid dimensions and duration (not a playback certification)
+PASS All four committed living room models exist in runtime
+PASS New furniture blocks movement: bandai_khach
+PASS New furniture blocks movement: ghedai_khach
+PASS New furniture blocks movement: caighe_khach_1
+PASS New furniture blocks movement: caighe_khach_2
+PASS Chapter target remains bound: ArrangeKeepsakes
+PASS Chapter target remains bound: TuneRadio
+PASS Chapter target remains bound: CarryWood
+PASS Chapter target remains bound: FetchWater
+PASS Chapter target remains bound: MeasureRice
+PASS Chapter target remains bound: WashRice
+PASS Chapter target remains bound: LightFire
+PASS Chapter target remains bound: CookRice
+PASS Chapter target remains bound: SetTable
+PASS Chapter target remains bound: WashDishes
+PASS Chapter target remains bound: PutAwayDishes
+PASS Chapter target remains bound: ReadLetter
+PASS Chapter target remains bound: SortTools
+PASS Chapter target remains bound: GrindCorn
+PASS Simple task routes through E interaction: SortTools
+PASS Actual UI confirmation completes task: SortTools
+PASS Normal reward preserved: SortTools
+PASS Optional task rewards once without advancing required order: SortTools
+PASS Simple task routes through E interaction: GrindCorn
+PASS Actual UI confirmation completes task: GrindCorn
+PASS Normal reward preserved: GrindCorn
+PASS Optional task rewards once without advancing required order: GrindCorn
+PASS Out-of-order final letter remains rejected
+PASS Simple task routes through E interaction: ArrangeKeepsakes
+PASS Actual UI confirmation completes task: ArrangeKeepsakes
+PASS Normal reward preserved: ArrangeKeepsakes
+PASS No duplicate task reward: ArrangeKeepsakes
+PASS Simple task routes through E interaction: TuneRadio
+PASS Actual UI confirmation completes task: TuneRadio
+PASS Normal reward preserved: TuneRadio
+PASS No duplicate task reward: TuneRadio
+PASS Simple task routes through E interaction: CarryWood
+PASS Actual UI confirmation completes task: CarryWood
+PASS Normal reward preserved: CarryWood
+PASS No duplicate task reward: CarryWood
+PASS Simple task routes through E interaction: FetchWater
+PASS Actual UI confirmation completes task: FetchWater
+PASS Normal reward preserved: FetchWater
+PASS No duplicate task reward: FetchWater
+PASS Simple task routes through E interaction: MeasureRice
+PASS Actual UI confirmation completes task: MeasureRice
+PASS Normal reward preserved: MeasureRice
+PASS No duplicate task reward: MeasureRice
+PASS Simple task routes through E interaction: WashRice
+PASS Actual UI confirmation completes task: WashRice
+PASS Normal reward preserved: WashRice
+PASS No duplicate task reward: WashRice
+PASS Physical task advances in handoff fixture (tested physically in separate suites): LightFire
+PASS No duplicate task reward: LightFire
+PASS Physical task advances in handoff fixture (tested physically in separate suites): CookRice
+PASS No duplicate task reward: CookRice
+PASS Physical task advances in handoff fixture (tested physically in separate suites): SetTable
+PASS No duplicate task reward: SetTable
+PASS Physical task advances in handoff fixture (tested physically in separate suites): WashDishes
+PASS No duplicate task reward: WashDishes
+PASS Simple task routes through E interaction: PutAwayDishes
+PASS Actual UI confirmation completes task: PutAwayDishes
+PASS Normal reward preserved: PutAwayDishes
+PASS No duplicate task reward: PutAwayDishes
+PASS Checkpoint before letter retains 11 required tasks, two optional tasks, 120 pieces
+PASS Final letter opens deliberate reading UI, not retired puzzle
+PASS Reading cannot be instantly confirmed
+PASS Actual reading confirmation completes the final story task
+PASS Final task completes 12 required tasks and 130 pieces
+PASS Allowance is exactly 2000 and cannot duplicate
+PASS Household completion grants filial-love memory
+PASS Chapter completion saves the outdoor checkpoint
+PASS Thuan ending summary captures local chapter results before unload
+PASS Outdoor scene restores allowance and expected quest
+PASS Personal ending summary survives Home scene destruction
+PASS Chapter handoff does not leak modal input ownership
+
+Chapter handoff and incoming ending summary passed; physical activity suites run separately.

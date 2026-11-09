@@ -1,0 +1,80 @@
+PASS · 77 assertions
+PASS Wake-up leaves the activity available in the story flow
+PASS Test fixture advances preceding story task: ArrangeKeepsakes
+PASS Test fixture advances preceding story task: TuneRadio
+PASS Test fixture advances preceding story task: CarryWood
+PASS Test fixture advances preceding story task: FetchWater
+PASS Test fixture advances preceding story task: MeasureRice
+PASS Test fixture advances preceding story task: WashRice
+PASS Test fixture advances preceding story task: LightFire
+PASS Test fixture advances preceding story task: CookRice
+PASS Test fixture advances preceding story task: SetTable
+PASS PlayerInteraction ray can focus the new washing fixture from a clear standing position
+PASS Existing Interact route opens the user-arranged simulator
+PASS Fixture and faucet remain visible while working
+PASS Original dishes are hidden only while their runtime copies are used
+PASS Nested activity is rejected
+PASS Visible work area at aspect 1.777778: New_WashStation
+PASS Visible work area at aspect 1.777778: New_Faucet
+PASS Visible work area at aspect 1.777778: DryingRack
+PASS Visible work area at aspect 2.333333: New_WashStation
+PASS Visible work area at aspect 2.333333: New_Faucet
+PASS Visible work area at aspect 2.333333: DryingRack
+PASS Dry dish cannot acquire soap
+PASS Dirty dish cannot be delivered
+PASS Closed tap cannot wet or rinse outside the basin
+PASS Clicking the actual faucet opens running water
+PASS Pause closes the tap and prevents all gestures
+PASS Running tap wets a dirty dish but cannot finish rinsing it
+PASS Clicking soap after wetting lathers the dish
+PASS Holding the sponge still does not clean a patch
+PASS F close-view shortcut equips the sponge without clicking a hidden tool
+PASS Close-up smoothly frames the current physical dish
+PASS Current dish stays visible in close view
+PASS Actual mouse-down on the close-up dish keeps the sponge equipped
+PASS Close-up mouse strokes actually clean the contacted patch
+PASS A solid obstacle blocks held-sponge contact, not only initial picking
+PASS Only the exposed interior is cleaned; underside stays dirty
+PASS Focus loss returns tools, closes tap and preserves work
+PASS Cancel restores all original dishes and releases input
+PASS Partial washing gives no reward or story completion
+PASS Partial scrub state is saved to checkpoint
+PASS Reopen from saved work
+PASS Reopening reconstructs actual partial work, not just a progress label
+PASS Mouse wheel turns the held item to its underside
+PASS Both surfaces scrubbed by mesh-contact ray gestures: Chén hoa sen
+PASS Sustained running water removes lather: 0
+PASS Reapplying soap requires another rinse
+PASS Only releasing clean item over the actual rack delivers it: 0
+PASS Next physical item starts dirty: 1
+PASS Mouse wheel turns the held item to its underside
+PASS Both surfaces scrubbed by mesh-contact ray gestures: Dĩa hoa lam
+PASS Sustained running water removes lather: 1
+PASS Only releasing clean item over the actual rack delivers it: 1
+PASS Next physical item starts dirty: 2
+PASS Mouse wheel turns the held item to its underside
+PASS Both surfaces scrubbed by mesh-contact ray gestures: Chén nhỏ
+PASS Sustained running water removes lather: 2
+PASS Only releasing clean item over the actual rack delivers it: 2
+PASS All three items delivered; faucet closes safely
+PASS Clean dish sits above the rack base: 0
+PASS Racked dishes do not overlap: 0/1
+PASS Racked dishes do not overlap: 0/2
+PASS Clean dish sits above the rack base: 1
+PASS Racked dishes do not overlap: 1/2
+PASS Clean dish sits above the rack base: 2
+PASS Completion grants exactly one normal chore reward
+PASS Duplicate reward is rejected
+PASS Completion restores player control
+PASS Original authored pose preserved: New_WashStation
+PASS Original authored pose preserved: New_Faucet
+PASS Original authored pose preserved: WashBasin
+PASS Original authored pose preserved: DryingRack
+PASS Original authored pose preserved: SoapBar
+PASS Original authored pose preserved: ScrubSponge
+PASS Original authored pose preserved: New_Bowl
+PASS Original authored pose preserved: New_Plate
+PASS Original authored pose preserved: DishBowl
+PASS Reset restores every source prop, not duplicate runtime models
+
+Ray-driven washing sequence and lifecycle checks completed.

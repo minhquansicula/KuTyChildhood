@@ -1,0 +1,170 @@
+PASS (127 assertions)
+Player floor=0.07999985, eye height=1.2
+WashRice: target=ChoreTarget_WashRice, bounds=Center: (-4.30, 0.16, -0.75), Extents: (0.38, 0.38, 0.38)
+  blocked feet=(-4.300, 0.080, 0.280) by New_Faucet
+  reachable feet=(-3.572, 0.080, -0.022) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  reachable feet=(-3.271, 0.080, -0.750) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  reachable feet=(-3.572, 0.080, -1.478) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  reachable feet=(-4.300, 0.080, -1.780) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  reachable feet=(-5.028, 0.080, -1.478) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  reachable feet=(-5.330, 0.080, -0.750) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  reachable feet=(-5.028, 0.080, -0.022) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  blocked feet=(-4.300, 0.080, 0.630) by TimberBaseRail (7),TimberBaseRail (8),TimberBaseRail (14),TimberPost_Left (2),New_Faucet,PlasterPanel_06,gianbep2,gianbep2 (1)
+  blocked feet=(-3.325, 0.080, 0.225) by Waiting_New_Bowl_03,Waiting_New_Bowl_04
+  reachable feet=(-2.921, 0.080, -0.750) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  reachable feet=(-3.325, 0.080, -1.725) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  reachable feet=(-4.300, 0.080, -2.130) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  reachable feet=(-5.275, 0.080, -1.725) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  reachable feet=(-5.680, 0.080, -0.750) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  blocked feet=(-5.275, 0.080, 0.225) by DishRack
+  blocked feet=(-4.300, 0.080, 1.080) by TimberBaseRail (7),GrainMill,TimberBaseRail (14),TimberPost_Left (2),tripo_part_21 (1),gianbep2,gianbep2 (1)
+  blocked feet=(-3.006, 0.080, 0.544) by TimberBaseRail (7),Waiting_New_Bowl_03,TimberBaseRail (8),TimberBaseRail (14),PlasterPanel_06,Waiting_New_Bowl_02,Waiting_New_Bowl_04,gianbep2,gianbep2 (1)
+  reachable feet=(-2.471, 0.080, -0.750) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  reachable feet=(-3.006, 0.080, -2.044) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  reachable feet=(-4.300, 0.080, -2.580) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  reachable feet=(-5.594, 0.080, -2.044) aim=(-4.300, 0.160, -0.750)
+  looking away: ray=(0.00, 1.00, 0.00), main=(0.00, 1.00, 0.00), assist=False
+  blocked feet=(-6.130, 0.080, -0.750) by WaterJarVisual
+  blocked feet=(-5.594, 0.080, 0.544) by TimberBaseRail (7),TimberBaseRail (8),TimberBaseRail (14),DishRack,PlasterPanel_06,gianbep2,gianbep2 (1)
+  Simple rice UI uses verified direct-ray focus; retired physical-game aim-assist expectation is not required.
+LightFire: target=Fire tending, bounds=Center: (-5.70, 0.25, -4.91), Extents: (0.67, 0.26, 0.61)
+  reachable feet=(-5.699, 0.080, -3.655) aim=(-5.699, 0.248, -4.914)
+  reachable feet=(-4.768, 0.080, -4.024) aim=(-5.699, 0.248, -4.914)
+  reachable feet=(-4.382, 0.080, -4.914) aim=(-5.699, 0.248, -4.914)
+  reachable feet=(-4.768, 0.080, -5.804) aim=(-5.699, 0.248, -4.914)
+  blocked feet=(-5.699, 0.080, -6.172) by Pot_Body,Stove_Top,Stove_Body
+  reachable feet=(-6.631, 0.080, -5.804) aim=(-5.699, 0.248, -4.914)
+  blocked feet=(-7.017, 0.080, -4.914) by gianbep2,gianbep2 (1),TimberBaseRail (10)
+  reachable feet=(-6.631, 0.080, -4.024) aim=(-5.699, 0.248, -4.914)
+  reachable feet=(-5.699, 0.080, -3.305) aim=(-5.699, 0.248, -4.914)
+  reachable feet=(-4.520, 0.080, -3.776) aim=(-5.699, 0.248, -4.914)
+  reachable feet=(-4.032, 0.080, -4.914) aim=(-5.699, 0.248, -4.914)
+  blocked feet=(-4.520, 0.080, -6.051) by FirewoodPile (3)
+  blocked feet=(-5.699, 0.080, -6.522) by Pot_Body,Stove_Top,Stove_Body
+  blocked feet=(-6.878, 0.080, -6.051) by gianbep2,gianbep2 (1),TimberBaseRail (10)
+  blocked feet=(-7.367, 0.080, -4.914) by gianbep2,gianbep2 (1),TimberBaseRail (10)
+  blocked feet=(-6.878, 0.080, -3.776) by gianbep2,gianbep2 (1),TimberBaseRail (9),TimberBaseRail (10)
+  blocked feet=(-5.699, 0.080, -2.855) by RiceJar
+  reachable feet=(-4.202, 0.080, -3.458) aim=(-5.699, 0.248, -4.914)
+  reachable feet=(-3.582, 0.080, -4.914) aim=(-5.699, 0.248, -4.914)
+  blocked feet=(-4.202, 0.080, -6.370) by FirewoodPile (3)
+  blocked feet=(-5.699, 0.080, -6.972) by gianbep2,gianbep2 (1),WindowFrame_Left (10)
+  blocked feet=(-7.196, 0.080, -6.370) by gianbep2,gianbep2 (1),TimberBaseRail (10)
+  missed feet=(-7.817, 0.080, -4.914) hits=gianbep2:0.51,gianbep2 (1):0.51,Stove_Top:1.88,Stove_Body:2.00,Kindling 1:2.76,Ground:2.94
+  blocked feet=(-7.196, 0.080, -3.458) by gianbep2,gianbep2 (1),TimberBaseRail (9)
+CookRice: target=Tend the rice pot, bounds=Center: (-6.09, 0.49, -6.41), Extents: (0.42, 0.47, 0.48)
+  blocked feet=(-6.086, 0.080, -5.278) by Stove_Body,Stove_Top
+  reachable feet=(-5.328, 0.080, -5.609) aim=(-6.086, 0.492, -6.408)
+  reachable feet=(-5.015, 0.080, -6.408) aim=(-6.086, 0.492, -6.408)
+  blocked feet=(-5.328, 0.080, -7.207) by gianbep2,gianbep2 (1),WindowFrame_Left (10)
+  blocked feet=(-6.086, 0.080, -7.538) by gianbep2,gianbep2 (1),WindowFrame_Left (10)
+  blocked feet=(-6.843, 0.080, -7.207) by gianbep2,gianbep2 (1),TimberBaseRail (10)
+  blocked feet=(-7.157, 0.080, -6.408) by gianbep2,gianbep2 (1),TimberBaseRail (10)
+  blocked feet=(-6.843, 0.080, -5.609) by gianbep2,gianbep2 (1),TimberBaseRail (10)
+  blocked feet=(-6.086, 0.080, -4.928) by Stove_Body,Stove_Top
+  reachable feet=(-5.081, 0.080, -5.361) aim=(-6.086, 0.492, -6.408)
+  blocked feet=(-4.665, 0.080, -6.408) by FirewoodPile (3)
+  blocked feet=(-5.081, 0.080, -7.455) by gianbep2,gianbep2 (1),WindowFrame_Left (10)
+  missed feet=(-6.086, 0.080, -7.888) hits=gianbep2:0.44,gianbep2 (1):0.44,Pot_Body:1.37,Stove_Top:1.85,Stove_Body:2.69
+  blocked feet=(-7.091, 0.080, -7.455) by gianbep2,gianbep2 (1),TimberBaseRail (10)
+  blocked feet=(-7.507, 0.080, -6.408) by gianbep2,gianbep2 (1)
+  blocked feet=(-7.091, 0.080, -5.361) by gianbep2,gianbep2 (1),TimberBaseRail (10)
+  blocked feet=(-6.086, 0.080, -4.478) by Stove_Body,Stove_Top
+  reachable feet=(-4.763, 0.080, -5.043) aim=(-6.086, 0.492, -6.408)
+  blocked feet=(-4.215, 0.080, -6.408) by FirewoodPile (3)
+  blocked feet=(-4.763, 0.080, -7.773) by gianbep2,gianbep2 (1),FirewoodPile (3)
+  missed feet=(-6.086, 0.080, -8.338) hits=gianbep2:0.90,gianbep2 (1):0.90,Pot_Body:1.81,Stove_Top:2.26
+  blocked feet=(-7.409, 0.080, -7.773) by gianbep2,gianbep2 (1),TimberBaseRail (10)
+  missed feet=(-7.957, 0.080, -6.408) hits=gianbep2:0.65,gianbep2 (1):0.65,Stove_Top:2.00,Stove_Body:2.27
+  blocked feet=(-7.409, 0.080, -5.043) by gianbep2,gianbep2 (1),TimberBaseRail (10)
+SetTable: target=tripo_part_3, bounds=Center: (4.30, 0.55, -5.92), Extents: (1.07, 0.70, 1.45)
+  reachable feet=(4.299, 0.080, -3.815) aim=(4.299, 0.552, -5.917)
+  blocked feet=(5.515, 0.080, -4.431) by tripo_part_3
+  reachable feet=(6.019, 0.080, -5.917) aim=(4.299, 0.552, -5.917)
+  blocked feet=(5.515, 0.080, -7.403) by tripo_part_7,tripo_part_3,tripo_part_2 (2),tripo_part_2,tripo_part_2 (1)
+  blocked feet=(4.299, 0.080, -8.019) by tripo_part_17
+  blocked feet=(3.083, 0.080, -7.403) by tripo_part_7,TimberBaseRail,TimberBaseRail (2),WeatheredFooting,tripo_part_3,BucTuongMoi (5),TimberPost_Right (13),TimberPost_Left,LowerTimberPanel_10,tripo_part_2,tripo_part_2 (1),WindowFrame_Left (9),PlasterPanel_05
+  blocked feet=(2.580, 0.080, -5.917) by tripo_part_7
+  blocked feet=(3.083, 0.080, -4.431) by WindowFrame_Left,TimberPost_Right (14),TimberBaseRail,TimberBaseRail (2),WeatheredFooting,BucTuongMoi (5)
+  reachable feet=(4.299, 0.080, -3.465) aim=(4.299, 0.552, -5.917)
+  reachable feet=(5.763, 0.080, -4.183) aim=(4.299, 0.552, -5.917)
+  reachable feet=(6.369, 0.080, -5.917) aim=(4.299, 0.552, -5.917)
+  blocked feet=(5.763, 0.080, -7.651) by tripo_part_18,tripo_part_20,tripo_part_7,tripo_part_2 (2),tripo_part_17,tripo_part_2,tripo_part_2 (1)
+  missed feet=(4.299, 0.080, -8.369) hits=tripo_part_17:0.61,tripo_part_3:1.74
+  blocked feet=(2.836, 0.080, -7.651) by tripo_part_7,TimberBaseRail,TimberBaseRail (2),WeatheredFooting,BucTuongMoi (5),TimberPost_Right (13),TimberPost_Left,LowerTimberPanel_10,tripo_part_2,tripo_part_2 (1),tripo_part_32,tripo_part_31,tripo_part_30
+  missed feet=(2.230, 0.080, -5.917) hits=BucTuongMoi (5):0.70,tripo_part_3:1.47
+  blocked feet=(2.836, 0.080, -4.183) by WindowFrame_Left,TimberPost_Right (14),TimberBaseRail,TimberBaseRail (2),BucTuongMoi (5)
+  reachable feet=(4.299, 0.080, -3.015) aim=(4.299, 0.552, -5.917)
+  reachable feet=(6.081, 0.080, -3.865) aim=(4.299, 0.552, -5.917)
+  reachable feet=(6.819, 0.080, -5.917) aim=(4.299, 0.552, -5.917)
+  blocked feet=(6.081, 0.080, -7.969) by tripo_part_18,tripo_part_7
+  blocked feet=(4.299, 0.080, -8.819) by tripo_part_15
+  blocked feet=(2.518, 0.080, -7.969) by tripo_part_7
+  missed feet=(1.780, 0.080, -5.917) hits=BucTuongMoi (5):1.16,tripo_part_3:1.91
+  missed feet=(2.518, 0.080, -3.865) hits=TimberPost_Right (14):0.31,WindowFrame_Left:0.45,BucTuongMoi (5):0.54,tripo_part_3:2.19
+WashDishes: target=New_WashStation, bounds=Center: (-3.73, 0.16, -0.12), Extents: (1.28, 0.14, 0.83)
+  blocked feet=(-3.731, 0.080, 1.364) by GrainMill,tripo_part_21 (1)
+  blocked feet=(-2.364, 0.080, 0.930) by PlasterPanel_06 (1),StorageChest (1),TimberBaseRail (7),TimberBaseRail (8),TimberBaseRail (14),PlasterPanel_06,gianbep2,gianbep2 (1)
+  reachable feet=(-1.798, 0.080, -0.116) aim=(-3.731, 0.157, -0.116)
+  reachable feet=(-2.364, 0.080, -1.163) aim=(-3.731, 0.157, -0.116)
+  reachable feet=(-3.731, 0.080, -1.597) aim=(-3.731, 0.157, -0.116)
+  reachable feet=(-5.098, 0.080, -1.163) aim=(-3.090, 0.157, -0.116)
+  blocked feet=(-5.664, 0.080, -0.116) by DishRack
+  blocked feet=(-5.098, 0.080, 0.930) by PlasterPanel_09,TimberBaseRail (12),TimberBaseRail (7),TimberBaseRail (8),TimberBaseRail (14),TimberPost_Left (2),PlasterPanel_06,gianbep2,gianbep2 (1)
+  blocked feet=(-3.731, 0.080, 1.714) by GrainMill,tripo_part_21 (1)
+  blocked feet=(-2.117, 0.080, 1.178) by StorageChest (1),TimberBaseRail (14)
+  reachable feet=(-1.448, 0.080, -0.116) aim=(-3.731, 0.157, -0.116)
+  reachable feet=(-2.117, 0.080, -1.411) aim=(-3.731, 0.157, -0.116)
+  reachable feet=(-3.731, 0.080, -1.947) aim=(-3.731, 0.157, -0.116)
+  reachable feet=(-5.345, 0.080, -1.411) aim=(-3.090, 0.157, -0.116)
+  blocked feet=(-6.014, 0.080, -0.116) by DishRack
+  blocked feet=(-5.345, 0.080, 1.178) by TimberBaseRail (12),TimberBaseRail (14),TimberPost_Left (2)
+  blocked feet=(-3.731, 0.080, 2.164) by FirewoodPile,FirewoodPile (2),GrainMill,tripo_part_21 (1)
+  blocked feet=(-1.798, 0.080, 1.496) by StorageChest (1)
+  blocked feet=(-0.998, 0.080, -0.116) by Visual
+  blocked feet=(-1.798, 0.080, -1.729) by DiningChair_02
+  reachable feet=(-3.731, 0.080, -2.397) aim=(-3.731, 0.157, -0.116)
+  blocked feet=(-5.664, 0.080, -1.729) by RiceJar
+  blocked feet=(-6.464, 0.080, -0.116) by DishRack
+  missed feet=(-5.664, 0.080, 1.496) hits=TimberPost_Left (2):0.61,gianbep2:1.25,gianbep2 (1):1.25,PlasterPanel_06:1.66,TimberBaseRail (7):1.70,TimberBaseRail (8):1.90,New_WashStation:2.67,Ground:2.89
+ReadLetter: target=SM_Letter, bounds=Center: (4.72, 2.46, -10.08), Extents: (0.30, 0.14, 0.25)
+  blocked feet=(4.721, 0.080, -9.183) by tripo_part_15
+  blocked feet=(5.393, 0.080, -9.446) by tripo_part_15,tripo_part_4
+  blocked feet=(5.671, 0.080, -10.083) by tripo_part_4
+  blocked feet=(5.393, 0.080, -10.719) by tripo_part_4
+  reachable feet=(4.721, 0.080, -10.983) aim=(4.721, 2.463, -10.083)
+  blocked feet=(4.050, 0.080, -10.719) by tripo_part_4
+  blocked feet=(3.771, 0.080, -10.083) by tripo_part_4
+  blocked feet=(4.050, 0.080, -9.446) by tripo_part_4
+  blocked feet=(4.721, 0.080, -8.833) by tripo_part_15
+  reachable feet=(5.641, 0.080, -9.199) aim=(4.721, 2.463, -10.083)
+  blocked feet=(6.021, 0.080, -10.083) by tripo_part_4
+  reachable feet=(5.641, 0.080, -10.967) aim=(4.721, 2.463, -10.083)
+  reachable feet=(4.721, 0.080, -11.333) aim=(4.721, 2.463, -10.083)
+  reachable feet=(3.802, 0.080, -10.967) aim=(4.721, 2.463, -10.083)
+  blocked feet=(3.421, 0.080, -10.083) by tripo_part_4
+  reachable feet=(3.802, 0.080, -9.199) aim=(4.721, 2.593, -10.083)
+  reachable feet=(4.721, 0.080, -8.383) aim=(4.721, 2.463, -10.083)
+  reachable feet=(5.959, 0.080, -8.881) aim=(4.721, 2.463, -10.083)
+  missed feet=(6.471, 0.080, -10.083) hits=tripo_part_4:0.72,SM_Letter:1.87
+  reachable feet=(5.959, 0.080, -11.285) aim=(4.721, 2.463, -10.083)
+  reachable feet=(4.721, 0.080, -11.783) aim=(4.721, 2.463, -10.083)
+  reachable feet=(3.484, 0.080, -11.285) aim=(4.721, 2.463, -10.083)
+  reachable feet=(2.971, 0.080, -10.083) aim=(4.721, 2.593, -10.083)
+  reachable feet=(3.484, 0.080, -8.881) aim=(4.721, 2.463, -10.083)
+Visible props reachable; no proximity, wall or distance bypass; selected-target open/cancel passed.

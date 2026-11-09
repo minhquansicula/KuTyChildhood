@@ -1,0 +1,3 @@
+Unity Editor.log, latest successful post-merge runs:
+[ThuanMerge] PASS 8 routing/checkpoint checks; player's checkpoint is restored.
+Scene2 chore guidance: PASS 13 checks. Pure logic only; no scene or checkpoint changes.
