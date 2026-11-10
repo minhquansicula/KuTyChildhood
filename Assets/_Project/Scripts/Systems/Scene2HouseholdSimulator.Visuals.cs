@@ -173,14 +173,19 @@ public sealed partial class Scene2HouseholdSimulator
                     if (!renderer || !sourceMesh.sharedMesh) continue;
                     var visual = new GameObject(sourceMesh.name + " · existing mesh");
                     visual.transform.SetParent(pieces[i], false);
-                    visual.transform.localRotation = Quaternion.Inverse(source.rotation) * sourceMesh.transform.rotation;
+                    visual.transform.localRotation = Quaternion.Inverse(authored.useFoodAssets ? world.rotation : source.rotation) * sourceMesh.transform.rotation;
                     var scale = sourceMesh.transform.lossyScale;
                     visual.transform.localScale = scale;
-                    visual.transform.localPosition = Quaternion.Inverse(source.rotation) * (sourceMesh.transform.position - source.position);
+                    visual.transform.localPosition = Quaternion.Inverse(authored.useFoodAssets ? world.rotation : source.rotation) * (sourceMesh.transform.position - source.position);
                     visual.AddComponent<MeshFilter>().sharedMesh = sourceMesh.sharedMesh;
                     visual.AddComponent<MeshRenderer>().sharedMaterials = renderer.sharedMaterials;
                 }
                 Bounds bounds = Scene2DishwashingLayout.VisualBounds(pieces[i]);
+                if (authored.useFoodAssets)
+                {
+                    Vector3 center = world.TransformPoint(homes[i]);
+                    pieces[i].position += new Vector3(center.x - bounds.center.x, 0, center.z - bounds.center.z);
+                }
                 pieces[i].position += Vector3.up * (world.TransformPoint(homes[i]).y + .003f - bounds.min.y);
                 // The group itself sits on the plane; child offset preserves the source pivot/scale.
                 Vector3 shift = pieces[i].localPosition - homes[i];
@@ -209,6 +214,7 @@ public sealed partial class Scene2HouseholdSimulator
                 }
                 tableGuides[i] = guide;
                 BuildTablePreview(i);
+                if (authored.useFoodAssets) HideTableSource(source);
             }
             return;
         }

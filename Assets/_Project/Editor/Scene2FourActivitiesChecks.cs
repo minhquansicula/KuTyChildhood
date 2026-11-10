@@ -334,6 +334,14 @@ public sealed class Scene2FourActivitiesCheckRunner : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Check(flow.IsCurrent(HouseholdChore.WashDishes) && !simulator.IsWorking, "Table completion unlocks washing without input leaks");
         Check(flow.Pieces == 30 && !flow.Complete(HouseholdChore.SetTable, false), "Completed table awards once and refuses a duplicate reward");
+        if (tableLayout && tableLayout.useFoodAssets)
+        {
+            Check(tableLayout.dishes.All(t => !t.gameObject.activeSelf), "Completed Dat meal has only the retained task visuals, not duplicate source models");
+            var washingLayout = simulator.GetComponent<Scene2DishwashingLayout>();
+            Check(washingLayout.dishes.All(d => d.source.gameObject.activeSelf), "Dat meal completion leaves every original washing source available");
+            simulator.ResetWork();
+            Check(tableLayout.dishes.All(t => t.gameObject.activeSelf), "Reset restores Dat meal sources independently of washing props");
+        }
         // The separate 77-assertion suite exercises all dishwashing rays and lifecycle; do not duplicate it here.
         Check(flow.Complete(HouseholdChore.WashDishes, false), "Advance washing in this fixture only; dedicated suite covers the retained game");
         Check(flow.IsCurrent(HouseholdChore.ReadLetter) && flow.Pieces == 40, "Washing unlocks mother letter directly, with no removed cupboard task");

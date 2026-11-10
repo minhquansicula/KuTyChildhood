@@ -2,6 +2,8 @@
 
 ## 1. Đọc trước khi làm tiếp
 
+- **Mới nhất 11/11/2026: user đã yêu cầu merge dat-dev, ưu tiên asset dọn mâm của Đạt, giữ logic hiện tại, resolve conflict và PUSH.** Đã lưu local gameplay tại `e9f9899`, tích hợp `origin/dat-dev/feature/scene2` tới `91e1d58`; xem `docs/scene2-dat-meal-merge.md` cho quyết định resolve và QA mới. Các ghi chú cũ “chưa cho phép push” phía dưới đã được yêu cầu này thay thế. Không add các thư mục Blender/Tools ngoài phạm vi. QA gameplay/bếp/rửa/thư/ending/migration PASS; bài quay video table dừng tại native VideoPlayer sample35, không gọi suite đó PASS toàn bộ.
+
 - **Mới nhất: đọc mục12a-15 trước — user yêu cầu theo plan `C:\Users\LENOVO\.opencode\plan\KuTy-Simulator-UX-IMPLEMENT-HANDOFF.md`: Đợt1 quay lại dọn mâm làm mẫu mỹ thuật/UX, CHỜ REVIEW trước nhân rộng.** Đã có ảnh before/after + clip GameView,499assertionsPASS; không là nghiệmthuUX. Sau đó đọc12a-14→12a-13→12a-12→12a-10 (4trò+thư,5task50mảnh,Act_Ending khôngScene3),12a-9/12a-8. Mọi thay đổi vẫnlocalchưacommit/push.
 - Người dùng giao tiếp bằng tiếng Việt.
 - Workspace: `E:\FPT\FALL26\PRU213\KuTy` — Windows / PowerShell.

@@ -106,6 +106,18 @@ public sealed class Scene2TableUxSliceRunner : MonoBehaviour
         sim.EditorTablePointerPlayback = true;
         yield return new WaitForSeconds(.6f);
         var world = Field<Transform>(sim, "world"); var pieces = Field<Transform[]>(sim, "pieces"); var slots = Field<Vector3[]>(sim, "slots");
+        if (layout.useFoodAssets)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                Check(!layout.dishes[i].gameObject.activeSelf, "Dat source hidden while runtime task owns its visual: " + i);
+                var originalMeshes = layout.dishes[i].GetComponentsInChildren<MeshFilter>(true);
+                var workingMeshes = pieces[i].GetComponentsInChildren<MeshFilter>();
+                Check(originalMeshes.Select(m => m.sharedMesh).SequenceEqual(workingMeshes.Select(m => m.sharedMesh)), "Task reuses Dat meshes without replacing or editing assets: " + i);
+                Check(originalMeshes.SelectMany(m => m.GetComponent<MeshRenderer>().sharedMaterials).SequenceEqual(workingMeshes.SelectMany(m => m.GetComponent<MeshRenderer>().sharedMaterials)), "Task preserves Dat food materials: " + i);
+                Check(Quaternion.Angle(originalMeshes[0].transform.rotation, workingMeshes[0].transform.rotation) < .01f, "Food model orientation survives runtime cloning: " + i);
+            }
+        }
         Check(!world.GetComponentsInChildren<TextMeshPro>().Any(), "No permanent world-space dish/slot labels");
         Check(Field<LineRenderer[]>(sim, "tableGuides").All(g => !g.enabled), "No destinations shown before holding an item");
         Check(!layout.table.sharedMaterials.SequenceEqual(materials), "Table styling uses material copies only");
@@ -170,6 +182,7 @@ public sealed class Scene2TableUxSliceRunner : MonoBehaviour
         for (int i = 0; i < 4; i++) yield return Frame(i == 0 ? "completed.png" : null);
         recording = false; encoder.Dispose(); encoder = null;
         sim.End();
+        if (layout.useFoodAssets) Check(layout.dishes.All(t => t.gameObject.activeSelf), "Dat source visibility restored after leaving the task");
         Check(flow.Pieces == 20 && Scene2Checkpoint.LoadWork(HouseholdChore.SetTable).Contains("\"placedMask\":7"), "Leaving during the completion beat preserves all three placements without early reward");
         Field<System.Collections.IDictionary>(sim, "work").Clear();
         Check(sim.Begin(HouseholdChore.SetTable, () => flow.Complete(HouseholdChore.SetTable, false), () => { }) && sim.State.Complete, "Complete-but-pending table restores from checkpoint, not only a runtime cache");

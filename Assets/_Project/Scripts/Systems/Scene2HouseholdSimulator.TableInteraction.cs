@@ -16,6 +16,19 @@ public sealed partial class Scene2HouseholdSimulator
     private MaterialPropertyBlock tableHighlight;
     private List<RaycastResult> activityUiHits;
     private TablePlacementValidation tableValidation;
+    private readonly Dictionary<GameObject, bool> hiddenTableSources = new Dictionary<GameObject, bool>();
+
+    private void HideTableSource(Transform source)
+    {
+        if (!hiddenTableSources.ContainsKey(source.gameObject)) hiddenTableSources.Add(source.gameObject, source.gameObject.activeSelf);
+        source.gameObject.SetActive(false);
+    }
+
+    private void RestoreTableSources()
+    {
+        foreach (var source in hiddenTableSources) if (source.Key) source.Key.SetActive(source.Value);
+        hiddenTableSources.Clear();
+    }
 
     private struct TablePlacementValidation
     {

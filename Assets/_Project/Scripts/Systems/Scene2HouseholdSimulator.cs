@@ -329,7 +329,13 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
         RefreshTableGuides();
     }
 
-    private static string TablePieceName(int index) => index == 1 ? "Đĩa" : index == 0 ? "Chén lớn" : "Chén nhỏ";
+    private string TablePieceName(int index)
+    {
+        var layout = GetComponent<Scene2AuthoredTableLayout>();
+        if (layout && layout.useFoodAssets && layout.labels != null && index >= 0 && index < layout.labels.Length && !string.IsNullOrEmpty(layout.labels[index]))
+            return layout.labels[index];
+        return index == 1 ? "Đĩa" : index == 0 ? "Chén lớn" : "Chén nhỏ";
+    }
 
     private void RefreshTableGuides()
     {
@@ -407,6 +413,7 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
     public void ResetWork()
     {
         End();
+        RestoreTableSources();
         RestoreDishSources();
         RestoreTransferJars();
         work.Clear(); state = null;
@@ -420,6 +427,7 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
         IsWorking = false;
         ReleasePointer();
         RestoreTableArtTone();
+        if (TableActivity && cancel) RestoreTableSources();
         if (tableActions) tableActions.SetActive(false);
         if (authoredDishes) CloseAuthoredDishes(cancel);
         if (manager) manager.OnPauseChanged -= Pause;
@@ -447,6 +455,7 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
     private void OnDestroy()
     {
         End();
+        RestoreTableSources();
         RestoreDishSources();
         RestoreTransferJars();
         foreach (var asset in ownedAssets) if (asset) Destroy(asset);
@@ -531,7 +540,7 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
                     (letterReadSeconds < 4 ? "Đọc thong thả…" : "Bấm lá thư khi bạn đã đọc xong."); break;
             case HouseholdChore.SetTable:
                 text = GameUiPresentation.ActivitySteps(held < 0 ? 0 : tableDropReady ? 2 : 1, "Cầm đồ", "Đưa vào hình bóng", "Đặt xuống") + "\n" +
-                    (tableSettleTime > 0 ? "Đang hạ đồ xuống bàn…" : held < 0 ? "Bấm chén hoặc đĩa để cầm; cũng có thể giữ và kéo." : tableDropReady ? "Đặt được — " + (tableDragging ? "thả chuột" : "bấm lần nữa") + " để đặt " + TablePieceName(held).ToLowerInvariant() + "." : tableValidation.reason); break;
+                    (tableSettleTime > 0 ? "Đang hạ đồ xuống bàn…" : held < 0 ? "Bấm một món để cầm; cũng có thể giữ và kéo." : tableDropReady ? "Đặt được — " + (tableDragging ? "thả chuột" : "bấm lần nữa") + " để đặt " + TablePieceName(held).ToLowerInvariant() + "." : tableValidation.reason); break;
             default: text = "Giữ chuột trái để nhấc đồ · Kéo vào dấu cùng loại rồi thả · Lăn chuột để xoay\nĐã xếp " + placed + "/3 món"; break;
         }
         instructions.text = text;
