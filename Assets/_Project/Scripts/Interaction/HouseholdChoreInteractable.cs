@@ -32,7 +32,8 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
 
     public override string GetPromptText()
     {
-        if (!isActiveAndEnabled || running || !Scene2HouseholdActivityPolicy.IsActive(chore)) return "";
+        if (!isActiveAndEnabled || running || chore == HouseholdChore.SetTable ||
+            !Scene2HouseholdActivityPolicy.IsActive(chore)) return "";
         if (flow == null) flow = HouseholdChoreFlow.Instance;
         var kitchen = flow != null ? flow.GetComponent<Scene2KitchenHandsOn>() : null;
         if (kitchen != null && kitchen.Handles(chore)) return kitchen.PromptFor(chore);
@@ -81,7 +82,8 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
     protected override void OnInteract()
     {
         if (flow == null) flow = HouseholdChoreFlow.Instance;
-        if (!isActiveAndEnabled || running || flow == null || flow.UI == null || !flow.IsCurrent(chore) || GameManager.Instance?.InputBlocked == true) return;
+        if (!isActiveAndEnabled || running || chore == HouseholdChore.SetTable ||
+            flow == null || flow.UI == null || !flow.IsCurrent(chore) || GameManager.Instance?.InputBlocked == true) return;
 
         if (Scene2HouseholdActivityPolicy.IsSimple(chore))
         {

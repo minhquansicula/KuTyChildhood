@@ -145,6 +145,30 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
+        if (rayTarget == null && foodCarry != null && foodCarry.CanPickUp)
+        {
+            // Small dishes should still focus when the reticle grazes their rim.
+            int count = Physics.SphereCastNonAlloc(ray, .14f, raycastHits, interactDistance,
+                interactableLayer, QueryTriggerInteraction.Ignore);
+            for (int i = 0; i < count; i++)
+            {
+                RaycastHit hit = raycastHits[i];
+                if (hit.collider == null || hit.distance >= rayDistance ||
+                    !hit.collider.TryGetComponent<Scene2FoodInteractable>(out var dish)) continue;
+                string prompt = dish.GetPromptText();
+                if (string.IsNullOrEmpty(prompt)) continue;
+
+                Vector3 towardDish = hit.point - ray.origin;
+                if (Physics.Raycast(ray.origin, towardDish.normalized, out var blocker,
+                    towardDish.magnitude, ~0, QueryTriggerInteraction.Ignore) && blocker.collider != hit.collider)
+                    continue;
+
+                rayTarget = dish;
+                rayPrompt = prompt;
+                rayDistance = hit.distance;
+            }
+        }
+
         // A small chair can sit below the camera ray and an open door swings out
         // of it. Keep both reachable nearby through this same input owner.
         IProximityInteractable closest = null;

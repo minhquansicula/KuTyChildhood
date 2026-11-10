@@ -14,6 +14,7 @@ public sealed class Scene2FoodInteractable : InteractableBase
     internal Quaternion InitialFlatRotation { get; private set; }
     internal Vector3 InitialWorldScale { get; private set; }
     internal Transform OriginalParent { get; private set; }
+    internal Transform PlacementSurface { get; set; }
 
     private void Awake()
     {
@@ -36,13 +37,13 @@ public sealed class Scene2FoodInteractable : InteractableBase
         var col = GetComponent<Collider>();
         if (col != null)
         {
-            BottomOffset = Mathf.Max(0f, transform.position.y - col.bounds.min.y);
+            BottomOffset = transform.position.y - col.bounds.min.y;
         }
         else
         {
             var rend = GetComponentInChildren<Renderer>();
             if (rend != null)
-                BottomOffset = Mathf.Max(0f, transform.position.y - rend.bounds.min.y);
+                BottomOffset = transform.position.y - rend.bounds.min.y;
         }
     }
 
@@ -55,7 +56,7 @@ public sealed class Scene2FoodInteractable : InteractableBase
         if (carrier == null || !carrier.CanPickUp) return "";
         if (!carrier.CanReach(this)) return "";
         string title = !string.IsNullOrEmpty(foodName) ? foodName : gameObject.name;
-        return $"[E] Cầm {title}";
+        return gameObject.name == "LongBan" ? "[E] Lấy lồng bàn" : $"[E] Cầm {title}";
     }
 
     protected override void OnInteract()

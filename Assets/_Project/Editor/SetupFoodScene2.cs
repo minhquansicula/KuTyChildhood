@@ -19,25 +19,36 @@ public static class SetupFoodScene2
     public static void EnableFoodCarry()
     {
         Scene scene = SceneManager.GetActiveScene();
-        if (EditorApplication.isPlayingOrWillChangePlaymode || scene.path != ScenePath || scene.isDirty)
-            throw new System.InvalidOperationException("Open the saved Scene 2 in Edit Mode first.");
+        if (EditorApplication.isPlayingOrWillChangePlaymode || scene.path != ScenePath)
+            throw new System.InvalidOperationException("Open Scene 2 in Edit Mode first.");
 
         var meal = GameObject.Find("MamCom_GiaDinh");
         var player = Object.FindObjectOfType<FirstPersonController>();
+        var table = GameObject.Find("bandai_khach");
+        var cover = GameObject.Find("LongBan") ?? GameObject.Find("FoodCoveri") ?? GameObject.Find("FoodCover");
         var names = new[] { "Canh", "RauXao", "ThitKho" };
-        var labels = new[] { "canh", "rau xào", "thịt kho" };
-        var dishes = new Transform[names.Length];
+        var labels = new[] { "canh", "rau xào", "thịt kho", "nồi cơm", "lồng bàn" };
+        var dishes = new Transform[labels.Length];
         int layer = LayerMask.NameToLayer("Interactable");
-        if (meal == null || player == null || layer < 0)
-            throw new System.InvalidOperationException("Scene 2 is missing the meal, player, or Interactable layer.");
+        if (meal == null || player == null || table == null || !table.TryGetComponent<Collider>(out var tabletop) ||
+            cover == null || !cover.TryGetComponent<Collider>(out _) || layer < 0)
+            throw new System.InvalidOperationException("Scene 2 is missing its meal, player, table collider, or food cover.");
         for (int i = 0; i < names.Length; i++)
         {
             dishes[i] = meal.transform.Find(names[i]);
-            if (dishes[i] == null || !dishes[i].TryGetComponent<MeshCollider>(out _))
-                throw new System.InvalidOperationException($"Missing {names[i]} or its MeshCollider.");
+            if (dishes[i] == null || !dishes[i].TryGetComponent<Collider>(out _))
+                throw new System.InvalidOperationException($"Missing {names[i]} or its collider.");
         }
 
+        dishes[3] = meal.transform.Find("noicom") ?? AddRicePot(meal.transform, dishes[0]);
+        PositionRicePot(dishes[3], dishes[0]);
+        dishes[4] = cover.transform;
+        Undo.RecordObject(cover, "Rename food cover");
+        cover.name = "LongBan";
         var carrier = player.GetComponent<Scene2FoodCarry>() ?? Undo.AddComponent<Scene2FoodCarry>(player.gameObject);
+        var carrierSettings = new SerializedObject(carrier);
+        carrierSettings.FindProperty("diningTableCollider").objectReferenceValue = tabletop;
+        carrierSettings.ApplyModifiedProperties();
         for (int i = 0; i < dishes.Length; i++)
         {
             var dish = dishes[i].gameObject;
@@ -51,8 +62,54 @@ public static class SetupFoodScene2
             settings.ApplyModifiedProperties();
         }
         EditorSceneManager.MarkSceneDirty(scene);
+        AssetDatabase.SaveAssets();
         if (!EditorSceneManager.SaveScene(scene))
             throw new System.InvalidOperationException("Could not save Scene 2 food interactions.");
+    }
+
+    private static Transform AddRicePot(Transform meal, Transform soup)
+    {
+        var model = AssetDatabase.LoadAssetAtPath<GameObject>($"{ModelsFolder}/noicom.fbx");
+        if (model == null || soup.GetComponentInChildren<Renderer>() == null)
+            throw new System.InvalidOperationException("Missing noicom.fbx or the Canh renderer.");
+
+        var normalPath = $"{TexturesFolder}/NoiCom_Normal.png";
+        var metallicPath = $"{TexturesFolder}/NoiCom_MetallicSmoothness.png";
+        ConfigureNormalMap(normalPath);
+        if (AssetImporter.GetAtPath(metallicPath) is TextureImporter metallic && metallic.sRGBTexture)
+        {
+            metallic.sRGBTexture = false;
+            metallic.SaveAndReimport();
+        }
+        var material = GetOrCreateMaterial($"{MaterialsFolder}/MAT_NoiCom.mat",
+            Shader.Find("Universal Render Pipeline/Lit"), $"{TexturesFolder}/NoiCom_BaseColor.png",
+            normalPath, metallicPath, .65f);
+
+        var pot = (GameObject)PrefabUtility.InstantiatePrefab(model, meal);
+        Undo.RegisterCreatedObjectUndo(pot, "Add rice pot");
+        pot.name = "noicom";
+        var renderer = pot.GetComponentInChildren<Renderer>();
+        renderer.sharedMaterial = material;
+        var collider = Undo.AddComponent<BoxCollider>(pot);
+        collider.center = renderer.localBounds.center;
+        collider.size = renderer.localBounds.size;
+        return pot.transform;
+    }
+
+    private static void PositionRicePot(Transform pot, Transform soup)
+    {
+        Undo.RecordObject(pot, "Place rice pot next to soup");
+        pot.rotation = Quaternion.Euler(-90f, 0f, 0f);
+        var renderer = pot.GetComponentInChildren<Renderer>();
+        var size = renderer.bounds.size;
+        pot.localScale *= .29f / Mathf.Max(size.x, size.z);
+        Bounds soupBounds = soup.GetComponentInChildren<Renderer>().bounds;
+        Bounds potBounds = renderer.bounds;
+        Vector3 targetCenter = new Vector3(soupBounds.center.x, soupBounds.min.y + potBounds.extents.y,
+            soupBounds.max.z + potBounds.extents.z + .035f);
+        pot.position += targetCenter - potBounds.center;
+        PrefabUtility.RecordPrefabInstancePropertyModifications(pot);
+        Debug.Log($"[FoodSetup] noicom at {renderer.bounds.center}, Canh at {soupBounds.center}.", pot);
     }
 
     [MenuItem("KuTy/Scene 2/Thêm 3 món ăn vào Bàn Ăn (Scene 2)")]
