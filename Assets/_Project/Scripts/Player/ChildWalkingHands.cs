@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 /// <summary>Small, camera-relative arm swing driven by actual planar travel.</summary>
@@ -13,7 +14,13 @@ public sealed class ChildWalkingHands : MonoBehaviour
     private FirstPersonController player;
     private Camera view;
     private Renderer[] renderers;
+    private Camera reachCamera;
+    private UniversalAdditionalCameraData viewData;
+    private int reachLayer;
+    private bool viewIncludedReachLayer;
+    private int[] walkingLayers;
     private Scene2RadioKitchenSequence chores;
+    private Scene2FoodCarry foodCarry;
     private Vector3 previousPosition;
     private float amount;
     private float phase;
@@ -24,6 +31,8 @@ public sealed class ChildWalkingHands : MonoBehaviour
     private float reachTime = 1f;
     private const float ReachDuration = .46f;
     public bool IsReaching => reachTime < ReachDuration;
+    private bool IsHoldingFood => foodCarry != null && foodCarry.IsHolding;
+    private bool IsUsingRightHand => IsReaching || IsHoldingFood;
     private Vector3 rightReference, leftReference;
     private Vector3 rightRootPosition, leftRootPosition;
     [SerializeField, Min(.5f)] private float metresPerCycle = 3f;
@@ -43,15 +52,18 @@ public sealed class ChildWalkingHands : MonoBehaviour
         if (scene.name != SceneNames.Act2_Home && scene.name != SceneNames.Act3_OutSide) return;
         var player = FindObjectOfType<FirstPersonController>();
         if (player == null || player.PlayerCamera == null || player.GetComponentInChildren<ChildWalkingHands>(true) != null) return;
-        var prefab = Resources.Load<ChildWalkingHands>("Cutscenes/KuTiWalkingHands");
+        bool isHome = scene.name == SceneNames.Act2_Home;
+        var prefab = Resources.Load<ChildWalkingHands>(isHome ? "Cutscenes/HomeWalkingHands" : "Cutscenes/KuTiWalkingHands");
         if (prefab == null) return;
         var hands = Instantiate(prefab, player.PlayerCamera, false);
         hands.name = "Walking Hands";
-        hands.useHomeFraming = scene.name == SceneNames.Act2_Home;
+        hands.useHomeFraming = isHome;
         hands.player = player;
         hands.view = player.PlayerCamera.GetComponent<Camera>();
+        if (isHome) hands.CreateReachCamera();
         hands.previousPosition = player.transform.position;
         hands.chores = FindObjectOfType<Scene2RadioKitchenSequence>();
+        hands.foodCarry = player.GetComponent<Scene2FoodCarry>();
         hands.rightFingerBones = hands.rightWrist.GetComponentsInChildren<Transform>();
         hands.rightFingerRestRotations = new Quaternion[hands.rightFingerBones.Length];
         var skin = hands.GetComponentInChildren<SkinnedMeshRenderer>();
@@ -100,10 +112,14 @@ public sealed class ChildWalkingHands : MonoBehaviour
         float speed = Time.deltaTime > 0f ? distance / Time.deltaTime : 0f;
         bool moving = speed > .08f;
         if (moving) phase = Mathf.Repeat(phase + distance / metresPerCycle, 1f);
-        amount = Mathf.MoveTowards(amount, moving ? 1f : 0f, Time.deltaTime * 5f);
+        float targetAmount = moving ? 1f : 0f;
+        if (useHomeFraming)
+            targetAmount = Mathf.InverseLerp(.08f, 2f, speed);
+        float blendRate = useHomeFraming && targetAmount < amount ? 3.5f : 5f;
+        amount = Mathf.MoveTowards(amount, targetAmount, Time.deltaTime * blendRate);
         if (IsReaching) reachTime += Time.deltaTime;
         ApplyPose();
-        Show(amount > .01f || IsReaching);
+        Show(amount > .01f || IsUsingRightHand);
     }
 
     private void ApplyPose()
@@ -111,11 +127,20 @@ public sealed class ChildWalkingHands : MonoBehaviour
         // Reset positional framing, then preserve the clip's actual forward/backward arm travel.
         rightArmRoot.localPosition = rightRootPosition;
         leftArmRoot.localPosition = leftRootPosition;
-        cycle.SampleAnimation(modelRoot, (IsReaching ? .25f : phase) * cycle.length);
+        cycle.SampleAnimation(modelRoot, (IsUsingRightHand ? .25f : phase) * cycle.length);
         FrameArm(rightArmRoot, rightWrist, rightReference, 1f);
         FrameArm(leftArmRoot, leftWrist, leftReference, -1f);
-        if (IsReaching)
+        if (IsUsingRightHand)
         {
+            // The textured home mesh keeps the wrist and fingers in its skinned pose.
+            // Rotate the whole arm for framing so the wrist follows the forearm.
+            if (useHomeFraming)
+            {
+                // Keep the clip's forward wrist angle and add a small turn to the right.
+                rightArmRoot.RotateAround(rightWrist.position, view.transform.up, 12f * RightHandLift());
+                return;
+            }
+
             Quaternion openPalm = rightWrist.rotation;
             Vector3 fingerCenter = Vector3.zero;
             int fingerCount = 0;
@@ -132,14 +157,7 @@ public sealed class ChildWalkingHands : MonoBehaviour
                 if (rightFingerBones[i] != rightWrist)
                     rightFingerBones[i].localRotation = rightFingerRestRotations[i];
             // Aim the forearm from the lower corner, then constrain the independent hand pose.
-            Vector3 wristScreen = view.WorldToViewportPoint(rightWrist.position);
-            Vector3 elbowScreen = view.WorldToViewportPoint(rightWrist.parent.position);
-            Vector2 currentDirection = new Vector2((elbowScreen.x - wristScreen.x) * view.aspect,
-                elbowScreen.y - wristScreen.y);
-            Vector2 desiredDirection = new Vector2((.907f - wristScreen.x) * view.aspect,
-                Mathf.Min(-.03f, .062f - wristScreen.y));
-            float elbowTurn = Vector2.SignedAngle(currentDirection, desiredDirection);
-            rightArmRoot.RotateAround(rightWrist.position, view.transform.forward, elbowTurn * ReachLift());
+            AimReachArm();
             Vector3 forearmAxis = (rightWrist.position - rightWrist.parent.position).normalized;
             rightWrist.rotation = openPalm;
             // Preserve the reference palm facing while limiting the wrist bend.
@@ -170,6 +188,18 @@ public sealed class ChildWalkingHands : MonoBehaviour
         }
     }
 
+    private void AimReachArm()
+    {
+        Vector3 wristScreen = view.WorldToViewportPoint(rightWrist.position);
+        Vector3 elbowScreen = view.WorldToViewportPoint(rightWrist.parent.position);
+        Vector2 currentDirection = new Vector2((elbowScreen.x - wristScreen.x) * view.aspect,
+            elbowScreen.y - wristScreen.y);
+        Vector2 desiredDirection = new Vector2((.907f - wristScreen.x) * view.aspect,
+            Mathf.Min(-.03f, .062f - wristScreen.y));
+        float elbowTurn = Vector2.SignedAngle(currentDirection, desiredDirection);
+        rightArmRoot.RotateAround(rightWrist.position, view.transform.forward, elbowTurn * ReachLift());
+    }
+
     private void FrameArm(Transform root, Transform wrist, Vector3 reference, float side)
     {
         Vector3 local = view.transform.InverseTransformPoint(wrist.position);
@@ -178,17 +208,31 @@ public sealed class ChildWalkingHands : MonoBehaviour
         float forwardStep = Mathf.Sin(phase * Mathf.PI * 2f) * side;
         float reveal = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(forwardStep));
         float reach = useHomeFraming ? reveal * amount : 0f;
-        float lowerEdgeOffset = (useHomeFraming ? 1.27f : 1.25f) + .65f * (1f - reveal) + .55f * (1f - amount);
+        float lowerEdgeOffset = (useHomeFraming ? 1.37f : 1.25f) + .65f * (1f - reveal) + .55f * (1f - amount);
         float x = side * (useHomeFraming ? .815f - .025f * reach : .80f - .05f * reach) * halfHeight * view.aspect + swing.x;
         float y = ((useHomeFraming ? .17f : 0f) * reach - lowerEdgeOffset) * halfHeight + swing.y;
-        if (IsReaching)
+        float forwardOffset = 0f;
+        if (useHomeFraming && !IsUsingRightHand)
         {
-            float lift = ReachLift();
-            x = side * .84f * halfHeight * view.aspect;
-            y = (side > 0f ? -1.85f + 1.00f * lift : -2.1f) * halfHeight;
+            // Let the wrists trail the stride slightly instead of moving along a straight line.
+            float trailingSwing = Mathf.Sin(phase * Mathf.PI * 2f - .35f) * side;
+            float walkBlend = Mathf.SmoothStep(0f, 1f, amount);
+            x -= side * .035f * trailingSwing * walkBlend * halfHeight * view.aspect;
+            forwardOffset = .018f * trailingSwing * walkBlend;
+            Vector3 forearm = wrist.position - wrist.parent.position;
+            root.RotateAround(wrist.position, forearm.normalized, side * trailingSwing * walkBlend * 4f);
+        }
+        if (IsUsingRightHand)
+        {
+            float lift = RightHandLift();
+            float reachSide = useHomeFraming && side > 0f ? .84f - .12f * lift : .84f;
+            x = side * reachSide * halfHeight * view.aspect;
+            bool homeRightReach = useHomeFraming && side > 0f;
+            y = (side > 0f ? -1.85f + (homeRightReach ? 1.06f : 1f) * lift : -2.1f) * halfHeight;
+            if (homeRightReach) forwardOffset = .06f * lift;
         }
         // Convert the correction from camera-local units, including the player's scale.
-        root.position += view.transform.TransformVector(new Vector3(x - local.x, y - local.y, 0f));
+        root.position += view.transform.TransformVector(new Vector3(x - local.x, y - local.y, forwardOffset));
     }
 
     private float ReachLift()
@@ -197,6 +241,8 @@ public sealed class ChildWalkingHands : MonoBehaviour
         return t < .38f ? Mathf.SmoothStep(0f, 1f, t / .38f) :
             1f - Mathf.SmoothStep(0f, 1f, (t - .38f) / .62f);
     }
+
+    private float RightHandLift() => Mathf.Lerp(IsHoldingFood ? .78f : 0f, 1f, IsReaching ? ReachLift() : 0f);
 
     private void OnInteraction(IInteractable target)
         => TryReach();
@@ -213,6 +259,37 @@ public sealed class ChildWalkingHands : MonoBehaviour
     private void OnDestroy()
     {
         if (interaction != null) interaction.InteractionStarted -= OnInteraction;
+        if (reachCamera != null && viewData != null)
+        {
+            viewData.cameraStack?.Remove(reachCamera);
+            if (view != null && viewIncludedReachLayer) view.cullingMask |= 1 << reachLayer;
+        }
+    }
+
+    private void CreateReachCamera()
+    {
+        reachLayer = LayerMask.NameToLayer("FirstPersonReach");
+        if (view == null || reachLayer < 0) return;
+        viewData = view.GetUniversalAdditionalCameraData();
+        var stack = viewData.cameraStack;
+        if (stack == null) return;
+
+        walkingLayers = new int[renderers.Length];
+        for (int i = 0; i < renderers.Length; i++) walkingLayers[i] = renderers[i].gameObject.layer;
+
+        var cameraObject = new GameObject("Reach Hands Camera");
+        cameraObject.transform.SetParent(transform, false);
+        cameraObject.transform.SetPositionAndRotation(view.transform.position, view.transform.rotation);
+        reachCamera = cameraObject.AddComponent<Camera>();
+        reachCamera.CopyFrom(view);
+        reachCamera.enabled = false;
+        reachCamera.cullingMask = 1 << reachLayer;
+        var reachData = reachCamera.GetUniversalAdditionalCameraData();
+        reachData.renderType = CameraRenderType.Overlay;
+        reachData.renderShadows = false;
+        viewIncludedReachLayer = (view.cullingMask & (1 << reachLayer)) != 0;
+        view.cullingMask &= ~(1 << reachLayer);
+        stack.Add(reachCamera);
     }
 
 #if UNITY_EDITOR
@@ -231,6 +308,23 @@ public sealed class ChildWalkingHands : MonoBehaviour
     {
         IsVisible = visible;
         if (renderers == null) return;
-        foreach (var renderer in renderers) renderer.enabled = visible;
+        bool overlay = visible && IsUsingRightHand && reachCamera != null;
+        if (reachCamera != null)
+        {
+            reachCamera.enabled = overlay;
+            if (overlay)
+            {
+                reachCamera.transform.SetPositionAndRotation(view.transform.position, view.transform.rotation);
+                reachCamera.fieldOfView = view.fieldOfView;
+                reachCamera.nearClipPlane = view.nearClipPlane;
+                reachCamera.farClipPlane = view.farClipPlane;
+            }
+        }
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].enabled = visible;
+            if (reachCamera != null)
+                renderers[i].gameObject.layer = overlay ? reachLayer : walkingLayers[i];
+        }
     }
 }

@@ -15,6 +15,46 @@ public static class SetupFoodScene2
 
     private const float FoodScale = 32.0f; // Scale chuẩn cân đối tuyệt đối với mặt bàn tròn phòng bếp Scene 2
 
+    [MenuItem("KuTyTools/Enable Scene 2 Food Carry")]
+    public static void EnableFoodCarry()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        if (EditorApplication.isPlayingOrWillChangePlaymode || scene.path != ScenePath || scene.isDirty)
+            throw new System.InvalidOperationException("Open the saved Scene 2 in Edit Mode first.");
+
+        var meal = GameObject.Find("MamCom_GiaDinh");
+        var player = Object.FindObjectOfType<FirstPersonController>();
+        var names = new[] { "Canh", "RauXao", "ThitKho" };
+        var labels = new[] { "canh", "rau xào", "thịt kho" };
+        var dishes = new Transform[names.Length];
+        int layer = LayerMask.NameToLayer("Interactable");
+        if (meal == null || player == null || layer < 0)
+            throw new System.InvalidOperationException("Scene 2 is missing the meal, player, or Interactable layer.");
+        for (int i = 0; i < names.Length; i++)
+        {
+            dishes[i] = meal.transform.Find(names[i]);
+            if (dishes[i] == null || !dishes[i].TryGetComponent<MeshCollider>(out _))
+                throw new System.InvalidOperationException($"Missing {names[i]} or its MeshCollider.");
+        }
+
+        var carrier = player.GetComponent<Scene2FoodCarry>() ?? Undo.AddComponent<Scene2FoodCarry>(player.gameObject);
+        for (int i = 0; i < dishes.Length; i++)
+        {
+            var dish = dishes[i].gameObject;
+            Undo.RecordObject(dish, "Enable food interaction");
+            dish.layer = layer;
+            PrefabUtility.RecordPrefabInstancePropertyModifications(dish);
+            var pickup = dish.GetComponent<Scene2FoodInteractable>() ?? Undo.AddComponent<Scene2FoodInteractable>(dish);
+            var settings = new SerializedObject(pickup);
+            settings.FindProperty("foodName").stringValue = labels[i];
+            settings.FindProperty("carrier").objectReferenceValue = carrier;
+            settings.ApplyModifiedProperties();
+        }
+        EditorSceneManager.MarkSceneDirty(scene);
+        if (!EditorSceneManager.SaveScene(scene))
+            throw new System.InvalidOperationException("Could not save Scene 2 food interactions.");
+    }
+
     [MenuItem("KuTy/Scene 2/Thêm 3 món ăn vào Bàn Ăn (Scene 2)")]
     [MenuItem("KuTyTools/Setup Food Scene 2")]
     public static void SetupFood()
