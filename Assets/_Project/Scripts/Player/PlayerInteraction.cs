@@ -32,6 +32,7 @@ public class PlayerInteraction : MonoBehaviour
     private string currentPromptText = "";
     private Camera mainCamera;
     private ChildWalkingHands hands;
+    private Scene2FoodCarry foodCarry;
     private Coroutine pendingInteraction;
     private bool interactionPending;
     private readonly RaycastHit[] raycastHits = new RaycastHit[32];
@@ -56,6 +57,7 @@ public class PlayerInteraction : MonoBehaviour
             raycastOrigin = mainCamera.transform;
         }
         if (raycastOrigin == null) { Debug.LogError("PlayerInteraction requires a camera.", this); enabled = false; }
+        foodCarry = GetComponent<Scene2FoodCarry>();
         // Some interaction points are revealed by quest progress after Start.
         foreach (MonoBehaviour behaviour in FindObjectsOfType<MonoBehaviour>(true))
             if (behaviour is IProximityInteractable nearby) proximityTargets.Add(nearby);
@@ -78,6 +80,24 @@ public class PlayerInteraction : MonoBehaviour
     private void HandleRaycast()
     {
         Ray ray = new Ray(raycastOrigin.position, raycastOrigin.forward);
+
+        // If holding food, check for placement on any surface first
+        if (foodCarry != null && foodCarry.IsHolding)
+        {
+            if (foodCarry.UpdatePlacementRay(ray, interactDistance))
+            {
+                string prompt = foodCarry.GetPromptText();
+                SetTarget(foodCarry, prompt);
+                HUDController.Instance?.ShowInteractPrompt(prompt);
+                HUDController.Instance?.SetCrosshairHighlight(true);
+                return;
+            }
+            else
+            {
+                ClearTarget();
+                return;
+            }
+        }
 
         // Cast against all layers to detect obstacles, triggers, and interactables.
         int hitCount = Physics.RaycastNonAlloc(ray, raycastHits, interactDistance, ~0, QueryTriggerInteraction.Collide);
@@ -184,7 +204,7 @@ public class PlayerInteraction : MonoBehaviour
             InteractionStarted?.Invoke(target);
             ClearTarget();
             if (hands == null) hands = GetComponentInChildren<ChildWalkingHands>(true);
-            if (hands != null && hands.IsReaching)
+            if (hands != null && hands.IsReaching && !(target is Scene2FoodCarry))
             {
                 interactionPending = true;
                 pendingInteraction = StartCoroutine(CompleteAfterReach(target));
