@@ -1,0 +1,132 @@
+PASS · 129 assertions
+PASS Wake-up and story control still work
+PASS Activity policy: FetchWater
+PASS Only retained activities have a physical handler: FetchWater
+PASS Activity policy: MeasureRice
+PASS Only retained activities have a physical handler: MeasureRice
+PASS Activity policy: WashRice
+PASS Only retained activities have a physical handler: WashRice
+PASS Activity policy: LightFire
+PASS Only retained activities have a physical handler: LightFire
+PASS Activity policy: CookRice
+PASS Only retained activities have a physical handler: CookRice
+PASS Activity policy: SetTable
+PASS Only retained activities have a physical handler: SetTable
+PASS Activity policy: WashDishes
+PASS Only retained activities have a physical handler: WashDishes
+PASS Activity policy: PutAwayDishes
+PASS Only retained activities have a physical handler: PutAwayDishes
+PASS Activity policy: FoldBlanket
+PASS Only retained activities have a physical handler: FoldBlanket
+PASS Activity policy: ArrangeKeepsakes
+PASS Only retained activities have a physical handler: ArrangeKeepsakes
+PASS Activity policy: TuneRadio
+PASS Only retained activities have a physical handler: TuneRadio
+PASS Activity policy: SortTools
+PASS Only retained activities have a physical handler: SortTools
+PASS Activity policy: GrindCorn
+PASS Only retained activities have a physical handler: GrindCorn
+PASS Activity policy: CarryWood
+PASS Only retained activities have a physical handler: CarryWood
+PASS Activity policy: ReadLetter
+PASS Only retained activities have a physical handler: ReadLetter
+PASS Story task count, serialized IDs and reward total stay compatible
+PASS Direct calls cannot reopen removed transfer minigame
+PASS Optional task is a simple confirmation: SortTools
+PASS Optional UI preserves optional reward/order: SortTools
+PASS Optional task is a simple confirmation: GrindCorn
+PASS Optional UI preserves optional reward/order: GrindCorn
+PASS E routes to simple UI, not a legacy game: ArrangeKeepsakes
+PASS No timing/progress mini-game UI: ArrangeKeepsakes
+PASS Opening key cannot also confirm in the same frame: ArrangeKeepsakes
+PASS Pause blocks UI completion: ArrangeKeepsakes
+PASS Cancel releases input without reward: ArrangeKeepsakes
+PASS Confirmation completes once only: ArrangeKeepsakes
+PASS Simple UI does not teleport camera: ArrangeKeepsakes
+PASS Existing checkpoint records confirmed task: ArrangeKeepsakes
+PASS E routes to simple UI, not a legacy game: TuneRadio
+PASS No timing/progress mini-game UI: TuneRadio
+PASS Opening key cannot also confirm in the same frame: TuneRadio
+PASS Pause blocks UI completion: TuneRadio
+PASS Cancel releases input without reward: TuneRadio
+PASS Confirmation completes once only: TuneRadio
+PASS Simple UI does not teleport camera: TuneRadio
+PASS Existing checkpoint records confirmed task: TuneRadio
+PASS E routes to simple UI, not a legacy game: CarryWood
+PASS No timing/progress mini-game UI: CarryWood
+PASS Opening key cannot also confirm in the same frame: CarryWood
+PASS Pause blocks UI completion: CarryWood
+PASS Cancel releases input without reward: CarryWood
+PASS Confirmation completes once only: CarryWood
+PASS Simple UI does not teleport camera: CarryWood
+PASS Existing checkpoint records confirmed task: CarryWood
+PASS E routes to simple UI, not a legacy game: FetchWater
+PASS No timing/progress mini-game UI: FetchWater
+PASS Opening key cannot also confirm in the same frame: FetchWater
+PASS Pause blocks UI completion: FetchWater
+PASS Cancel releases input without reward: FetchWater
+PASS Confirmation completes once only: FetchWater
+PASS Simple UI does not teleport camera: FetchWater
+PASS Existing checkpoint records confirmed task: FetchWater
+PASS E routes to simple UI, not a legacy game: MeasureRice
+PASS No timing/progress mini-game UI: MeasureRice
+PASS Opening key cannot also confirm in the same frame: MeasureRice
+PASS Pause blocks UI completion: MeasureRice
+PASS Cancel releases input without reward: MeasureRice
+PASS Confirmation completes once only: MeasureRice
+PASS Simple UI does not teleport camera: MeasureRice
+PASS Existing checkpoint records confirmed task: MeasureRice
+PASS E routes to simple UI, not a legacy game: WashRice
+PASS No timing/progress mini-game UI: WashRice
+PASS Opening key cannot also confirm in the same frame: WashRice
+PASS Pause blocks UI completion: WashRice
+PASS Cancel releases input without reward: WashRice
+PASS Confirmation completes once only: WashRice
+PASS Simple UI does not teleport camera: WashRice
+PASS Existing checkpoint records confirmed task: WashRice
+PASS Radio and delivered wood visuals still reflect simple confirmations
+PASS Direct API also rejects the removed rice-washing gesture game
+PASS Story reaches retained wood placement normally
+PASS Place wood/ignite remains a physical activity
+PASS Fire cannot finish before placing the three logs
+PASS All three wood placements remain required
+PASS Ignition completes to the cooking stage and releases control
+PASS Rice cooking remains hands-on
+PASS Excessive heat still does not cook rice
+PASS Adjusting real fuel allows the gentle simmer to cook rice
+PASS Lid lift uses world metres despite imported hierarchy scale
+PASS Pause safely closes a half-lifted lid without finishing the task
+PASS Cancelling the lid check returns it safely to the pot
+PASS Lifting the lid completes cooking normally
+PASS Completed lid is placed at supported marker immediately, not left at a raised offset
+PASS A real solid surface exists below the rested lid
+PASS Lid-bottom support gap <= 6mm: 0.003000
+PASS Loading completed kitchen state reconstructs the supported lid pose
+PASS A real solid surface exists below the rested lid
+PASS Lid-bottom support gap <= 6mm: 0.003000
+PASS Setting the table retains its world-space mini-game
+PASS Placement target is inside the real viewport
+PASS Table item is picked by ray: 0
+PASS Placement target is inside the real viewport
+PASS Placement target is inside the real viewport
+PASS Placement target is inside the real viewport
+PASS Table item is picked by ray: 1
+PASS Placement target is inside the real viewport
+PASS Placement target is inside the real viewport
+PASS Placement target is inside the real viewport
+PASS Table item is picked by ray: 2
+PASS Placement target is inside the real viewport
+PASS Placement target is inside the real viewport
+PASS All three real table placements complete the table activity
+PASS Table completion unlocks washing without input leaks
+PASS Advance washing in this fixture only; dedicated suite covers the retained game
+PASS Putting dishes away is now a simple UI interaction
+PASS The story and letter remain after the retained mini-games
+PASS Letter opens as reading UI rather than a paper-fold puzzle
+PASS Letter cannot be skipped immediately
+PASS Reading delay does not run while paused
+PASS Leaving the letter does not complete the story
+PASS Read-complete button becomes available after deliberate reading time
+PASS Test leaves letter uncompleted; no outside-scene transition or checkpoint reset
+
+Simple UI routes, retained kitchen/table activities and supported lid passed.

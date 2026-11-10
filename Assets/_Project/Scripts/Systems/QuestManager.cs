@@ -29,7 +29,7 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private QuestStep currentStep = QuestStep.WashDishes;
     [Header("Scene Flow Configuration")]
     [Tooltip("Khi bat, sau khi hoan thanh Scene 2 (doc thu cua me), game se chuyen thang sang man ket thuc (Act_Ending) thay vi tai Scene 3.")]
-    [SerializeField] private bool skipScene3 = false;
+    [SerializeField] private bool skipScene3 = true;
     public bool SkipScene3 => skipScene3;
     public string HouseholdDestination => skipScene3 ? SceneNames.Act_Ending : SceneNames.Act3_OutSide;
     public QuestStep CurrentStep => currentStep;
@@ -161,6 +161,8 @@ public class QuestManager : MonoBehaviour
         if (!IsLeavingHome || outsideTransitionRequested) return;
         outsideTransitionRequested = true;
         if (outsideFallback != null) StopCoroutine(outsideFallback);
+        // The ending shows personal results; Scene 2's flow is destroyed once the scene unloads.
+        EndingSummary.Capture(HouseholdChoreFlow.Instance);
 
         string nextScene = HouseholdDestination;
         if (SceneLoader.Instance != null)

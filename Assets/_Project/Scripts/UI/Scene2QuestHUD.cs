@@ -144,10 +144,10 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         string chapter = SceneManager.GetActiveScene().name == SceneNames.Act3_OutSide
             ? "CHƯƠNG 02 · SÂN NHÀ" : household && chores != null ? chores.CurrentChapter : "CHƯƠNG 02 · NHÀ MÌNH";
         objectiveText.text = "<size=19><color=#F0C26E>" + chapter + "</color></size>\n" +
-            "<size=22><color=#C1CABC>" + status + "</color></size>\n\n" +
+            "<size=20><color=#C1CABC>" + status + "</color></size>\n" +
             "<size=28><b><color=#F7F0D8>" + action + "</color></b></size>\n" +
             (string.IsNullOrEmpty(location) ? string.Empty : "<size=21><color=#F0C26E>" + location + "</color></size>\n") +
-            "\n<size=19><color=#C1CABC>E  Tương tác   ·   H  Gợi ý\nTAB  Xem hành trình</color></size>";
+            "\n<size=19><color=#C1CABC>[E] Bắt đầu   ·   [H] Chỉ đường\n[TAB] Việc nhà</color></size>";
         if (objectiveRect != null)
             objectiveRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,
                 Mathf.Clamp(objectiveText.GetPreferredValues(objectiveText.text, 444f, 0).y + 48f, 255f, 400f));
@@ -162,23 +162,22 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         {
             int active = chores != null ? chores.ActiveIndex : 0;
             text.Append("<size=28><b>VIỆC NHÀ CÙNG MẸ</b></size>\n");
-            text.Append("<color=#F4C66A>Hành trình chính: ").Append(Mathf.Min(active, HouseholdChoreFlow.ChoreCount))
-                .Append('/').Append(HouseholdChoreFlow.ChoreCount).Append(" việc</color>\n");
+            text.Append("<color=#F4C66A>Đã xong ").Append(Mathf.Min(active, HouseholdChoreFlow.ChoreCount))
+                .Append('/').Append(HouseholdChoreFlow.ChoreCount).Append(" việc · Cứ làm thong thả nhé</color>\n");
             text.Append("<size=20>Mảnh ký ức: ").Append(chores != null ? chores.RequiredPieces : 0)
                 .Append('/').Append(HouseholdChoreFlow.ChoreCount * HouseholdChoreFlow.PiecesPerChore)
-                .Append(" · Thêm: +").Append(chores != null ? chores.OptionalPieces : 0).Append("</size>\n\n");
+                .Append("</size>\n\n");
             for (int i = 0; i < HouseholdChoreFlow.ChoreCount; i++)
             {
                 string title = HouseholdChoreFlow.Titles[(int)HouseholdChoreFlow.Order[i]];
-                if (i < active) text.Append("<color=#9ADD91>✓  ").Append(title).Append("</color>\n");
-                else if (i == active) text.Append("<color=#FFE19B><b>›  ").Append(title).Append("</b></color>\n");
-                else text.Append("<color=#B9C0C2>○  ").Append(title).Append("</color>\n");
+                if (i < active) text.Append("<color=#9ADD91>✓  ").Append(title).Append(" <size=18>· Xong</size></color>\n\n");
+                else if (i == active)
+                {
+                    text.Append("<color=#FFE19B><b>›  ").Append(title).Append("</b> <size=18>· Đang làm</size></color>\n");
+                    text.Append("<size=19>").Append(HouseholdChoreFlow.Locations[(int)HouseholdChoreFlow.Order[i]]).Append("</size>\n\n");
+                }
+                else text.Append("<color=#B9C0C2>").Append(i + 1).Append(".  ").Append(title).Append(" <size=18>· Tiếp theo</size></color>\n\n");
             }
-            text.Append("\n<size=20><color=#F4C66A>LÀM THÊM NẾU CON THÍCH · +5 mảnh/việc</color>\n");
-            foreach (var optional in new[] { HouseholdChore.SortTools, HouseholdChore.GrindCorn })
-                text.Append(chores != null && chores.IsCompleted(optional) ? "<color=#9ADD91>✓  " : "<color=#B9C0C2>○  ")
-                    .Append(HouseholdChoreFlow.Titles[(int)optional]).Append("</color>\n");
-            text.Append("</size>");
         }
         else
         {
@@ -191,7 +190,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
             AppendStage(text, QuestStep.UnlockFrontDoor, "Mở cửa bị xích");
         }
         text.Append(household
-            ? "\n<size=18><color=#C1CABC>TAB  Đóng bảng · H  Gợi ý\nTự lưu sau mỗi việc. Việc làm thêm không bắt buộc.</color></size>"
+            ? "\n<size=18><color=#C1CABC>TAB  Đóng bảng · H  Gợi ý\nTự lưu sau mỗi việc.</color></size>"
             : "\n<size=19><color=#C1CABC>TAB  Đóng bảng\nTiến độ được lưu sau mỗi bước.</color></size>");
         return text.ToString();
     }
@@ -365,7 +364,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
 
         board = Panel("MissionBoard", safe, new Vector2(0, 1),
             chores != null ? new Vector2(0, -32) : new Vector2(0, -140),
-            chores != null ? new Vector2(580, 880) : new Vector2(480, 650));
+            chores != null ? new Vector2(580, 600) : new Vector2(480, 650));
         boardText = Label("MissionList", board.transform, new Vector2(26, 24), new Vector2(-26, -24), 23);
         board.SetActive(false);
 

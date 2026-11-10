@@ -80,6 +80,7 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
         MakeCaption();
         // A loaded checkpoint reconstructs the visible world without replaying mother's call.
         RestoreWorld();
+        flow.OnChoreCompleted += SimpleTaskCompleted;
         BindPause();
     }
 
@@ -134,7 +135,7 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
         return source;
     }
 
-    public bool Handles(HouseholdChore chore) => isActiveAndEnabled &&
+    public bool Handles(HouseholdChore chore) => isActiveAndEnabled && Scene2HouseholdActivityPolicy.IsMinigame(chore) &&
         ((chore == HouseholdChore.TuneRadio && radioRig && tuningKnob && knobCollider && needle && closeView) ||
          (chore == HouseholdChore.CarryWood && woodBundle && woodRest && woodPickup));
 
@@ -147,7 +148,7 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
 
     public void InteractWith(HouseholdChore chore)
     {
-        if (flow == null || !flow.IsCurrent(chore) || GameManager.Instance?.InputBlocked == true) return;
+        if (!Handles(chore) || flow == null || !flow.IsCurrent(chore) || GameManager.Instance?.InputBlocked == true) return;
         if (chore == HouseholdChore.TuneRadio) BeginTuning();
         else if (chore == HouseholdChore.CarryWood && !CarryingWood) PickUpWood();
     }
@@ -179,7 +180,7 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
     {
         if (flow == null || GameManager.Instance?.IsPaused == true || PauseUI.LastResumeFrame == Time.frameCount) return;
         // Restarting the chapter must also reset its world props and any pending call.
-        if (lastProgress >= 2 && flow.ActiveIndex < 2) ResetWorld();
+        if (flow.ActiveIndex < lastProgress) ResetWorld();
         lastProgress = flow.ActiveIndex;
         motherRemaining = Mathf.Max(0f, motherRemaining - Time.deltaTime);
         if (captionTime > 0f)
@@ -296,6 +297,24 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
         if (flow.IsCurrent(HouseholdChore.CarryWood))
             Say("Mang giúp mẹ bó củi trong giỏ vào cạnh bếp nhé.\nĐến giỏ củi và nhấn E để nhấc lên.", 7f);
         callRoutine = null;
+    }
+
+    private void SimpleTaskCompleted(HouseholdChore chore, int pieces)
+    {
+        if (!Scene2HouseholdActivityPolicy.IsSimple(chore)) return;
+        if (chore == HouseholdChore.TuneRadio)
+        {
+            radioOn = true; frequency = Station; UpdateRadioVisuals();
+            if (stationAudio && !stationAudio.isPlaying) stationAudio.Play();
+            if (callRoutine != null) StopCoroutine(callRoutine);
+            callRoutine = StartCoroutine(CallFromKitchen());
+        }
+        else if (chore == HouseholdChore.CarryWood) RestoreWorld();
+    }
+
+    private void OnDestroy()
+    {
+        if (flow) flow.OnChoreCompleted -= SimpleTaskCompleted;
     }
 
     void PickUpWood()

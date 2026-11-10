@@ -22,9 +22,9 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     public static HouseholdChoreFlow Instance { get; private set; }
     public const int PiecesPerChore = 10;
     public const int OptionalPiecesPerChore = 5;
-    public const int ChoreCount = 12;
-    public const int TotalPieces = PiecesPerChore * ChoreCount + OptionalPiecesPerChore * 2;
-    public const string WakeupText = "Con dậy rồi đấy à. Vào dọn đồ, phụ mẹ một tay nhé.";
+    public const int ChoreCount = 5;
+    public const int TotalPieces = PiecesPerChore * ChoreCount;
+    public const string WakeupText = "Con dậy rồi đấy à. Vào bếp nhóm lửa, phụ mẹ nấu cơm nhé.";
     public const string ResumeText = "Mình tiếp tục việc đang làm nhé.";
 
     public static readonly string[] Titles =
@@ -36,17 +36,14 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
 
     // Keep serialized enum IDs stable; this array defines story order only.
     public static readonly HouseholdChore[] Order = {
-        HouseholdChore.ArrangeKeepsakes, HouseholdChore.TuneRadio,
-        HouseholdChore.CarryWood,
-        HouseholdChore.FetchWater, HouseholdChore.MeasureRice, HouseholdChore.WashRice,
         HouseholdChore.LightFire, HouseholdChore.CookRice, HouseholdChore.SetTable,
-        HouseholdChore.WashDishes, HouseholdChore.PutAwayDishes, HouseholdChore.ReadLetter
+        HouseholdChore.WashDishes, HouseholdChore.ReadLetter
     };
     public static readonly string[] Locations = {
         "Bếp · lu nước", "Bếp · lu gạo", "Bếp · thau vo gạo", "Bếp · nồi trên bếp củi",
         "Bếp · lò nấu cơm", "Nhà chính · mâm cơm", "Bếp · chỗ rửa", "Bếp · tủ chén",
         "Phòng ngủ · mặt chăn", "Phòng ngủ · rương đồ", "Phòng ngủ · radio",
-        "Phòng kho · bộ dụng cụ", "Phòng kho · cối xay", "Phòng kho · giỏ tre", "Nhà chính · thư của mẹ"
+        "Phòng kho · bộ dụng cụ", "Phòng kho · cối xay", "Phòng kho · giỏ tre", "Trong nhà · bàn tiếp khách"
     };
     public static readonly string[] Memories = {
         "Gáo nước mát nhờ mẹ để dành từ sáng.", "Mẹ luôn đong thêm một chút cho con.",
@@ -76,13 +73,11 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     public int OptionalPieces => pieces - RequiredPieces;
     public HouseholdChore? CurrentChore => ActiveIndex < Order.Length ? Order[ActiveIndex] : (HouseholdChore?)null;
     public bool IsCompleted(HouseholdChore chore) => (int)chore >= 0 && (int)chore < completed.Length && completed[(int)chore];
-    public string CurrentChapter => ActiveIndex < 2 ? "GÓC PHÒNG TUỔI THƠ" :
-        ActiveIndex < 3 ? "TIẾNG MẸ GỌI" : ActiveIndex < 8 ? "BẾP NHÀ MÌNH" :
-        ActiveIndex < 11 ? "BỮA CƠM GIA ĐÌNH" : "LỜI NHẮN CỦA MẸ";
+    public string CurrentChapter => ActiveIndex < 2 ? "BẾP NHÀ MÌNH" :
+        ActiveIndex < 4 ? "BỮA CƠM GIA ĐÌNH" : "LỜI NHẮN CỦA MẸ";
     private int OptionalBits => (completed[(int)HouseholdChore.SortTools] ? 1 : 0) |
         (completed[(int)HouseholdChore.GrindCorn] ? 2 : 0);
-    public static bool IsOptional(HouseholdChore chore) =>
-        chore == HouseholdChore.SortTools || chore == HouseholdChore.GrindCorn;
+    public static bool IsOptional(HouseholdChore chore) => false;
     public bool ChecklistVisible => checklistVisible;
     public int ActiveIndex
     {
@@ -104,13 +99,9 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         Voice = gameObject.AddComponent<HouseholdVoicePlayer>();
         int restored = Scene2Checkpoint.HomeChores;
         for (int i = 0; i < restored; i++) completed[(int)Order[i]] = true;
-        int restoredOptional = Scene2Checkpoint.HomeOptional;
-        completed[(int)HouseholdChore.SortTools] = (restoredOptional & 1) != 0;
-        completed[(int)HouseholdChore.GrindCorn] = (restoredOptional & 2) != 0;
-        pieces = restored * PiecesPerChore +
-            (completed[(int)HouseholdChore.SortTools] ? OptionalPiecesPerChore : 0) +
-            (completed[(int)HouseholdChore.GrindCorn] ? OptionalPiecesPerChore : 0);
-        BindRiceWashingTarget();
+        pieces = restored * PiecesPerChore;
+        foreach (var target in FindObjectsOfType<HouseholdChoreInteractable>(true))
+            if (!Scene2HouseholdActivityPolicy.IsActive(target.Chore)) target.enabled = false;
         RefreshRiceWashingPot();
         EnsureDiningTableTarget();
         EnsureSolidSceneProps();
@@ -123,6 +114,18 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
 
     private static void EnsureDiningTableTarget()
     {
+        var authored = FindObjectOfType<Scene2AuthoredTableLayout>();
+        if (authored && authored.IsReady)
+        {
+            var table = authored.table;
+            var target = table.GetComponent<HouseholdChoreInteractable>();
+            if (!target) target = table.gameObject.AddComponent<HouseholdChoreInteractable>();
+            target.enabled = true;
+            target.Configure(HouseholdChore.SetTable, table.transform);
+            int layer = LayerMask.NameToLayer("Interactable");
+            if (layer >= 0) table.gameObject.layer = layer;
+            return;
+        }
         // BambooTable remains solid scenery; the meal is served on tripo_part_3.
         foreach (Transform candidate in FindObjectsOfType<Transform>(true))
         {
@@ -256,7 +259,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         RefreshRiceWashingPot();
         Scene2Checkpoint.Clear();
         RefreshUI();
-        ui.Notify("Đã làm lại việc nhà từ đầu. Hãy đến rương đồ để bắt đầu.");
+        ui.Notify("Đã làm lại việc nhà từ đầu. Hãy đến bếp củi để bắt đầu.");
         QuestManager.Instance?.RefreshHouseholdObjective();
     }
 
@@ -273,7 +276,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         QuestManager.Instance?.RefreshHouseholdObjective();
     }
 
-    public bool IsCurrent(HouseholdChore chore) => (int)chore >= 0 && (int)chore < completed.Length && checklistVisible &&
+    public bool IsCurrent(HouseholdChore chore) => Scene2HouseholdActivityPolicy.IsActive(chore) && (int)chore >= 0 && (int)chore < completed.Length && checklistVisible &&
         (QuestManager.Instance == null || QuestManager.Instance.CurrentStep == QuestStep.WashDishes) &&
         (IsOptional(chore) ? !completed[(int)chore] :
             ActiveIndex < ChoreCount && Order[ActiveIndex] == chore);
@@ -315,7 +318,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     private void BindRiceWashingTarget()
     {
         var handsOn = GetComponent<Scene2KitchenHandsOn>();
-        if (handsOn != null && handsOn.Handles(HouseholdChore.WashRice))
+        if (handsOn != null && handsOn.ProvidesRiceWashingTarget)
         {
             // Keep only the physical kitchen's target. Legacy triggers otherwise
             // offer the same action at an unrelated position in the room.
@@ -357,7 +360,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     private void RefreshRiceWashingPot()
     {
         var handsOn = GetComponent<Scene2KitchenHandsOn>();
-        if (handsOn != null && handsOn.Handles(HouseholdChore.WashRice)) return;
+        if (handsOn != null && handsOn.ProvidesRiceWashingTarget) return;
         bool show = completed[(int)HouseholdChore.MeasureRice] && !completed[(int)HouseholdChore.WashRice];
         if (riceWashingPot != null) riceWashingPot.gameObject.SetActive(show);
         if (riceWashingPotBaseCollider != null)
@@ -380,6 +383,9 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     {
         get
         {
+            if (CurrentChore.HasValue && Scene2HouseholdActivityPolicy.IsSimple(CurrentChore.Value))
+                return "Đến " + CurrentLocation + ", nhấn E để mở thao tác đơn giản. " +
+                    (CurrentChore == HouseholdChore.ReadLetter ? "Đọc lời mẹ rồi chọn Đọc xong." : "Chọn Thực hiện để hoàn tất; Esc để quay lại mà không nhận thưởng.");
             var sequence = GetComponent<Scene2RadioKitchenSequence>();
             if (sequence && sequence.CarryingWood)
                 return "Mang bó củi tới cạnh bếp, nhìn vào chỗ đặt rồi nhấn E. Q để trả củi về giỏ.";
@@ -393,7 +399,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
                 case HouseholdChore.WashRice: return "Đến nồi vo gạo, nhấn E. Rê chuột vòng quanh mặt nước, rồi chắt nước khi đã đục.";
                 case HouseholdChore.LightFire: return "Đến bếp củi, nhấn E. Đặt đủ ba thanh củi rồi thổi từng nhịp ngắn để nhóm lửa.";
                 case HouseholdChore.CookRice: return "Đến nồi cơm, nhấn E. Điều chỉnh củi để cơm sôi nhẹ; nhấc vung khi cơm đã cạn.";
-                case HouseholdChore.SetTable: return "Đến bàn ăn ở nhà chính, nhấn E. Đặt bát, đũa và nồi cơm vào đúng chỗ.";
+                case HouseholdChore.SetTable: return "Đến bàn ăn, nhấn E. Bày chén và đĩa gọn lên mặt bàn.";
                 case HouseholdChore.WashDishes: return "Đến chỗ rửa chén, nhấn E. Chà sạch, tráng nước rồi đặt chén lên giá.";
                 case HouseholdChore.PutAwayDishes: return "Đến tủ chén ở bếp, nhấn E. Đưa chén, đĩa và đũa vào đúng ngăn.";
                 case HouseholdChore.ReadLetter: return "Tìm lá thư trên bàn ở nhà chính, nhấn E. Mở thư và đọc thong thả; xong rồi mới tiếp tục.";
@@ -441,6 +447,10 @@ public sealed class HouseholdChoreUI
     private float rewardRemaining;
     private float glowRemaining;
     private float feedbackPulseRemaining;
+    private Action simpleConfirmAction;
+    private float simpleReadRemaining;
+    private int simpleOpenedFrame;
+    public bool SimpleActionVisible => simpleConfirmAction != null && gamePanel.activeSelf;
 
     public HouseholdChoreUI(Transform parent)
     {
@@ -600,6 +610,12 @@ public sealed class HouseholdChoreUI
     public void Tick()
     {
         actionBoard.Tick();
+        if (SimpleActionVisible && GameManager.Instance?.IsPaused != true)
+        {
+            simpleReadRemaining = Mathf.Max(0, simpleReadRemaining - Time.deltaTime);
+            choiceButtons[0].interactable = simpleReadRemaining <= 0;
+            feedbackText.text = simpleReadRemaining > 0 ? "Đọc thong thả… " + Mathf.CeilToInt(simpleReadRemaining) + " giây" : "ENTER / 1  Xác nhận    ·    ESC  Quay lại";
+        }
         notificationCard.SetActive(notificationUntil > Time.time &&
             (GameManager.Instance == null || !GameManager.Instance.InputBlocked));
         if (notificationUntil > 0f && Time.time >= notificationUntil)
@@ -637,6 +653,7 @@ public sealed class HouseholdChoreUI
 
     public void ShowGame(string title, string instructions, bool showMeter, Action onCancel = null, Action onRestart = null)
     {
+        simpleConfirmAction = null;
         actionBoard.Hide();
         cancelAction = onCancel;
         restartAction = onRestart;
@@ -684,9 +701,33 @@ public sealed class HouseholdChoreUI
             int selected = i;
             choiceTexts[i].text = i < labels.Length ? (i + 1) + " · " + labels[i] : "";
             choiceButtons[i].gameObject.SetActive(i < labels.Length);
+            choiceButtons[i].interactable = true;
             choiceButtons[i].onClick.RemoveAllListeners();
             choiceButtons[i].onClick.AddListener(() => onSelected(selected));
         }
+    }
+
+    public void ShowSimpleAction(HouseholdChore chore, Action confirm, Action cancel)
+    {
+        if (!Scene2HouseholdActivityPolicy.IsSimple(chore)) return;
+        ShowGame(HouseholdChoreFlow.Titles[(int)chore], Scene2HouseholdActivityPolicy.Description(chore), false, cancel);
+        ShowChoices(new[] { Scene2HouseholdActivityPolicy.ConfirmLabel(chore) }, _ => ConfirmSimpleAction());
+        choiceTexts[0].text = Scene2HouseholdActivityPolicy.ConfirmLabel(chore);
+        leaveButton.GetComponentInChildren<TMP_Text>().text = "QUAY LẠI  [ESC]";
+        cancelText.text = "TƯƠNG TÁC ĐƠN GIẢN · KHÔNG CẦN KÉO THẢ / CANH NHỊP";
+        simpleOpenedFrame = Time.frameCount;
+        simpleReadRemaining = chore == HouseholdChore.ReadLetter ? 4f : 0f;
+        simpleConfirmAction = confirm;
+        choiceButtons[0].interactable = simpleReadRemaining <= 0;
+    }
+
+    public void ConfirmSimpleAction()
+    {
+        if (!SimpleActionVisible || simpleReadRemaining > 0 || Time.frameCount <= simpleOpenedFrame ||
+            GameManager.Instance?.IsPaused == true || PauseUI.LastResumeFrame == Time.frameCount) return;
+        Action confirm = simpleConfirmAction;
+        simpleConfirmAction = null;
+        confirm?.Invoke();
     }
 
     public void SetExpectedChoice(int expected)
@@ -721,6 +762,7 @@ public sealed class HouseholdChoreUI
     }
     public void HideGame()
     {
+        simpleConfirmAction = null;
         actionBoard.Hide();
         cancelAction = restartAction = null;
         gamePanel.SetActive(false);

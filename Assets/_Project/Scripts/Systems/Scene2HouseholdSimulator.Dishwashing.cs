@@ -5,6 +5,7 @@ public sealed partial class Scene2HouseholdSimulator
 {
     private bool importedDishes;
     private Transform spongeVisual;
+    private HouseholdWaterSurface dishWaterSurface;
     private Transform washBasin, dryingRack, soapVisual;
     private Quaternion dishRestRotation, spongeRestRotation;
     private float basinRadius = .18f, bowlRadius = .065f, bowlLift = .14f, rinseBowlHeight = .055f;
@@ -31,6 +32,7 @@ public sealed partial class Scene2HouseholdSimulator
         if (dishCloseView && held < 0)
         {
             held = 1; pointerValid = false;
+            if (authoredDishes) return;
             Vector3 position = moving.localPosition + Vector3.right * (bowlRadius * 1.4f);
             position.y = DishContactHeight + .001f; tool.localPosition = position;
         }
@@ -99,7 +101,9 @@ public sealed partial class Scene2HouseholdSimulator
         waterMat.SetFloat("_DstBlend", (float)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
         waterMat.SetFloat("_ZWrite", 0); waterMat.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
         waterMat.SetOverrideTag("RenderType", "Transparent"); waterMat.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
-        Disk("Clean rinse water", basin, basin.InverseTransformPoint(water.position), .385f, waterMat);
+        var surfaceMaterial = waterRiceAssets && waterRiceAssets.waterMaterial ? waterRiceAssets.waterMaterial : waterMat;
+        var waterSurface = Disk("Clean rinse water", basin, basin.InverseTransformPoint(water.position), .385f, surfaceMaterial);
+        dishWaterSurface = surfaceMaterial.shader.name == "KuTy/Household Water" ? waterSurface.gameObject.AddComponent<HouseholdWaterSurface>() : null;
         for (int i = 0; i < waterRipples.Length; i++)
         {
             var ring = Group("Water ripple", basin, basin.InverseTransformPoint(water.position) + Vector3.up * .003f);
@@ -210,6 +214,7 @@ public sealed partial class Scene2HouseholdSimulator
 
     private void RefreshImportedDishes()
     {
+        if (held == 0 && DishInRinse(moving.localPosition)) dishWaterSurface?.Disturb(moving.position, .85f);
         if (spongeVisual)
         {
             spongeVisual.localRotation = spongeRestRotation * (held == 1 ? Quaternion.Euler(180, 0, 0) : Quaternion.identity);

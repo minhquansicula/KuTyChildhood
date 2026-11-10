@@ -175,9 +175,18 @@ public sealed class Scene2SimulatorCheckRunner : MonoBehaviour
                 ImportedArt();
                 CaptureWorkView("WashDishes-Blender-16x9");
                 typeof(Scene2HouseholdSimulator).GetMethod("ToggleDishCloseView", Flags).Invoke(sim, null);
+                // Synthetic input must be checked before live Update can release it in an
+                // unfocused Editor. Losing focus is intentionally a safe release, not an equip failure.
+                Check(Field<int>("held") == 1, "Close view equips the sponge without needing to click an offscreen tool");
+                string beforeFocusLoss = JsonUtility.ToJson(sim.State);
+                typeof(Scene2HouseholdSimulator).GetMethod("OnApplicationFocus", Flags).Invoke(sim, new object[] { false });
+                Check(Field<int>("held") == -1 && JsonUtility.ToJson(sim.State) == beforeFocusLoss,
+                    "Focus loss safely returns the close-view sponge without changing dish progress");
                 yield return new WaitForSeconds(.4f);
                 Check(Field<float>("dishZoomBlend") > .99f, "Close view makes small authored bowls practical to scrub");
-                Check(Field<int>("held") == 1, "Close view equips the sponge without needing to click an offscreen tool");
+                typeof(Scene2HouseholdSimulator).GetMethod("ToggleDishCloseView", Flags).Invoke(sim, null);
+                typeof(Scene2HouseholdSimulator).GetMethod("ToggleDishCloseView", Flags).Invoke(sim, null);
+                Check(Field<int>("held") == 1, "Close-view sponge can be equipped again after focus loss");
                 CaptureWorkView("WashDishes-CloseView");
                 typeof(Scene2HouseholdSimulator).GetMethod("ToggleDishCloseView", Flags).Invoke(sim, null);
                 Check(Field<int>("held") == -1, "Leaving close view returns the sponge safely");
@@ -213,6 +222,7 @@ public sealed class Scene2SimulatorCheckRunner : MonoBehaviour
                 Check(sim.State.fill > .9f && sim.State.transferred == 0 && sim.State.delivered == 0,
                     "Tilting away from receiving mouth cannot consume contents or award progress");
                 sim.End(); Field<System.Collections.IDictionary>("work").Clear();
+                Check(Field<HouseholdJarSource>("activeTransferJar").original.enabled, "Cancelling restores the original closed jar renderer");
                 Check(sim.Begin(chore, () => flow.Complete(chore, false), () => { }) && sim.State.fill > .9f,
                     "Water/rice carried fill survives checkpoint reload");
                 yield return new WaitForSeconds(.5f);
@@ -269,6 +279,8 @@ public sealed class Scene2SimulatorCheckRunner : MonoBehaviour
         sim.ResetWork();
         var cached = (System.Collections.IDictionary)typeof(Scene2HouseholdSimulator).GetField("work", Flags).GetValue(sim);
         Check(cached.Count == 0 && sim.State == null, "Chapter restart cannot reuse already completed simulator states");
+        Check(Field<Scene2HouseholdSimulator.Station[]>("stations").Where(s => s.transferJar).All(s => s.transferJar.original.enabled),
+            "Chapter restart restores both original jar renderers");
     }
     private void Rules()
     {
@@ -304,6 +316,16 @@ public sealed class Scene2SimulatorCheckRunner : MonoBehaviour
     private void ImportedWaterRice()
     {
         Check(sim.WaterRiceArt && sim.WaterRiceArt.IsReady && Field<bool>("importedTransfer"), "Water/rice activities load serialized Blender art");
+        var waterShader = sim.WaterRiceArt.waterMaterial.shader;
+        Check(waterShader.name == "KuTy/Household Water" && waterShader.isSupported && !UnityEditor.ShaderUtil.ShaderHasError(waterShader),
+            "Household water reflection/ripple shader compiles on the active renderer");
+        if (sim.State.chore == HouseholdChore.FetchWater)
+        {
+            var surfaceEffect = Field<WaterRiceFill>("sourceFill").GetComponent<HouseholdWaterSurface>();
+            Check(surfaceEffect, "Water uses per-surface interaction ripples rather than shared material mutation");
+            surfaceEffect.Disturb(Field<Transform>("transferSource").position);
+            Check(surfaceEffect.RippleCount > 0, "Water disturbance submits a ripple to the renderer");
+        }
         Check(Field<System.Collections.Generic.List<Collider>>("pickers").Count == 3, "Three transfer queries replace 130 exported physics proxies");
         Check(!World.GetComponentsInChildren<Transform>(true).Any(t => t.name.StartsWith("COL_")), "Water/rice collider proxies never render at runtime");
         foreach (var renderer in World.GetComponentsInChildren<MeshRenderer>(true))
@@ -313,8 +335,32 @@ public sealed class Scene2SimulatorCheckRunner : MonoBehaviour
         var source = Field<Transform>("transferSource"); var floor = TransferPart(source, "ContentsRoot");
         Check(Vector3.Dot(floor.forward, Vector3.up) > .99f, "Imported contents attachment points upward");
         var fill = Field<WaterRiceFill>("sourceFill");
-        string profileName = sim.State.chore == HouseholdChore.FetchWater ? "BucketProfile" : "BasketProfile";
-        var profile = (Vector2[])typeof(Scene2HouseholdSimulator).GetField(profileName, BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
+        var profile = Field<Vector2[]>("transferSourceProfile");
+        var jar = Field<HouseholdJarSource>("activeTransferJar");
+        Check(jar && !jar.original.enabled && jar.original.gameObject.activeInHierarchy,
+            "Activity uses the existing scene jar in place, not a new bucket or basket");
+        Check(!World.GetComponentsInChildren<Transform>(true).Any(t => t.name == "Water bucket" || t.name == "Rice basket" || t.name == "Work cloth" || t.name == "Workstand leg"),
+            "Jar activity adds no replacement source vessel or procedural table");
+        Check(Vector3.Distance(World.TransformPoint(Field<Vector3>("sourceZone")), jar.Mouth) < .001f,
+            "Scooping source follows the actual existing jar opening");
+        if (sim.State.chore == HouseholdChore.FetchWater)
+        {
+            Check(!jar.openedLid && jar.openBody.vertexCount == jar.original.GetComponent<MeshFilter>().sharedMesh.vertexCount &&
+                jar.openBody.bounds == jar.original.GetComponent<MeshFilter>().sharedMesh.bounds,
+                "Already-open water jar retains its complete original geometry; no artificial lid segment");
+            var body = source.Find("Original jar · open body");
+            var bounds = jar.openBody.bounds;
+            float maxError = new[] { bounds.min, bounds.max, bounds.center }.Select(p => Vector3.Distance(jar.original.transform.TransformPoint(p), body.TransformPoint(p))).Max();
+            report.AppendLine($"INFO Jar mouth={jar.Mouth:F4}, original={jar.original.bounds}, body={body.GetComponent<Renderer>().bounds}, vertexError={maxError}");
+            Check(maxError < .001f, "Runtime water jar preserves the original world-space mesh transform without moving the authored vessel");
+            var innerWall = source.Find("Jar inner wall").GetComponent<MeshFilter>().sharedMesh;
+            Check(body.GetComponent<Renderer>().sharedMaterials.All(m => m.GetFloat("_Cull") == 0) && innerWall.vertexCount == 48 * 4,
+                "Open water jar has a tapered inner wall without a floating replacement rim");
+            Check(body.GetComponent<Renderer>().sharedMaterial != jar.original.sharedMaterial,
+                "Double-sided jar rendering never mutates the original authored material");
+            Check(source.Find("Jar inner wall").GetComponent<Renderer>().bounds.max.y < jar.Mouth.y - .10f && fill.SurfaceY < jar.Mouth.y - .18f,
+                "Water and lining stay recessed below the irregular jar lip instead of floating above its front edge");
+        }
         float previous = -1;
         foreach (float level in new[] { .1f, .5f, 1f })
         {

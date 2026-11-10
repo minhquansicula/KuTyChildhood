@@ -1,0 +1,50 @@
+PASS · 42 assertions
+PASS Private indoor navigation samples the authored mother's standing point
+INFO home=(-2.68, 0.02, -5.74), places=11, canOccupyHome=True, speed=0.3587513
+PASS At least two safe destinations are reachable without moving furniture
+PASS Visible authored mother, interaction root, body and navigation align in runtime
+PASS Runtime rebasing preserves the visible world placement chosen by the user
+PASS Existing Generic model remains bound; no root-motion teleporting or humanoid assumption
+PASS Separate controller contains the reviewed walk state
+INFO imported walk floor relative idle=-2.81538E-07, foot displacement=0.1599484, duration=1.6
+PASS Imported walk really drives the existing model's foot bones
+PASS All 49 imported walk frames keep the mesh within 5mm of the standing floor
+PASS Imported walk loop joins without a foot-pose snap
+PASS Generic foot clearance samples existing sole vertices without changing skin weights
+INFO corrected actual-scale transition floor delta=-0.003643742, max visual lift=0.003161335
+PASS Actual-scale Idle/Walk crossfades stay within 5mm of the standing floor
+PASS Sole correction applies only a small visual clearance, not an actor warp
+PASS Waking enables routine without stealing player input
+INFO destinations=(-0.77, 0.02, -5.66); (-2.68, 0.02, -3.74); (-4.68, 0.02, -5.74); (-1.26, 0.02, -4.33); (-4.09, 0.02, -4.33); (-5.90, 0.02, -3.82); (-2.16, 0.02, -1.69); (-5.35, 0.02, -2.24); (3.69, 0.02, -0.57); (10.31, 0.02, -4.96); (11.76, 0.02, 9.00)
+PASS First room route is complete, not a straight-line fallback
+PASS Mother actually advances along the route
+PASS Actual movement selects Walk instead of sliding in Idle
+PASS Pause freezes both navigation and animation
+PASS Live capsule checks stop for a newly placed obstacle without intersecting it
+PASS A cleared route can resume without a warp
+PASS Mother reaches a safe household destination
+PASS Every sampled route frame stays collision-free and speed-bounded
+PASS QA camera frames the visible mother, not only her old invisible interaction root: Mother-AtHouseholdStop
+INFO longer route goal=(10.31, 0.02, -4.96), diningAreaReachable=True
+PASS A longer household route passes both NavMesh and full-segment live collision checks
+PASS QA camera frames the visible mother, not only her old invisible interaction root: Mother-Walking
+PASS Mother completes the longer household trip, not only a nearby shuffle
+PASS Kitchen speech follows the moving mother, not her old position
+PASS Real player ray can focus the moving mother with E
+PASS The child's real CharacterController cannot walk through mother's runtime body
+PASS Solid body retains the normal E interaction target
+PASS Real E interaction opens the existing dialogue choices
+PASS Conversation stops walking and plays TalkIdle
+PASS Mother turns to the child while talking instead of speaking with her back turned
+PASS QA camera frames the visible mother, not only her old invisible interaction root: Mother-Conversation
+PASS Closing a conversation releases input
+PASS Small talk changes with household progress
+PASS Nearby walls block dialogue without leaking an input lease
+PASS A distant direct call cannot open a through-house conversation
+PASS Unreachable elevated goals are rejected instead of teleporting
+PASS Original standing point remains a reachable return destination
+PASS Mother walks back home after visiting household furniture
+PASS Idle routine starts its next trip autonomously without a test-issued destination
+PASS Routine and dialogue never rescale the mother, complete chores or grant rewards
+
+Reviewed walk, safe room routes and conversations passed without chore rewards.

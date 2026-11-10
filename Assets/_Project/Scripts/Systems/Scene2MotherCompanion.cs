@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>Presentation only: never completes chores, changes checkpoints or gives money.
-/// Assign an authored actor to replace the runtime greybox. No unverified walking paths.</summary>
+/// Assign an authored actor to replace the runtime greybox; movement is a separate validated component.</summary>
 public sealed class Scene2MotherCompanion : MonoBehaviour
 {
     [Header("Authored mother actor (MomUser in Scene 2)")]
@@ -19,16 +19,31 @@ public sealed class Scene2MotherCompanion : MonoBehaviour
     private int conversationIndex;
     private float nextConversation;
     private float replyRemaining;
+    private float ambientRemaining;
+    private Scene2ChoreGuidance guidance;
 
     public bool IsConversing => conversing;
     // Caption presentation window, not a claim that an unrecorded line has audio.
-    public bool IsPresentingReply => conversing && replyRemaining > 0f;
+    public bool IsPresentingReply => conversing && replyRemaining > 0f || ambientRemaining > 0f;
     public Transform Actor => actor;
     public bool CanTalk => isActiveAndEnabled && actor && flow && flow.ChecklistVisible &&
         flow.ActiveIndex < HouseholdChoreFlow.Order.Length &&
         HouseholdChoreFlow.Order[flow.ActiveIndex] != HouseholdChore.ReadLetter &&
         GameManager.Instance?.InputBlocked != true && DialogueUI.Instance?.IsShowing != true &&
-        flow.Voice?.Voice?.IsPlaying != true && !OtherMotherSpeaking() && Time.time >= nextConversation;
+        flow.Voice?.Voice?.IsPlaying != true && !OtherMotherSpeaking() && ambientRemaining <= 0f &&
+        PlayerCanReach() && Time.time >= nextConversation;
+
+    private bool PlayerCanReach()
+    {
+        var camera = Camera.main;
+        if (!camera || !actor || Vector3.ProjectOnPlane(camera.transform.position - actor.position, Vector3.up).sqrMagnitude > 3.2f * 3.2f) return false;
+        var collider = actor.GetComponent<Collider>();
+        Vector3 target = collider ? collider.bounds.center : actor.position + Vector3.up;
+        foreach (var hit in Physics.RaycastAll(camera.transform.position, (target - camera.transform.position).normalized,
+            Vector3.Distance(target, camera.transform.position), ~0, QueryTriggerInteraction.Ignore))
+            if (!hit.transform.IsChildOf(actor) && !hit.transform.IsChildOf(camera.transform.root)) return false;
+        return true;
+    }
 
     private bool OtherMotherSpeaking()
     {
@@ -41,6 +56,8 @@ public sealed class Scene2MotherCompanion : MonoBehaviour
     private void Start()
     {
         flow = GetComponent<HouseholdChoreFlow>();
+        guidance = GetComponent<Scene2ChoreGuidance>();
+        if (guidance) guidance.OnMotherReaction += PresentAmbientReaction;
         if (!actor && showPlaceholder)
         {
             var sequence = GetComponent<Scene2RadioKitchenSequence>();
@@ -107,12 +124,7 @@ public sealed class Scene2MotherCompanion : MonoBehaviour
         if (choice == 0) reply = HintForCurrentChore();
         else if (choice == 1)
         {
-            string[] lines = {
-                "Có con ở nhà, mẹ làm gì cũng thấy vui hơn.",
-                "Làm từ từ thôi con. Chưa quen thì mẹ chỉ cho.",
-                "Đi chơi đâu cũng nhớ về ăn cơm với mẹ nha."
-            };
-            reply = lines[conversationIndex++ % lines.Length];
+            reply = SmallTalk(flow.CurrentChore, conversationIndex++);
         }
         else reply = "Ừ, con phụ mẹ một tay nhé. " + HintForCurrentChore();
         flow.UI.ShowGame("Mẹ", reply, false, EndConversation);
@@ -129,6 +141,38 @@ public sealed class Scene2MotherCompanion : MonoBehaviour
         return flow.CurrentGuidance;
     }
 
+    public static string SmallTalk(HouseholdChore? chore, int index)
+    {
+        string[] lines;
+        switch (chore)
+        {
+            case HouseholdChore.ArrangeKeepsakes:
+            case HouseholdChore.TuneRadio:
+                lines = new[] { "Mấy món trong rương, món nào cũng có một chuyện hồi con còn bé.",
+                    "Ngày trước chưa có nhiều đồ chơi, con cứ theo mẹ quanh nhà suốt.", "Sáng nghe tiếng radio, tự nhiên mẹ thấy căn nhà vui hơn." }; break;
+            case HouseholdChore.CarryWood:
+            case HouseholdChore.FetchWater:
+            case HouseholdChore.MeasureRice:
+                lines = new[] { "Có con phụ một tay, mẹ đỡ chạy ra chạy vào. Mình làm thong thả thôi nhé.",
+                    "Nước trong lu mát đấy. Con cầm gáo cho chắc, không cần vội đâu.", "Mẹ đong gạo hay thêm một chút. Cứ sợ con đi chơi về lại đói." }; break;
+            case HouseholdChore.WashRice:
+            case HouseholdChore.LightFire:
+            case HouseholdChore.CookRice:
+                lines = new[] { "Hồi bằng tuổi con, mẹ cũng được bà chỉ vo gạo, nhóm bếp như thế này.",
+                    "Làm bếp nhớ nhẹ tay, cẩn thận nước nóng nhé. Có mẹ ở đây rồi.", "Ngửi thấy mùi cơm chưa con? Cơm nhà mình chỉ cần nóng, cả nhà ngồi cùng là ngon." }; break;
+            default:
+                lines = new[] { "Bữa cơm có con ngồi cùng, mẹ thấy vui hơn nhiều.",
+                    "Chén bát mình làm từ từ thôi. Xong việc rồi con nghỉ tay, đừng cố quá.",
+                    "Sau này có đi đâu xa, con nhớ ăn cơm đúng bữa. Về nhà lúc nào mẹ cũng mừng." }; break;
+        }
+        return lines[Mathf.Abs(index % lines.Length)];
+    }
+
+    private void PresentAmbientReaction(string text)
+    {
+        if (!conversing && PlayerCanReach()) ambientRemaining = Mathf.Clamp((text?.Length ?? 0) / 12f, 1.8f, 7f);
+    }
+
     private void PresentReply(string text)
     {
         // Stop talking while the player considers choices instead of looping forever.
@@ -137,7 +181,9 @@ public sealed class Scene2MotherCompanion : MonoBehaviour
 
     private void Update()
     {
-        if (!conversing || GameManager.Instance?.IsPaused == true ||
+        if (GameManager.Instance?.IsPaused == true) return;
+        ambientRemaining = Mathf.Max(0, ambientRemaining - Time.deltaTime);
+        if (!conversing ||
             PauseUI.LastResumeFrame == Time.frameCount || Time.frameCount == openedFrame) return;
         replyRemaining = Mathf.Max(0f, replyRemaining - Time.deltaTime);
         if (Input.GetKeyDown(KeyCode.Escape)) { EndConversation(); return; }
@@ -177,10 +223,11 @@ public sealed class Scene2MotherCompanion : MonoBehaviour
         nextConversation = Time.time + .4f;
     }
 
-    private void OnDisable() => EndConversation();
+    private void OnDisable() { EndConversation(); ambientRemaining = 0; }
     private void OnDestroy()
     {
         EndConversation();
+        if (guidance) guidance.OnMotherReaction -= PresentAmbientReaction;
         if (placeholder) Destroy(placeholder);
     }
 }

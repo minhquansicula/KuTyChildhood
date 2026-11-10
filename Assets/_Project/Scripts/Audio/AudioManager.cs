@@ -172,6 +172,14 @@ public class AudioManager : MonoBehaviour
         PlayBGM(soundLibrary.bgmLetter);
     }
 
+    /// <summary>Warm closing theme used by the ending's final card (the title-screen piece).</summary>
+    public void PlayFinaleMusic()
+    {
+        if (soundLibrary == null || soundLibrary.bgmMainMenu == null) return;
+        letterMusicActive = false;
+        PlayBGM(soundLibrary.bgmMainMenu);
+    }
+
     public void EndLetterMusic()
     {
         if (!letterMusicActive) return;

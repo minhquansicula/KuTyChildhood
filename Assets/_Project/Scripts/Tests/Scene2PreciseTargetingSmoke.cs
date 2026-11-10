@@ -53,19 +53,22 @@ public sealed class Scene2PreciseTargetingSmoke : MonoBehaviour
         var body = motor.GetComponent<CharacterController>();
         var bed = FindObjectOfType<BedWakeUpController>();
         Call(bed, "GetOutOfBed");
-        yield return new WaitForSeconds(1.1f);
+        // Rising now includes a >=1.05s sit-up and a .18s fade before releasing input.
+        yield return new WaitForSeconds(1.5f);
         motor.enabled = false;
         flow.ShowChecklist();
+        flow.Voice.Stop();
+        DialogueUI.Instance?.HideDialogue();
         var rayField = typeof(PlayerInteraction).GetField("raycastOrigin", BindingFlags.Instance | BindingFlags.NonPublic);
         var ray = motor.PlayerCamera;
         rayField.SetValue(interaction, ray);
         float floor = motor.transform.position.y;
         float eye = motor.PlayerCamera.localPosition.y;
         report.AppendLine("Player floor=" + floor + ", eye height=" + eye);
-        foreach (var task in new[] { HouseholdChore.WashRice, HouseholdChore.SetTable, HouseholdChore.ReadLetter })
+        foreach (var task in HouseholdChoreFlow.Order)
         {
             while (HouseholdChoreFlow.Order[flow.ActiveIndex] != task)
-                Check(flow.Complete(HouseholdChoreFlow.Order[flow.ActiveIndex]), "Cannot prepare chore " + task);
+                Check(flow.Complete(HouseholdChoreFlow.Order[flow.ActiveIndex], false), "Cannot prepare chore " + task);
             yield return null;
             var targets = FindObjectsOfType<HouseholdChoreInteractable>().Where(t =>
                 t.Chore == task && !string.IsNullOrEmpty(t.GetPromptText())).ToArray();
@@ -145,7 +148,7 @@ public sealed class Scene2PreciseTargetingSmoke : MonoBehaviour
             ray.rotation = Quaternion.LookRotation(selectedAim - ray.position);
             Call(interaction, "HandleRaycast");
             Check(ReferenceEquals(interaction.CurrentTarget, target), task + ": lost focus after clearing obstruction");
-            if (task == HouseholdChore.WashRice)
+            if (task == HouseholdChore.WashRice && Scene2HouseholdActivityPolicy.IsMinigame(task))
             {
                 ray.rotation *= Quaternion.Euler(0f, 20f, 0f);
                 Call(interaction, "HandleRaycast");
@@ -153,11 +156,16 @@ public sealed class Scene2PreciseTargetingSmoke : MonoBehaviour
                     "Rice pot aim assistance did not register the initially hidden pot");
                 ray.rotation = Quaternion.LookRotation(selectedAim - ray.position);
             }
+            if (task == HouseholdChore.WashRice && Scene2HouseholdActivityPolicy.IsSimple(task))
+                report.AppendLine("  Simple rice UI uses verified direct-ray focus; retired physical-game aim-assist expectation is not required.");
+            Check(!GameManager.Instance.InputBlocked, task + ": test fixture left unrelated modal input active");
             interaction.CurrentTarget.Interact();
-            Check(GameManager.Instance.InputBlocked, task + ": selected prop did not open its minigame");
+            Check(GameManager.Instance.InputBlocked, task + ": selected prop did not open its activity");
             Call(target, "EndInteraction");
+            // Kitchen activities own their modal lifecycle instead of the generic target.
+            flow.GetComponent<Scene2KitchenHandsOn>()?.End();
             Check(!GameManager.Instance.InputBlocked && flow.IsCurrent(task), task + ": cancelling lost input or granted progress");
-            Check(flow.Complete(task), task + ": cannot complete after cancelling");
+            Check(flow.Complete(task, false), task + ": cannot complete after cancelling");
         }
         Finish(true, "Visible props reachable; no proximity, wall or distance bypass; selected-target open/cancel passed.");
     }

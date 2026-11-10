@@ -38,13 +38,13 @@ public sealed class HouseholdWorkSession
         HUDController.Instance?.SetCrosshairVisible(false);
     }
 
-    public void MoveTo(Vector3 destination, Quaternion facing, float fraction)
+    public void MoveTo(Vector3 destination, Quaternion facing, float fraction, float targetFov = 48f)
     {
         if (closed || !camera) return;
         float t = Mathf.SmoothStep(0, 1, fraction);
         camera.transform.SetPositionAndRotation(Vector3.Lerp(startPosition, destination, t),
             Quaternion.Slerp(startRotation, facing, t));
-        camera.fieldOfView = Mathf.Lerp(fov, 48f, t);
+        camera.fieldOfView = Mathf.Lerp(fov, targetFov, t);
         camera.nearClipPlane = Mathf.Min(near, .025f);
     }
 

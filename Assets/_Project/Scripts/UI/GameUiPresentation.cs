@@ -15,6 +15,31 @@ public static class GameUiPresentation
     private static Sprite disc;
     public static string Money(int amount) => amount.ToString("N0", Vietnamese) + " đồng";
 
+    // Text accompanies colour so the current step is readable without colour cues.
+    public static string ActivitySteps(int current, params string[] steps)
+    {
+        var text = new System.Text.StringBuilder();
+        for (int i = 0; i < steps.Length; i++)
+        {
+            if (i > 0) text.Append("   ·   ");
+            string color = i < current ? "A8D9A6" : i == current ? "F0C26E" : "BFC9B8";
+            text.Append("<color=#").Append(color).Append('>');
+            if (i == current) text.Append("<b>› ");
+            text.Append(i + 1).Append(". ").Append(steps[i]);
+            if (i == current) text.Append("</b>");
+            text.Append("</color>");
+        }
+        return "<size=22>" + text + "</size>";
+    }
+
+    public static string ActivityHeading(HouseholdChore chore, string progress)
+    {
+        int index = System.Array.IndexOf(HouseholdChoreFlow.Order, chore);
+        return "<size=18><color=#BFC9B8>PHỤ MẸ  ·  " + (index + 1) + "/" + HouseholdChoreFlow.ChoreCount +
+            "</color></size>\n<b>" + HouseholdChoreFlow.Titles[(int)chore] + "</b>" +
+            (string.IsNullOrEmpty(progress) ? "" : "  <color=#F0C26E>" + progress + "</color>");
+    }
+
     public static void ConfigureCanvas(Canvas canvas)
     {
         if (!canvas || canvas.renderMode == RenderMode.WorldSpace) return;
