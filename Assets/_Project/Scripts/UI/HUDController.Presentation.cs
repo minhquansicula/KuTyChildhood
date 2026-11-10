@@ -7,6 +7,7 @@ public partial class HUDController
     private GameObject objectiveCard;
     private CanvasGroup presentationGroup;
     private TMP_Text memorySummary;
+    private GameObject memoryCollectionCard;
 
     private void BuildPresentation()
     {
@@ -34,6 +35,7 @@ public partial class HUDController
         {
             var memories = GameUiPresentation.Panel("MemoryCollectionCard", safe, new Vector2(0, 1),
                 new Vector2(456, 116), Vector2.zero);
+            memoryCollectionCard = memories.gameObject;
             var heading = OfficeUiStyle.Label("MemoryHeading", memories.transform, ObjectiveFont,
                 "NHỮNG MẢNH KÝ ỨC", 19, new Vector2(350, 28), new Vector2(-28, 32), GameUiPresentation.Gold);
             GameUiPresentation.Text(heading, 19, GameUiPresentation.Gold, false);
@@ -103,6 +105,10 @@ public partial class HUDController
 
     private void LateUpdate()
     {
+        // Home has its own five-task / fifty-fragment UI. The three chapter tokens
+        // are a different counter and must not compete with that board.
+        if (memoryCollectionCard)
+            memoryCollectionCard.SetActive(HouseholdChoreFlow.Instance == null);
         if (presentationGroup) presentationGroup.alpha = (GameManager.Instance != null && GameManager.Instance.InputBlocked) ||
             (MarbleAimUI.Instance != null && MarbleAimUI.Instance.IsVisible) ? 0f : 1f;
     }

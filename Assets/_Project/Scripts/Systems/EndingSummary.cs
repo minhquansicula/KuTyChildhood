@@ -24,6 +24,7 @@ public static class EndingSummary
 
     public static bool IsCompleted(HouseholdChore chore)
     {
+        if (!Scene2HouseholdActivityPolicy.IsActive(chore)) return false;
         if (!HasData) return true;
         int index = (int)chore;
         return index >= 0 && index < completed.Length && completed[index];

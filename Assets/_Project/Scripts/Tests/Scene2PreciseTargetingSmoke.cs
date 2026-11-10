@@ -65,8 +65,7 @@ public sealed class Scene2PreciseTargetingSmoke : MonoBehaviour
         float floor = motor.transform.position.y;
         float eye = motor.PlayerCamera.localPosition.y;
         report.AppendLine("Player floor=" + floor + ", eye height=" + eye);
-        foreach (var task in new[] { HouseholdChore.WashRice, HouseholdChore.LightFire, HouseholdChore.CookRice,
-            HouseholdChore.SetTable, HouseholdChore.WashDishes, HouseholdChore.ReadLetter })
+        foreach (var task in HouseholdChoreFlow.Order)
         {
             while (HouseholdChoreFlow.Order[flow.ActiveIndex] != task)
                 Check(flow.Complete(HouseholdChoreFlow.Order[flow.ActiveIndex], false), "Cannot prepare chore " + task);

@@ -32,7 +32,7 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
 
     public override string GetPromptText()
     {
-        if (!isActiveAndEnabled || running) return "";
+        if (!isActiveAndEnabled || running || !Scene2HouseholdActivityPolicy.IsActive(chore)) return "";
         if (flow == null) flow = HouseholdChoreFlow.Instance;
         var kitchen = flow != null ? flow.GetComponent<Scene2KitchenHandsOn>() : null;
         if (kitchen != null && kitchen.Handles(chore)) return kitchen.PromptFor(chore);

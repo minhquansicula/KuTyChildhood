@@ -99,6 +99,7 @@ public sealed class Scene2AuthoredDishwashingCheckRunner : MonoBehaviour
         var player = FindObjectOfType<FirstPersonController>(); player.enabled = false;
         Check(FocusFixture(player), "PlayerInteraction ray can focus the new washing fixture from a clear standing position");
         var entry = player.GetComponent<PlayerInteraction>().CurrentTarget;
+        Vector3 cameraHome = view.transform.localPosition; Quaternion cameraHomeRotation = view.transform.localRotation; float cameraHomeFov = view.fieldOfView;
         entry.Interact();
         Check(sim.IsWorking && Field<bool>("authoredDishes"), "Existing Interact route opens the user-arranged simulator");
         Check(layout.fixture.gameObject.activeInHierarchy && layout.faucet.gameObject.activeInHierarchy, "Fixture and faucet remain visible while working");
@@ -106,6 +107,20 @@ public sealed class Scene2AuthoredDishwashingCheckRunner : MonoBehaviour
         Check(!sim.Begin(HouseholdChore.WashDishes, null, null), "Nested activity is rejected");
         yield return new WaitForSeconds(.6f);
         Capture("01-station");
+        Canvas.ForceUpdateCanvases();
+        foreach (string name in new[] { "title", "instructions", "hint" })
+        {
+            var label = Field<TMPro.TextMeshProUGUI>(name); label.ForceMeshUpdate();
+            Check(label.preferredHeight <= label.rectTransform.rect.height + 1f && !label.isTextOverflowing,
+                "Washing " + name + " fits its panel without clipping");
+        }
+        ScreenCapture.CaptureScreenshot(Scene2AuthoredDishwashingSetup.Output + "/01-station-ui.png");
+        yield return new WaitForEndOfFrame(); yield return null;
+        float overviewPitch = Vector3.Angle(view.transform.forward, Vector3.ProjectOnPlane(view.transform.forward, Vector3.up));
+        report.AppendLine("CAMERA overview position=" + view.transform.position.ToString("F3") + "; pitch=" + overviewPitch.ToString("F1") + "; FOV=" + view.fieldOfView.ToString("F1"));
+        Check(overviewPitch >= 25f && overviewPitch <= 42f, "Washing overview is an oblique working view, not a high bird's-eye angle");
+        Check(view.transform.position.y - Scene2DishwashingLayout.VisualBounds(layout.basin).center.y < 1.35f,
+            "Overview eye is low beside the washing basin");
         foreach (float aspect in new[] { 16f / 9f, 21f / 9f })
         {
             view.aspect = aspect;
@@ -116,6 +131,17 @@ public sealed class Scene2AuthoredDishwashingCheckRunner : MonoBehaviour
             }
         }
         view.ResetAspect();
+        Check(!Field<UnityEngine.UI.Button>("washingFlipButton").interactable && Field<UnityEngine.UI.Button>("washingLeaveButton").interactable,
+            "Dry-stage action row disables flipping but leaves the exit available");
+        var dishCenter = Field<Transform>("moving").GetComponent<BoxCollider>().bounds.center;
+        Pointer(dishCenter, true, false, false); Pointer(dishCenter, false, false, true);
+        Check(Field<int>("held") == 0 && Field<bool>("washingCarryLatched"), "Quick click keeps the dish carried after mouse-up");
+        Vector2 uiPoint = RectTransformUtility.WorldToScreenPoint(null, Field<UnityEngine.UI.Button>("washingHelpButton").transform.position);
+        string beforeUi = JsonUtility.ToJson(sim.State);
+        sim.ProcessPointer(uiPoint, true, true, false, false, 0, .05f);
+        Check(Field<int>("held") == -1 && JsonUtility.ToJson(sim.State) == beforeUi, "Actual washing action-row raycast prevents UI clicks reaching the world");
+        sim.ProcessPointer(uiPoint + Vector2.up * 100, false, false, true, false, 0, .05f);
+        sim.ProcessPointer(Vector2.zero, false, false, false, false, 0, .05f);
         Click(Field<Transform>("authoredSoap"));
         Check(!sim.State.soaped, "Dry dish cannot acquire soap");
         Drag(Field<Vector3>("rackZone"), 1);
@@ -130,12 +156,20 @@ public sealed class Scene2AuthoredDishwashingCheckRunner : MonoBehaviour
         Check(!Field<bool>("faucetOpen") && JsonUtility.ToJson(sim.State) == paused, "Pause closes the tap and prevents all gestures");
         GameManager.Instance.SetPaused(false);
         yield return null;
+        sim.ProcessPointer(Vector2.zero, false, false, true, false, 0, .05f);
         Click(Field<Transform>("tapPick"));
+        dishCenter = Field<Transform>("moving").GetComponent<BoxCollider>().bounds.center;
+        Pointer(dishCenter, true, false, false); Pointer(dishCenter, false, false, true);
+        Vector3 waterPoint = Field<Vector3>("rinseZone"); waterPoint.y = Field<float>("authoredPlaneHeight");
+        for (int i = 0; i < 10; i++) Pointer(World.TransformPoint(waterPoint), false, false, false);
+        Check(sim.State.wetted && Field<bool>("washingCarryLatched"), "Click-carried dish docks in running water without holding the mouse button");
+        sim.ProcessPointer(Vector2.zero, false, false, false, true, 0, .05f);
         Drag(Field<Vector3>("rinseZone"), 10);
         Check(sim.State.wetted && sim.State.rinse == 0, "Running tap wets a dirty dish but cannot finish rinsing it");
         Click(Field<Transform>("authoredSoap"));
         Check(sim.State.soaped, "Clicking soap after wetting lathers the dish");
         PickSponge();
+        yield return new WaitForSeconds(.4f);
         var patch = Field<Transform[]>("stains")[0];
         float dirt = sim.State.stains[0];
         for (int i = 0; i < 20; i++) Pointer(patch.position, false, true, false);
@@ -145,6 +179,8 @@ public sealed class Scene2AuthoredDishwashingCheckRunner : MonoBehaviour
         Check(Field<int>("held") == 1, "F close-view shortcut equips the sponge without clicking a hidden tool");
         yield return new WaitForSeconds(.4f);
         Check(Field<float>("dishZoomBlend") > .99f, "Close-up smoothly frames the current physical dish");
+        Check(Vector3.Distance(view.transform.position, Field<Transform>("moving").position) < .60f, "Scrubbing close-up is within 60cm of the actual dish");
+        Check(view.transform.position.y - Field<Transform>("moving").position.y < .55f, "Close-up leans beside the dish rather than rising above the station");
         Vector3 closeTarget = view.WorldToViewportPoint(Field<Transform>("moving").position);
         Check(closeTarget.z > 0 && closeTarget.x > .1f && closeTarget.x < .9f && closeTarget.y > .1f && closeTarget.y < .9f, "Current dish stays visible in close view");
         var closePatch = Field<Transform[]>("stains")[0];
@@ -152,7 +188,9 @@ public sealed class Scene2AuthoredDishwashingCheckRunner : MonoBehaviour
         Pointer(closePatch.position - Vector3.right * .004f, true, true, false);
         Check(Field<int>("held") == 1, "Actual mouse-down on the close-up dish keeps the sponge equipped");
         for (int i = 0; i < 4; i++) Pointer(closePatch.position + Vector3.right * (i % 2 == 0 ? .004f : -.004f), false, true, false);
+        Check(Field<AudioSource>("washingScrubAudio").isPlaying, "Actual dirty-surface wiping plays contact-driven scrub audio instead of reward pings");
         Pointer(closePatch.position, false, false, true);
+        Check(!Field<AudioSource>("washingScrubAudio").isPlaying, "Releasing the sponge stops scrub audio");
         Check(sim.State.stains[0] < beforeCloseScrub, "Close-up mouse strokes actually clean the contacted patch");
         Capture("02-close-foam");
         ScreenCapture.CaptureScreenshot(Scene2AuthoredDishwashingSetup.Output + "/02-close-foam-ui.png");
@@ -161,6 +199,7 @@ public sealed class Scene2AuthoredDishwashingCheckRunner : MonoBehaviour
         typeof(Scene2HouseholdSimulator).GetMethod("ToggleDishCloseView", Flags).Invoke(sim, null);
         yield return new WaitForSeconds(.4f);
         PickSponge();
+        yield return new WaitForSeconds(.4f);
         var obstacle = GameObject.CreatePrimitive(PrimitiveType.Cube);
         obstacle.name = "Temporary washing occlusion test";
         obstacle.transform.position = Vector3.Lerp(view.transform.position, Field<Transform[]>("stains")[0].position, .5f);
@@ -170,13 +209,19 @@ public sealed class Scene2AuthoredDishwashingCheckRunner : MonoBehaviour
         Check(JsonUtility.ToJson(sim.State) == blocked, "A solid obstacle blocks held-sponge contact, not only initial picking");
         Destroy(obstacle);
         yield return null;
+        typeof(Scene2HouseholdSimulator).GetMethod("ToggleDishCloseView", Flags).Invoke(sim, null);
+        yield return new WaitForSeconds(.4f);
         ScrubFace(0);
         Check(sim.State.stains.Take(3).All(v => v <= .02f) && !sim.State.Scrubbed, "Only the exposed interior is cleaned; underside stays dirty");
+        typeof(Scene2HouseholdSimulator).GetMethod("ToggleDishCloseView", Flags).Invoke(sim, null);
+        yield return new WaitForSeconds(.4f);
         string partial = JsonUtility.ToJson(sim.State);
         typeof(Scene2HouseholdSimulator).GetMethod("OnApplicationFocus", Flags).Invoke(sim, new object[] { false });
         Check(Field<int>("held") == -1 && !Field<bool>("faucetOpen") && JsonUtility.ToJson(sim.State) == partial, "Focus loss returns tools, closes tap and preserves work");
         sim.End();
         Check(!GameManager.Instance.InputBlocked && layout.dishes.All(d => d.source.gameObject.activeSelf), "Cancel restores all original dishes and releases input");
+        Check(Vector3.Distance(view.transform.localPosition, cameraHome) < .0001f && Quaternion.Angle(view.transform.localRotation, cameraHomeRotation) < .001f && Mathf.Abs(view.fieldOfView-cameraHomeFov)<.001f,
+            "Cancel restores the original player camera pose and FOV");
         Check(flow.Pieces == pieces && !flow.IsCompleted(HouseholdChore.WashDishes), "Partial washing gives no reward or story completion");
         Check(!string.IsNullOrEmpty(Scene2Checkpoint.LoadWork(HouseholdChore.WashDishes)), "Partial scrub state is saved to checkpoint");
         ((IDictionary)typeof(Scene2HouseholdSimulator).GetField("work", Flags).GetValue(sim)).Clear();
@@ -192,11 +237,32 @@ public sealed class Scene2AuthoredDishwashingCheckRunner : MonoBehaviour
                 if (!Field<bool>("faucetOpen")) Click(Field<Transform>("tapPick"));
                 Drag(Field<Vector3>("rinseZone"), 8);
                 Click(Field<Transform>("authoredSoap"));
+                typeof(Scene2HouseholdSimulator).GetMethod("ToggleDishCloseView", Flags).Invoke(sim, null);
+                yield return new WaitForSeconds(.4f);
                 ScrubFace(0);
+                typeof(Scene2HouseholdSimulator).GetMethod("ToggleDishCloseView", Flags).Invoke(sim, null);
+                yield return new WaitForSeconds(.4f);
             }
-            Flip(); ScrubFace(1);
+            if (dish == 0)
+            {
+                var button = Field<UnityEngine.UI.Button>("washingFlipButton");
+                typeof(Scene2HouseholdSimulator).GetMethod("RefreshWashingControls", Flags).Invoke(sim, null);
+                Check(button.interactable, "Flip button is available for the stable partially-cleaned dish");
+                UnityEngine.EventSystems.ExecuteEvents.Execute(button.gameObject,
+                    new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current), UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
+                Check(sim.State.flipped && Field<float>("washingFlipTime") > 0, "Actual flip button starts a controlled turn without carrying the dish");
+                Vector2 flipScreen = RectTransformUtility.WorldToScreenPoint(null, button.transform.position);
+                sim.ProcessPointer(flipScreen, false, false, true, false, 0, .05f);
+                Check(Field<float>("washingFlipTime") > 0 && Field<float>("washingFlipTime") < .28f, "Flip animation advances while the pointer stays over its UI button");
+            }
+            else Flip();
+            yield return new WaitForSeconds(.35f);
+            if (!Field<bool>("dishCloseView")) typeof(Scene2HouseholdSimulator).GetMethod("ToggleDishCloseView", Flags).Invoke(sim, null);
+            PickSponge(); yield return new WaitForSeconds(.4f); ScrubFace(1);
             Check(sim.State.Scrubbed, "Both surfaces scrubbed by mesh-contact ray gestures: " + layout.dishes[dish].label);
             Capture("02-scrubbed-" + dish);
+            typeof(Scene2HouseholdSimulator).GetMethod("ToggleDishCloseView", Flags).Invoke(sim, null);
+            yield return new WaitForSeconds(.4f);
             if (!Field<bool>("faucetOpen")) Click(Field<Transform>("tapPick"));
             Drag(Field<Vector3>("rinseZone"), 35);
             Check(sim.State.DishReady, "Sustained running water removes lather: " + dish);
@@ -207,6 +273,25 @@ public sealed class Scene2AuthoredDishwashingCheckRunner : MonoBehaviour
                 Drag(Field<Vector3>("rinseZone"), 35);
             }
             Capture("03-rinsed-" + dish);
+            if (dish == 0)
+            {
+                var rackBlocker = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                rackBlocker.name = "Opaque rack placement occluder";
+                rackBlocker.transform.position = Vector3.Lerp(view.transform.position, World.TransformPoint(Field<Vector3[]>("slots")[0]), .65f);
+                rackBlocker.transform.localScale = Vector3.one * .7f;
+                Physics.SyncTransforms(); Drag(Field<Vector3>("rackZone"), 1);
+                Check(sim.State.delivered == 0 && sim.State.DishReady, "An opaque obstacle blocks rack commit even for a clean dish; progress is preserved");
+                rackBlocker.SetActive(false); Destroy(rackBlocker); Physics.SyncTransforms();
+                PickDish();
+                Vector3 rack = Field<Vector3>("rackZone"); rack.y = Field<float>("authoredPlaneHeight");
+                Pointer(World.TransformPoint(rack), false, true, false); Pointer(World.TransformPoint(rack), false, false, true);
+                Check(Field<float>("washingRackSettleTime") > 0 && sim.State.delivered == 0, "Clean rack release starts settling before delivery");
+                GameManager.Instance.SetPaused(true);
+                Check(Field<float>("washingRackSettleTime") == 0 && sim.State.delivered == 0 && sim.State.DishReady,
+                    "Pause cancels a half-settled dish safely without losing cleanliness or awarding delivery");
+                GameManager.Instance.SetPaused(false); yield return null;
+                sim.ProcessPointer(Vector2.zero, false, false, true, false, 0, .05f);
+            }
             Drag(Field<Vector3>("rackZone"), 1);
             Check(sim.State.delivered == dish + 1, "Only releasing clean item over the actual rack delivers it: " + dish);
         }
@@ -270,6 +355,14 @@ public sealed class Scene2AuthoredDishwashingCheckRunner : MonoBehaviour
     private void PickSponge()
     {
         Physics.SyncTransforms();
+        if (Field<bool>("dishCloseView"))
+        {
+            // In close view the resting tool can be outside the viewport. Use
+            // the same visible dish click that retains/equips the F-mode sponge.
+            Pointer(Field<Transform>("moving").GetComponent<BoxCollider>().bounds.center, true, false, false);
+            if (Field<int>("held") != 1) DiagnosePick(Field<Transform>("moving").position, "Close dish did not equip sponge");
+            return;
+        }
         Pointer(Field<Transform>("tool").GetComponent<BoxCollider>().bounds.center, true, false, false);
         if (Field<int>("held") != 1) DiagnosePick(Field<Transform>("tool").position, "Sponge is blocked");
     }
@@ -277,12 +370,21 @@ public sealed class Scene2AuthoredDishwashingCheckRunner : MonoBehaviour
     {
         PickDish(); point.y = Field<float>("authoredPlaneHeight");
         for (int i = 0; i < frames; i++) Pointer(World.TransformPoint(point), false, true, false);
+        if (sim.State.DishReady && Vector2.Distance(new Vector2(point.x, point.z), new Vector2(Field<Vector3>("rackZone").x, Field<Vector3>("rackZone").z)) < .01f)
+        {
+            Vector3 target = World.TransformPoint(Field<Vector3[]>("slots")[sim.State.delivered]);
+            Vector3 delta = target - view.transform.position;
+            report.AppendLine("RACK ready=" + Field<bool>("washingRackReady") + "; carry=" + Field<Transform>("moving").localPosition + "; target=" + target + "; viewport=" + view.WorldToViewportPoint(target) + "; blockers=" +
+                string.Join(",", Physics.RaycastAll(new Ray(view.transform.position, delta.normalized), delta.magnitude, ~0, QueryTriggerInteraction.Ignore).Select(h => h.collider.name)));
+        }
         Pointer(World.TransformPoint(point), false, false, true);
+        for (int i = 0; i < 6 && Field<float>("washingRackSettleTime") > 0; i++)
+            sim.ProcessPointer(view.WorldToScreenPoint(World.TransformPoint(point)), false, false, false, false, 0, .05f);
     }
     private void Flip()
     {
-        PickDish(); Pointer(Field<Transform>("moving").position, false, false, true, 1);
-        Check(sim.State.flipped, "Mouse wheel turns the held item to its underside");
+        Pointer(Field<Transform>("moving").position, false, false, true, 1);
+        Check(sim.State.flipped, "Mouse wheel turns the stable item without requiring a carrying mode");
     }
     private void ScrubFace(int side)
     {

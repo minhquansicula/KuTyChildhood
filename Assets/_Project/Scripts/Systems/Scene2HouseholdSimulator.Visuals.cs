@@ -12,6 +12,9 @@ public sealed partial class Scene2HouseholdSimulator
     private readonly Transform[] stains = new Transform[6], bubbles = new Transform[8], racked = new Transform[3];
     private Vector3 movingHome, toolHome, sourceZone, targetZone, rinseZone, rackZone;
     private LineRenderer pourStream;
+    private readonly LineRenderer[] tableGuides = new LineRenderer[3];
+    private int tableHover = -1;
+    private bool tableDropReady;
     private float nextScrubSound, letterReadSeconds;
 
     private void BuildWorld()
@@ -21,6 +24,13 @@ public sealed partial class Scene2HouseholdSimulator
             if (!finishedWorlds[i] || Vector3.Distance(finishedWorlds[i].transform.position, station.surface.position) < .75f)
             { if (finishedWorlds[i]) Destroy(finishedWorlds[i]); finishedWorlds.RemoveAt(i); }
         pickers.Clear();
+        EnsureTableInteractionStorage();
+        System.Array.Clear(tableGuides, 0, tableGuides.Length);
+        System.Array.Clear(tablePreviews, 0, tablePreviews.Length);
+        System.Array.Clear(tablePreviewMaterials, 0, tablePreviewMaterials.Length);
+        System.Array.Clear(tablePieceRenderers, 0, tablePieceRenderers.Length);
+        tableIgnoreUntilUp = false;
+        tableHover = -1; tableDropReady = false;
         importedDishes = false;
         authoredDishes = false;
         dishLayout = GetComponent<Scene2DishwashingLayout>();
@@ -149,6 +159,59 @@ public sealed partial class Scene2HouseholdSimulator
 
     private void BuildPlacement()
     {
+        var authored = GetComponent<Scene2AuthoredTableLayout>();
+        if (state.chore == HouseholdChore.SetTable && authored && authored.IsReady)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                homes[i] = authored.sourceLocal[i]; slots[i] = authored.targetLocal[i];
+                pieces[i] = Group("Table dish " + (i + 1), world, homes[i]);
+                var source = authored.dishes[i];
+                foreach (var sourceMesh in source.GetComponentsInChildren<MeshFilter>(true))
+                {
+                    var renderer = sourceMesh.GetComponent<MeshRenderer>();
+                    if (!renderer || !sourceMesh.sharedMesh) continue;
+                    var visual = new GameObject(sourceMesh.name + " · existing mesh");
+                    visual.transform.SetParent(pieces[i], false);
+                    visual.transform.localRotation = Quaternion.Inverse(source.rotation) * sourceMesh.transform.rotation;
+                    var scale = sourceMesh.transform.lossyScale;
+                    visual.transform.localScale = scale;
+                    visual.transform.localPosition = Quaternion.Inverse(source.rotation) * (sourceMesh.transform.position - source.position);
+                    visual.AddComponent<MeshFilter>().sharedMesh = sourceMesh.sharedMesh;
+                    visual.AddComponent<MeshRenderer>().sharedMaterials = renderer.sharedMaterials;
+                }
+                Bounds bounds = Scene2DishwashingLayout.VisualBounds(pieces[i]);
+                pieces[i].position += Vector3.up * (world.TransformPoint(homes[i]).y + .003f - bounds.min.y);
+                // The group itself sits on the plane; child offset preserves the source pivot/scale.
+                Vector3 shift = pieces[i].localPosition - homes[i];
+                foreach (Transform child in pieces[i]) child.localPosition += shift;
+                pieces[i].localPosition = homes[i];
+                var hit = pieces[i].gameObject.AddComponent<BoxCollider>(); hit.isTrigger = true;
+                bounds = Scene2DishwashingLayout.VisualBounds(pieces[i]);
+                hit.center = pieces[i].InverseTransformPoint(bounds.center); hit.size = bounds.size + Vector3.one * .012f;
+                pickers.Add(hit);
+                var guide = new GameObject("Table placement guide " + i).AddComponent<LineRenderer>();
+                guide.transform.SetParent(world, false);
+                guide.useWorldSpace = false; guide.loop = true; guide.positionCount = 48;
+                guide.widthMultiplier = .003f;
+                guide.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                guide.receiveShadows = false;
+                var shader = Shader.Find("Sprites/Default");
+                if (shader)
+                {
+                    var material = new Material(shader);
+                    ownedAssets.Add(material); guide.sharedMaterial = material;
+                }
+                for (int p = 0; p < guide.positionCount; p++)
+                {
+                    float angle = p * Mathf.PI * 2 / guide.positionCount;
+                    guide.SetPosition(p, slots[i] + new Vector3(Mathf.Cos(angle) * .16f, .008f, Mathf.Sin(angle) * .16f));
+                }
+                tableGuides[i] = guide;
+                BuildTablePreview(i);
+            }
+            return;
+        }
         bool table = state.chore == HouseholdChore.SetTable;
         bool cabinet = state.chore == HouseholdChore.PutAwayDishes;
         string[] names = table ? new[] { "CHÉN", "ĐŨA", "NỒI CƠM" } : cabinet ? new[] { "CHÉN", "ĐĨA", "ĐŨA" } : new[] { "ÁO", "KHĂN", "KỶ VẬT" };
@@ -205,6 +268,7 @@ public sealed partial class Scene2HouseholdSimulator
     private void RefreshVisuals()
     {
         if (!world || state == null) return;
+        RefreshTableGuides();
         if (state.chore == HouseholdChore.WashDishes)
         {
             if (authoredDishes) { RefreshAuthoredDishes(); return; }

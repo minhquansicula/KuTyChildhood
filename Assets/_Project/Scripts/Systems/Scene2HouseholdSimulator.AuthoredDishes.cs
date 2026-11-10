@@ -22,8 +22,10 @@ public sealed partial class Scene2HouseholdSimulator
     private Vector3 authoredCameraFocus;
     private Transform tapSplash;
     private Vector3 tapLanding;
-    private Vector3 AuthoredCameraDestination => dishCloseView && moving
-        ? Vector3.Lerp(dishCameraPosition, moving.position - dishCameraRotation * Vector3.forward * .52f, dishZoomBlend)
+    private static readonly Quaternion AuthoredScrubRotation = Quaternion.LookRotation(new Vector3(0, -1.15f, .8f), Vector3.up);
+    private Quaternion AuthoredCameraRotation => Quaternion.Slerp(dishCameraRotation, AuthoredScrubRotation, dishZoomBlend);
+    private Vector3 AuthoredCameraDestination => moving && dishZoomBlend > 0
+        ? Vector3.Lerp(dishCameraPosition, moving.position - AuthoredScrubRotation * Vector3.forward * .56f, dishZoomBlend)
         : dishCameraPosition;
 
     private void HideDishSource(Transform source)
@@ -52,9 +54,22 @@ public sealed partial class Scene2HouseholdSimulator
     private void BuildAuthoredDishes()
     {
         authoredDishes = true;
+        authoredRackQueries = new List<MeshCollider>();
         world.SetPositionAndRotation(dishLayout.fixture.position, Quaternion.identity);
+        // Rack solids can be broad boxes around an open frame. Refine them against its actual mesh,
+        // rather than ignoring the rack or accepting a hidden target through the wooden rails.
+        foreach (var mesh in dishLayout.rack.GetComponentsInChildren<MeshFilter>(true))
+        {
+            if (!mesh.sharedMesh) continue;
+            var query = new GameObject("Rack exact surface query").AddComponent<MeshCollider>();
+            query.transform.SetParent(world, false); query.transform.SetPositionAndRotation(mesh.transform.position, mesh.transform.rotation);
+            query.transform.localScale = mesh.transform.lossyScale; query.sharedMesh = mesh.sharedMesh;
+            query.gameObject.layer = 2; authoredRackQueries.Add(query);
+        }
         dishCloseView = false; dishZoomBlend = 0; faucetOpen = false;
         authoredBasinBounds = Scene2DishwashingLayout.VisualBounds(dishLayout.basin);
+        var basinWater = FindDishAttachment(dishLayout.basin, "WaterSurface");
+        washingBasinWaterY = basinWater ? basinWater.position.y : authoredBasinBounds.center.y;
         authoredRackBounds = Scene2DishwashingLayout.VisualBounds(dishLayout.rack);
         rinseZone = world.InverseTransformPoint(dishLayout.outlet.position);
         rackZone = world.InverseTransformPoint(authoredRackBounds.center);
@@ -97,6 +112,7 @@ public sealed partial class Scene2HouseholdSimulator
             }
         }
         tool = CloneDishProp(dishLayout.sponge, "Working sponge");
+        washingToolRestScale = tool.localScale;
         toolHome = tool.localPosition; toolHomeRotation = tool.rotation;
         authoredSoap = CloneDishProp(dishLayout.soap, "Working soap");
         HideDishSource(dishLayout.sponge); HideDishSource(dishLayout.soap);
@@ -132,21 +148,16 @@ public sealed partial class Scene2HouseholdSimulator
         }
         area.Expand(new Vector3(.18f, .12f, .18f));
         dishWorkBounds = new Bounds(world.InverseTransformPoint(area.center), area.size);
-        authoredCameraFocus = area.center;
-        // Front is the open floor, matching the user's washing-area layout.
-        // A steep view exposes the bowl's near interior; a shallow camera makes
-        // the real rim occlude an otherwise valid dirt patch.
-        Vector3 direction = new Vector3(0, 1.15f, -.45f).normalized;
+        var fixtureBounds = Scene2DishwashingLayout.VisualBounds(dishLayout.fixture);
+        authoredCameraFocus = new Vector3(Mathf.Lerp(fixtureBounds.center.x, area.center.x, .35f),
+            authoredBasinBounds.center.y + .06f, Mathf.Lerp(fixtureBounds.center.z, authoredBasinBounds.center.z, .35f));
+        // A seated working pose, in world metres. Do not zoom out to fit every
+        // decorative tray corner: that is what raised the old camera above the player.
+        // Faucet, soap, basin and rack remain reachable; F leans in over a dish's rim.
+        Vector3 offset = new Vector3(0, .82f, -1.65f);
+        Vector3 direction = offset.normalized;
         dishCameraRotation = Quaternion.LookRotation(-direction, Vector3.up);
-        float distance = 1f;
-        float tangent = Mathf.Tan(24f * Mathf.Deg2Rad);
-        for (int x = -1; x <= 1; x += 2) for (int y = -1; y <= 1; y += 2) for (int z = -1; z <= 1; z += 2)
-        {
-            Vector3 p = Quaternion.Inverse(dishCameraRotation) * Vector3.Scale(area.extents, new Vector3(x, y, z));
-            distance = Mathf.Max(distance, Mathf.Abs(p.y) / (tangent * .75f) - p.z,
-                Mathf.Abs(p.x) / (tangent * Mathf.Min(view.aspect, 16f / 9f) * .85f) - p.z);
-        }
-        dishCameraPosition = authoredCameraFocus + direction * (distance + .10f);
+        dishCameraPosition = authoredCameraFocus + offset;
         authoredDishIndex = -1;
         SelectAuthoredDish();
     }
@@ -157,6 +168,10 @@ public sealed partial class Scene2HouseholdSimulator
     }
     private void SelectAuthoredDish()
     {
+        if (authoredDishIndex >= 0) HighlightWashingDish(false);
+        if (washingTargetGuide) Destroy(washingTargetGuide.gameObject);
+        if (washingRackPreview) Destroy(washingRackPreview.gameObject);
+        if (washingSourceGuide) Destroy(washingSourceGuide.gameObject);
         if (state.delivered >= 3) { moving = dishVisual = null; pickers[0].enabled = false; return; }
         authoredDishIndex = state.delivered;
         moving = authoredHolders[authoredDishIndex]; dishVisual = authoredVisuals[authoredDishIndex];
@@ -169,37 +184,37 @@ public sealed partial class Scene2HouseholdSimulator
         for (int i = 0; i < stains.Length; i++) if (stains[i]) { stains[i].gameObject.SetActive(false); Destroy(stains[i].gameObject); }
         for (int i = 0; i < bubbles.Length; i++) if (bubbles[i]) { bubbles[i].gameObject.SetActive(false); Destroy(bubbles[i].gameObject); }
         var dish = dishLayout.dishes[authoredDishIndex];
+        Physics.SyncTransforms();
         for (int i = 0; i < 6; i++)
         {
             Vector3 point = dishVisual.TransformPoint(dish.points[i]);
             Vector3 normal = dishVisual.TransformDirection(dish.normals[i]).normalized;
-            stains[i] = Prop("Food residue " + i, PrimitiveType.Sphere, world, Vector3.zero, new Vector3(.026f, .0018f, .021f),
-                MaterialFor("authored food residue", new Color(.24f, .105f, .028f)));
-            stains[i].SetPositionAndRotation(point + normal * .0009f, Quaternion.FromToRotation(Vector3.up, normal));
+            stains[i] = WashingSurfacePatch("Food residue " + i, point, normal, new Vector2(.052f, .042f), false);
             stains[i].SetParent(dishVisual, true);
             stainWorldSizes[i] = stains[i].localScale;
         }
         for (int i = 0; i < bubbles.Length; i++)
         {
             int patch = (i / 4) * 3 + i % 3;
-            bubbles[i] = Prop("Soap lather " + i, PrimitiveType.Sphere, world, Vector3.zero, Vector3.one * (.010f + i % 3 * .003f),
-                MaterialFor("authored lather", new Color(.90f, .94f, .88f)));
-            bubbles[i].position = stains[patch].position + stains[patch].up * .003f;
+            Vector3 normal = dishVisual.TransformDirection(dish.normals[patch]).normalized;
+            Vector3 point = dishVisual.TransformPoint(dish.points[patch]);
+            bubbles[i] = WashingSurfacePatch("Soap lather " + i, point, normal, new Vector2(.035f, .028f), true);
             bubbles[i].SetParent(dishVisual, true);
             latherSizes[i] = bubbles[i].localScale;
         }
+        BuildWashingGuides();
         RefreshAuthoredDishes();
     }
     private bool DishUnderTap(Vector3 point)
     {
         Vector3 outlet = world.InverseTransformPoint(dishLayout.outlet.position);
-        return faucetOpen && new Vector2(point.x - outlet.x, point.z - outlet.z).magnitude < .095f;
+        return faucetOpen && new Vector2(point.x - outlet.x, point.z - outlet.z).magnitude < .13f;
     }
     private bool InAuthoredBasin(Vector3 point)
     {
         Vector3 p = world.TransformPoint(point);
-        return Mathf.Abs(p.x - authoredBasinBounds.center.x) < authoredBasinBounds.extents.x * .65f &&
-            Mathf.Abs(p.z - authoredBasinBounds.center.z) < authoredBasinBounds.extents.z * .65f;
+        return Mathf.Abs(p.x - authoredBasinBounds.center.x) < authoredBasinBounds.extents.x * .8f &&
+            Mathf.Abs(p.z - authoredBasinBounds.center.z) < authoredBasinBounds.extents.z * .8f;
     }
     private bool InAuthoredRack(Vector3 point)
     {
@@ -210,6 +225,20 @@ public sealed partial class Scene2HouseholdSimulator
     private void ProcessAuthoredDishPointer(Vector2 screen, bool down, bool pressed, bool up, bool cancel, float scroll, float dt)
     {
         if (cancel) { ReleasePointer(); Tell("Đã đặt vật lại; vết bẩn đã chà vẫn được giữ."); return; }
+        if (washingScrubAudio && !(held == 1 && pressed)) washingScrubAudio.Stop();
+        if (washingRackSettleTime > 0) { TickWashingRackSettle(dt); return; }
+        if (washingFlipTime > 0)
+        {
+            washingFlipTime = Mathf.Max(0, washingFlipTime - Mathf.Min(dt, .05f));
+            RefreshAuthoredDishes(); return;
+        }
+        if (washingUiPointer == null) washingUiPointer = new HouseholdActivityPointer();
+        if (washingUiPointer.OverUi(screen))
+        {
+            if (down || pressed || up) { if (held >= 0 || washingDown) ReleasePointer(); washingIgnoreUntilUp = true; }
+            return;
+        }
+        if (washingIgnoreUntilUp) { if (!down && !pressed) washingIgnoreUntilUp = false; return; }
         if (screen.x < 0 || screen.y < 0 || screen.x > Screen.width || screen.y > Screen.height)
         { pointerValid = false; if (up) ReleasePointer(); return; }
         Physics.SyncTransforms();
@@ -217,6 +246,8 @@ public sealed partial class Scene2HouseholdSimulator
         int pick = Pick(ray);
         if (down)
         {
+            washingDown = true; washingPress = screen; washingDrag = false;
+            washingPickedOnDown = held != 0;
             if (pick == 3)
             {
                 faucetOpen = !faucetOpen;
@@ -231,25 +262,64 @@ public sealed partial class Scene2HouseholdSimulator
             {
                 // Close-up is a scrubbing mode. Clicking the bowl with the equipped
                 // sponge must not silently switch back to carrying the bowl.
-                held = dishCloseView && pick == 0 ? 1 : pick;
+                bool scrubMode = state.wetted && state.soaped && !state.Scrubbed;
+                held = scrubMode && pick == 0 ? 1 : pick;
+                washingCarryLatched = false;
                 pointerValid = false;
             }
         }
-        if (held == 0 && Mathf.Abs(scroll) > .01f)
-        { state.flipped = !state.flipped; Touch(); Tell(state.flipped ? "Mặt ngoài / đáy." : "Mặt trong / lòng."); }
+        if (Mathf.Abs(scroll) > .01f && state.wetted && state.soaped && !state.Scrubbed)
+        { FlipWashingDish(); RefreshAuthoredDishes(); return; }
         var plane = new Plane(Vector3.up, world.TransformPoint(Vector3.up * authoredPlaneHeight));
         if (!plane.Raycast(ray, out float distance)) { if (up) ReleasePointer(); RefreshAuthoredDishes(); return; }
         Vector3 point = world.InverseTransformPoint(ray.GetPoint(distance));
         point.x = Mathf.Clamp(point.x, dishWorkBounds.min.x, dishWorkBounds.max.x);
         point.z = Mathf.Clamp(point.z, dishWorkBounds.min.z, dishWorkBounds.max.z);
-        if (held == 0 && pressed && moving)
+        if (down && held == 0 && washingPickedOnDown && moving)
         {
-            moving.localPosition = new Vector3(point.x, authoredPlaneHeight, point.z);
-            if (DishUnderTap(point)) { state.Rinse(Mathf.Min(dt, .05f)); Touch(); dishWaterSurface?.Disturb(moving.position, .6f); }
-            else if (InAuthoredBasin(point)) { state.Wet(Mathf.Min(dt, .05f)); Touch(); }
+            // Preserve the actual grab point, not the perspective offset to the elevated carrying plane.
+            washingGrabOffset = Vector3.zero;
+            float nearest = 5f;
+            foreach (var query in dishQueries[authoredDishIndex])
+                if (query && query.Raycast(ray, out var contact, nearest))
+                { nearest = contact.distance; washingGrabOffset = moving.localPosition - world.InverseTransformPoint(contact.point); }
+            washingGrabOffset.y = 0;
+        }
+        float threshold = 10f * Mathf.Max(.75f, Mathf.Min(Screen.width / 1920f, Screen.height / 1080f));
+        if (washingDown && pressed && (screen - washingPress).sqrMagnitude > threshold * threshold) washingDrag = true;
+        if (held == 0 && (pressed || washingCarryLatched) && moving)
+        {
+            Vector3 candidate = point + washingGrabOffset;
+            candidate.y = authoredPlaneHeight;
+            if (!washingDown || washingDrag || !washingPickedOnDown)
+            {
+                // Stable water support uses real authored regions; it does not bypass visibility or occlusion.
+                if (DishUnderTap(candidate) || DishUnderTap(point))
+                {
+                    Vector3 outlet = world.InverseTransformPoint(dishLayout.outlet.position);
+                    candidate.x = outlet.x; candidate.z = outlet.z;
+                }
+                else if (InAuthoredBasin(candidate) || InAuthoredBasin(point))
+                {
+                    Vector3 basin = world.InverseTransformPoint(authoredBasinBounds.center);
+                    candidate.x = basin.x; candidate.z = basin.z;
+                    float halfHeight = Scene2DishwashingLayout.VisualBounds(dishVisual).extents.y;
+                    float dockY = world.InverseTransformPoint(new Vector3(moving.position.x, washingBasinWaterY + halfHeight * .65f, moving.position.z)).y;
+                    candidate.y = Mathf.MoveTowards(moving.localPosition.y, dockY, Mathf.Min(dt, .05f) * .9f);
+                }
+                moving.localPosition = candidate;
+                if (DishUnderTap(candidate)) { state.Rinse(Mathf.Min(dt, .05f)); Touch(); dishWaterSurface?.Disturb(moving.position, .6f); }
+                else if (InAuthoredBasin(candidate) && Scene2DishwashingLayout.VisualBounds(dishVisual).min.y <= washingBasinWaterY + .01f)
+                {
+                    bool alreadyWet = state.wetted;
+                    state.Wet(Mathf.Min(dt, .05f)); Touch();
+                    if (!alreadyWet) dishWaterSurface?.Disturb(moving.position, .45f);
+                }
+            }
         }
         if (held == 1 && pressed && moving)
         {
+            bool scrubSound = false;
             bool contact = false;
             RaycastHit hit = default;
             float nearest = 5f;
@@ -257,6 +327,8 @@ public sealed partial class Scene2HouseholdSimulator
                 if (query && query.Raycast(ray, out var candidate, nearest)) { nearest = candidate.distance; hit = candidate; contact = true; }
             if (contact && !AuthoredDishOccluded(ray, hit.distance))
             {
+                // Only the working copy is reduced at contact, so the hand/tool does not hide the entire stain.
+                tool.localScale = washingToolRestScale * .68f;
                 tool.SetPositionAndRotation(hit.point + hit.normal * .010f, Quaternion.FromToRotation(Vector3.up, hit.normal) * toolHomeRotation);
                 float travel = pointerValid ? Vector3.Distance(hit.point, lastPointerPoint) : 0;
                 lastPointerPoint = hit.point; pointerValid = true;
@@ -267,33 +339,35 @@ public sealed partial class Scene2HouseholdSimulator
                     float d = Vector3.Distance(hit.point, stains[i].position);
                     if (d < closest) { closest = d; patch = i; }
                 }
-                if (travel > .0002f && travel < .07f && state.Scrub(patch, travel))
+                if (travel > .0002f && travel < .07f && state.Scrub(patch, Mathf.Min(travel, Mathf.Min(dt, .05f) * .24f)))
                 {
                     Touch();
-                    if (Time.time >= nextScrubSound) { AudioManager.Instance?.PlaySFX(SfxId.TaskProgress); nextScrubSound = Time.time + .35f; }
+                    scrubSound = true;
+                    if (washingScrubAudio && !washingScrubAudio.isPlaying) washingScrubAudio.Play();
                 }
                 else if (!state.wetted || !state.soaped) Tell("Làm ướt, rồi bấm bánh xà phòng trước khi chà.");
             }
             else pointerValid = false;
+            if (!scrubSound && washingScrubAudio) washingScrubAudio.Stop();
         }
-        if (up && held == 0 && moving && InAuthoredRack(point))
+        washingRackReady = held == 0 && CanRackAuthoredDish();
+        bool placeCarry = up && held == 0 && washingDown && (washingDrag || !washingPickedOnDown);
+        if (placeCarry && moving && InAuthoredRack(moving.localPosition))
         {
-            if (state.DishReady)
+            if (washingRackReady)
             {
-                int index = state.delivered;
-                state.RackDish();
-                authoredHolders[index].localPosition = slots[index];
-                authoredHolders[index].localRotation = authoredRackRotations[index];
-                pickers[0].enabled = false;
-                AudioManager.Instance?.PlaySFX(SfxId.DishClean); Touch();
-                Tell("Đã đặt đồ sạch lên giá · " + state.delivered + "/3");
-                held = -1; pointerValid = false;
-                SelectAuthoredDish();
-                if (!moving) StopAuthoredTap();
+                washingRackSettleTime = .2f; washingRackFrom = moving.localPosition; washingRackFromRotation = moving.localRotation;
+                washingDown = washingCarryLatched = false;
+                RefreshAuthoredDishes(); return;
             }
-            else Tell(state.Scrubbed ? "Tráng dưới vòi đang mở đến khi hết bọt trước nhé." : "Còn vết bẩn — nhớ chà cả hai mặt.");
+            else Tell(state.DishReady ? "Vị trí cất bị chắn — đưa món sang phần nhìn thấy của giá." : state.Scrubbed ? "Tráng dưới vòi đang mở đến khi hết bọt trước nhé." : "Còn vết bẩn — nhớ chà cả hai mặt.");
         }
-        if (up) ReleasePointer();
+        if (up)
+        {
+            if (held == 0 && washingDown && washingPickedOnDown && !washingDrag) washingCarryLatched = true;
+            else ReleasePointer();
+            washingDown = false;
+        }
         if (down || pressed && held >= 0) idleTime = 0;
         RefreshAuthoredDishes();
     }
@@ -305,6 +379,12 @@ public sealed partial class Scene2HouseholdSimulator
         {
             var hit = occlusionHits[i];
             if (!hit.collider || hit.transform.IsChildOf(world) || hit.collider.GetComponentInParent<FirstPersonController>()) continue;
+            if (authoredRackQueries != null && authoredRackQueries.Count > 0 && (hit.transform == dishLayout.rack || hit.transform.IsChildOf(dishLayout.rack)))
+            {
+                foreach (var query in authoredRackQueries)
+                    if (query && query.Raycast(ray, out var exact, distance) && exact.distance < distance - .003f) return true;
+                continue;
+            }
             if (hit.distance < distance - .003f) return true;
         }
         return false;
@@ -318,16 +398,19 @@ public sealed partial class Scene2HouseholdSimulator
             if (i < state.delivered) continue;
             if (i != authoredDishIndex) authoredHolders[i].localPosition = authoredHomes[i];
         }
-        if (moving) moving.localRotation = Quaternion.Euler(state.flipped ? 180 : 0, 0, 0);
+        if (moving && washingRackSettleTime <= 0) moving.localRotation = washingFlipTime > 0 ? Quaternion.Slerp(washingFlipFrom,
+            Quaternion.Euler(state.flipped ? 180 : 0, 0, 0), Mathf.SmoothStep(0, 1, 1 - washingFlipTime / .28f)) : Quaternion.Euler(state.flipped ? 180 : 0, 0, 0);
         for (int i = 0; i < 6; i++) if (stains[i])
         {
             stains[i].gameObject.SetActive(!state.Complete && i / 3 == (state.flipped ? 1 : 0) && state.stains[i] > .02f);
-            stains[i].localScale = stainWorldSizes[i] * Mathf.Sqrt(Mathf.Max(.01f, state.stains[i]));
+            stains[i].localScale = stainWorldSizes[i] * Mathf.Lerp(.82f, 1, state.stains[i]);
+            WashingSurfaceFade(stains[i], false, Mathf.Clamp01(state.stains[i]));
         }
         for (int i = 0; i < bubbles.Length; i++) if (bubbles[i])
         {
             bubbles[i].gameObject.SetActive(!state.Complete && state.soaped && state.rinse < 1 && i / 4 == (state.flipped ? 1 : 0));
-            bubbles[i].localScale = latherSizes[i] * Mathf.Lerp(.15f, 1, 1 - state.rinse);
+            bubbles[i].localScale = latherSizes[i] * Mathf.Lerp(.9f, 1, 1 - state.rinse);
+            WashingSurfaceFade(bubbles[i], true, 1 - state.rinse);
         }
         if (faucetStream)
         {
@@ -352,6 +435,7 @@ public sealed partial class Scene2HouseholdSimulator
         }
         if (tapSplash) tapSplash.gameObject.SetActive(faucetOpen);
         PlayWater(faucetOpen);
+        RefreshWashingGuides();
     }
     private void StopAuthoredTap()
     {
@@ -376,11 +460,15 @@ public sealed partial class Scene2HouseholdSimulator
     private string AuthoredDishCaption()
     {
         string item = state.Complete ? "Hoàn tất" : dishLayout.dishes[Mathf.Min(state.delivered, 2)].label;
-        string stage = !state.wetted ? "Kéo đồ vào thau hoặc dưới vòi đang mở để làm ướt" :
-            !state.soaped ? "Bấm bánh xà phòng" : !state.Scrubbed ? "Cầm miếng rửa, giữ chuột và chà từng vết bẩn · Lăn chuột khi cầm đồ để lật mặt" :
-            state.rinse < 1 ? "Mở vòi · Giữ đồ dưới dòng nước để tráng bọt: " + Mathf.RoundToInt(state.rinse * 100) + "%" : "Kéo đồ sạch lên giá rồi thả chuột";
-        float clean = 0; foreach (float dirt in state.stains) clean += 1 - dirt;
-        return "Đã xếp " + state.delivered + "/3 · " + item + " · Sạch " + Mathf.RoundToInt(clean / 6 * 100) + "% · " +
-            (state.flipped ? "MẶT NGOÀI" : "MẶT TRONG") + "\n" + stage;
+        int step = !state.wetted ? 0 : !state.soaped ? 1 : !state.Scrubbed ? 2 : state.rinse < 1 ? 3 : 4;
+        float faceClean = 0; int offset = state.flipped ? 3 : 0;
+        for (int i = offset; i < offset + 3; i++) faceClean += 1 - state.stains[i];
+        string stage = step == 0 ? "Bấm cầm " + item.ToLowerInvariant() + ", đưa vào vòng sáng trong thau để làm ướt." :
+            step == 1 ? "Bấm bánh xà phòng để chuẩn bị chà." :
+            step == 2 ? (faceClean >= 2.94f ? "Mặt này sạch rồi — bấm Lật món để chà mặt còn lại." :
+                "Giữ chuột trên vết bẩn để chà · " + (state.flipped ? "Mặt ngoài" : "Mặt trong") + " sạch " + Mathf.RoundToInt(faceClean / 3 * 100) + "%") :
+            step == 3 ? (faucetOpen ? "Cầm món đưa dưới dòng nước · Đã tráng " + Mathf.RoundToInt(state.rinse * 100) + "%" : "Bấm vòi để mở nước, rồi đưa món vào vòng sáng.") :
+            washingRackReady ? "Đặt được — bấm lần nữa hoặc thả chuột để cất lên giá." : "Cầm " + item.ToLowerInvariant() + " đưa đến hình bóng trên giá rồi đặt.";
+        return GameUiPresentation.ActivitySteps(step, "Làm ướt", "Xà phòng", "Chà hai mặt", "Tráng", "Cất lên giá") + "\n" + stage;
     }
 }

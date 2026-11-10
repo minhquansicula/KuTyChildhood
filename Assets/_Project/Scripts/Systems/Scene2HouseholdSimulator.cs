@@ -85,6 +85,9 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
             flow.Voice?.Stop();
             BuildWorld();
             BuildCaptions();
+            ConfigureWashingControls();
+            ConfigureTablePresentation();
+            if (authoredDishes) ConfigureWashingPresentation();
             cameraTime = saveTime = idleTime = messageTime = 0;
             message = ""; dirty = false;
             ReleasePointer();
@@ -114,25 +117,54 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
             // Carrying a bowl needs the whole station; scrubbing benefits from a close view.
             dishZoomBlend = Mathf.MoveTowards(dishZoomBlend, dishCloseView && held != 0 ? 1 : 0, Time.deltaTime * 4);
         }
-        session.MoveTo(authoredDishes ? AuthoredCameraDestination : importedDishes ? DishCameraDestination : importedTransfer ? dishCameraPosition : station.view.position,
-            authoredDishes || importedDishes || importedTransfer ? dishCameraRotation : station.view.rotation, cameraTime / .4f);
+        session.MoveTo(TableActivity ? TableCameraDestination : authoredDishes ? AuthoredCameraDestination : importedDishes ? DishCameraDestination : importedTransfer ? dishCameraPosition : station.view.position,
+            TableActivity ? TableCameraRotation : authoredDishes ? AuthoredCameraRotation : importedDishes || importedTransfer ? dishCameraRotation : station.view.rotation, cameraTime / .4f,
+            TableActivity ? TableCameraFov : authoredDishes ? Mathf.Lerp(AuthoredWashingOverviewFov, 48f, dishZoomBlend) : 48f);
         idleTime += Time.deltaTime;
         messageTime = Mathf.Max(0, messageTime - Time.deltaTime);
+#if UNITY_EDITOR
+        if (!TableActivity || !EditorTablePointerPlayback)
+#endif
+        {
+#if UNITY_EDITOR
+        if (!authoredDishes || !EditorWashingPointerPlayback)
+#endif
+        {
         if (cameraTime >= .4f && Application.isFocused)
             ProcessPointer(Input.mousePosition, Input.GetMouseButtonDown(0), Input.GetMouseButton(0),
                 Input.GetMouseButtonUp(0), Input.GetMouseButtonDown(1), Input.mouseScrollDelta.y, Time.deltaTime);
         else ReleasePointer();
+        }
+        }
+        if (TableActivity && Input.GetKeyDown(KeyCode.Question)) tableHelpOpen = !tableHelpOpen;
         RefreshVisuals();
         UpdateCaption();
         saveTime += Time.unscaledDeltaTime;
         if (dirty && saveTime >= 1f) Save();
-        if (state.Complete) Complete();
+        if (state.Complete)
+        {
+            if (!TableActivity) Complete();
+            else if (cameraTime >= .4f) { tableCompletionTime += Time.deltaTime; if (tableCompletionTime >= .85f) Complete(); }
+        }
     }
 
     /// <summary>The same ray/gesture path is used by live input and Play Mode regression tests.</summary>
     public void ProcessPointer(Vector2 screen, bool down, bool pressed, bool up, bool cancel, float scroll, float dt)
     {
         if (!IsWorking || !view || !world || dt <= 0 || manager && manager.IsPaused) return;
+        if (state.chore == HouseholdChore.SetTable)
+        {
+            tablePointerScreen = screen;
+            if (state.Complete) return;
+            if (cancel) { ReleasePointer(); tableIgnoreUntilUp = pressed; Tell("Đã đặt vật lại an toàn."); return; }
+            if (PointerOverActivityUi(screen))
+            { ReleasePointer(); tableIgnoreUntilUp = true; return; }
+            if (tableIgnoreUntilUp)
+            { if (!pressed && !down) tableIgnoreUntilUp = false; return; }
+        }
+        // Releasing outside the game viewport must never clamp into a valid drop zone.
+        if (screen.x < 0 || screen.y < 0 || screen.x > Screen.width || screen.y > Screen.height)
+        { if (up || cancel) ReleasePointer(); return; }
         if (authoredDishes) { ProcessAuthoredDishPointer(screen, down, pressed, up, cancel, scroll, dt); return; }
         if (cancel) { ReleasePointer(); Tell("Đã đặt vật lại an toàn. Bạn có thể thử tiếp."); return; }
         Ray ray = view.ScreenPointToRay(screen);
@@ -145,13 +177,15 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
         if (!plane.Raycast(ray, out float distance)) { if (up) ReleasePointer(); return; }
         Vector3 point = world.InverseTransformPoint(ray.GetPoint(distance));
         bool artBounds = importedDishes || importedTransfer;
-        point.x = Mathf.Clamp(point.x, artBounds ? dishWorkBounds.min.x : -.57f, artBounds ? dishWorkBounds.max.x : .57f);
-        point.z = Mathf.Clamp(point.z, artBounds ? dishWorkBounds.min.z : -.32f, artBounds ? dishWorkBounds.max.z : .32f);
+        bool realTable = state.chore == HouseholdChore.SetTable && GetComponent<Scene2AuthoredTableLayout>()?.IsReady == true;
+        point.x = Mathf.Clamp(point.x, artBounds ? dishWorkBounds.min.x : realTable ? -.72f : -.57f, artBounds ? dishWorkBounds.max.x : realTable ? .72f : .57f);
+        point.z = Mathf.Clamp(point.z, artBounds ? dishWorkBounds.min.z : realTable ? -.60f : -.32f, artBounds ? dishWorkBounds.max.z : realTable ? .60f : .32f);
         point.y = pointerHeight;
         if (state.chore == HouseholdChore.WashDishes) TickDishes(point, pick, down, pressed, up, scroll, dt);
         else if (state.chore == HouseholdChore.FetchWater || state.chore == HouseholdChore.MeasureRice)
             TickTransfer(point, pick, down, pressed, up, scroll, dt);
         else if (state.chore == HouseholdChore.ReadLetter) TickLetter(pick, down);
+        else if (state.chore == HouseholdChore.SetTable) TickTablePointer(screen, point, pick, down, pressed, up, dt);
         else TickPlacement(point, pick, down, pressed, up, scroll);
         if (down || held >= 0 && pressed) idleTime = 0;
     }
@@ -275,19 +309,47 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
 
     private void TickPlacement(Vector3 point, int pick, bool down, bool pressed, bool up, float scroll)
     {
+        tableHover = pick;
         if (down && pick >= 0 && pick < 3 && (state.placedMask & (1 << pick)) == 0) held = pick;
+        tableDropReady = held >= 0 && InZone(point, slots[held], .16f);
         if (held >= 0 && pressed)
         {
-            pieces[held].localPosition = point + Vector3.up * .03f;
+            bool authoredTable = state.chore == HouseholdChore.SetTable && GetComponent<Scene2AuthoredTableLayout>()?.IsReady == true;
+            pieces[held].localPosition = authoredTable ? new Vector3(point.x, .06f, point.z) : point + Vector3.up * .03f;
             pieces[held].Rotate(Vector3.up, scroll * 15f, Space.Self);
         }
         if (up && held >= 0)
         {
             int item = held;
             if (state.Place(item, InZone(point, slots[item], .16f)))
-            { AudioManager.Instance?.PlaySFX(SfxId.TaskProgress); Touch(); Tell("Đã đặt gọn vào chỗ."); }
-            else Tell("Đặt vào dấu cùng loại; chuột phải để trả vật về.");
+            { AudioManager.Instance?.PlaySFX(SfxId.TaskProgress); Touch(); Tell("Đã đặt " + TablePieceName(item).ToLowerInvariant() + " gọn vào chỗ."); }
+            else Tell("Chưa đúng vị trí — đưa vật vào vòng sáng rồi thả. Đồ đã được đặt lại an toàn.");
             ReleasePointer();
+        }
+        RefreshTableGuides();
+    }
+
+    private static string TablePieceName(int index) => index == 1 ? "Đĩa" : index == 0 ? "Chén lớn" : "Chén nhỏ";
+
+    private void RefreshTableGuides()
+    {
+        EnsureTableInteractionStorage();
+        for (int i = 0; i < tableGuides.Length; i++)
+        {
+            var guide = tableGuides[i];
+            if (!guide) continue;
+            guide.enabled = IsWorking && state != null && held == i && (state.placedMask & (1 << i)) == 0;
+            bool selected = held == i;
+            Color color = selected && tableDropReady && held == i ? new Color(.48f, .9f, .65f, 1f) :
+                selected ? new Color(1f, .82f, .42f, .95f) : new Color(.86f, .78f, .58f, .38f);
+            guide.startColor = guide.endColor = new Color(color.r, color.g, color.b, .20f);
+            guide.widthMultiplier = .002f;
+            if (tablePreviews[i])
+            {
+                tablePreviews[i].gameObject.SetActive(guide.enabled && selected);
+                tablePreviewMaterials[i].color = tableDropReady ? new Color(.60f, .82f, .70f, .24f) : new Color(.88f, .82f, .64f, .22f);
+            }
+            HighlightTablePiece(i, state != null && (state.placedMask & (1 << i)) == 0 && (held == i || held < 0 && tableHover == i));
         }
     }
 
@@ -305,6 +367,10 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
     private void ReleasePointer()
     {
         held = -1; pointerValid = false; tilt = 0;
+        if (authoredDishes) ResetWashingPointer();
+        ResetTableGesture();
+        tableHover = -1; tableDropReady = false;
+        RefreshTableGuides();
         if (moving) { moving.localPosition = movingHome; moving.localRotation = authoredDishes && state != null ? Quaternion.Euler(state.flipped ? 180 : 0, 0, 0) : Quaternion.identity; }
         if (tool) { tool.localPosition = toolHome; tool.localRotation = Quaternion.identity; }
         if (authoredDishes && tool) tool.rotation = toolHomeRotation;
@@ -317,7 +383,7 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
     private void Tell(string text) { if (message == text && messageTime > 0) return; message = text; messageTime = 3f; }
     private void Save()
     {
-        if (state != null && flow && flow.CurrentChore == state.chore && !state.Complete)
+        if (state != null && flow && flow.CurrentChore == state.chore && (!state.Complete || TableActivity))
             Scene2Checkpoint.SaveWork(state.chore, JsonUtility.ToJson(state));
         dirty = false; saveTime = 0;
     }
@@ -353,10 +419,12 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
     {
         IsWorking = false;
         ReleasePointer();
+        RestoreTableArtTone();
+        if (tableActions) tableActions.SetActive(false);
         if (authoredDishes) CloseAuthoredDishes(cancel);
         if (manager) manager.OnPauseChanged -= Pause;
         session?.Close(); session = null;
-        if (captions) captions.alpha = 0;
+        if (captions) { captions.alpha = 0; captions.blocksRaycasts = captions.interactable = false; }
         if (cancel && importedTransfer) RestoreCurrentTransferJar();
         completed = cancelled = null;
         if (!cancel && world) finishedWorlds.Add(world.gameObject);
@@ -369,10 +437,12 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
     {
         if (!IsWorking) return;
         ReleasePointer();
+        tableIgnoreUntilUp = true;
+        washingIgnoreUntilUp = true;
         if (authoredDishes) StopAuthoredTap();
         if (loop) loop.Stop();
     }
-    private void OnApplicationFocus(bool focused) { if (!focused && IsWorking) { ReleasePointer(); if (authoredDishes) StopAuthoredTap(); Save(); } }
+    private void OnApplicationFocus(bool focused) { if (!focused && IsWorking) { ReleasePointer(); tableIgnoreUntilUp = washingIgnoreUntilUp = true; if (authoredDishes) StopAuthoredTap(); Save(); } }
     private void OnDisable() => End();
     private void OnDestroy()
     {
@@ -400,30 +470,35 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
         var scaler = go.GetComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920, 1080); scaler.matchWidthOrHeight = .5f;
+        scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
         captions = go.GetComponent<CanvasGroup>(); captions.blocksRaycasts = captions.interactable = false;
-        title = Label(go.transform, "Activity", new Vector2(0, -32), new Vector2(1100, 56), true, 25);
-        instructions = Label(go.transform, "Gesture", new Vector2(0, 26), new Vector2(1300, 102), false, 22);
-        hint = Label(go.transform, "Context", new Vector2(0, 134), new Vector2(1300, 52), false, 22);
+        var safe = GameUiPresentation.SafeRoot(go.transform, "ActivitySafeArea");
+        title = Label(safe, "Activity", new Vector2(0, -24), new Vector2(760, 90), true, 26);
+        instructions = Label(safe, "Gesture", new Vector2(0, 112), new Vector2(1260, 108), false, 28);
+        hint = Label(safe, "Context", new Vector2(0, 24), new Vector2(1260, 80), false, 22);
     }
     private TextMeshProUGUI Label(Transform parent, string name, Vector2 pos, Vector2 size, bool top, float fontSize)
     {
         var panel = new GameObject(name, typeof(RectTransform), typeof(Image)); panel.transform.SetParent(parent, false);
         var rect = (RectTransform)panel.transform; rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(.5f, top ? 1 : 0);
         rect.anchoredPosition = pos; rect.sizeDelta = size;
-        panel.GetComponent<Image>().color = new Color(.035f, .04f, .035f, .88f); panel.GetComponent<Image>().raycastTarget = false;
+        GameUiPresentation.Card(panel.GetComponent<Image>());
         var label = new GameObject("Text", typeof(RectTransform), typeof(TextMeshProUGUI)).GetComponent<TextMeshProUGUI>();
         label.transform.SetParent(panel.transform, false);
         label.rectTransform.anchorMin = Vector2.zero; label.rectTransform.anchorMax = Vector2.one;
         label.rectTransform.offsetMin = new Vector2(18, 8); label.rectTransform.offsetMax = new Vector2(-18, -8);
         if (GameUiTheme.Current) label.font = GameUiTheme.Current.font;
-        label.fontSize = fontSize; label.alignment = TextAlignmentOptions.Center; label.raycastTarget = false;
-        label.color = new Color(.98f, .93f, .8f);
+        GameUiPresentation.Text(label, fontSize, GameUiPresentation.Paper);
+        label.alignment = TextAlignmentOptions.Center;
         return label;
     }
     private void UpdateCaption()
     {
         if (!title) return;
-        title.text = HouseholdChoreFlow.Titles[(int)state.chore] + " · Thao tác trực tiếp";
+        int placed = ((state.placedMask & 1) != 0 ? 1 : 0) + ((state.placedMask & 2) != 0 ? 1 : 0) + ((state.placedMask & 4) != 0 ? 1 : 0);
+        if (TableActivity) { UpdateTableCaption(placed); return; }
+        if (authoredDishes) { UpdateWashingPresentation(); return; }
+        title.text = GameUiPresentation.ActivityHeading(state.chore, state.chore == HouseholdChore.SetTable ? placed + "/3 món" : state.chore == HouseholdChore.WashDishes ? "Món " + Mathf.Min(3, state.delivered + 1) + "/3" : "");
         string text;
         switch (state.chore)
         {
@@ -454,13 +529,24 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
                 text = state.letterStep == 0 ? "Bấm vào phong bì để mở." : state.letterStep == 1 ? "Bấm lá thư để mở nếp giấy." :
                     "“" + HouseholdChoreFlow.Memories[(int)HouseholdChore.ReadLetter] + "”\n" +
                     (letterReadSeconds < 4 ? "Đọc thong thả…" : "Bấm lá thư khi bạn đã đọc xong."); break;
-            default: text = "Giữ chuột trái để nhấc đồ · Kéo vào dấu cùng loại rồi thả · Lăn chuột để xoay\n" +
-                "Đã xếp " + (((state.placedMask & 1) != 0 ? 1 : 0) + ((state.placedMask & 2) != 0 ? 1 : 0) + ((state.placedMask & 4) != 0 ? 1 : 0)) + "/3 món"; break;
+            case HouseholdChore.SetTable:
+                text = GameUiPresentation.ActivitySteps(held < 0 ? 0 : tableDropReady ? 2 : 1, "Cầm đồ", "Đưa vào hình bóng", "Đặt xuống") + "\n" +
+                    (tableSettleTime > 0 ? "Đang hạ đồ xuống bàn…" : held < 0 ? "Bấm chén hoặc đĩa để cầm; cũng có thể giữ và kéo." : tableDropReady ? "Đặt được — " + (tableDragging ? "thả chuột" : "bấm lần nữa") + " để đặt " + TablePieceName(held).ToLowerInvariant() + "." : tableValidation.reason); break;
+            default: text = "Giữ chuột trái để nhấc đồ · Kéo vào dấu cùng loại rồi thả · Lăn chuột để xoay\nĐã xếp " + placed + "/3 món"; break;
         }
         instructions.text = text;
         hint.text = messageTime > 0 ? message : idleTime > 9 ? "Chạm đúng vật để thao tác; chuột phải trả vật về. Tiến độ được giữ khi rời đi." :
             "CHUỘT PHẢI  Đặt lại an toàn     ·     ESC  Rời hoạt động, giữ tiến độ";
+        if (state.chore == HouseholdChore.SetTable && tableGuides[0])
+        {
+            if (held >= 0 && messageTime <= 0) hint.text = "Đang cầm: " + TablePieceName(held) + "   ·   Tự căn hướng khi đặt   ·   Chuột phải: đặt lại   ·   ESC: rời đi";
+            else if (tableHover >= 0 && tableHover < 3 && (state.placedMask & (1 << tableHover)) == 0)
+                hint.text = TablePieceName(tableHover) + " · Bấm để cầm; hình bóng chỉ vị trí cần đặt";
+        }
         if (importedDishes) hint.text += "\nF  Cầm miếng rửa và nhìn gần / trở về toàn cảnh · Giữ chuột trái để chà";
-        if (authoredDishes) hint.text += "\nBẤM VÒI  Mở/khóa nước · F  Cầm miếng rửa + nhìn gần · LĂN CHUỘT KHI CẦM ĐỒ  Lật mặt";
+        if (authoredDishes && messageTime <= 0)
+            hint.text = washingFlipTime > 0 ? "Đang lật món…" : held == 0 ? "Đang cầm món · Bấm lần nữa để đặt / thả khi kéo · Chuột phải: đặt lại" :
+                state.soaped && !state.Scrubbed ? "Chế độ chà · Bấm lên món rồi giữ chuột qua vết bẩn · Lật bằng nút hoặc con lăn" : "Bấm để cầm món · Vòng sáng chỉ nơi cần thao tác · Tiến độ được giữ khi rời đi";
+        if (authoredDishes) RefreshWashingControls();
     }
 }

@@ -4,41 +4,44 @@ using UnityEngine;
 public static class Scene2Checkpoint
 {
     private const string Prefix = "KuTy.Scene2Checkpoint.";
-    private const int Version = 2;
+    private const int Version = 3;
     private const int Home = 1;
     private const int Outside = 2;
     private const int Finished = 3;
 
     private static int SavedVersion => PlayerPrefs.GetInt(Prefix + "Version", 0);
-    private static bool Valid => SavedVersion == 1 || SavedVersion == Version;
+    private static bool Valid => SavedVersion >= 1 && SavedVersion <= Version;
     private static int Stage => Valid ? PlayerPrefs.GetInt(Prefix + "Stage", 0) : 0;
     public static int HomeChores
     {
         get
         {
+            // Scene 3 is no longer on the shipped route. Legacy outdoor saves
+            // resume at the indoor letter instead of loading a removed chapter.
+            if (Stage == Outside) return HouseholdChoreFlow.ChoreCount - 1;
             if (Stage != Home) return 0;
             int saved = PlayerPrefs.GetInt(Prefix + "Chores", 0);
-            // Version 1 counted Xếp dụng cụ and Xay ngô in the required order.
-            if (SavedVersion == 1) saved -= Mathf.Min(2, Mathf.Max(0, saved - 2));
+            saved = MigrateHomeCount(SavedVersion, saved);
             return Mathf.Clamp(saved, 0, HouseholdChoreFlow.ChoreCount - 1);
         }
     }
-    public static int HomeOptional
+    public static int HomeOptional => 0;
+    public static int MigrateHomeCount(int version, int count)
     {
-        get
-        {
-            if (Stage != Home) return 0;
-            if (SavedVersion != 1) return PlayerPrefs.GetInt(Prefix + "Optional", 0) & 3;
-            int saved = PlayerPrefs.GetInt(Prefix + "Chores", 0);
-            return (saved >= 3 ? 1 : 0) | (saved >= 4 ? 2 : 0);
-        }
+        if (version == 1) count -= Mathf.Min(2, Mathf.Max(0, count - 2));
+        // V2 order: six removed preparations, four retained physical tasks,
+        // removed PutAwayDishes, then ReadLetter. Do not count removed work as a
+        // completed physical task or turn old index 4 into a completed washing task.
+        if (version == 1 || version == 2)
+            return Mathf.Clamp(count - 6, 0, 4) + (count >= 12 ? 1 : 0);
+        return version == Version ? Mathf.Clamp(count, 0, HouseholdChoreFlow.ChoreCount) : 0;
     }
     public static bool HasOutsideProgress => Stage == Outside &&
         PlayerPrefs.GetInt(Prefix + "Step", -1) >= (int)QuestStep.BuyCandyAndMarbles &&
         PlayerPrefs.GetInt(Prefix + "Step", -1) <= (int)QuestStep.UnlockFrontDoor;
     public static bool HasCheckpoint => HomeChores > 0 || HomeOptional != 0 || HasOutsideProgress ||
         Stage == Home && !string.IsNullOrEmpty(PlayerPrefs.GetString(Prefix + "Work", ""));
-    public static string ResumeScene => HasOutsideProgress ? SceneNames.Act3_OutSide : SceneNames.Act2_Home;
+    public static string ResumeScene => SceneNames.Act2_Home;
     public static QuestStep OutsideStep => HasOutsideProgress
         ? (QuestStep)PlayerPrefs.GetInt(Prefix + "Step") : QuestStep.BuyCandyAndMarbles;
     public static int OutsideMoney => HasOutsideProgress ? Mathf.Max(0, PlayerPrefs.GetInt(Prefix + "Money")) : 2000;
@@ -51,10 +54,13 @@ public static class Scene2Checkpoint
     public static void SaveHome(int completedChores, int optionalBits = 0)
     {
         if (completedChores < 0 || completedChores >= HouseholdChoreFlow.ChoreCount) return;
-        if (Stage != Home || PlayerPrefs.GetInt(Prefix + "Chores", -1) != completedChores) ClearWork();
+        var order = HouseholdChoreFlow.Order;
+        bool compatibleWork = Scene2HouseholdActivityPolicy.IsActive((HouseholdChore)PlayerPrefs.GetInt(Prefix + "WorkChore", -1)) &&
+            PlayerPrefs.GetInt(Prefix + "WorkChore", -1) == (int)order[completedChores];
+        if (Stage != Home || HomeChores != completedChores || !compatibleWork) ClearWork();
         PlayerPrefs.SetInt(Prefix + "Stage", Home);
         PlayerPrefs.SetInt(Prefix + "Chores", completedChores);
-        PlayerPrefs.SetInt(Prefix + "Optional", optionalBits & 3);
+        PlayerPrefs.SetInt(Prefix + "Optional", 0);
         Commit();
     }
 
@@ -93,18 +99,17 @@ public static class Scene2Checkpoint
         PlayerPrefs.Save();
     }
 
-    public static string LoadWork(HouseholdChore chore) => Stage == Home &&
+    public static string LoadWork(HouseholdChore chore) => Scene2HouseholdActivityPolicy.IsActive(chore) && Stage == Home &&
         PlayerPrefs.GetInt(Prefix + "WorkChore", -1) == (int)chore
             ? PlayerPrefs.GetString(Prefix + "Work", "") : "";
 
     public static void SaveWork(HouseholdChore chore, string json)
     {
         var flow = HouseholdChoreFlow.Instance;
-        if (!flow || flow.CurrentChore != chore || string.IsNullOrEmpty(json)) return;
+        if (!flow || !Scene2HouseholdActivityPolicy.IsActive(chore) || flow.CurrentChore != chore || string.IsNullOrEmpty(json)) return;
         PlayerPrefs.SetInt(Prefix + "Stage", Home);
         PlayerPrefs.SetInt(Prefix + "Chores", flow.ActiveIndex);
-        PlayerPrefs.SetInt(Prefix + "Optional", (flow.IsCompleted(HouseholdChore.SortTools) ? 1 : 0) |
-            (flow.IsCompleted(HouseholdChore.GrindCorn) ? 2 : 0));
+        PlayerPrefs.SetInt(Prefix + "Optional", 0);
         PlayerPrefs.SetInt(Prefix + "WorkChore", (int)chore);
         PlayerPrefs.SetString(Prefix + "Work", json);
         Commit();

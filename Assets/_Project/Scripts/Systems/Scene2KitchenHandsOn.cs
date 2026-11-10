@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>Scene 2's three physical kitchen actions. The existing flow owns all progression.</summary>
-public sealed class Scene2KitchenHandsOn : MonoBehaviour
+public sealed partial class Scene2KitchenHandsOn : MonoBehaviour
 {
     [Header("World bindings (authored by Scene2KitchenSetup)")]
     public Transform worldRoot, washRoot, fireRoot, cookRoot;
@@ -64,6 +64,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         if (motherVoice) motherVoice.Stop();
         talkRemaining = 0f;
         if (motherText) motherText.text = "";
+        if (motherText && motherText.transform.parent) motherText.transform.parent.gameObject.SetActive(false);
         resumeMother = false;
     }
     private float idleSeconds, progressSample;
@@ -104,6 +105,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     {
         dragging = rinsing = false;
         breath = 0f;
+        breathDelivered = lidAutoOpening = false;
+        woodSettleTime = 0; woodDropReady = false;
         if (IsWorking && task == HouseholdChore.CookRice && !finishedRice && lid)
         {
             lid.localPosition = lidHome; lid.localRotation = lidHomeRotation; lidLift = 0;
@@ -116,6 +119,8 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     private void OnDestroy()
     {
         if (pauseOwner) pauseOwner.OnPauseChanged -= PauseAudio;
+        if (woodPreviewMaterial) Destroy(woodPreviewMaterial);
+        if (kitchenGuideMaterial) Destroy(kitchenGuideMaterial);
     }
     public HouseholdChore CurrentTask => task;
     public int RinseRound => rinseRound;
@@ -160,6 +165,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         steam.transform.position = steamAnchor ? steamAnchor.position : lid.position;
         splashes.Play(); embers.Play(); steam.Play();
         BuildCaptions();
+        BuildKitchenUx();
         RestoreWorld();
         pauseOwner = GameManager.Instance;
         if (pauseOwner) pauseOwner.OnPauseChanged += PauseAudio;
@@ -199,6 +205,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         idleSeconds = 0f;
         progressSample = GestureProgress;
         IsWorking = true;
+        kitchenPointerNeedsRelease = false;
         dragging = rinsing = false; draggedLog = -1; moveTime = 0f;
         cameraHome = view.transform.localPosition; cameraRotation = view.transform.localRotation;
         cameraFov = view.fieldOfView; cameraNear = view.nearClipPlane;
@@ -289,6 +296,103 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
 
     bool Over(Collider hit) => hit && hit.enabled && hit.gameObject.activeInHierarchy &&
         hit.Raycast(view.ScreenPointToRay(Input.mousePosition), out _, 4f);
+
+    bool OverAt(Collider hit, Vector2 pointer)
+    {
+        if (!hit || !hit.enabled || !hit.gameObject.activeInHierarchy || !view) return false;
+        var ray = view.ScreenPointToRay(pointer);
+        if (!hit.Raycast(ray, out var target, 4f)) return false;
+        foreach (var obstacle in Physics.RaycastAll(ray, target.distance, ~0, QueryTriggerInteraction.Ignore))
+        {
+            var collider = obstacle.collider;
+            if (collider == hit || hit.transform.IsChildOf(collider.transform) || collider.transform.IsChildOf(hit.transform)) continue;
+            if (collider.GetComponentInParent<FirstPersonController>()) continue;
+            if (obstacle.distance < target.distance - .008f) return false;
+        }
+        return true;
+    }
+
+    // The actual mouse path and QA share this entry. Tests feed ray coordinates and
+    // button edges, never PlaceKindling/Blow/Simmer/LiftLid as a pointer substitute.
+    void ProcessKitchenPointer(Vector2 pointer, bool down, bool held, bool up, float seconds, bool focused)
+    {
+        if (!IsWorking || !focused || GameManager.Instance?.IsPaused == true || PauseUI.LastResumeFrame == Time.frameCount)
+        { ReleasePointer(); return; }
+        seconds = Mathf.Clamp(seconds, 0f, .1f);
+        if (kitchenUiPointer == null) kitchenUiPointer = new HouseholdActivityPointer();
+        if (kitchenUiPointer.OverUi(pointer))
+        { ReleasePointer(); kitchenPointerNeedsRelease = true; if (task == HouseholdChore.CookRice) Simmer(seconds); return; }
+        if (kitchenPointerNeedsRelease)
+        { if (!down && !held) kitchenPointerNeedsRelease = false; if (task == HouseholdChore.CookRice) Simmer(seconds); return; }
+        if (pointer.x < 0 || pointer.y < 0 || pointer.x > Screen.width || pointer.y > Screen.height)
+        { if (up) ReleasePointer(); if (task == HouseholdChore.CookRice) Simmer(seconds); return; }
+        if (woodSettleTime > 0) { TickWoodSettling(seconds); return; }
+        if (lidAutoOpening) { LiftLid(Mathf.MoveTowards(lidLift, 1, seconds / .55f)); return; }
+        if (task == HouseholdChore.LightFire)
+        {
+            if (kindlingCount < 3)
+            {
+                if (down)
+                    for (int i = 0; i < 3; i++) if (!placed[i] && OverAt(kindlingHits[i], pointer)) { draggedLog = i; break; }
+                if (draggedLog >= 0)
+                {
+                    if (held || up)
+                    {
+                        var plane = new Plane(view.transform.forward, hearth.position);
+                        var ray = view.ScreenPointToRay(pointer);
+                        if (plane.Raycast(ray, out float distance)) kindling[draggedLog].position = ray.GetPoint(distance);
+                    }
+                    woodDropReady = OverAt(hearthHit, pointer);
+                    if (up)
+                    {
+                        if (woodDropReady)
+                        { woodSettleTime = .18f; woodSettleFrom = kindling[draggedLog].position; woodSettleRotation = kindling[draggedLog].rotation; }
+                        else ReleasePointer();
+                    }
+                }
+                return;
+            }
+            if (down && OverAt(blowHit, pointer)) { dragging = true; breath = 0f; breathDelivered = false; }
+            if (dragging && held)
+            {
+                breath += seconds;
+                if (breath >= .55f && !breathDelivered) { breathDelivered = true; Blow(.55f); }
+                if (breath >= .9f) { breath -= .9f; breathDelivered = false; }
+            }
+            if (dragging && up) { dragging = false; breath = 0f; breathDelivered = false; }
+            blowTube.localRotation = blowHome * Quaternion.Euler(0f, 0f, dragging ? Mathf.Sin(Time.time * 5f) * 2f : 0f);
+        }
+        else if (task == HouseholdChore.CookRice)
+        {
+            if (cooked < 12f)
+            {
+                if (down && OverAt(fuelHit, pointer)) { dragging = true; pointerDown = pointer; }
+                if (dragging && held)
+                {
+                    Vector3 axis = fuelAxis ? fuelAxis.forward : fuelLog.parent.TransformDirection(Vector3.left);
+                    Vector2 screenAxis = view.WorldToScreenPoint(fuelLog.position + axis * .32f) - view.WorldToScreenPoint(fuelLog.position);
+                    if (screenAxis.sqrMagnitude > 4) AdjustFuel(Vector2.Dot(pointer - pointerDown, screenAxis) / screenAxis.sqrMagnitude);
+                    pointerDown = pointer;
+                }
+                if (up) dragging = false;
+                Simmer(seconds);
+            }
+            else
+            {
+                if (down && OverAt(lidHit, pointer)) { dragging = true; lidClickCandidate = true; pointerDown = pointer; }
+                if (dragging && held)
+                {
+                    if ((pointer - pointerDown).sqrMagnitude > 64) lidClickCandidate = false;
+                    LiftLid(Mathf.Clamp01((pointer.y - pointerDown.y) / (Screen.height * .12f)));
+                }
+                if (up && IsWorking)
+                {
+                    if (dragging && lidClickCandidate && OverAt(lidHit, pointer)) { dragging = false; lidAutoOpening = true; }
+                    else { dragging = false; lid.localPosition = lidHome; lid.localRotation = lidHomeRotation; lidLift = 0; }
+                }
+            }
+        }
+    }
 
     void TickWashing()
     {
@@ -405,6 +509,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
 
     void TickFire()
     {
+        if (Input.GetMouseButtonDown(1)) { ReleasePointer(); kitchenPointerNeedsRelease = true; return; }
         if (kindlingCount < 3)
         {
             // Phím tắt đặt củi: Bấm F hoặc Space để tự động đặt thanh củi tiếp theo vào bếp
@@ -421,21 +526,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
                 return;
             }
 
-            if (Input.GetMouseButtonDown(0))
-                for (int i = 0; i < 3; i++) if (!placed[i] && Over(kindlingHits[i])) { draggedLog = i; break; }
-            if (draggedLog >= 0)
-            {
-                // Keep the wood attached to the pointer on a plane facing the player.
-                var plane = new Plane(view.transform.forward, hearth.position);
-                Ray ray = view.ScreenPointToRay(Input.mousePosition);
-                if (plane.Raycast(ray, out float d)) kindling[draggedLog].position = ray.GetPoint(d);
-                if (Input.GetMouseButtonUp(0))
-                {
-                    int index = draggedLog; draggedLog = -1;
-                    if (Over(hearthHit)) PlaceKindling(index);
-                    else { kindling[index].localPosition = logHomes[index]; kindling[index].localRotation = logRotations[index]; }
-                }
-            }
+            ProcessKitchenPointer(Input.mousePosition, Input.GetMouseButtonDown(0), Input.GetMouseButton(0), Input.GetMouseButtonUp(0), Time.deltaTime, Application.isFocused);
             return;
         }
 
@@ -465,10 +556,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
 
         // Mouse gestures still start on the visible blowing tube.
         if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.F)) breath = 0f;
-        if (Input.GetMouseButtonDown(0) && Over(blowHit)) { dragging = true; breath = 0f; }
-        if (dragging && Input.GetMouseButton(0)) breath += Time.deltaTime;
-        if (dragging && Input.GetMouseButtonUp(0)) { dragging = false; Blow(breath); breath = 0f; }
-        blowTube.localRotation = blowHome * Quaternion.Euler(0f, 0f, dragging ? Mathf.Sin(Time.time * 5f) * 2f : 0f);
+        ProcessKitchenPointer(Input.mousePosition, Input.GetMouseButtonDown(0), Input.GetMouseButton(0), Input.GetMouseButtonUp(0), Time.deltaTime, Application.isFocused);
     }
 
     void PlaceKindling(int index)
@@ -484,7 +572,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
     {
         if (!IsWorking || task != HouseholdChore.LightFire || kindlingCount < 3) return;
         if (seconds < .2f) { Speak("fire_short"); return; }
-        if (seconds > 1.1f) { ember = Mathf.Max(0f, ember - .15f); Speak("fire_gentle"); return; }
+        // Holding too long never removes earned embers; pointer input divides the hold into gentle breaths.
         // Người chơi giữ chuột hoặc bấm phím: tăng dần than hồng
         ember = Mathf.Clamp01(ember + 0.38f);
         if (embers) embers.Emit(14);
@@ -502,6 +590,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
 
     void TickCooking()
     {
+        if (Input.GetMouseButtonDown(1)) { ReleasePointer(); kitchenPointerNeedsRelease = true; return; }
         if (cooked < 12f)
         {
             // Phím A/D hoặc mũi tên trái/phải để rút/đẩy củi chỉnh lửa
@@ -517,14 +606,6 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
                 else if (heat > 0.60f) AdjustFuel(-Time.deltaTime * 0.5f);
             }
 
-            if (Input.GetMouseButtonDown(0) && Over(fuelHit)) { dragging = true; pointerDown = Input.mousePosition; }
-            if (dragging && Input.GetMouseButton(0))
-            {
-                AdjustFuel((Input.mousePosition.x - pointerDown.x) / (Screen.width * .3f));
-                pointerDown = Input.mousePosition;
-            }
-            if (Input.GetMouseButtonUp(0)) dragging = false;
-            Simmer(Time.deltaTime);
         }
         else
         {
@@ -536,15 +617,14 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
                 return;
             }
 
-            if (Input.GetMouseButtonDown(0) && Over(lidHit)) { dragging = true; pointerDown = Input.mousePosition; }
-            if (dragging && Input.GetMouseButton(0)) LiftLid(Mathf.Clamp01((Input.mousePosition.y - pointerDown.y) / (Screen.height * .12f)));
-            if (Input.GetMouseButtonUp(0) && IsWorking) { dragging = false; lid.localPosition = lidHome; }
         }
+        ProcessKitchenPointer(Input.mousePosition, Input.GetMouseButtonDown(0), Input.GetMouseButton(0), Input.GetMouseButtonUp(0), Time.deltaTime, Application.isFocused);
     }
 
     void AdjustFuel(float delta)
     {
         fuel = Mathf.Clamp01(fuel + delta);
+        if (Mathf.Abs(delta) > .00001f && Mathf.Abs(fuel - .5f) < .045f) fuel = Mathf.Lerp(fuel, .5f, .65f);
         Vector3 inward = fuelAxis ? fuelLog.parent.InverseTransformDirection(fuelAxis.forward) : Vector3.left;
         fuelLog.localPosition = fuelHome + inward * ((fuel - .5f) * .32f);
     }
@@ -560,7 +640,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         }
         else
         {
-            cooked = Mathf.Max(0f, cooked - seconds * .15f);
+            // Wrong heat pauses cooking; it never erases the player's cooked progress.
             Speak(heat > .66f ? "cook_hot" : "cook_low");
         }
         if (cooked >= 12f) Speak("cook_check", true);
@@ -590,6 +670,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         SaveWork();
         SilenceMother();
         IsWorking = dragging = rinsing = false; breath = 0f;
+        lidAutoOpening = false; woodSettleTime = 0;
         if (draggedLog >= 0 && !placed[draggedLog])
         {
             if (draggedLog < kindling.Length && kindling[draggedLog])
@@ -622,6 +703,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         InteractionVfx.Rate(splashes, 0f);
         if (drainStream) drainStream.Stop();
         if (controlText) controlText.text = "";
+        RefreshKitchenUx();
     }
 
     void RestoreWorld()
@@ -763,6 +845,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
             lastMotherId = id;
             talkRemaining = Mathf.Max(5f, line.ResolveDuration()); talkCooldown = talkRemaining + 3f;
             motherText.text = "<color=#EDC781>MẸ</color>  “" + line.text + "”";
+            motherText.transform.parent.gameObject.SetActive(true);
             motherVoice.Stop(); motherVoice.clip = line.voiceClip;
             if (line.voiceClip) motherVoice.Play();
             captions.alpha = 1f;
@@ -772,6 +855,28 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
 
     void UpdateControls()
     {
+        RefreshKitchenUx();
+        if (task == HouseholdChore.LightFire || task == HouseholdChore.CookRice)
+        {
+            bool fire = task == HouseholdChore.LightFire;
+            int step = fire ? (kindlingCount < 3 ? 0 : 1) : (cooked >= 12f ? 1 : 0);
+            string progress = fire ? (kindlingCount < 3 ? kindlingCount + "/3 thanh củi" : "Than hồng " + Mathf.FloorToInt(ember * 100f) + "%") :
+                "Cơm chín " + Mathf.FloorToInt(Mathf.Clamp01(cooked / 12f) * 100f) + "%";
+            string action = fire ? (step == 0 ? (woodSettleTime > 0 ? "Đang đưa củi vào bếp…" : woodDropReady ? "Đặt được — thả chuột để đưa thanh củi vào bếp." : "Kéo thanh củi sáng vào hình bóng ở miệng bếp; đồ tự căn hướng.") :
+                "Giữ chuột tại " + (GetComponent<Scene2SourceKitchenLayout>() ? "miệng bếp" : "ống thổi") + " để thổi; game tự chia hơi và nghỉ.") :
+                step == 1 ? (lidAutoOpening ? "Đang nâng vung và đặt sang chỗ đỡ…" : "Bấm núm vung để mở; cũng có thể giữ và kéo lên.") :
+                heat > .66f ? "Lửa đang to — kéo củi ra một chút để hạ nhiệt." : heat < .42f ? "Lửa đang yếu — đẩy củi vào thêm một chút." :
+                "Lửa vừa rồi — giữ mức này, chờ cơm chín nhé.";
+            if (fire && step == 1 && dragging && !keyboardAssistance)
+                action = breathDelivered ? "Nghỉ một nhịp… cứ giữ chuột, game sẽ thổi tiếp." : "Đang thổi nhẹ… cứ giữ chuột để nhóm than.";
+            if (!fire && step == 0) action = "Nhiệt: " + (heat < .42f ? "<b>YẾU</b> — Vừa — To" : heat > .66f ? "Yếu — Vừa — <b>TO</b>" : "Yếu — <color=#A8D9A6><b>VỪA</b></color> — To") + " · " + action;
+            string keys = keyboardAssistance ? (fire ? (step == 0 ? "[F] Đặt củi" : "[F] / [SPACE] Thổi than") :
+                step == 1 ? "[SPACE] / [ENTER] Mở vung" : "[A / D] Chỉnh lửa · Giữ [F] Giữ lửa đều") + "   ·   [F1] Tắt hỗ trợ" : "[F1] Hỗ trợ bàn phím";
+            controlText.text = "<size=24><b>" + HouseholdChoreFlow.Titles[(int)task] + "</b>  <color=#F0C26E>" + progress + "</color></size>\n" +
+                (fire ? GameUiPresentation.ActivitySteps(step, "Đặt củi", "Thổi than") : GameUiPresentation.ActivitySteps(step, "Canh lửa", "Mở vung")) +
+                "\n" + action + "\n<size=21><color=#BFC9B8>" + keys + "   ·   Chuột phải: đặt lại   ·   [ESC] Rời đi</color></size>";
+            return;
+        }
         string status = task == HouseholdChore.WashRice ? (needsDrain ? "Nước đã đục · Bấm Space / Enter (hoặc kéo quai nồi) để chắt" : "Lượt vo " + (rinseRound + 1) + "/2 · Giữ phím F hoặc rê chuột theo vòng tròn") :
             task == HouseholdChore.LightFire ? kindlingCount < 3 ? "Đã đặt " + kindlingCount + "/3 thanh củi · Bấm F hoặc kéo củi vào miệng bếp" : "Bấm / Giữ phím F hoặc Space để thổi than (" + Mathf.FloorToInt(ember * 100f) + "%)" :
             cooked >= 12f ? "Cơm đã cạn · Bấm Space / Enter (hoặc kéo núm vung) để mở" : heat > .66f ? "Lửa to · Bấm A hoặc kéo củi sang trái" : heat < .42f ? "Lửa yếu · Bấm D hoặc kéo củi sang phải" : "Cơm đang sôi lăn tăn (" + Mathf.FloorToInt(cooked / 12f * 100f) + "%) · Giữ F để giữ lửa";
@@ -779,7 +884,7 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         if (!keyboardAssistance)
         {
             status = task == HouseholdChore.WashRice ? (needsDrain ? "Nắm quai nồi, kéo xuống để chắt nước đục." : "Giữ chuột trái và vo theo vòng tròn trên mặt nước.") :
-                task == HouseholdChore.LightFire ? (kindlingCount < 3 ? "Kéo từng thanh củi vào miệng bếp (" + kindlingCount + "/3)." : "Giữ ống thổi rồi thả sau một hơi ngắn; nghỉ giữa các hơi.") :
+                task == HouseholdChore.LightFire ? (kindlingCount < 3 ? "Kéo từng thanh củi vào miệng bếp (" + kindlingCount + "/3)." : GetComponent<Scene2SourceKitchenLayout>() ? "Giữ chuột tại miệng bếp rồi thả sau một hơi ngắn; nghỉ giữa các hơi." : "Giữ ống thổi rồi thả sau một hơi ngắn; nghỉ giữa các hơi.") :
                 cooked >= 12 ? "Cơm đã cạn. Nắm núm vung và kéo lên kiểm tra." : heat > .66f ? "Lửa to: kéo củi ra để hạ nhiệt." : heat < .42f ? "Lửa yếu: đẩy củi vào thêm." : "Lửa vừa, cơm đang chín…";
             controlText.text = "<color=#EDC781>" + status + "</color>\nESC  Rời hoạt động · F1  Bật hỗ trợ bàn phím";
             return;
@@ -801,12 +906,17 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         var scaler = go.GetComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize; scaler.referenceResolution = new Vector2(1920, 1080);
         scaler.matchWidthOrHeight = .5f;
+        scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
         captions = go.GetComponent<CanvasGroup>(); captions.blocksRaycasts = captions.interactable = false; captions.alpha = 0f;
-        motherText = Caption(go.transform, "Mother", new Vector2(0f, 820f), new Vector2(1060, 100), 26f);
+        var safe = GameUiPresentation.SafeRoot(go.transform, "KitchenSafeArea");
+        motherText = Caption(safe, "Mother", new Vector2(0f, 820f), new Vector2(1060, 100), 26f);
         var motherPanel = (RectTransform)motherText.transform.parent;
         motherPanel.anchorMin = motherPanel.anchorMax = motherPanel.pivot = new Vector2(.5f, 1f);
-        motherPanel.anchoredPosition = new Vector2(0f, -54f);
-        controlText = Caption(go.transform, "Hands on instructions", new Vector2(0f, 50f), new Vector2(1120, 130), 22f);
+        motherPanel.anchoredPosition = new Vector2(0f, -254f);
+        controlText = Caption(safe, "Hands on instructions", new Vector2(0f, 24f), new Vector2(1260, 212), 28f);
+        var controlsPanel = (RectTransform)controlText.transform.parent;
+        controlsPanel.anchorMin = controlsPanel.anchorMax = controlsPanel.pivot = new Vector2(.5f, 1f);
+        controlsPanel.anchoredPosition = new Vector2(0f, -24f);
     }
 
     TextMeshProUGUI Caption(Transform parent, string name, Vector2 position, Vector2 size, float fontSize)
@@ -814,14 +924,14 @@ public sealed class Scene2KitchenHandsOn : MonoBehaviour
         var panel = new GameObject(name, typeof(RectTransform), typeof(Image)); panel.transform.SetParent(parent, false);
         var rect = (RectTransform)panel.transform; rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(.5f, 0f);
         rect.anchoredPosition = position; rect.sizeDelta = size;
-        var image = panel.GetComponent<Image>(); image.color = new Color(.035f, .04f, .035f, .88f); image.raycastTarget = false;
+        GameUiPresentation.Card(panel.GetComponent<Image>());
         var text = new GameObject("Text", typeof(RectTransform), typeof(TextMeshProUGUI)).GetComponent<TextMeshProUGUI>();
         text.transform.SetParent(panel.transform, false);
         text.rectTransform.anchorMin = Vector2.zero; text.rectTransform.anchorMax = Vector2.one;
         text.rectTransform.offsetMin = new Vector2(24, 12); text.rectTransform.offsetMax = new Vector2(-24, -12);
         if (GameUiTheme.Current) text.font = GameUiTheme.Current.font;
-        text.fontSize = fontSize; text.alignment = TextAlignmentOptions.Center;
-        text.color = new Color(.98f, .95f, .86f); text.raycastTarget = false;
+        GameUiPresentation.Text(text, fontSize, GameUiPresentation.Paper);
+        text.alignment = TextAlignmentOptions.Center;
         return text;
     }
 

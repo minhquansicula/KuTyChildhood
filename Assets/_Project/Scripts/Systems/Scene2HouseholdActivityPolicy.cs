@@ -5,7 +5,8 @@ public static class Scene2HouseholdActivityPolicy
         chore == HouseholdChore.LightFire || chore == HouseholdChore.CookRice ||
         chore == HouseholdChore.WashDishes || chore == HouseholdChore.SetTable;
 
-    public static bool IsSimple(HouseholdChore chore) => (int)chore >= 0 && (int)chore < 15 && !IsMinigame(chore);
+    public static bool IsActive(HouseholdChore chore) => IsMinigame(chore) || chore == HouseholdChore.ReadLetter;
+    public static bool IsSimple(HouseholdChore chore) => chore == HouseholdChore.ReadLetter;
 
     public static string Description(HouseholdChore chore)
     {

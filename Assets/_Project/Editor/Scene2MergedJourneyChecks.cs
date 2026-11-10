@@ -77,7 +77,7 @@ public sealed class Scene2MergedJourneyRunner : MonoBehaviour
         var flow = HouseholdChoreFlow.Instance;
         var quests = QuestManager.Instance;
         Check(flow && quests && !EndingSummary.HasData, "Home systems and incoming ending summary initialize cleanly");
-        Check(!quests.SkipScene3 && quests.HouseholdDestination == SceneNames.Act3_OutSide, "Full story remains default; merge does not silently skip Scene 3");
+        Check(quests.SkipScene3 && quests.HouseholdDestination == SceneNames.Act_Ending, "Scene 2 goes directly to Thuan ending cutscene; Scene 3 is not in the active route");
         var bed = FindObjectOfType<BedWakeUpController>();
         Check(GameManager.Instance.InputBlocked && flow.Pieces == 0, "Initial wake cinematic owns input without granting chore progress");
         yield return new WaitForSeconds(6.5f);
@@ -99,13 +99,9 @@ public sealed class Scene2MergedJourneyRunner : MonoBehaviour
             var solid = mesh.GetComponent<MeshCollider>();
             Check(solid && solid.enabled && !solid.isTrigger && solid.sharedMesh == mesh.sharedMesh, "New furniture blocks movement: " + mesh.name);
         }
-        foreach (var chore in HouseholdChoreFlow.Order.Concat(new[] { HouseholdChore.SortTools, HouseholdChore.GrindCorn }))
+        foreach (var chore in HouseholdChoreFlow.Order)
             Check(FindObjectsOfType<HouseholdChoreInteractable>(true).Any(t => t.Chore == chore && t.isActiveAndEnabled), "Chapter target remains bound: " + chore);
-        foreach (var optional in new[] { HouseholdChore.SortTools, HouseholdChore.GrindCorn })
-        {
-            yield return ConfirmSimple(optional, flow);
-            Check(flow.ActiveIndex == 0 && !flow.Complete(optional), "Optional task rewards once without advancing required order: " + optional);
-        }
+        Check(!flow.Complete(HouseholdChore.SortTools) && !flow.Complete(HouseholdChore.GrindCorn), "Removed optional tasks grant no progress or rewards");
         Check(!flow.Complete(HouseholdChore.ReadLetter), "Out-of-order final letter remains rejected");
         foreach (var chore in HouseholdChoreFlow.Order.Take(HouseholdChoreFlow.ChoreCount - 1))
         {
@@ -114,7 +110,7 @@ public sealed class Scene2MergedJourneyRunner : MonoBehaviour
             Check(!flow.Complete(chore, false), "No duplicate task reward: " + chore);
             flow.Voice.Stop();
         }
-        Check(flow.Pieces == 120 && Scene2Checkpoint.HomeChores == 11 && Scene2Checkpoint.HomeOptional == 3, "Checkpoint before letter retains 11 required tasks, two optional tasks, 120 pieces");
+        Check(flow.Pieces == 40 && Scene2Checkpoint.HomeChores == 4 && Scene2Checkpoint.HomeOptional == 0, "Checkpoint before letter retains exactly four physical tasks and 40 pieces");
         var letter = FindObjectsOfType<HouseholdChoreInteractable>().Single(t => t.Chore == HouseholdChore.ReadLetter && t.isActiveAndEnabled);
         letter.Interact();
         Check(flow.UI.SimpleActionVisible && GameManager.Instance.InputBlocked, "Final letter opens deliberate reading UI, not retired puzzle");
@@ -124,19 +120,28 @@ public sealed class Scene2MergedJourneyRunner : MonoBehaviour
         yield return new WaitForSeconds(4.2f);
         flow.UI.ConfirmSimpleAction();
         Check(flow.IsCompleted(HouseholdChore.ReadLetter), "Actual reading confirmation completes the final story task");
-        Check(flow.ActiveIndex == 12 && flow.Pieces == 130 && quests.IsLeavingHome, "Final task completes 12 required tasks and 130 pieces");
+        Check(flow.ActiveIndex == 5 && flow.Pieces == 50 && quests.IsLeavingHome, "Final task completes five required tasks and 50 pieces");
         Check(CurrencyManager.Instance.CurrentMoney == 2000 && !quests.CompleteHouseholdChores(), "Allowance is exactly 2000 and cannot duplicate");
         Check(MemoryCollectionManager.Instance.HasCollected(MemoryType.FilialLove), "Household completion grants filial-love memory");
-        Check(Scene2Checkpoint.HasOutsideProgress && Scene2Checkpoint.ResumeScene == SceneNames.Act3_OutSide, "Chapter completion saves the outdoor checkpoint");
+        Check(!Scene2Checkpoint.HasOutsideProgress && quests.CurrentStep == QuestStep.Ending, "Chapter completion marks ending, never creates an outdoor quest/checkpoint");
         // Handoff fixture closes presentation instead of waiting out the entire narrated letter.
         DialogueUI.Instance?.HideDialogue();
         quests.ContinueOutside();
-        Check(EndingSummary.HasData && EndingSummary.Pieces == 130 && EndingSummary.IsCompleted(HouseholdChore.ReadLetter), "Thuan ending summary captures local chapter results before unload");
-        while (SceneManager.GetActiveScene().name != SceneNames.Act3_OutSide || SceneLoader.Instance && SceneLoader.Instance.IsLoading) yield return null;
+        Check(EndingSummary.HasData && EndingSummary.Pieces == 50 && EndingSummary.IsCompleted(HouseholdChore.ReadLetter), "Ending summary captures the five-task chapter results before unload");
+        while (SceneManager.GetActiveScene().name != SceneNames.Act_Ending || SceneLoader.Instance && SceneLoader.Instance.IsLoading) yield return null;
         yield return null;
-        Check(CurrencyManager.Instance.CurrentMoney == 2000 && QuestManager.Instance.CurrentStep == QuestStep.BuyCandyAndMarbles, "Outdoor scene restores allowance and expected quest");
-        Check(EndingSummary.HasData && EndingSummary.Pieces == 130, "Personal ending summary survives Home scene destruction");
-        Check(!GameManager.Instance.InputBlocked, "Chapter handoff does not leak modal input ownership");
+        var director=FindObjectOfType<EndingDirector>();
+        Check(director && director.isActiveAndEnabled && FindObjectOfType<EndingCameraRig>(), "Thuan authored ending director and cinematic camera initialize after actual Home unload");
+        Check(EndingSummary.HasData && EndingSummary.Pieces == 50, "Personal ending summary survives Home scene destruction");
+        Check(EndingMemoryFrames.EarnedSpriteNames().Count()==5, "Ending keepsakes contain exactly the five retained tasks, not removed chores");
+        yield return new WaitForSeconds(30f);
+        Check(director.FinalStarted, "Actual ending film plays through to the final card without loading Scene 3");
+        var finalCard=FindObjectOfType<EndingUI>();float revealDeadline=Time.realtimeSinceStartup+15f;
+        while(finalCard && !(bool)typeof(EndingUI).GetField("revealFinished",Private).GetValue(finalCard) && Time.realtimeSinceStartup<revealDeadline)yield return null;
+        Check(finalCard && (bool)typeof(EndingUI).GetField("revealFinished",Private).GetValue(finalCard),"Ending final-card reveal finishes naturally, without an injected skip");
+        var finalStats=(TMPro.TextMeshProUGUI)typeof(EndingUI).GetField("statsLabel",Private).GetValue(finalCard);
+        Check(finalStats.text.Contains("50</color></b> / 50"),"Visible ending card finishes counting all 50 of 50 earned pieces");
+        ScreenCapture.CaptureScreenshot(Scene2FiveTaskSetup.Output+"/ending-final-card.png");yield return new WaitForEndOfFrame();yield return null;
     }
     private IEnumerator ConfirmSimple(HouseholdChore chore, HouseholdChoreFlow flow)
     {

@@ -180,7 +180,7 @@ public sealed class Scene2RadioKitchenSequence : MonoBehaviour
     {
         if (flow == null || GameManager.Instance?.IsPaused == true || PauseUI.LastResumeFrame == Time.frameCount) return;
         // Restarting the chapter must also reset its world props and any pending call.
-        if (lastProgress >= 2 && flow.ActiveIndex < 2) ResetWorld();
+        if (flow.ActiveIndex < lastProgress) ResetWorld();
         lastProgress = flow.ActiveIndex;
         motherRemaining = Mathf.Max(0f, motherRemaining - Time.deltaTime);
         if (captionTime > 0f)

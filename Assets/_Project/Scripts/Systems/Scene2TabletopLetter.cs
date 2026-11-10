@@ -4,12 +4,20 @@ using UnityEngine;
 [ExecuteAlways]
 public sealed class Scene2TabletopLetter : MonoBehaviour
 {
-    [SerializeField] private MeshCollider table;
+    [SerializeField] private Collider table;
     [SerializeField] private Transform letterModel;
     [SerializeField, Min(0.05f)] private float width = 0.4f;
     private bool placed;
     private Vector3 lastTableCenter;
     private Vector3 lastTableSize;
+
+    public Collider Table => table;
+    public void Configure(Collider support)
+    {
+        table = support;
+        placed = false;
+        Place();
+    }
 
     private void OnEnable() => placed = false;
     private void OnValidate() => placed = false;
