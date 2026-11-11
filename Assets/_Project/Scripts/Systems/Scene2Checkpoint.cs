@@ -39,9 +39,15 @@ public static class Scene2Checkpoint
     public static bool HasOutsideProgress => Stage == Outside &&
         PlayerPrefs.GetInt(Prefix + "Step", -1) >= (int)QuestStep.BuyCandyAndMarbles &&
         PlayerPrefs.GetInt(Prefix + "Step", -1) <= (int)QuestStep.UnlockFrontDoor;
-    public static bool HasCheckpoint => HomeChores > 0 || HomeOptional != 0 || HasOutsideProgress ||
+    public static bool HasCheckpoint => PlayerPrefs.GetInt(Prefix + "KitchenIntroSeen", 0) != 0 ||
+        HomeChores > 0 || HomeOptional != 0 || HasOutsideProgress ||
         Stage == Home && !string.IsNullOrEmpty(PlayerPrefs.GetString(Prefix + "Work", ""));
     public static string ResumeScene => SceneNames.Act2_Home;
+    public static void MarkKitchenIntroSeen()
+    {
+        PlayerPrefs.SetInt(Prefix + "KitchenIntroSeen", 1);
+        PlayerPrefs.Save();
+    }
     public static QuestStep OutsideStep => HasOutsideProgress
         ? (QuestStep)PlayerPrefs.GetInt(Prefix + "Step") : QuestStep.BuyCandyAndMarbles;
     public static int OutsideMoney => HasOutsideProgress ? Mathf.Max(0, PlayerPrefs.GetInt(Prefix + "Money")) : 2000;
@@ -94,7 +100,7 @@ public static class Scene2Checkpoint
     public static void Clear()
     {
         ClearWork();
-        foreach (string name in new[] { "Version", "Stage", "Chores", "Optional", "Step", "Money", "Candy", "Marbles", "Key", "Memories" })
+        foreach (string name in new[] { "Version", "Stage", "Chores", "Optional", "Step", "Money", "Candy", "Marbles", "Key", "Memories", "KitchenIntroSeen" })
             PlayerPrefs.DeleteKey(Prefix + name);
         PlayerPrefs.Save();
     }

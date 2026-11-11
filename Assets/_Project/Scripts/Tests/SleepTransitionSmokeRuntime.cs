@@ -42,15 +42,20 @@ public sealed class SleepTransitionSmokeRuntime : MonoBehaviour
     private IEnumerator Run()
     {
         yield return null;
+        if (FindObjectOfType<OfficeSceneController>() == null)
+        {
+            yield return SceneManager.LoadSceneAsync(SceneNames.Act1);
+            yield return null;
+        }
         var loader = SceneLoader.Instance;
         if (!Check(loader != null, "SceneLoader exists")) yield break;
-        // Run from the open office scene. Disable its intro so it cannot fight the test camera.
+        // Disable the office intro so it cannot fight the test camera.
         var intro = FindObjectOfType<OfficeIntroController>();
         if (intro != null) { intro.StopAllCoroutines(); intro.enabled = false; }
         FindObjectOfType<OfficeIntroHUD>()?.SetOpeningFade(0f);
         var office = FindObjectOfType<OfficeSceneController>();
         if (office != null) office.StopAllCoroutines();
-        if (!Check(office != null, "Open an office scene before running this test")) yield break;
+        if (!Check(office != null, "Office scene controller exists")) yield break;
         typeof(OfficeSceneController).GetMethod("SetSeated", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(office, new object[] { false });
         office.SitDown(true);
         office.MakeRestAvailableForTests();
@@ -64,7 +69,7 @@ public sealed class SleepTransitionSmokeRuntime : MonoBehaviour
         yield return new WaitForSecondsRealtime(2f);
         Check(office != null && loader.IsLoading, "Pause cannot activate destination early");
         GameManager.Instance.SetPaused(false);
-        float timeout = Time.realtimeSinceStartup + 40f;
+        float timeout = Time.realtimeSinceStartup + 120f;
         var cutscene = GameObject.Find("Office Departure Cutscene");
         if (!Check(cutscene != null, "Departure creates a fade overlay")) yield break;
         var fade = cutscene.transform.Find("Fade").GetComponent<UnityEngine.UI.Image>();
@@ -89,6 +94,10 @@ public sealed class SleepTransitionSmokeRuntime : MonoBehaviour
             "Video plays in its own scene after office unloads")) yield break;
         Check(GameManager.Instance.InputBlocked, "Cutscene retains input lock");
         Capture("01-departure-video.png");
+        while (SceneManager.GetActiveScene().name != SceneNames.Act1_CutScene2_Act2 && Time.realtimeSinceStartup < timeout)
+            yield return null;
+        if (!Check(SceneManager.GetActiveScene().name == SceneNames.Act1_CutScene2_Act2 &&
+            FindObjectOfType<Act2CountrysideShot>() != null, "Countryside plays in its own scene")) yield break;
         while (SceneManager.GetActiveScene().name != SceneNames.Act2_Home && Time.realtimeSinceStartup < timeout)
             yield return null;
         while (loader.IsLoading && Time.realtimeSinceStartup < timeout) yield return null;
@@ -116,7 +125,7 @@ public sealed class SleepTransitionSmokeRuntime : MonoBehaviour
 
         // Entering the cutscene directly must autoplay and reach the same wake-up flow.
         loader.LoadScene(SceneNames.Act1_CutScene_Act2, 0f);
-        timeout = Time.realtimeSinceStartup + 40f;
+        timeout = Time.realtimeSinceStartup + 120f;
         while (SceneManager.GetActiveScene().name != SceneNames.Act1_CutScene_Act2 && Time.realtimeSinceStartup < timeout)
             yield return null;
         if (!Check(SceneManager.GetActiveScene().name == SceneNames.Act1_CutScene_Act2,

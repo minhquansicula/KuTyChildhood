@@ -4,24 +4,34 @@ using UnityEngine.AI;
 
 public sealed class Scene2SpinningTop : InteractableBase
 {
-    private enum Stage { WaitingForWake, Ready, Pulling, Spinning, Follow, Complete }
+    private enum Stage { WaitingForWake, Ready, Entering, Winding, Aiming, Spinning, Follow, WaitingAtKitchen, MeetingMother, Complete }
+    private const float WindingTurns = 3f;
+    private const float TopScale = 1.65f;
+    private const float KitchenStopShort = 1.5f;
+    private const float KitchenRollSpeed = 1.35f;
 
     private Stage stage;
     private Camera view;
     private FirstPersonController player;
     private Transform top;
     private LineRenderer cord;
+    private Transform cordKnot;
     private Transform kitchen;
     private HouseholdWorkSession session;
-    private Material wood, stripe, thread;
+    private Material wood, stripe, thread, importedMaterial;
     private Mesh topMesh;
-    private Vector3 tablePoint, dragStart;
+    private Vector3 tablePoint, cordEnd, throwDirection;
+    private Vector2 dragStart;
     private float pull;
-    private bool dragging;
-    private GameManager followInputOwner;
-    private bool followLockedWithoutManager;
+    private float windingAngle, lastMouseAngle;
+    private float cordAnchorAngle;
+    private int windingDirection;
+    private bool dragging, windingDrag;
 
     public Transform LookTarget => top;
+    public float WindingProgress => Mathf.Clamp01(Mathf.Abs(windingAngle) / (WindingTurns * Mathf.PI * 2f));
+    public bool ReadyToThrow => stage == Stage.Aiming;
+    public bool AwaitingKitchenVisit => stage == Stage.WaitingAtKitchen;
 
     public static Scene2SpinningTop Create(Camera camera)
     {
@@ -49,7 +59,8 @@ public sealed class Scene2SpinningTop : InteractableBase
     {
         wood = new Material(shader) { color = new Color(.29f, .14f, .065f) };
         stripe = new Material(shader) { color = new Color(.59f, .19f, .085f) };
-        thread = new Material(shader) { color = new Color(.74f, .64f, .46f) };
+        thread = new Material(Shader.Find("Universal Render Pipeline/Unlit") ?? shader)
+            { color = new Color(.76f, .65f, .49f) };
         transform.SetPositionAndRotation(new Vector3(seatPosition.x, floor, seatPosition.z), Quaternion.LookRotation(away));
         tablePoint = seatPosition + Vector3.up * .002f;
         if (Physics.Raycast(seatPosition + Vector3.up * .14f, Vector3.down, out var hit, .24f,
@@ -58,19 +69,28 @@ public sealed class Scene2SpinningTop : InteractableBase
         top = new GameObject("Wooden top").transform;
         top.SetParent(transform, false);
         top.position = tablePoint;
+        top.localScale = Vector3.one * TopScale;
         top.gameObject.layer = gameObject.layer;
         BuildWoodenTop();
         var target = top.gameObject.AddComponent<SphereCollider>();
-        target.center = Vector3.up * .055f;
-        target.radius = .09f;
+        target.center = Vector3.up * .047f;
+        target.radius = .065f;
         target.isTrigger = true;
 
         cord = new GameObject("Cotton pull cord").AddComponent<LineRenderer>();
         cord.transform.SetParent(transform, false);
         cord.sharedMaterial = thread;
-        cord.startWidth = cord.endWidth = .003f;
-        cord.numCapVertices = 3;
-        cord.numCornerVertices = 3;
+        cord.startWidth = cord.endWidth = .004f;
+        cord.numCapVertices = 6;
+        cord.numCornerVertices = 6;
+        var knot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        knot.name = "Cotton cord knot";
+        knot.transform.SetParent(cord.transform, false);
+        knot.transform.localScale = new Vector3(.011f, .008f, .014f);
+        knot.GetComponent<Collider>().enabled = false;
+        knot.GetComponent<Renderer>().sharedMaterial = thread;
+        cordKnot = knot.transform;
+        ResetCordEnd();
         DrawCord();
     }
 
@@ -79,7 +99,24 @@ public sealed class Scene2SpinningTop : InteractableBase
         var model = Resources.Load<GameObject>("Cutscenes/WoodenSpinningTop");
         if (model != null)
         {
-            Instantiate(model, top, false);
+            var visual = Instantiate(model, top, false);
+            visual.name = "WoodenSpinningTop visual";
+            var baseColor = Resources.Load<Texture2D>("Cutscenes/WoodenSpinningTop_BaseColor");
+            if (baseColor != null)
+            {
+                importedMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+                importedMaterial.name = "Wooden spinning top wood and metal";
+                importedMaterial.SetTexture("_BaseMap", baseColor);
+                importedMaterial.SetFloat("_Smoothness", .36f);
+                var normal = Resources.Load<Texture2D>("Cutscenes/WoodenSpinningTop_Normal");
+                if (normal != null)
+                {
+                    importedMaterial.SetTexture("_BumpMap", normal);
+                    importedMaterial.EnableKeyword("_NORMALMAP");
+                }
+                foreach (var renderer in visual.GetComponentsInChildren<Renderer>())
+                    renderer.sharedMaterial = importedMaterial;
+            }
             return;
         }
 
@@ -133,7 +170,7 @@ public sealed class Scene2SpinningTop : InteractableBase
     protected override void OnInteract()
     {
         if (string.IsNullOrEmpty(GetPromptText())) return;
-        stage = Stage.Pulling;
+        stage = Stage.Entering;
         session = new HouseholdWorkSession(this, view);
         StartCoroutine(ShowToy());
     }
@@ -141,17 +178,23 @@ public sealed class Scene2SpinningTop : InteractableBase
     private IEnumerator ShowToy()
     {
         Vector3 direction = Vector3.ProjectOnPlane(view.transform.position - tablePoint, Vector3.up).normalized;
-        Vector3 eye = tablePoint + direction * .43f + Vector3.up * .38f;
-        Vector3 raised = tablePoint + Vector3.up * .15f;
+        if (direction.sqrMagnitude < .01f) direction = -transform.forward;
+        ResetCordEnd(direction);
+        Vector3 eye = tablePoint + direction * .50f + Vector3.up * .64f;
+        Vector3 focus = tablePoint + direction * .035f + Vector3.up * .025f;
+        Quaternion facing = Quaternion.LookRotation(focus - eye);
+        Vector3 raised = tablePoint + Vector3.up * .12f;
         for (float time = 0f; time < .68f; time += Time.deltaTime)
         {
-            if (stage != Stage.Pulling) yield break;
-            session.MoveTo(eye, Quaternion.LookRotation(tablePoint + Vector3.up * .03f - eye), time / .32f);
+            if (stage != Stage.Entering) yield break;
+            session.MoveTo(eye, facing, time / .45f, 54f);
             top.position = Vector3.Lerp(tablePoint, raised, Mathf.Sin(time / .68f * Mathf.PI));
             DrawCord();
             yield return null;
         }
+        session.MoveTo(eye, facing, 1f, 54f);
         top.position = tablePoint;
+        stage = Stage.Winding;
         DrawCord();
         dragging = false;
     }
@@ -159,41 +202,113 @@ public sealed class Scene2SpinningTop : InteractableBase
     private void Update()
     {
         if (GameManager.Instance?.IsPaused == true) return;
-        if (stage != Stage.Pulling) return;
+        if (stage == Stage.WaitingAtKitchen) { CheckKitchenArrival(); return; }
+        if (stage != Stage.Entering && stage != Stage.Winding && stage != Stage.Aiming) return;
         if (Input.GetKeyDown(KeyCode.Escape)) { Cancel(); return; }
-        if (Input.GetMouseButtonDown(0))
+        if (stage == Stage.Entering) return;
+        if (stage == Stage.Winding)
+        {
+            if (Input.GetMouseButtonDown(0)) BeginWinding(Input.mousePosition);
+            if (windingDrag && Input.GetMouseButton(0)) TrackWinding(Input.mousePosition);
+            if (windingDrag && Input.GetMouseButtonUp(0)) EndWinding();
+            return;
+        }
+        if (Input.GetMouseButtonDown(0) && PointsAtKnot(Input.mousePosition))
         {
             dragStart = Input.mousePosition;
             dragging = true;
         }
         if (dragging)
         {
-            pull = Mathf.Clamp01((Input.mousePosition - dragStart).magnitude / Mathf.Max(1f, Screen.height * .25f));
+            Vector2 delta = (Vector2)Input.mousePosition - dragStart;
+            pull = Mathf.Clamp01(delta.magnitude / Mathf.Max(1f, Screen.height * .28f));
+            Vector3 direction = view.transform.right * delta.x +
+                Vector3.ProjectOnPlane(view.transform.forward, Vector3.up).normalized * delta.y;
+            if (direction.sqrMagnitude > .01f) throwDirection = direction.normalized;
+            if (TryGetCordOffset(Input.mousePosition, out var offset))
+                cordEnd = tablePoint + offset + Vector3.up * .009f;
             DrawCord();
             if (Input.GetMouseButtonUp(0))
             {
                 dragging = false;
-                if (pull >= .24f) Launch();
+                if (pull >= .3f) Launch();
                 else { pull = 0f; DrawCord(); }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Space) && stage == Stage.Pulling) { pull = .7f; Launch(); }
+    }
+
+    private bool PointsAtKnot(Vector2 mouse)
+    {
+        Vector3 point = view.WorldToScreenPoint(cordEnd);
+        float tolerance = Mathf.Max(12f, Screen.height * .024f);
+        return point.z > 0f && (mouse - (Vector2)point).sqrMagnitude <= tolerance * tolerance;
+    }
+
+    private bool TryGetCordOffset(Vector2 mouse, out Vector3 offset)
+    {
+        var plane = new Plane(Vector3.up, tablePoint + Vector3.up * .009f);
+        var ray = view.ScreenPointToRay(mouse);
+        offset = Vector3.zero;
+        if (!plane.Raycast(ray, out float distance)) return false;
+        offset = Vector3.ProjectOnPlane(ray.GetPoint(distance) - tablePoint, Vector3.up);
+        return true;
+    }
+
+    private void BeginWinding(Vector2 mouse)
+    {
+        if (stage != Stage.Winding || !PointsAtKnot(mouse) || !TryGetCordOffset(mouse, out var offset)) return;
+        lastMouseAngle = Mathf.Atan2(offset.z, offset.x);
+        windingDrag = true;
+    }
+
+    private void TrackWinding(Vector2 mouse)
+    {
+        if (!windingDrag || !TryGetCordOffset(mouse, out var offset) || offset.sqrMagnitude < .065f * .065f) return;
+        float angle = Mathf.Atan2(offset.z, offset.x);
+        float delta = Mathf.DeltaAngle(lastMouseAngle * Mathf.Rad2Deg, angle * Mathf.Rad2Deg) * Mathf.Deg2Rad;
+        lastMouseAngle = angle;
+        if (Mathf.Abs(delta) > .52f || Mathf.Abs(delta) < .003f) return;
+        if (windingDirection == 0 && Mathf.Abs(delta) > .025f) windingDirection = delta > 0 ? 1 : -1;
+        windingAngle = Mathf.Clamp(windingAngle + delta * windingDirection, 0f, WindingTurns * Mathf.PI * 2f);
+        float reach = Mathf.Lerp(.32f, .145f, WindingProgress);
+        cordEnd = tablePoint + offset.normalized * Mathf.Clamp(offset.magnitude, .072f, reach) + Vector3.up * .009f;
+        DrawCord();
+    }
+
+    private void EndWinding()
+    {
+        windingDrag = false;
+        if (WindingProgress < 1f) return;
+        stage = Stage.Aiming;
+        pull = 0f;
+        throwDirection = transform.forward;
+        AudioManager.Instance?.PlaySFX(SfxId.MarbleHit);
+        DrawCord();
+    }
+
+    private void ResetCordEnd() => ResetCordEnd(-transform.forward);
+
+    private void ResetCordEnd(Vector3 direction)
+    {
+        Vector3 offset = direction * .18f;
+        cordEnd = tablePoint + offset + Vector3.up * .009f;
+        cordAnchorAngle = Mathf.Atan2(offset.z, offset.x);
     }
 
     private void Launch()
     {
+        if (stage != Stage.Aiming || WindingProgress < 1f || pull < .3f) return;
         stage = Stage.Spinning;
         StopAllCoroutines();
-        DrawCord(1f);
+        cord.enabled = false;
+        cordKnot.gameObject.SetActive(false);
         StartCoroutine(Spin());
     }
 
     private IEnumerator Spin()
     {
         float speed = Mathf.Lerp(620f, 1050f, pull);
-        Vector3 edgeDirection = player != null
-            ? Vector3.ProjectOnPlane(player.transform.position - tablePoint, Vector3.up).normalized
-            : transform.forward;
+        Vector3 edgeDirection = throwDirection.sqrMagnitude > .01f ? throwDirection : transform.forward;
         top.position = tablePoint;
         for (float time = 0f; time < 3f; time += Time.deltaTime)
         {
@@ -216,17 +331,17 @@ public sealed class Scene2SpinningTop : InteractableBase
             yield return null;
         }
         AudioManager.Instance?.PlaySFX(SfxId.MarbleHit);
-        session.Close();
+        session?.Close();
         session = null;
-        if (kitchen == null || player == null) { Finish(); yield break; }
-        yield return FollowTop();
-        Finish();
+        if (kitchen == null) { Finish(); yield break; }
+        yield return RollToKitchen();
     }
 
-    private IEnumerator FollowTop()
+    private IEnumerator RollToKitchen()
     {
+        var doorway = GameObject.Find("KitchenToyStop");
         Vector3 approach = Vector3.ProjectOnPlane(top.position - kitchen.position, Vector3.up).normalized;
-        Vector3 rest = kitchen.position + approach * .72f;
+        Vector3 rest = doorway ? doorway.transform.position : kitchen.position + approach * .72f;
         rest.y = transform.position.y + .025f;
         var route = new NavMeshPath();
         Vector3[] points = NavMesh.SamplePosition(top.position, out var start, 1.2f, NavMesh.AllAreas) &&
@@ -234,91 +349,104 @@ public sealed class Scene2SpinningTop : InteractableBase
             NavMesh.CalculatePath(start.position, end.position, NavMesh.AllAreas, route) &&
             route.status == NavMeshPathStatus.PathComplete ? route.corners : new[] { rest };
 
-        stage = Stage.Follow;
-        followInputOwner = GameManager.Instance;
-        if (followInputOwner != null) followInputOwner.AcquireInput(this, showCursor: false);
-        else if (!player.IsMovementLocked)
+        int lastCorner = points.Length - 1;
+        float remaining = doorway ? 0f : KitchenStopShort;
+        while (lastCorner >= 0)
         {
-            player.LockMovement(true);
-            followLockedWithoutManager = true;
-        }
-        try
-        {
-            float stuck = 0f;
-            float elapsed = 0f;
-            foreach (Vector3 corner in points)
+            Vector3 previous = lastCorner > 0 ? points[lastCorner - 1] : top.position;
+            previous.y = rest.y;
+            Vector3 endPoint = points[lastCorner];
+            endPoint.y = rest.y;
+            float length = Vector3.Distance(previous, endPoint);
+            if (length > remaining)
             {
-                Vector3 target = new Vector3(corner.x, rest.y, corner.z);
-                while ((top.position - target).sqrMagnitude > .0025f)
-                {
-                    float dt = Time.deltaTime;
-                    if (dt <= 0f) { yield return null; continue; }
-                    elapsed += dt;
-                    if (elapsed > 35f) yield break;
-                    Vector3 offset = Vector3.ProjectOnPlane(top.position - player.transform.position, Vector3.up);
-                    if (offset.sqrMagnitude < 1.45f * 1.45f)
-                        top.position = Vector3.MoveTowards(top.position, target, .62f * dt);
-                    top.Rotate(Vector3.up, 265f * dt, Space.Self);
-                    Vector3 previous = player.transform.position;
-                    if (offset.sqrMagnitude > .68f * .68f)
-                        player.WalkToward(top.position - offset.normalized * .64f, .88f, dt);
-                    Vector3 look = top.position - view.transform.position;
-                    float pitch = Mathf.Atan2(-look.y, new Vector2(look.x, look.z).magnitude) * Mathf.Rad2Deg;
-                    float currentPitch = Mathf.DeltaAngle(0f, view.transform.localEulerAngles.x);
-                    player.SetPitch(Mathf.MoveTowards(currentPitch, Mathf.Clamp(pitch, 8f, 36f), 50f * dt));
-                    bool blocked = offset.sqrMagnitude >= 1.45f * 1.45f &&
-                        (player.transform.position - previous).sqrMagnitude < .000001f;
-                    stuck = blocked ? stuck + dt : 0f;
-                    if (stuck > 2f) yield break;
-                    yield return null;
-                }
+                points[lastCorner] = Vector3.MoveTowards(endPoint, previous, remaining);
+                break;
             }
-            top.rotation = Quaternion.Euler(0f, 30f, 76f);
-            yield return new WaitForSeconds(.3f);
+            remaining -= length;
+            lastCorner--;
         }
-        finally
+
+        stage = Stage.Follow;
+        for (int i = 0; i <= lastCorner; i++)
         {
-            ReleaseFollowInput();
+            Vector3 corner = points[i];
+            Vector3 target = new Vector3(corner.x, rest.y, corner.z);
+            while ((top.position - target).sqrMagnitude > .0025f)
+            {
+                float dt = Time.deltaTime;
+                top.position = Vector3.MoveTowards(top.position, target, KitchenRollSpeed * dt);
+                top.Rotate(Vector3.up, 495f * dt, Space.Self);
+                yield return null;
+            }
         }
+        top.rotation = Quaternion.Euler(0f, 30f, 76f);
+        yield return new WaitForSeconds(.3f);
+        stage = Stage.WaitingAtKitchen;
+        HouseholdChoreFlow.Instance?.UI?.Notify("Con quay dừng trước cửa bếp. Mẹ đang gọi con.", 6f);
+        CheckKitchenArrival();
     }
 
-    private void ReleaseFollowInput()
+    private void CheckKitchenArrival()
     {
-        if (followInputOwner != null) followInputOwner.ReleaseInput(this);
-        followInputOwner = null;
-        if (followLockedWithoutManager && player != null) player.LockMovement(false);
-        followLockedWithoutManager = false;
+        if (player == null || kitchen == null) { Finish(); return; }
+        Vector3 gap = Vector3.ProjectOnPlane(player.transform.position - top.position, Vector3.up);
+        if (gap.sqrMagnitude <= 1.35f * 1.35f) StartCoroutine(MeetMother());
+    }
+
+    private IEnumerator MeetMother()
+    {
+        stage = Stage.MeetingMother;
+        var flow = HouseholdChoreFlow.Instance;
+        if (flow && !flow.ChecklistVisible)
+        {
+            flow.GetComponent<Scene2MotherCompanion>()?.LookAtToy(top.position);
+            yield return new WaitForSeconds(.65f);
+            flow.UI?.Notify("Mẹ: Mẹ gọi con xuống phụ bếp, ai dè con quay xuống trước.", 3.6f);
+            yield return new WaitForSeconds(3.6f);
+        }
+        Finish();
     }
 
     private void DrawCord() => DrawCord(pull);
 
     private void DrawCord(float extension)
     {
-        int wraps = Mathf.RoundToInt(Mathf.Lerp(36f, 2f, extension));
+        float wrappedAngle = windingAngle * (1f - extension);
+        int wraps = 1 + Mathf.CeilToInt(wrappedAngle * 5f);
         const int tailPoints = 12;
         cord.positionCount = wraps + tailPoints;
         for (int i = 0; i < wraps; i++)
         {
-            float angle = i * .57f;
-            cord.SetPosition(i, top.position + new Vector3(Mathf.Cos(angle) * .034f, .046f - i * .0003f, Mathf.Sin(angle) * .034f));
+            float arc = wraps == 1 ? 0f : wrappedAngle * i / (wraps - 1);
+            float angle = cordAnchorAngle + windingDirection * arc;
+            float height = .033f + arc * .00072f;
+            float radius = Mathf.Lerp(.030f, .044f, Mathf.InverseLerp(.033f, .047f, height));
+            cord.SetPosition(i, top.position + new Vector3(Mathf.Cos(angle) * radius, height, Mathf.Sin(angle) * radius));
         }
-        Vector3 end = tablePoint - transform.forward * (.13f + .2f * extension);
+        Vector3 end = cordEnd;
         for (int i = 0; i < tailPoints; i++)
         {
             float t = (i + 1f) / tailPoints;
             Vector3 point = Vector3.Lerp(cord.GetPosition(wraps - 1), end, t);
-            point += transform.right * ((1f - extension) * .024f * Mathf.Sin(t * Mathf.PI * 2f));
+            float slack = windingDrag || dragging ? 0f : .028f * (1f - WindingProgress);
+            point += transform.right * (slack * Mathf.Sin(t * Mathf.PI * 2f));
             point.y = Mathf.Max(tablePoint.y + .003f, point.y - Mathf.Sin(t * Mathf.PI) * .011f);
             cord.SetPosition(wraps + i, point);
         }
+        cordKnot.position = end;
     }
 
     private void OnGUI()
     {
         if (Event.current.type != EventType.Repaint || GameManager.Instance?.IsPaused == true) return;
-        string message = stage == Stage.Pulling ? "Giữ chuột trái, kéo dây rồi thả   ·   Space để quay   ·   Esc để thoát" :
-            stage == Stage.Follow ? "Con quay lăn về phía bếp." : null;
-        if (message != null) GUI.Box(new Rect(Screen.width * .2f, Screen.height * .84f, Screen.width * .6f, 32f), message);
+        string message = stage == Stage.Winding ?
+            (WindingProgress >= 1f ? "Thả đầu dây để chuẩn bị giật dây." :
+                "Giữ nút thắt ở đầu dây và kéo quanh thân con quay.") :
+            stage == Stage.Aiming ? "Nắm lại đầu dây, kéo mạnh ra ngoài rồi thả." :
+            stage == Stage.Follow ? "Con quay lăn về phía bếp. Tự bước theo nó nhé." :
+            stage == Stage.WaitingAtKitchen ? "Con quay đã tới bếp. Đến gần mẹ để xem chuyện gì xảy ra." : null;
+        if (message != null) GUI.Box(new Rect(Screen.width * .16f, Screen.height * .84f, Screen.width * .68f, 38f), message);
     }
 
     private void Cancel()
@@ -328,9 +456,14 @@ public sealed class Scene2SpinningTop : InteractableBase
         session = null;
         stage = Stage.Ready;
         pull = 0f;
-        dragging = false;
+        windingAngle = 0f;
+        windingDirection = 0;
+        dragging = windingDrag = false;
         top.position = tablePoint;
         top.rotation = Quaternion.identity;
+        cord.enabled = true;
+        cordKnot.gameObject.SetActive(true);
+        ResetCordEnd();
         DrawCord();
     }
 
@@ -339,19 +472,21 @@ public sealed class Scene2SpinningTop : InteractableBase
         stage = Stage.Complete;
         cord.enabled = false;
         if (top != null) top.gameObject.SetActive(false);
-        KitchenFlowManager.Instance?.ShowChecklist();
+        var flow = HouseholdChoreFlow.Instance;
+        if (flow != null)
+        {
+            if (!flow.ChecklistVisible) Scene2Checkpoint.MarkKitchenIntroSeen();
+            flow.ShowChecklist("Con tới đúng lúc quá. Lại đây phụ mẹ nhóm lửa nhé.");
+        }
+        else KitchenFlowManager.Instance?.ShowChecklist();
     }
 
-    private void OnDisable()
-    {
-        session?.Close();
-        ReleaseFollowInput();
-    }
+    private void OnDisable() => session?.Close();
 
     private void OnApplicationFocus(bool focused)
     {
-        if (focused || stage != Stage.Pulling || !dragging) return;
-        dragging = false;
+        if (focused || (stage != Stage.Winding && stage != Stage.Aiming)) return;
+        dragging = windingDrag = false;
         pull = 0f;
         DrawCord();
     }
@@ -361,6 +496,7 @@ public sealed class Scene2SpinningTop : InteractableBase
         Destroy(wood);
         Destroy(stripe);
         Destroy(thread);
+        Destroy(importedMaterial);
         Destroy(topMesh);
     }
 }

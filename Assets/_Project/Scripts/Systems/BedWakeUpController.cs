@@ -187,14 +187,14 @@ public class BedWakeUpController : MonoBehaviour
         Quaternion start = playerCamera.rotation;
         Vector3 towardToy = spinningTop.LookTarget.position + Vector3.up * .04f - playerCamera.position;
         Quaternion look = Quaternion.LookRotation(towardToy);
-        const float duration = 2.05f;
+        const float duration = 1.05f;
         for (float elapsed = 0f; elapsed < duration; elapsed += Time.deltaTime)
         {
-            float weight = SmoothRange(0f, 1.05f, elapsed) * (1f - SmoothRange(1.22f, duration, elapsed));
+            float weight = SmoothRange(0f, duration, elapsed);
             playerCamera.rotation = Quaternion.Slerp(start, look, weight);
             yield return null;
         }
-        playerCamera.rotation = start;
+        playerCamera.rotation = look;
     }
 
     private void ClearChildHands()

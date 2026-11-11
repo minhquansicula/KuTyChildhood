@@ -237,7 +237,9 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         QuestManager.Instance?.RefreshHouseholdObjective();
     }
 
-    public void ShowChecklist()
+    public void ShowChecklist() => ShowChecklist(null);
+
+    public void ShowChecklist(string openingLine)
     {
         if (checklistVisible) return;
         checklistVisible = true;
@@ -245,8 +247,9 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         ui.SetChecklistVisible(GetComponent<Scene2QuestHUD>() == null);
         RefreshUI();
         bool resumed = ActiveIndex > 0 || OptionalBits != 0;
-        float seconds = Voice.Play(resumed ? "act2_mom_resume_001" : "act2_mom_wakeup_001");
-        ui.Notify("Mẹ: " + (resumed ? ResumeText : WakeupText), Mathf.Max(7f, seconds));
+        float seconds = openingLine == null ?
+            Voice.Play(resumed ? "act2_mom_resume_001" : "act2_mom_wakeup_001") : 0f;
+        ui.Notify("Mẹ: " + (openingLine ?? (resumed ? ResumeText : WakeupText)), Mathf.Max(7f, seconds));
         QuestManager.Instance?.RefreshHouseholdObjective();
     }
 
