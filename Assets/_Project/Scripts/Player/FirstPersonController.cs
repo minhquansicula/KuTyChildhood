@@ -96,7 +96,7 @@ public class FirstPersonController : MonoBehaviour
     }
 
     // ========== MOVEMENT ==========
-    private void MoveCharacter(Vector2 input, bool running, float deltaTime)
+    private void MoveCharacter(Vector2 input, bool running, float deltaTime, bool allowJump = true)
     {
         HandleGroundCheck();
 
@@ -115,7 +115,7 @@ public class FirstPersonController : MonoBehaviour
             velocity.y = -2f;
         }
 
-        if (enableJump && isGrounded && velocity.y <= 0f && Input.GetButtonDown("Jump"))
+        if (allowJump && enableJump && isGrounded && velocity.y <= 0f && Input.GetButtonDown("Jump"))
         {
             velocity.y = Mathf.Sqrt(Mathf.Max(.1f, jumpHeight) * -2f * gravity);
         }
@@ -130,6 +130,18 @@ public class FirstPersonController : MonoBehaviour
             velocity.y = -2f;
             isGrounded = true;
         }
+    }
+
+    public void WalkToward(Vector3 destination, float speed, float deltaTime)
+    {
+        Vector3 offset = Vector3.ProjectOnPlane(destination - transform.position, Vector3.up);
+        if (offset.sqrMagnitude < .0025f || deltaTime <= 0f) return;
+        Quaternion facing = Quaternion.LookRotation(offset);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, facing, 95f * deltaTime);
+        Vector3 local = transform.InverseTransformDirection(offset.normalized);
+        float pace = Mathf.Min(speed, offset.magnitude / deltaTime) /
+            (walkSpeed * Mathf.Clamp(WaterSpeedMultiplier, .4f, 1f));
+        MoveCharacter(new Vector2(local.x, local.z) * pace, false, deltaTime, allowJump: false);
     }
 
 #if UNITY_EDITOR

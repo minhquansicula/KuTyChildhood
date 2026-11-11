@@ -44,6 +44,7 @@ public class BedWakeUpController : MonoBehaviour
     private float originalNearClip;
     private bool handsChangedNearClip;
     private bool canWakeUp = false;
+    private Scene2SpinningTop spinningTop;
     public bool CanPauseWhileWaiting => canWakeUp &&
         (ShopUI.Instance == null || !ShopUI.Instance.IsOpen) &&
         (JournalUI.Instance == null || !JournalUI.Instance.IsOpen) &&
@@ -101,6 +102,8 @@ public class BedWakeUpController : MonoBehaviour
         StopAllCoroutines();
         if (isInitial && playerCamera != null)
         {
+            if (gameObject.scene.name == SceneNames.Act2_Home && spinningTop == null)
+                spinningTop = Scene2SpinningTop.Create(viewCamera);
             CreateVisionOverlay();
             childHands = ChildWakeHands.Create(playerCamera);
             if (childHands != null && viewCamera != null)
@@ -158,6 +161,8 @@ public class BedWakeUpController : MonoBehaviour
             wakingFocus?.Dispose();
             wakingFocus = null;
             yield return new WaitForSeconds(.15f);
+            if (spinningTop != null)
+                yield return GlanceAtToy();
         }
         else
         {
@@ -176,6 +181,21 @@ public class BedWakeUpController : MonoBehaviour
 
     private static float SmoothRange(float start, float end, float t)
         => Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(start, end, t));
+
+    private IEnumerator GlanceAtToy()
+    {
+        Quaternion start = playerCamera.rotation;
+        Vector3 towardToy = spinningTop.LookTarget.position + Vector3.up * .04f - playerCamera.position;
+        Quaternion look = Quaternion.LookRotation(towardToy);
+        const float duration = 2.05f;
+        for (float elapsed = 0f; elapsed < duration; elapsed += Time.deltaTime)
+        {
+            float weight = SmoothRange(0f, 1.05f, elapsed) * (1f - SmoothRange(1.22f, duration, elapsed));
+            playerCamera.rotation = Quaternion.Slerp(start, look, weight);
+            yield return null;
+        }
+        playerCamera.rotation = start;
+    }
 
     private void ClearChildHands()
     {
@@ -380,7 +400,9 @@ public class BedWakeUpController : MonoBehaviour
     {
         GameManager.Instance?.ReleaseInput(this);
         HUDController.Instance?.SetCrosshairVisible(true);
-        KitchenFlowManager.Instance?.ShowChecklist();
+        if (spinningTop != null) spinningTop.EnablePlay();
+        if (spinningTop == null || Scene2Checkpoint.HasCheckpoint)
+            KitchenFlowManager.Instance?.ShowChecklist();
     }
 
     private void CreateVisionOverlay()

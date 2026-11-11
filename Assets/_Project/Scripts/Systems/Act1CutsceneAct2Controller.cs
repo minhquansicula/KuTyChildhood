@@ -22,7 +22,9 @@ public sealed class Act1CutsceneAct2Controller : MonoBehaviour
         {
             yield return OfficeDepartureVideo.PlayClip(
                 clip != null ? clip : Resources.Load<VideoClip>("Cutscenes/OfficeToHome_Final"),
-                Complete);
+                () => { });
+            yield return Act2CountrysideShot.Play();
+            Complete();
         }
         finally
         {
