@@ -189,13 +189,26 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
             Vector3 size = visual.bounds.size;
             if (mesh.sharedMesh.vertexCount <= 3 ||
                 size.x * size.y + size.y * size.z + size.z * size.x < 1e-10f) continue;
+            // Dense generated prop meshes are visual assets, not collision meshes.
+            // Cooking millions of triangles here blocks scene activation. Use a
+            // local-space box for small props; retain exact room/large geometry
+            // so a room-sized bounds box cannot close off walkable space.
+            if (mesh.sharedMesh.vertexCount > 20000 &&
+                Mathf.Max(size.x, Mathf.Max(size.y, size.z)) <= 4f)
+            {
+                var box = mesh.gameObject.AddComponent<BoxCollider>();
+                box.center = mesh.sharedMesh.bounds.center;
+                box.size = mesh.sharedMesh.bounds.size;
+                added++;
+                continue;
+            }
             var solid = mesh.gameObject.AddComponent<MeshCollider>();
             solid.sharedMesh = mesh.sharedMesh;
             solid.convex = false;
             solid.isTrigger = false;
             added++;
         }
-        if (added > 0) Debug.Log($"Scene 2: added {added} solid mesh colliders to visible props.");
+        if (added > 0) Debug.Log($"Scene 2: added {added} solid colliders to visible props (dense small props use boxes).");
     }
 
     private static bool IsKitchenCurtain(Transform current)

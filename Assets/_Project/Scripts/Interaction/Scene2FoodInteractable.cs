@@ -9,6 +9,17 @@ public sealed class Scene2FoodInteractable : InteractableBase
     public string FoodName => foodName;
     public Vector3 CustomHoldOffset => customHoldOffset;
     internal Collider Target { get; private set; }
+    internal Bounds VisualBounds
+    {
+        get
+        {
+            var parts = GetComponentsInChildren<MeshRenderer>();
+            if (parts.Length == 0) return Target.bounds;
+            var bounds = parts[0].bounds;
+            for (int i = 1; i < parts.Length; i++) bounds.Encapsulate(parts[i].bounds);
+            return bounds;
+        }
+    }
     internal float BottomOffset { get; private set; }
     internal Quaternion InitialWorldRotation { get; private set; }
     internal Quaternion InitialFlatRotation { get; private set; }
@@ -34,17 +45,7 @@ public sealed class Scene2FoodInteractable : InteractableBase
         InitialFlatRotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
         InitialWorldScale = transform.lossyScale;
 
-        var col = GetComponent<Collider>();
-        if (col != null)
-        {
-            BottomOffset = transform.position.y - col.bounds.min.y;
-        }
-        else
-        {
-            var rend = GetComponentInChildren<Renderer>();
-            if (rend != null)
-                BottomOffset = transform.position.y - rend.bounds.min.y;
-        }
+        BottomOffset = transform.position.y - VisualBounds.min.y;
     }
 
     public void SetCarrier(Scene2FoodCarry newCarrier) => carrier = newCarrier;

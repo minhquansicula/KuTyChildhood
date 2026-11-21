@@ -13,6 +13,7 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
     private Scene2HouseholdSimulator simulator;
     private bool simpleAction;
     private readonly RaycastHit[] focusHits = new RaycastHit[32];
+    private Renderer[] focusVisuals;
 
     public HouseholdChore Chore => chore;
 
@@ -49,6 +50,46 @@ public sealed class HouseholdChoreInteractable : InteractableBase, IProximityInt
     public bool TryGetProximityDistance(Vector3 playerPosition, out float distance)
     {
         distance = float.PositiveInfinity;
+        if (chore == HouseholdChore.LightFire || chore == HouseholdChore.CookRice ||
+            chore == HouseholdChore.WashDishes || chore == HouseholdChore.ReadLetter)
+        {
+            if (string.IsNullOrEmpty(GetPromptText())) return false;
+            var camera = Camera.main;
+            if (!camera) return false;
+            var aim = new Ray(camera.transform.position, camera.transform.forward);
+            if (focusVisuals == null)
+            {
+                var parts = new System.Collections.Generic.List<Renderer>();
+                void Include(Transform part) { if (part) parts.AddRange(part.GetComponentsInChildren<Renderer>(true)); }
+                Include(effectAnchor ? effectAnchor : transform);
+                if (chore == HouseholdChore.CookRice) Include(flow.GetComponent<Scene2KitchenHandsOn>()?.lid);
+                if (chore == HouseholdChore.WashDishes)
+                {
+                    var layout = flow.GetComponent<Scene2DishwashingLayout>();
+                    if (layout)
+                    {
+                        Include(layout.fixture); Include(layout.basin); Include(layout.faucet);
+                        Include(layout.sponge); Include(layout.soap); Include(layout.rack);
+                        foreach (var dish in layout.dishes) Include(dish?.source);
+                    }
+                }
+                focusVisuals = parts.ToArray();
+            }
+            foreach (var visual in focusVisuals)
+            {
+                if (!visual || !visual.enabled || !visual.gameObject.activeInHierarchy) continue;
+                var bounds = visual.bounds;
+                bounds.Expand(.08f);
+                if (bounds.IntersectRay(aim, out float hit)) distance = Mathf.Min(distance, hit);
+            }
+            if (distance > 2.5f) return false;
+            int blockers = Physics.RaycastNonAlloc(aim, focusHits, distance, ~0, QueryTriggerInteraction.Ignore);
+            if (blockers == focusHits.Length) return false;
+            for (int i = 0; i < blockers; i++)
+                if (!focusHits[i].transform.IsChildOf(transform) &&
+                    !focusHits[i].collider.GetComponentInParent<FirstPersonController>()) return false;
+            return true;
+        }
         if (chore != HouseholdChore.WashRice || string.IsNullOrEmpty(GetPromptText())) return false;
         Transform pot = effectAnchor != null ? effectAnchor : transform;
         Vector3 offset = pot.position - playerPosition;

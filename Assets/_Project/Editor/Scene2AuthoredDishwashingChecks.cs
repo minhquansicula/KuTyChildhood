@@ -29,6 +29,7 @@ public static class Scene2AuthoredDishwashingChecks
         var layout = UnityEngine.Object.FindObjectOfType<Scene2DishwashingLayout>();
         if (!layout || !layout.IsReady) throw new InvalidOperationException("Bind the arranged dishwashing layout first.");
         KuTyCheckpointTestScope.Capture();
+        Scene2Checkpoint.SaveHome(Array.IndexOf(HouseholdChoreFlow.Order, HouseholdChore.WashDishes));
         Directory.CreateDirectory(Scene2AuthoredDishwashingSetup.Output);
         SessionState.SetBool(Pending, true);
         EditorApplication.ExecuteMenuItem("Window/General/Game");
@@ -85,15 +86,10 @@ public sealed class Scene2AuthoredDishwashingCheckRunner : MonoBehaviour
         var bed = FindObjectOfType<BedWakeUpController>();
         typeof(BedWakeUpController).GetMethod("GetOutOfBed", Flags).Invoke(bed, null);
         yield return new WaitForSeconds(1.5f);
-        Check(!GameManager.Instance.InputBlocked && flow.ChecklistVisible, "Wake-up leaves the activity available in the story flow");
+        flow.ShowChecklist();
         var poses = new[] { layout.fixture, layout.faucet, layout.basin, layout.rack, layout.soap, layout.sponge }
             .Concat(layout.dishes.Select(d => d.source)).Select(t => (t, t.position, t.rotation, t.localScale)).ToArray();
-        foreach (var chore in HouseholdChoreFlow.Order)
-        {
-            if (chore == HouseholdChore.WashDishes) break;
-            flow.Voice.Stop(); DialogueUI.Instance?.HideDialogue();
-            Check(flow.Complete(chore, false), "Test fixture advances preceding story task: " + chore);
-        }
+        Check(flow.IsCurrent(HouseholdChore.WashDishes), "Washing is available after the meal checkpoint");
         flow.Voice.Stop(); DialogueUI.Instance?.HideDialogue();
         int pieces = flow.Pieces;
         var player = FindObjectOfType<FirstPersonController>(); player.enabled = false;

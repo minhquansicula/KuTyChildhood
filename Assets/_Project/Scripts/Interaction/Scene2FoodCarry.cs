@@ -63,6 +63,8 @@ public sealed class Scene2FoodCarry : MonoBehaviour, IInteractable
     {
         diningTable = diningTableCollider != null ? diningTableCollider.transform :
             GameObject.Find("bandai_khach")?.transform;
+        if (diningTableCollider == null && diningTable != null)
+            diningTableCollider = diningTable.GetComponent<MeshCollider>();
         foreach (var food in FindObjectsOfType<Scene2FoodInteractable>(true))
         {
             int index = Array.IndexOf(RequiredFoodNames, food.gameObject.name);
@@ -96,7 +98,7 @@ public sealed class Scene2FoodCarry : MonoBehaviour, IInteractable
         if (!CanPickUp || !CanReach(food)) return;
         held = food;
         food.PlacementSurface = null;
-        Bounds footprint = food.Target.bounds;
+        Bounds footprint = food.VisualBounds;
         footprintCenter = footprint.center - food.transform.position;
         footprintExtents = footprint.extents;
         food.Target.enabled = false;
@@ -195,6 +197,11 @@ public sealed class Scene2FoodCarry : MonoBehaviour, IInteractable
         extents.z = Mathf.Min(extents.z, bounds.extents.z);
         point.x = Mathf.Clamp(point.x + footprintCenter.x, bounds.min.x + extents.x, bounds.max.x - extents.x) - footprintCenter.x;
         point.z = Mathf.Clamp(point.z + footprintCenter.z, bounds.min.z + extents.z, bounds.max.z - extents.z) - footprintCenter.z;
+        var probe = new Ray(new Vector3(point.x + footprintCenter.x, bounds.max.y + .1f,
+            point.z + footprintCenter.z), Vector3.down);
+        if (!diningTableCollider.Raycast(probe, out var support, bounds.size.y + .2f) || support.normal.y < .6f)
+            return false;
+        point.y = support.point.y;
         return true;
     }
 

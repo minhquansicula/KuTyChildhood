@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
@@ -9,6 +9,8 @@ public sealed class Act2CountrysideShot : MonoBehaviour
     [SerializeField] private VideoClip countrysideClip;
     [SerializeField] private Camera shotCamera;
     [SerializeField] private Transform cameraEnd;
+    [SerializeField] private Transform houseTarget;
+    [SerializeField, Min(1f)] private float overheadDuration = 5f;
     [SerializeField] private AudioSource ambience;
     [SerializeField] private Transform[] rice;
     [SerializeField, Min(.1f)] private float duration = 5.5f;
@@ -36,6 +38,8 @@ public sealed class Act2CountrysideShot : MonoBehaviour
         while (loader && loader.IsLoading) yield return null;
 
         if (followStory) GameManager.Instance?.AcquireInput(this, showCursor: false);
+        // Start loading the home scene while the shot plays; only its activation waits for the last frame.
+        bool homePreloaded = followStory && loader != null && loader.PrepareSleepTransition(SceneNames.Act2_Home);
         try
         {
             if (ambience && ambience.clip)
@@ -55,13 +59,25 @@ public sealed class Act2CountrysideShot : MonoBehaviour
                 {
                     black = 1f;
                     if (ambience) ambience.Stop();
-                    if (followStory) ContinueToHome(loader);
+                    if (followStory) ContinueToHome(loader, homePreloaded);
                 });
                 yield break;
             }
 
             Vector3 startPosition = shotCamera.transform.position;
             Quaternion startRotation = shotCamera.transform.rotation;
+            var house = houseTarget ? houseTarget : transform.Find("Farmhouse and earthen yard");
+            var houseRenderers = house ? house.GetComponentsInChildren<Renderer>() : null;
+            bool hasHouse = houseRenderers != null && houseRenderers.Length > 0;
+            Vector3 focus = Vector3.zero;
+
+            if (hasHouse)
+            {
+                Bounds bounds = houseRenderers[0].bounds;
+                for (int i = 1; i < houseRenderers.Length; i++) bounds.Encapsulate(houseRenderers[i].bounds);
+                focus = bounds.center;
+                focus.y = bounds.min.y + bounds.size.y * .53f;
+            }
             var plantRotations = new Quaternion[rice.Length];
             for (int i = 0; i < rice.Length; i++)
                 if (rice[i]) plantRotations[i] = rice[i].localRotation;
@@ -75,13 +91,28 @@ public sealed class Act2CountrysideShot : MonoBehaviour
                     if (rice[i]) rice[i].localRotation = plantRotations[i] *
                         Quaternion.Euler(0f, 0f, 7f * Mathf.Sin(elapsed * 2f + i * .42f));
                 black = fadeDuration > 0f ? 1f - Mathf.Clamp01(Mathf.Min(elapsed,
-                    followStory ? duration - elapsed : elapsed) / fadeDuration) : 0f;
+                    hasHouse ? elapsed : (followStory ? duration - elapsed : elapsed)) / fadeDuration) : 0f;
                 yield return null;
             }
 
             shotCamera.transform.SetPositionAndRotation(cameraEnd.position, cameraEnd.rotation);
+            if (hasHouse)
+            {
+                Vector3 approach = Vector3.ProjectOnPlane(cameraEnd.position - focus, Vector3.up).normalized;
+                for (float elapsed = 0f; elapsed < overheadDuration; elapsed += Time.deltaTime)
+                {
+                    float t = Mathf.SmoothStep(0f, 1f, elapsed / overheadDuration);
+                    Vector3 position = focus + approach * Mathf.Lerp(13f, 10.5f, t) +
+                        Vector3.up * Mathf.Lerp(10f, 8f, t);
+                    shotCamera.transform.SetPositionAndRotation(position, Quaternion.LookRotation(focus - position));
+                    black = followStory && fadeDuration > 0f
+                        ? 1f - Mathf.Clamp01((overheadDuration - elapsed) / fadeDuration) : 0f;
+                    yield return null;
+                }
+            }
+            if (ambience) ambience.Stop();
             black = followStory ? 1f : 0f;
-            if (followStory) ContinueToHome(loader);
+            if (followStory) ContinueToHome(loader, homePreloaded);
         }
         finally
         {
@@ -89,8 +120,13 @@ public sealed class Act2CountrysideShot : MonoBehaviour
         }
     }
 
-    private static void ContinueToHome(SceneLoader loader)
+    private static void ContinueToHome(SceneLoader loader, bool preloaded = false)
     {
+        if (preloaded)
+        {
+            loader.CompleteSleepTransition();
+            return;
+        }
         if (loader && loader.PrepareSleepTransition(SceneNames.Act2_Home))
             loader.CompleteSleepTransition();
         else

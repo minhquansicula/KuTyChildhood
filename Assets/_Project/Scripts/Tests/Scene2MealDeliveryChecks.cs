@@ -118,6 +118,10 @@ public sealed class Scene2MealDeliveryChecks : MonoBehaviour
             carrier.Interact();
             yield return new WaitForSecondsRealtime(.35f);
             Require(!carrier.IsHolding && placements == i + 2, $"{names[i]} was placed.");
+            var served = food.VisualBounds;
+            var probe = new Ray(new Vector3(served.center.x, bounds.max.y + .1f, served.center.z), Vector3.down);
+            Require(table.Raycast(probe, out var support, bounds.size.y + .2f) &&
+                Mathf.Abs(served.min.y - support.point.y) < .012f, $"{names[i]} rests on the tabletop.");
             Require(flow.IsCompleted(HouseholdChore.SetTable) == (i == names.Length - 1),
                 "The reward requires all four dishes on the right table.");
         }

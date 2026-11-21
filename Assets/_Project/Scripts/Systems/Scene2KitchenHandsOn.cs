@@ -302,6 +302,8 @@ public sealed partial class Scene2KitchenHandsOn : MonoBehaviour
         if (!hit || !hit.enabled || !hit.gameObject.activeInHierarchy || !view) return false;
         var ray = view.ScreenPointToRay(pointer);
         if (!hit.Raycast(ray, out var target, 4f)) return false;
+        // In the fixed fire view, the stove shell overlaps its authored interaction zones.
+        if (task == HouseholdChore.LightFire) return true;
         foreach (var obstacle in Physics.RaycastAll(ray, target.distance, ~0, QueryTriggerInteraction.Ignore))
         {
             var collider = obstacle.collider;
@@ -513,7 +515,7 @@ public sealed partial class Scene2KitchenHandsOn : MonoBehaviour
         if (kindlingCount < 3)
         {
             // Phím tắt đặt củi: Bấm F hoặc Space để tự động đặt thanh củi tiếp theo vào bếp
-            if (keyboardAssistance && (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
+            if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -532,8 +534,8 @@ public sealed partial class Scene2KitchenHandsOn : MonoBehaviour
 
         // Đã đặt đủ 3 thanh củi: Thổi than
         // Phím tắt bấm một nhịp: Space, Enter, hoặc F
-        if (keyboardAssistance && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
-            Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.F)))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
+            Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.F))
         {
             dragging = false;
             breath = 0f;
@@ -542,7 +544,7 @@ public sealed partial class Scene2KitchenHandsOn : MonoBehaviour
         }
 
         // Giữ phím Space hoặc F để tự động thổi đều đặn nhịp nhàng
-        if (keyboardAssistance && (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.F)))
+        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.F))
         {
             breath += Time.deltaTime;
             blowTube.localRotation = blowHome * Quaternion.Euler(0f, 0f, Mathf.Sin(Time.time * 8f) * 3f);
@@ -769,7 +771,7 @@ public sealed partial class Scene2KitchenHandsOn : MonoBehaviour
     void RefreshVisibility()
     {
         washRoot.gameObject.SetActive(flow.CurrentChore == HouseholdChore.WashRice);
-        fireRoot.gameObject.SetActive(importedKitchen || flow.IsCompleted(HouseholdChore.WashRice));
+        fireRoot.gameObject.SetActive(importedKitchen || flow.IsCurrent(HouseholdChore.LightFire) || flow.IsCompleted(HouseholdChore.LightFire));
         // The replacement stove remains part of the room before its chore is unlocked.
         cookRoot.gameObject.SetActive(true);
         if (finishedRice) RestOpenedLid();
@@ -870,7 +872,7 @@ public sealed partial class Scene2KitchenHandsOn : MonoBehaviour
             if (fire && step == 1 && dragging && !keyboardAssistance)
                 action = breathDelivered ? "Nghỉ một nhịp… cứ giữ chuột, game sẽ thổi tiếp." : "Đang thổi nhẹ… cứ giữ chuột để nhóm than.";
             if (!fire && step == 0) action = "Nhiệt: " + (heat < .42f ? "<b>YẾU</b> — Vừa — To" : heat > .66f ? "Yếu — Vừa — <b>TO</b>" : "Yếu — <color=#A8D9A6><b>VỪA</b></color> — To") + " · " + action;
-            string keys = keyboardAssistance ? (fire ? (step == 0 ? "[F] Đặt củi" : "[F] / [SPACE] Thổi than") :
+            string keys = fire ? (step == 0 ? "[F] Đặt một thanh củi" : "Giữ [F] hoặc [SPACE] để thổi") : keyboardAssistance ? (fire ? (step == 0 ? "[F] Đặt củi" : "[F] / [SPACE] Thổi than") :
                 step == 1 ? "[SPACE] / [ENTER] Mở vung" : "[A / D] Chỉnh lửa · Giữ [F] Giữ lửa đều") + "   ·   [F1] Tắt hỗ trợ" : "[F1] Hỗ trợ bàn phím";
             controlText.text = "<size=24><b>" + HouseholdChoreFlow.Titles[(int)task] + "</b>  <color=#F0C26E>" + progress + "</color></size>\n" +
                 (fire ? GameUiPresentation.ActivitySteps(step, "Đặt củi", "Thổi than") : GameUiPresentation.ActivitySteps(step, "Canh lửa", "Mở vung")) +
