@@ -206,6 +206,9 @@ public sealed partial class Scene2HouseholdSimulator : MonoBehaviour
         }
         if (picked >= 0)
         {
+            // The fixed washing view has dedicated pick volumes for the current
+            // dish, sponge, soap and tap. Room collision boxes overlap this worktop.
+            if (authoredDishes) return AuthoredDishOccluded(ray, nearest) ? -1 : picked;
             if (importedTransfer && transferJarSurfaceQuery && transferJarSurfaceQuery.Raycast(ray, out var jarHit, nearest) && jarHit.distance < nearest - .004f)
                 return -1;
             if (importedDishes && fixtureSurfaceQuery && fixtureSurfaceQuery.Raycast(ray, out var exact, nearest) && exact.distance < nearest - .004f)

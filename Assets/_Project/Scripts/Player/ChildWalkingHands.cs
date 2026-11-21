@@ -31,8 +31,6 @@ public sealed class ChildWalkingHands : MonoBehaviour
     private float reachTime = 1f;
     private const float ReachDuration = .46f;
     public bool IsReaching => reachTime < ReachDuration;
-    private bool IsHoldingFood => foodCarry != null && foodCarry.IsHolding;
-    private bool IsUsingRightHand => IsReaching || IsHoldingFood;
     private Vector3 rightReference, leftReference;
     private Vector3 rightRootPosition, leftRootPosition;
     [SerializeField, Min(.5f)] private float metresPerCycle = 3f;
@@ -98,7 +96,7 @@ public sealed class ChildWalkingHands : MonoBehaviour
         Vector3 displacement = player.transform.position - previousPosition;
         previousPosition = player.transform.position;
         displacement.y = 0f;
-        bool blocked = player.IsMovementLocked || player.LockWalkingOnly ||
+        bool blocked = (foodCarry != null && foodCarry.IsHandlingItem) || player.IsMovementLocked || player.LockWalkingOnly ||
             (GameManager.Instance != null && GameManager.Instance.InputBlocked) ||
             (chores != null && chores.CarryingWood);
         float distance = displacement.magnitude;
@@ -119,7 +117,7 @@ public sealed class ChildWalkingHands : MonoBehaviour
         amount = Mathf.MoveTowards(amount, targetAmount, Time.deltaTime * blendRate);
         if (IsReaching) reachTime += Time.deltaTime;
         ApplyPose();
-        Show(amount > .01f || IsUsingRightHand);
+        Show(amount > .01f || IsReaching);
     }
 
     private void ApplyPose()
@@ -127,17 +125,17 @@ public sealed class ChildWalkingHands : MonoBehaviour
         // Reset positional framing, then preserve the clip's actual forward/backward arm travel.
         rightArmRoot.localPosition = rightRootPosition;
         leftArmRoot.localPosition = leftRootPosition;
-        cycle.SampleAnimation(modelRoot, (IsUsingRightHand ? .25f : phase) * cycle.length);
+        cycle.SampleAnimation(modelRoot, (IsReaching ? .25f : phase) * cycle.length);
         FrameArm(rightArmRoot, rightWrist, rightReference, 1f);
         FrameArm(leftArmRoot, leftWrist, leftReference, -1f);
-        if (IsUsingRightHand)
+        if (IsReaching)
         {
             // The textured home mesh keeps the wrist and fingers in its skinned pose.
             // Rotate the whole arm for framing so the wrist follows the forearm.
             if (useHomeFraming)
             {
                 // Keep the clip's forward wrist angle and add a small turn to the right.
-                rightArmRoot.RotateAround(rightWrist.position, view.transform.up, 12f * RightHandLift());
+                rightArmRoot.RotateAround(rightWrist.position, view.transform.up, 12f * ReachLift());
                 return;
             }
 
@@ -212,7 +210,7 @@ public sealed class ChildWalkingHands : MonoBehaviour
         float x = side * (useHomeFraming ? .815f - .025f * reach : .80f - .05f * reach) * halfHeight * view.aspect + swing.x;
         float y = ((useHomeFraming ? .17f : 0f) * reach - lowerEdgeOffset) * halfHeight + swing.y;
         float forwardOffset = 0f;
-        if (useHomeFraming && !IsUsingRightHand)
+        if (useHomeFraming && !IsReaching)
         {
             // Let the wrists trail the stride slightly instead of moving along a straight line.
             float trailingSwing = Mathf.Sin(phase * Mathf.PI * 2f - .35f) * side;
@@ -222,9 +220,9 @@ public sealed class ChildWalkingHands : MonoBehaviour
             Vector3 forearm = wrist.position - wrist.parent.position;
             root.RotateAround(wrist.position, forearm.normalized, side * trailingSwing * walkBlend * 4f);
         }
-        if (IsUsingRightHand)
+        if (IsReaching)
         {
-            float lift = RightHandLift();
+            float lift = ReachLift();
             float reachSide = useHomeFraming && side > 0f ? .84f - .12f * lift : .84f;
             x = side * reachSide * halfHeight * view.aspect;
             bool homeRightReach = useHomeFraming && side > 0f;
@@ -242,14 +240,19 @@ public sealed class ChildWalkingHands : MonoBehaviour
             1f - Mathf.SmoothStep(0f, 1f, (t - .38f) / .62f);
     }
 
-    private float RightHandLift() => Mathf.Lerp(IsHoldingFood ? .78f : 0f, 1f, IsReaching ? ReachLift() : 0f);
-
     private void OnInteraction(IInteractable target)
-        => TryReach();
+    {
+        if (target is Scene2FoodInteractable || target is Scene2FoodCarry)
+        {
+            reachTime = ReachDuration;
+            return;
+        }
+        TryReach();
+    }
 
     public bool TryReach()
     {
-        if (IsReaching || player == null || player.IsMovementLocked || player.LockWalkingOnly ||
+        if (IsReaching || (foodCarry != null && foodCarry.IsHandlingItem) || player == null || player.IsMovementLocked || player.LockWalkingOnly ||
             (GameManager.Instance != null && GameManager.Instance.InputBlocked) ||
             (chores != null && chores.CarryingWood)) return false;
         reachTime = 0f;
@@ -308,7 +311,7 @@ public sealed class ChildWalkingHands : MonoBehaviour
     {
         IsVisible = visible;
         if (renderers == null) return;
-        bool overlay = visible && IsUsingRightHand && reachCamera != null;
+        bool overlay = visible && IsReaching && reachCamera != null;
         if (reachCamera != null)
         {
             reachCamera.enabled = overlay;

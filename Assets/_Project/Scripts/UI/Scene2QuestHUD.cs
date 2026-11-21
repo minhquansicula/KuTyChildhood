@@ -16,6 +16,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
     private readonly Dictionary<Transform, Collider> targetColliders = new Dictionary<Transform, Collider>();
     private HouseholdChoreFlow chores;
     private QuestManager quests;
+    private Scene2FoodCarry foodCarry;
     private HUDController existingHud;
     private Camera playerCamera;
     private CanvasGroup rootGroup;
@@ -41,6 +42,7 @@ public sealed class Scene2QuestHUD : MonoBehaviour
     {
         chores = GetComponent<HouseholdChoreFlow>();
         quests = QuestManager.Instance;
+        foodCarry = FindObjectOfType<Scene2FoodCarry>();
         existingHud = HUDController.Instance;
         playerCamera = Camera.main;
         if (playerCamera == null) playerCamera = FindObjectOfType<Camera>();
@@ -288,6 +290,8 @@ public sealed class Scene2QuestHUD : MonoBehaviour
         if (quests == null) return null;
         var sequence = chores != null ? chores.GetComponent<Scene2RadioKitchenSequence>() : null;
         if (sequence != null && sequence.GuidanceTarget != null) return sequence.GuidanceTarget;
+        if (quests.CurrentStep == QuestStep.WashDishes && chores?.CurrentChore == HouseholdChore.SetTable)
+            return foodCarry != null ? foodCarry.MealDeliveryTarget : null;
         Transform target;
         if (quests.CurrentStep == QuestStep.WashDishes && chores != null && chores.ActiveIndex < HouseholdChoreFlow.ChoreCount)
             choreTargets.TryGetValue(HouseholdChoreFlow.Order[chores.ActiveIndex], out target);

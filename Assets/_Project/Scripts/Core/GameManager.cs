@@ -35,7 +35,8 @@ public class GameManager : MonoBehaviour
         IsPaused = false;
         Time.timeScale = 1f;
         if (wasPaused) OnPauseChanged?.Invoke(false);
-        SetGameState((scene.name == SceneNames.Act1 || scene.name == SceneNames.Act1_CutScene_Act2) ? GameState.Act1_RealWorld :
+        SetGameState((scene.name == SceneNames.Act1 || scene.name == SceneNames.Act1_CutScene_Act2 ||
+            scene.name == SceneNames.Act1_CutScene2_Act2) ? GameState.Act1_RealWorld :
             scene.name == SceneNames.Act2_Home ? GameState.Act2_MemoryWorld_Home :
             scene.name == SceneNames.Act3_OutSide ? GameState.Act3_MemoryWorld_OutSide :
             scene.name == SceneNames.Act_Ending ? GameState.Act_Ending : GameState.MainMenu);

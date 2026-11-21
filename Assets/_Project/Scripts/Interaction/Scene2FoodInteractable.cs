@@ -4,45 +4,65 @@ public sealed class Scene2FoodInteractable : InteractableBase
 {
     [SerializeField] private string foodName;
     [SerializeField] private Scene2FoodCarry carrier;
-    private Scene2FoodInteractable foodForSlot;
+    [SerializeField] private Vector3 customHoldOffset;
 
+    public string FoodName => foodName;
+    public Vector3 CustomHoldOffset => customHoldOffset;
     internal Collider Target { get; private set; }
-    internal Scene2FoodInteractable Slot { get; private set; }
-    internal int OriginalSiblingIndex { get; private set; }
-
-    private void Awake() => Target = GetComponent<Collider>();
-
-    private void Start()
+    internal Bounds VisualBounds
     {
-        if (foodForSlot != null || carrier == null || !(Target is MeshCollider mesh)) return;
-        OriginalSiblingIndex = transform.GetSiblingIndex();
-        var slotObject = new GameObject(name + " Placement");
-        slotObject.layer = gameObject.layer;
-        slotObject.transform.SetParent(transform.parent, false);
-        slotObject.transform.SetLocalPositionAndRotation(transform.localPosition, transform.localRotation);
-        slotObject.transform.localScale = transform.localScale;
-        var trigger = slotObject.AddComponent<MeshCollider>();
-        trigger.sharedMesh = mesh.sharedMesh;
-        trigger.convex = true;
-        trigger.isTrigger = true;
-        trigger.enabled = false;
-        Slot = slotObject.AddComponent<Scene2FoodInteractable>();
-        Slot.carrier = carrier;
-        Slot.foodForSlot = this;
+        get
+        {
+            var parts = GetComponentsInChildren<MeshRenderer>();
+            if (parts.Length == 0) return Target.bounds;
+            var bounds = parts[0].bounds;
+            for (int i = 1; i < parts.Length; i++) bounds.Encapsulate(parts[i].bounds);
+            return bounds;
+        }
     }
+    internal float BottomOffset { get; private set; }
+    internal Quaternion InitialWorldRotation { get; private set; }
+    internal Quaternion InitialFlatRotation { get; private set; }
+    internal Vector3 InitialWorldScale { get; private set; }
+    internal Transform OriginalParent { get; private set; }
+    internal Transform PlacementSurface { get; set; }
+
+    private void Awake()
+    {
+        Target = GetComponent<Collider>();
+        OriginalParent = transform.parent;
+        if (carrier == null)
+        {
+            var player = FindObjectOfType<FirstPersonController>();
+            if (player != null) carrier = player.GetComponent<Scene2FoodCarry>();
+        }
+        CacheDimensions();
+    }
+
+    public void CacheDimensions()
+    {
+        InitialWorldRotation = transform.rotation;
+        InitialFlatRotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
+        InitialWorldScale = transform.lossyScale;
+
+        BottomOffset = transform.position.y - VisualBounds.min.y;
+    }
+
+    public void SetCarrier(Scene2FoodCarry newCarrier) => carrier = newCarrier;
+    public void SetFoodName(string name) => foodName = name;
+    public void SetCustomHoldOffset(Vector3 offset) => customHoldOffset = offset;
 
     public override string GetPromptText()
     {
-        if (carrier == null || !carrier.CanUse(Target)) return "";
-        if (foodForSlot != null)
-            return carrier.IsHoldingItem(foodForSlot) ? $"[E] Đặt {foodForSlot.foodName}" : "";
-        return Slot != null && carrier.CanPickUp ? $"[E] Cầm {foodName}" : "";
+        if (carrier == null || !carrier.CanPickUp) return "";
+        if (!carrier.CanReach(this)) return "";
+        string title = !string.IsNullOrEmpty(foodName) ? foodName : gameObject.name;
+        return gameObject.name == "LongBan" ? "[E] Lấy lồng bàn" : $"[E] Cầm {title}";
     }
 
     protected override void OnInteract()
     {
-        if (string.IsNullOrEmpty(GetPromptText())) return;
-        if (foodForSlot != null) carrier.Place(foodForSlot);
-        else carrier.PickUp(this);
+        if (carrier == null || !carrier.CanPickUp) return;
+        carrier.PickUp(this);
     }
 }

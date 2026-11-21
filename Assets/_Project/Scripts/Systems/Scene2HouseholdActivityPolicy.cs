@@ -3,9 +3,10 @@ public static class Scene2HouseholdActivityPolicy
 {
     public static bool IsMinigame(HouseholdChore chore) =>
         chore == HouseholdChore.LightFire || chore == HouseholdChore.CookRice ||
-        chore == HouseholdChore.WashDishes || chore == HouseholdChore.SetTable;
+        chore == HouseholdChore.WashDishes;
 
-    public static bool IsActive(HouseholdChore chore) => IsMinigame(chore) || chore == HouseholdChore.ReadLetter;
+    public static bool IsActive(HouseholdChore chore) =>
+        IsMinigame(chore) || chore == HouseholdChore.SetTable || chore == HouseholdChore.ReadLetter;
     public static bool IsSimple(HouseholdChore chore) => chore == HouseholdChore.ReadLetter;
 
     public static string Description(HouseholdChore chore)

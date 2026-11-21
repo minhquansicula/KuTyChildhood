@@ -20,12 +20,19 @@ public sealed class Scene2MotherCompanion : MonoBehaviour
     private float nextConversation;
     private float replyRemaining;
     private float ambientRemaining;
+    private Vector3 toyLookPoint;
+    private float toyLookUntil;
     private Scene2ChoreGuidance guidance;
 
     public bool IsConversing => conversing;
     // Caption presentation window, not a claim that an unrecorded line has audio.
     public bool IsPresentingReply => conversing && replyRemaining > 0f || ambientRemaining > 0f;
     public Transform Actor => actor;
+    public void LookAtToy(Vector3 point)
+    {
+        toyLookPoint = point;
+        toyLookUntil = Time.time + .85f;
+    }
     public bool CanTalk => isActiveAndEnabled && actor && flow && flow.ChecklistVisible &&
         flow.ActiveIndex < HouseholdChoreFlow.Order.Length &&
         HouseholdChoreFlow.Order[flow.ActiveIndex] != HouseholdChore.ReadLetter &&
@@ -197,12 +204,14 @@ public sealed class Scene2MotherCompanion : MonoBehaviour
         if (!head || !actor || GameManager.Instance?.IsPaused == true) return;
         Camera camera = Camera.main;
         Quaternion target = headRest;
-        if (camera)
+        bool lookingAtToy = Time.time < toyLookUntil;
+        if (lookingAtToy || camera)
         {
-            Vector3 offset = camera.transform.position - head.position;
+            Vector3 lookPoint = lookingAtToy ? toyLookPoint : camera.transform.position;
+            Vector3 offset = lookPoint - head.position;
             if (offset.sqrMagnitude < 16f && offset.sqrMagnitude > .01f &&
-                Vector3.Angle(actor.forward, offset) < 65f &&
-                !Physics.Linecast(head.position, camera.transform.position, out _, ~0, QueryTriggerInteraction.Ignore))
+                (lookingAtToy || (Vector3.Angle(actor.forward, offset) < 65f &&
+                !Physics.Linecast(head.position, lookPoint, out _, ~0, QueryTriggerInteraction.Ignore))))
             {
                 Vector3 local = actor.InverseTransformDirection(offset.normalized);
                 float yaw = Mathf.Clamp(Mathf.Atan2(local.x, local.z) * Mathf.Rad2Deg, -40f, 40f);

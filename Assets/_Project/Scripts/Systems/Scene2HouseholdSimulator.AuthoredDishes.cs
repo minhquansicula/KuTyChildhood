@@ -233,7 +233,7 @@ public sealed partial class Scene2HouseholdSimulator
             RefreshAuthoredDishes(); return;
         }
         if (washingUiPointer == null) washingUiPointer = new HouseholdActivityPointer();
-        if (washingUiPointer.OverUi(screen))
+        if (washingUiPointer.OverUi(screen, controlsOnly: true))
         {
             if (down || pressed || up) { if (held >= 0 || washingDown) ReleasePointer(); washingIgnoreUntilUp = true; }
             return;
@@ -379,6 +379,9 @@ public sealed partial class Scene2HouseholdSimulator
         {
             var hit = occlusionHits[i];
             if (!hit.collider || hit.transform.IsChildOf(world) || hit.collider.GetComponentInParent<FirstPersonController>()) continue;
+            // The station's movement box fills the open workspace above the basin.
+            // Its separate mesh collider still tests the actual sink surface.
+            if (hit.collider is BoxCollider && hit.transform == dishLayout.fixture) continue;
             if (authoredRackQueries != null && authoredRackQueries.Count > 0 && (hit.transform == dishLayout.rack || hit.transform.IsChildOf(dishLayout.rack)))
             {
                 foreach (var query in authoredRackQueries)

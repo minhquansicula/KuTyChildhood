@@ -7,12 +7,14 @@ using UnityEngine.UI;
 public sealed class HouseholdActivityPointer
 {
     private readonly List<RaycastResult> hits = new List<RaycastResult>();
-    public bool OverUi(Vector2 screen)
+    public bool OverUi(Vector2 screen, bool controlsOnly = false)
     {
         if (!EventSystem.current) return false;
         hits.Clear();
         EventSystem.current.RaycastAll(new PointerEventData(EventSystem.current) { position = screen }, hits);
-        foreach (var hit in hits) if (hit.module is GraphicRaycaster) return true;
+        foreach (var hit in hits)
+            if (hit.module is GraphicRaycaster && (!controlsOnly || hit.gameObject.GetComponentInParent<Selectable>()))
+                return true;
         return false;
     }
 }

@@ -10,7 +10,7 @@ public static class KuTyCheckpointTestScope
     private const string BackupKey = "KuTy.Tests.CheckpointBackup";
     private const string Prefix = "KuTy.Scene2Checkpoint.";
     private const string BackupPath = "Library/KuTyCheckpointTestBackup.json";
-    private static readonly string[] Keys = { "Version", "Stage", "Chores", "Step", "Money", "Candy", "Marbles", "Key", "Memories", "Optional", "WorkChore" };
+    private static readonly string[] Keys = { "Version", "Stage", "Chores", "Step", "Money", "Candy", "Marbles", "Key", "Memories", "Optional", "WorkChore", "KitchenIntroSeen" };
     [Serializable] private sealed class Backup { public bool[] present; public int[] values; public bool hasWork; public string work; }
 
     static KuTyCheckpointTestScope()

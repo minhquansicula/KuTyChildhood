@@ -1,0 +1,95 @@
+PASS · 87 assertions
+PASS Washing is available after the meal checkpoint
+PASS PlayerInteraction ray can focus the new washing fixture from a clear standing position
+PASS Existing Interact route opens the user-arranged simulator
+PASS Fixture and faucet remain visible while working
+PASS Original dishes are hidden only while their runtime copies are used
+PASS Nested activity is rejected
+PASS Washing title fits its panel without clipping
+PASS Washing instructions fits its panel without clipping
+PASS Washing hint fits its panel without clipping
+CAMERA overview position=(-3.497, 1.134, -1.867); pitch=26.4; FOV=64.0
+PASS Washing overview is an oblique working view, not a high bird's-eye angle
+PASS Overview eye is low beside the washing basin
+PASS Visible work area at aspect 1.777778: New_WashStation
+PASS Visible work area at aspect 1.777778: New_Faucet
+PASS Visible work area at aspect 1.777778: DryingRack
+PASS Visible work area at aspect 2.333333: New_WashStation
+PASS Visible work area at aspect 2.333333: New_Faucet
+PASS Visible work area at aspect 2.333333: DryingRack
+PASS Dry-stage action row disables flipping but leaves the exit available
+PASS Quick click keeps the dish carried after mouse-up
+PASS Actual washing action-row raycast prevents UI clicks reaching the world
+PASS Dry dish cannot acquire soap
+PASS Dirty dish cannot be delivered
+PASS Closed tap cannot wet or rinse outside the basin
+PASS Clicking the actual faucet opens running water
+PASS Pause closes the tap and prevents all gestures
+PASS Click-carried dish docks in running water without holding the mouse button
+PASS Running tap wets a dirty dish but cannot finish rinsing it
+PASS Clicking soap after wetting lathers the dish
+PASS Holding the sponge still does not clean a patch
+PASS F close-view shortcut equips the sponge without clicking a hidden tool
+PASS Close-up smoothly frames the current physical dish
+PASS Scrubbing close-up is within 60cm of the actual dish
+PASS Close-up leans beside the dish rather than rising above the station
+PASS Current dish stays visible in close view
+PASS Actual mouse-down on the close-up dish keeps the sponge equipped
+PASS Actual dirty-surface wiping plays contact-driven scrub audio instead of reward pings
+PASS Releasing the sponge stops scrub audio
+PASS Close-up mouse strokes actually clean the contacted patch
+PASS A solid obstacle blocks held-sponge contact, not only initial picking
+PASS Only the exposed interior is cleaned; underside stays dirty
+PASS Focus loss returns tools, closes tap and preserves work
+PASS Cancel restores all original dishes and releases input
+PASS Cancel restores the original player camera pose and FOV
+PASS Partial washing gives no reward or story completion
+PASS Partial scrub state is saved to checkpoint
+PASS Reopen from saved work
+PASS Reopening reconstructs actual partial work, not just a progress label
+PASS Flip button is available for the stable partially-cleaned dish
+PASS Actual flip button starts a controlled turn without carrying the dish
+PASS Flip animation advances while the pointer stays over its UI button
+PASS Both surfaces scrubbed by mesh-contact ray gestures: Chén hoa sen
+PASS Sustained running water removes lather: 0
+PASS Reapplying soap requires another rinse
+RACK ready=False; carry=(2.10, 0.40, 0.28); target=(-1.93, 0.20, 0.11); viewport=(0.87, 0.52, 2.19); blockers=Rack exact surface query,Visual,Opaque rack placement occluder
+PASS An opaque obstacle blocks rack commit even for a clean dish; progress is preserved
+PASS Clean rack release starts settling before delivery
+PASS Pause cancels a half-settled dish safely without losing cleanliness or awarding delivery
+RACK ready=True; carry=(2.10, 0.40, 0.28); target=(-1.93, 0.20, 0.11); viewport=(0.87, 0.52, 2.19); blockers=Rack exact surface query,Visual
+PASS Only releasing clean item over the actual rack delivers it: 0
+PASS Next physical item starts dirty: 1
+PASS Mouse wheel turns the stable item without requiring a carrying mode
+PASS Both surfaces scrubbed by mesh-contact ray gestures: Dĩa hoa lam
+PASS Sustained running water removes lather: 1
+RACK ready=True; carry=(2.10, 0.40, 0.25); target=(-1.64, 0.21, 0.11); viewport=(0.94, 0.52, 2.18); blockers=Visual
+PASS Only releasing clean item over the actual rack delivers it: 1
+PASS Next physical item starts dirty: 2
+PASS Mouse wheel turns the stable item without requiring a carrying mode
+PASS Both surfaces scrubbed by mesh-contact ray gestures: Chén nhỏ
+PASS Sustained running water removes lather: 2
+RACK ready=True; carry=(2.10, 0.40, 0.25); target=(-1.35, 0.15, 0.11); viewport=(1.00, 0.50, 2.21); blockers=Rack exact surface query,Visual
+PASS Only releasing clean item over the actual rack delivers it: 2
+PASS All three items delivered; faucet closes safely
+PASS Clean dish sits above the rack base: 0
+PASS Racked dishes do not overlap: 0/1
+PASS Racked dishes do not overlap: 0/2
+PASS Clean dish sits above the rack base: 1
+PASS Racked dishes do not overlap: 1/2
+PASS Clean dish sits above the rack base: 2
+PASS Completion grants exactly one normal chore reward
+PASS Duplicate reward is rejected
+PASS Completion restores player control
+PASS Original authored pose preserved: New_WashStation
+PASS Original authored pose preserved: New_Faucet
+PASS Original authored pose preserved: WashBasin
+PASS Original authored pose preserved: DryingRack
+PASS Original authored pose preserved: SoapBar
+PASS Original authored pose preserved: ScrubSponge
+PASS Original authored pose preserved: New_Bowl
+PASS Original authored pose preserved: New_Plate
+PASS Original authored pose preserved: DishBowl
+PASS Reset restores every source prop, not duplicate runtime models
+
+Ray-driven washing sequence and lifecycle checks completed.

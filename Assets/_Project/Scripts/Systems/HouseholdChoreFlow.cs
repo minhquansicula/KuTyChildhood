@@ -41,7 +41,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
     };
     public static readonly string[] Locations = {
         "Bếp · lu nước", "Bếp · lu gạo", "Bếp · thau vo gạo", "Bếp · nồi trên bếp củi",
-        "Bếp · lò nấu cơm", "Nhà chính · mâm cơm", "Bếp · chỗ rửa", "Bếp · tủ chén",
+        "Bếp · lò nấu cơm", "Phòng khách · bàn dài", "Bếp · chỗ rửa", "Bếp · tủ chén",
         "Phòng ngủ · mặt chăn", "Phòng ngủ · rương đồ", "Phòng ngủ · radio",
         "Phòng kho · bộ dụng cụ", "Phòng kho · cối xay", "Phòng kho · giỏ tre", "Trong nhà · bàn tiếp khách"
     };
@@ -103,7 +103,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         foreach (var target in FindObjectsOfType<HouseholdChoreInteractable>(true))
             if (!Scene2HouseholdActivityPolicy.IsActive(target.Chore)) target.enabled = false;
         RefreshRiceWashingPot();
-        EnsureDiningTableTarget();
+        FitBambooTableCollider();
         EnsureSolidSceneProps();
         ui = new HouseholdChoreUI(transform);
         ui.SetChecklistVisible(false);
@@ -112,21 +112,8 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         if (GetComponent<Scene2ChoreGuidance>() == null) gameObject.AddComponent<Scene2ChoreGuidance>();
     }
 
-    private static void EnsureDiningTableTarget()
+    private static void FitBambooTableCollider()
     {
-        var authored = FindObjectOfType<Scene2AuthoredTableLayout>();
-        if (authored && authored.IsReady)
-        {
-            var table = authored.table;
-            var target = table.GetComponent<HouseholdChoreInteractable>();
-            if (!target) target = table.gameObject.AddComponent<HouseholdChoreInteractable>();
-            target.enabled = true;
-            target.Configure(HouseholdChore.SetTable, table.transform);
-            int layer = LayerMask.NameToLayer("Interactable");
-            if (layer >= 0) table.gameObject.layer = layer;
-            return;
-        }
-        // BambooTable remains solid scenery; the meal is served on tripo_part_3.
         foreach (Transform candidate in FindObjectsOfType<Transform>(true))
         {
             if (candidate.name != "BambooTable" ||
@@ -134,19 +121,6 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
             FitSolidBoxToVisualBounds(candidate, tableCollider);
             break;
         }
-
-        foreach (MeshCollider surface in FindObjectsOfType<MeshCollider>(true))
-        {
-            if (surface.sharedMesh == null ||
-                surface.sharedMesh.name != "tripo_part_3 Instance") continue;
-            var target = surface.GetComponent<HouseholdChoreInteractable>();
-            if (target == null) target = surface.gameObject.AddComponent<HouseholdChoreInteractable>();
-            int interactionLayer = LayerMask.NameToLayer("Interactable");
-            if (interactionLayer >= 0) surface.gameObject.layer = interactionLayer;
-            target.Configure(HouseholdChore.SetTable, surface.transform);
-            return;
-        }
-        Debug.LogWarning("Scene 2: tripo_part_3 mesh collider not found; Dọn mâm cơm has no interaction point.");
     }
 
     private static void FitSolidBoxToVisualBounds(Transform table, BoxCollider collider)
@@ -215,13 +189,26 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
             Vector3 size = visual.bounds.size;
             if (mesh.sharedMesh.vertexCount <= 3 ||
                 size.x * size.y + size.y * size.z + size.z * size.x < 1e-10f) continue;
+            // Dense generated prop meshes are visual assets, not collision meshes.
+            // Cooking millions of triangles here blocks scene activation. Use a
+            // local-space box for small props; retain exact room/large geometry
+            // so a room-sized bounds box cannot close off walkable space.
+            if (mesh.sharedMesh.vertexCount > 20000 &&
+                Mathf.Max(size.x, Mathf.Max(size.y, size.z)) <= 4f)
+            {
+                var box = mesh.gameObject.AddComponent<BoxCollider>();
+                box.center = mesh.sharedMesh.bounds.center;
+                box.size = mesh.sharedMesh.bounds.size;
+                added++;
+                continue;
+            }
             var solid = mesh.gameObject.AddComponent<MeshCollider>();
             solid.sharedMesh = mesh.sharedMesh;
             solid.convex = false;
             solid.isTrigger = false;
             added++;
         }
-        if (added > 0) Debug.Log($"Scene 2: added {added} solid mesh colliders to visible props.");
+        if (added > 0) Debug.Log($"Scene 2: added {added} solid colliders to visible props (dense small props use boxes).");
     }
 
     private static bool IsKitchenCurtain(Transform current)
@@ -263,7 +250,9 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         QuestManager.Instance?.RefreshHouseholdObjective();
     }
 
-    public void ShowChecklist()
+    public void ShowChecklist() => ShowChecklist(null);
+
+    public void ShowChecklist(string openingLine)
     {
         if (checklistVisible) return;
         checklistVisible = true;
@@ -271,8 +260,9 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
         ui.SetChecklistVisible(GetComponent<Scene2QuestHUD>() == null);
         RefreshUI();
         bool resumed = ActiveIndex > 0 || OptionalBits != 0;
-        float seconds = Voice.Play(resumed ? "act2_mom_resume_001" : "act2_mom_wakeup_001");
-        ui.Notify("Mẹ: " + (resumed ? ResumeText : WakeupText), Mathf.Max(7f, seconds));
+        float seconds = openingLine == null ?
+            Voice.Play(resumed ? "act2_mom_resume_001" : "act2_mom_wakeup_001") : 0f;
+        ui.Notify("Mẹ: " + (openingLine ?? (resumed ? ResumeText : WakeupText)), Mathf.Max(7f, seconds));
         QuestManager.Instance?.RefreshHouseholdObjective();
     }
 
@@ -399,7 +389,7 @@ public sealed class HouseholdChoreFlow : MonoBehaviour
                 case HouseholdChore.WashRice: return "Đến nồi vo gạo, nhấn E. Rê chuột vòng quanh mặt nước, rồi chắt nước khi đã đục.";
                 case HouseholdChore.LightFire: return "Đến bếp củi, nhấn E. Đặt đủ ba thanh củi rồi thổi từng nhịp ngắn để nhóm lửa.";
                 case HouseholdChore.CookRice: return "Đến nồi cơm, nhấn E. Điều chỉnh củi để cơm sôi nhẹ; nhấc vung khi cơm đã cạn.";
-                case HouseholdChore.SetTable: return "Đến bàn ăn, nhấn E. Bày chén và đĩa gọn lên mặt bàn.";
+                case HouseholdChore.SetTable: return "Dùng E mang canh, thịt kho, rau xào và nồi cơm sang bàn dài phòng khách.";
                 case HouseholdChore.WashDishes: return "Đến chỗ rửa chén, nhấn E. Chà sạch, tráng nước rồi đặt chén lên giá.";
                 case HouseholdChore.PutAwayDishes: return "Đến tủ chén ở bếp, nhấn E. Đưa chén, đĩa và đũa vào đúng ngăn.";
                 case HouseholdChore.ReadLetter: return "Tìm lá thư trên bàn ở nhà chính, nhấn E. Mở thư và đọc thong thả; xong rồi mới tiếp tục.";
